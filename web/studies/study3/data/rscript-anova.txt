@@ -1,0 +1,24 @@
+[1] "TaskName = Acc_neighbor_one_step"
+
+Error: subj
+          Df  Sum Sq  Mean Sq F value Pr(>F)
+Residuals  2 0.01333 0.006667               
+
+Error: subj:recall.ind
+           Df Sum Sq Mean Sq F value Pr(>F)
+recall.ind  1   0.00    0.00       0      1
+Residuals   2   0.04    0.02               
+
+
+[1] "TaskName = Time_neighbor_one_step"
+
+Error: subj
+          Df Sum Sq Mean Sq F value Pr(>F)
+Residuals  2   0.84    0.42               
+
+Error: subj:recall.ind
+           Df Sum Sq Mean Sq F value Pr(>F)
+recall.ind  1 0.1067  0.1067   0.516  0.547
+Residuals   2 0.4133  0.2067               
+
+

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<study_specification>
+<dataset>miserables</dataset>
+<studyname>study4</studyname>
+<experimenttype>Within</experimenttype>
+<condition>
+<conditionurl>edge-stroke-two.html</conditionurl>
+<conditionshortname>edgesize2</conditionshortname>
+</condition>
+<condition>
+<conditionurl>edge-stroke-four.html</conditionurl>
+<conditionshortname>edgesize4</conditionshortname>
+</condition>
+<viewerwidth>860</viewerwidth>
+<viewerheight>800</viewerheight>
+<task>
+<name>neighbor_one_step</name>
+<question>Are the two highlighted nodes directly connected?</question>
+<size>5</size>
+<time>10</time>
+</task>
+</study_specification>

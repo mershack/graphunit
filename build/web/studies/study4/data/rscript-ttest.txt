@@ -1,0 +1,24 @@
+
+	Paired t-test
+
+data:  Acc_neighbor_one_step_edgesize2 and Acc_neighbor_one_step_edgesize4
+t = 1.1921, df = 3, p-value = 0.3189
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -0.250449  0.550449
+sample estimates:
+mean of the differences 
+                   0.15 
+
+
+	Paired t-test
+
+data:  Time_neighbor_one_step_edgesize2 and Time_neighbor_one_step_edgesize4
+t = 0.6078, df = 3, p-value = 0.5862
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -1.058936  1.558936
+sample estimates:
+mean of the differences 
+                   0.25 
+

@@ -1,0 +1,914 @@
+name	x	y
+1984	2470.4	1152.3
+Fahrenheit 451	2524.5	1071.8
+Brave New(-)World	2561.8	1159.8
+Catch-22	2791.2	1096.5
+The Catcher in(-)the Rye	2717.5	1008.5
+Slaughterhouse-Five: A(-)Novel	3042	990.65
+Golding's the Lord of(-)the Flies 	2190	1055.8
+Nineteen Eighty-Four	2614.9	1113.3
+Huxley's Brave New(-)World 	2255.1	1203.4
+Animal Farm	2401.3	1115.7
+A Clockwork(-)Orange	2744.3	1052.5
+The Great(-)Gatsby	3147.6	1007.6
+Of Mice and(-)Men 	2534	954.54
+Lord of the(-)Flies 	2268.4	1108.8
+Cat's Cradle:(-)A Novel	3090.1	673.16
+Breakfast of Champions:(-)A Novel	2973.5	632.34
+Brave New World and(-)Brave New World Revisited	2667.1	1190.3
+Frankenstein 	2160.3	1241.4
+To Kill(-)a Mockingbird	2434.1	981.48
+One Flew Over the(-)Cuckoo's Nest: 	2765.2	880.64
+The Adventures of(-)Huckleberry Finn	2659.7	880.62
+Their Eyes Were(-)Watching God	3137.9	831.9
+The Grapes of(-)Wrath 	2600.3	767.26
+Death of a(-)Salesman 	2605.5	624.53
+Night 	2532.6	1115.8
+Of Mice(-)& Men	2350.5	761.45
+The Sirens of Titan:(-)A Novel	3000.8	578.54
+Mother Night:(-)A Novel	3175.1	666.58
+Welcome to the Monkey(-)House: Stories	3116	622.55
+Animal Farm(-)and 1984	2807.8	1405.2
+Island 	2628.9	1014
+Macbeth 	2091.7	1189.2
+Jane Eyre(-)	2188.8	941.12
+Beowulf 	2074.7	1246.9
+Beowulf: A New Verse(-)Translation 	1960.4	1295.3
+Dr. Jekyll & Mr.(-)Hyde 	2197.5	1153.4
+Romeo and(-)Juliet 	2059.8	1002.7
+The Scarlet(-)Letter	2667.5	931.01
+The Crucible(-)	2611.5	832.39
+Hawthorne's The Scarlet(-)Letter 	2847.2	765.16
+Invisible Man	3376.8	910.75
+The Things(-)They Carried	3176.2	912.74
+Their Eyes Were Watching(-)God CD	2884	949.47
+Fitzgerald's The Great(-)Gatsby 	3033.6	867.65
+East of(-)Eden	2860.9	993.47
+The Glass(-)Menagerie	2545	675.7
+A Streetcar(-)Named Desire	2797.3	526.16
+A Raisin in(-)the Sun	2441.9	712.84
+All Quiet on the(-)Western Front	2681.8	1366.7
+Player Piano	3056.6	527.48
+"God Bless You,(-)Mr. Rosewater"	2984.3	504.1
+The Odyssey(-)	2055.6	1291.1
+Julius Caesar(-)	1992.1	971.67
+Romeo &(-)Juliet	1862.7	925.1
+A Midsummer Night's(-)Dream	2026.4	1101.2
+The Tempest(-)	1857.2	969.11
+Hamlet_ 	1864.4	881.09
+A Midsummer Night's(-)Dream_	1806.2	793.05
+Spark Notes No Fear(-)Shakespeare Othello 	1941.1	793.06
+In Search of History -(-)Salem Witch Trials 	2678.1	668.57
+Beloved	3307.3	977.7
+Native Son	3220.5	982.36
+Their Eyes Were Watching(-)God Literature Guide 	3072.6	764.42
+The Great(-)Gatsby CD	2599.1	925.19
+Cannery Row:(-)	2669.3	717.52
+Anna Karenina(-)	2843.2	1283.3
+Long Day's Journey(-)into Night	2501.2	614.53
+Who's Afraid of(-)Virginia Woolf?	2583.1	564.06
+Wiesel's Night(-)	2345.7	1203.7
+One Day in the Life(-)of Ivan Denisovich 	2903.7	1665.3
+The Odyssey: The(-)Fitzgerald Translation	1823.3	1328
+The Iliad(-)	1753.4	1387.5
+The Aeneid(-)	1677.3	1429.2
+Mythology	2227.8	897.09
+The Three Theban(-)Plays 	1854.9	1414.1
+King Lear_(-)	1864.8	837.08
+Hamlet 	2072.9	1145.2
+The Merchant of(-)Venice 	1885.2	1013.1
+Twelfth Night(-)	2023.7	1046.7
+Things Fall Apart:(-)A Novel	2692.9	1322.5
+The Canterbury(-)Tales 	1853	1257.7
+The Winter's(-)Tale 	1770.9	1034
+"Twelfth Night: or, What(-)You Will "	1844.2	1081.4
+The Taming of the(-)Shrew_ 	1766.1	749.04
+Macbeth_ 	1898.1	749.03
+Twelfth Night_(-)	1713.8	660
+The Tempest_(-)	1847	705.02
+A Mercy	3452.7	1035
+Song of(-)Solomon	3442.5	990.94
+Black Boy(-)	3157.6	956.74
+Zora Neale Hurston's Their Eyes Were(-)Watching God: A Casebook 	3278.9	758.05
+New Essays on Their Eyes(-)Were Watching God 	3249.2	620.62
+Sweet Thursday(-)	2908.3	588.16
+The Winter of Our(-)Discontent 	2858.4	634.54
+The Brothers(-)Karamazov	2510.5	1480.2
+Crime and(-)Punishment 	2609.7	1322.3
+Love in the Time(-)of Cholera 	3372.3	1449.7
+War and(-)Peace 	2903.8	1531.6
+Madame Bovary(-)	2441.3	1248.3
+War And(-)Peace 	2853.5	1184.6
+Waiting for Godot: A(-)Tragicomedy in Two Acts	2402	1071.7
+The Iceman(-)Cometh	2660.3	545.6
+Glengarry Glen Ross:(-)A Play	2513.9	331.37
+The White Tiger: A(-)Novel 	3568.3	1208.2
+2666: A(-)Novel	3447.3	1208.1
+The Hour I First(-)Believed: A Novel	4148.8	1208.6
+Unaccustomed Earth:(-)Stories 	3507.1	1164.1
+The Story of Edgar(-)Sawtelle: A Novel 	3781.4	1347.2
+Paradise 	3538.6	990.87
+The Invisible(-)Man 	3226.4	846.1
+Tortilla Flat(-)	2773.3	677.14
+The Wayward(-)Bus 	2854.1	455.59
+The Long(-)Valley 	2726	546.5
+In Dubious(-)Battle 	2868.7	499.63
+Travels with Charley in(-)Search of America: 	2546.1	723.24
+The Idiot	2802.6	1495.3
+Notes from(-)Underground	2790.7	1451.2
+Demons	2655.2	1459.4
+The Stranger	2615.2	1415.2
+Heart of(-)Darkness	2298.5	1247.8
+Mrs. Dalloway	2371.4	1397.9
+Fyodor Dostoevsky's Crime and(-)Punishment 	2347	1336
+A Hero of Our(-)Time 	2900.1	1609.8
+The Pillars of the(-)Earth 	3981	1656.3
+"Eat, Pray, Love: One Woman's Search for(-)Everything Across Italy, India and Indonesia"	3989.7	1386.7
+One Hundred Years of(-)Solitude 	3171.1	1469.2
+Middlesex: A(-)Novel 	3479.1	1296.2
+Atonement	3657.8	1659.8
+The Rest Is Noise: Listening(-)to the Twentieth Century	3296	1085.3
+No Exit and Three(-)Other Plays	2423.7	1447.3
+A Moon for(-)the Misbegotten	2727.5	480.81
+Sam Shepard : Seven(-)Plays 	2265.4	243.46
+American Buffalo	2350.8	395.09
+Glengarry Glen(-)Ross	2515.8	192.7
+The Brief Wondrous Life(-)of Oscar Wao	3433.4	1086.6
+The Girl with the(-)Dragon Tattoo	3946.1	1203.1
+Sea of Poppies:(-)A Novel	3839.2	1112.7
+The Guernsey Literary and Potato(-)Peel Pie Society 	3925.9	1341.9
+The Savage Detectives:(-)A Novel	3635.5	1164.1
+Netherland 	3714.3	1077.8
+Testimony: A(-)Novel	4400.8	1341.2
+Couldn't Keep It to Myself:  Wally Lamb(-)and the Women of York Correctional Institution 	4484.4	1213.1
+I Know This Much Is(-)True: A Novel 	4490.6	1299.3
+Interpreter of(-)Maladies	3407.8	1143.7
+Olive Kitteridge:(-)Fiction	3856.6	1297.9
+The Art of Racing(-)in the Rain	3733.4	1568.5
+Dewey: The Small-Town Library Cat(-)Who Touched the World	3657.1	1615.7
+Love: A(-)Novel	3608.9	1008.5
+Jazz	3623.6	942.73
+Tar Baby	3540.2	927.57
+Cultural Contexts for Ralph Ellison's Invisible(-)Man: A Bedford Documentary Companion	3735.4	681.66
+Spark Notes(-)Invisible Man	3144	717.78
+In Our(-)Time	3247.4	890.12
+Quicksand and(-)Passing 	3344.9	865.6
+Zora Neale Hurston: A(-)Life in Letters	3634	511.88
+Once There Was a(-)War 	2865.7	408.86
+To a God(-)Unknown 	2899.3	353.33
+The Adolescent	2699.8	1570.6
+The Double and(-)The Gambler	2601.5	1503.8
+The Myth of Sisyphus:(-)And Other Essays	2451.4	1636
+The Plague	2460	1575.8
+Siddhartha	2603.1	969.82
+The Fall	2449.9	1524.5
+Wuthering Heights(-)	2081.7	653.38
+The Awakening	2878.6	1081.5
+The Sun(-)Also Rises	2812.9	1037.5
+To the(-)Lighthouse 	2252	1568.7
+A Room of(-)One's Own	2438.9	1796.2
+A Portrait of the Artist as(-)a Young Man 	2241.1	1380.5
+Between the(-)Acts 	2296	1524.7
+The Years(-)	2378.6	1574.1
+Jacob's Room	2340.6	1480.7
+The Hours	2316.5	1605.2
+Orlando 	2290.1	1433.5
+Spark Notes Crime(-)and Punishment	2475.2	1403.2
+The Master(-)and Margarita	2746.7	1689.4
+The Collected Tales of(-)Nikolai Gogol	2792.2	1631.4
+Eugene Onegin: A Novel(-)in Verse 	2510.7	1712.7
+Oblomov	2642	1680.4
+World Without(-)End	4308.7	1655.2
+A Dangerous(-)Fortune	4180.5	1744.8
+Eye of(-)the Needle	4082.9	1744.6
+The Key(-)to Rebecca	4134	1656.4
+Choose To Be Happy: A(-)Guide to Total Happiness	4466.2	1605.5
+Pilgrims	4312.8	1522.5
+Stern Men	4387.4	1435.4
+The Last(-)American Man	4470.7	1464.2
+The Unbearable Lightness of(-)Being: A Novel	3069.5	1513.2
+Collected Stories	3282.8	1469.2
+Memories of My(-)Melancholy Whores	3227.7	1513.3
+Chronicle of a(-)Death Foretold	3006.8	1394.4
+Water for Elephants:(-)A Novel	3349	1557.3
+The Virgin Suicides:(-)A Novel	3745.1	989.76
+The Glass Castle:(-)A Memoir	3569.1	1484
+The Other Boleyn(-)Girl 	3964.2	1711.8
+On Chesil(-)Beach	3489.5	1488.3
+No Country for Old(-)Men 	3937.6	1794.5
+Then We Came to(-)the End: A Novel	3775.6	1165.8
+Olivier Messiaen: Quartet for(-)the End of Time	3574	1076.1
+The Nine: Inside the Secret World(-)of the Supreme Court	4270.4	1125
+This Is Your Brain on Music:(-)The Science of a Human Obsession	4052.3	1031.1
+Pride and(-)Prejudice 	1977.5	740.3
+Wide Sargasso Sea:(-)A Novel	2803.7	1140.5
+Emma 	2077.6	697.68
+Great Expectations(-)	1964.8	904.67
+Nausea	2329.9	1695
+Being And(-)Nothingness	2369.9	1790.6
+Things Fall(-)Apart 	2461.4	1292.8
+Rosencrantz and Guildenstern(-)Are Dead	2186.7	1331
+Othello 	1959.3	1057.1
+King Lear(-)	1936.5	1102.2
+Fool for Love and(-)Other Plays	2524.1	236.72
+August: Osage(-)County	2431.4	201.53
+The Clean House and(-)Other Plays	2378.3	125.99
+Speed-the-Plow	2377	245.55
+Topdog/underdog	2509.5	287.33
+Drown	3584.3	1120.1
+Out Stealing Horses:(-)A Novel	3573.5	1319.1
+The Girl Who Played(-)with Fire	4308.5	1213.3
+The Brass Verdict:(-)A Novel	4814.4	1206.3
+A Fraction of(-)the Whole	3867.8	1159
+The Secret(-)Scripture	3930.4	1252
+The Northern(-)Clemency	3855.5	1253.9
+Loving Frank:(-)A Novel	3672.9	1455.2
+The Help	4235.9	1312.7
+Tree of Smoke:(-)A Novel	3831.9	1209.8
+Lush Life:(-)A Novel	3760.2	1121.8
+Handle with Care:(-)A Novel	4526.3	1375.4
+The Associate	4564.7	1423.5
+I'll Fly Away: Further Testimonies from(-)the Women of York Prison 	4301.2	1257.9
+She's Come(-)Undone 	4577.9	1257.1
+Sickened: The True Story(-)of a Lost Childhood	4678.6	1253.4
+Drowning Ruth: A(-)Novel 	4740.7	1312.7
+Black and(-)Blue 	4776.8	1268.7
+The Namesake:(-)A Novel	3438.1	1379.4
+The God of Small(-)Things: A Novel	3187.1	1129.3
+A Fine(-)Balance 	3524.7	1252.2
+The Elegance of(-)the Hedgehog	3975.6	1297.5
+Merle's Door: Lessons from(-)a Freethinking Dog	3819.2	1659.5
+Amazing Gracie: A(-)Dog's Tale	3864.7	1750
+Wesley the Owl: The Remarkable Love Story(-)of an Owl and His Girl	3854.2	1524.3
+Alex & Me: How a Scientist and a Parrot Uncovered a Hidden(-)World of Animal Intelligence--and Formed a Deep Bond in the Process	3955.7	1568.3
+Letter to(-)My Daughter	3660.7	1274.9
+The Bluest(-)Eye	3377.4	1000.4
+Ralph Ellison's Invisible Man:(-)A Casebook 	3751.4	769.68
+Ralph Ellison: A(-)Biography 	3834.7	858.63
+New Essays on Invisible(-)Man 	3735.9	637.65
+A Historical Guide to(-)Ralph Ellison 	3876.4	619.7
+Spark Notes The Grapes(-)of Wrath	2988.8	676.39
+A Farewell(-)To Arms	2929.8	905.45
+Cane	3483.2	810.75
+Plum Bun: A Novel(-)Without a Moral	3278.5	802.07
+Wrapped in Rainbows: The Life of(-)Zora Neale Hurston 	3344.3	473.23
+Every Tongue Got to Confess: Negro(-)Folk-tales from the Gulf States	3550.1	637.65
+The Complete(-)Stories 	3277.4	561.29
+"Zora Neale Hurston : Folklore, Memoirs, and Other Writings : Mules and(-)Men, Tell My Horse, Dust Tracks on a Road, Selected Articles "	3564.7	857.73
+Dust Tracks on a(-)Road: An Autobiography 	3557.8	458
+The Moon(-)Is Down	2984.4	459.68
+The Pastures of(-)Heaven 	3000.5	370.6
+The Eternal Husband and(-)Other Stories	2805.7	1539.5
+The Iliad(-)of Homer	1410.5	1395.9
+The Oresteia: Agamemnon; The Libation(-)Bearers; The Eumenides 	1685.2	1254.5
+The Histories(-)	1211.6	1527
+The Divine(-)Comedy 	1573.2	1342.6
+The Inferno(-)	1713.5	1473.6
+"Livy: The Early History of(-)Rome, Books I-V "	1060.3	1598.5
+The Annals of Imperial(-)Rome 	1055.1	1554.4
+Metamorphoses 	1615.7	1298.5
+The Epic of Gilgamesh: An English(-)Verison with an Introduction 	2088.5	1484.3
+"Theogony, Works and(-)Days "	1450	1229
+Mythology: Timeless Tales of(-)Gods and Heroes	1633.4	779.5
+How to Read Literature Like a Professor: A Lively(-)and Entertaining Guide to Reading Between the Lines	3593.4	725.68
+Plato: Republic	1663.1	1720.8
+The Trial and Death(-)of Socrates	1836.1	1802.4
+The Rebel: An Essay(-)on Man in Revolt	2566.5	1636.4
+The Alchemist	2866.3	265.18
+Steppenwolf: A(-)Novel	2555.6	1013.9
+Narcissus and(-)Goldmund	2382.8	862.08
+"Favorite Jane Austen Novels: Pride and Prejudice,(-)Sense and Sensibility and Persuasion "	1897.3	511.11
+The Host:(-)A Novel	2048.7	599.17
+The Old Man and(-)The Sea	2748.4	924.64
+For Whom the(-)Bell Tolls	2924.7	861.42
+A Moveable(-)Feast	2747.6	767.03
+Ulysses	2221.3	1476.7
+The Second(-)Sex	2137	1997.3
+The Feminine(-)Mystique	2268.1	2087
+Moments of(-)Being	2264.8	1723.9
+Dubliners 	2063.6	1383.5
+Finnegans Wake(-)	2114.1	1439.5
+Heart of(-)a Dog	2906.6	1709.3
+We	2953.9	1487.6
+Stories of(-)Anton Chekhov	2879	1483.1
+Dead Souls:(-)A Novel	2826	1587.3
+Stone Cold	4358	1769.6
+People of the Book:(-)A Novel	4051.8	1519.9
+Playing for(-)Pizza	4387.5	1675.7
+A Place(-)Called Freedom	4259.2	1789.4
+Night Over(-)Water	4143.2	1700.6
+The Man From(-)St. Petersburg	4263.3	1699.2
+On My Own: The Art of(-)Being a Woman Alone	4490.1	1653
+A New Earth: Awakening to(-)Your Life's Purpose 	4605.3	1602.6
+Happy for No Reason: 7 Steps to(-)Being Happy from the Inside Out	4627.4	1507.7
+The Self-esteem Companion: Simple Exercises to Help You Challenge(-)Your Inner Critic & Celebrate Your Personal Strengths	4479.3	1724.1
+Three Cups of Tea: One Man's Mission to Promote Peace(-). . . One School at a Time	4174.3	1475.7
+A Writer's Workbook: Daily Exercises(-)for the Writing Life	4453.5	1551.7
+Stern Men:(-)A Novel	4186.3	1430.9
+Still Life with Chickens: Starting Over(-)in a House by the Sea	4341.5	1385.6
+Into the(-)Wild	4598.5	1556.4
+The Book of Laughter(-)and Forgetting	3165.3	1602.5
+A Heartbreaking Work of(-)Staggering Genius	3175.2	1557.5
+The Unbearable Lightness of(-)Being 	3024.7	1601.2
+Of Love and Other(-)Demons 	3249.2	1425.2
+The Autumn of the(-)Patriarch 	3336.9	1513.2
+Snow Flower and the(-)Secret Fan: A Novel	3431.7	1601.3
+Suite Francaise	3415.9	1646.5
+The Thirteenth Tale:(-)A Novel	3672.1	1514.7
+The Memory(-)Keeper's Daughter	3514.8	1646.3
+"Girl, Interrupted"	3881.6	904.65
+The Bell(-)Jar	3451.6	939.13
+The Virgin(-)Suicides	3957.4	865.88
+Prozac Nation(-)	3801.7	945.75
+The Perks of Being(-)a Wallflower	3955.3	821.61
+The Constant(-)Princess 	4172.7	1850.9
+The Queen's Fool: A(-)Novel 	4009	1883.3
+The Virgin's(-)Lover 	4111.8	1894.9
+The Six Wives of(-)Henry VIII	4104.8	1806.7
+Katherine	4019.6	1788.6
+The Gathering(-)	3612	1394.4
+Divisadero	3520.4	1374.3
+Bridge of Sighs: A(-)Novel 	3679.2	1349.8
+Blood Meridian: Or the Evening(-)Redness in the West	4028	1971.8
+All the(-)Pretty Horses	3886.5	2031.6
+"The Border Trilogy: All the Pretty Horses, the(-)Crossing, Cities of the Plain "	4109.3	2016.4
+Oil!	3891.9	2079.3
+Suttree	4159.1	1939.2
+Being and(-)Time	2503.7	1791.7
+Existentialism And Human(-)Emotions 	2322.5	1651
+Chinua Achebe's Things Fall(-)Apart 	2501.9	1359.2
+Achebe's Things Fall Apart:(-)A Reader's Guide 	2676.8	1278.3
+Spark Notes Things(-)Fall Apart	2339.9	1292
+Chinua Achebe's Things Fall(-)Apart: A Casebook 	2627.4	1234.3
+Rosencrantz & Guildenstern(-)Are Dead	2035.3	1339.3
+Grendel	2176.4	1287
+"Henry IV, Part(-)1 "	1775.4	989.07
+Sir Gawain and the(-)Green Knight 	1959.7	1162.7
+13 by Shanley: Thirteen(-)Plays 	2318	178.41
+Angels in America:  A Gay Fantasia on National Themes:(-)Part One: Millennium Approaches Part Two:  Perestroika	2672.9	419.4
+Doubt 	2487.2	111.84
+The Seafarer	2404.8	19
+Rock 'n' Roll: A(-)New Play	2320.5	33.229
+Dead Man's(-)Cell Phone	2324	78.27
+Rabbit Hole	2468.2	67.827
+Sarah Kane:(-)Complete Plays	2208	135.63
+Oleanna	2543.5	375.39
+Sexual Perversity in Chicago and the(-)Duck Variations: Two Plays	2363.1	289.58
+How I Learned(-)to Drive	2618.9	211.22
+Anna In(-)The Tropics	2551.8	148.68
+Down These(-)Mean Streets	3687.3	1033.8
+The Lost(-)Symbol	4635.5	1121.3
+The Scarecrow	4741.9	1156.5
+The Gate(-)House	4577.7	1304.2
+Heat Lightning(-)	4649.9	1209.3
+Extreme Measures: A(-)Thriller 	4556.5	1165.3
+Bones 	4703.4	1102.4
+The Book(-)Thief	3757.7	1480.3
+Man Gone Down:(-)A Novel	3741.6	1210.6
+Little Heathens: Hard Times and High Spirits on(-)an Iowa Farm During the Great Depression	4082.9	1253
+The Kite(-)Runner	3262.2	1601.7
+Midnight's Children:(-)A Novel	3057.9	1212.5
+Rescuing Sprite: A Dog Lover's Story(-)of Joy and Anguish	3364.2	1959.9
+The Portable Harlem Renaissance(-)Reader 	3369.1	712.02
+Passing: 	3309.5	933.68
+Home To(-)Harlem 	3379.9	663.58
+The Blacker the(-)Berry 	3267.2	667.97
+I Love Myself When I Am Laughing... And(-)Then Again: A Zora Neale Hurston Reader	3359.6	517.26
+Zora Neale Hurston: A(-)Literary Biography	3674.6	414
+Mules and(-)Men 	3221	477.63
+"Zora Neale Hurston : Novels and Stories : Jonah's Gourd Vine / Their Eyes Were Watching(-)God / Moses, Man of the Mountain / Seraph on the Suwanee / Selected Stories "	3539.4	593.62
+Tell My Horse: Voodoo and Life(-)in Haiti and Jamaica 	3109	458.68
+The Taming of the(-)Shrew 	1734.4	937.19
+The Prince	1696	1676.6
+Paradise Lost(-)	1723.3	1342.8
+Divine Comedy:(-)Inferno 	1625.7	1210.5
+Saint George and(-)the Dragon	1623.8	1122
+Shakespeare Stories	1521.9	1120.9
+One Thousand and One(-)Arabian Nights 	1584.9	1066.7
+The Adventures of Robin(-)Hood 	1563.8	1166.1
+All's Well That Ends(-)Well 	1589.3	978.66
+"Resistance, Rebellion, and(-)Death: Essays"	2560	1548
+Warrior of the Light:(-)A Manual	2906.1	132.75
+The Pilgrimage(-)	3097.2	154.75
+By the River Piedra I Sat Down and(-)Wept: A Novel of Forgiveness 	2929	176.81
+The Witch of Portobello:(-)A Novel 	2737.8	190.63
+Veronika Decides to Die: A(-)Novel of Redemption 	3060.3	220.84
+The Glass Bead(-)Game: 	2456.2	927.86
+Demian	2482.7	1027.7
+Narcissus and Goldmund:(-)A Novel	2491.3	883.62
+The Journey to(-)the East	2164.2	737.38
+Beneath the(-)Wheel	2377.2	916.61
+Pride &(-)Prejudice	1845.2	564.19
+Sense and(-)Sensibility	1997.8	696.28
+Persuasion	2078.1	741.72
+A Tale of Two(-)Cities 	2138.3	985.26
+Bronte's Wuthering(-)Heights 	1819.5	650.96
+CliffsNotes Jane(-)Eyre	2070.7	878.05
+A Passage(-)to India	2783.6	1360.4
+White Teeth:(-)A Novel	3125.6	1256.5
+Northanger Abbey(-)	1927.8	652.01
+Mansfield Park(-)	1982.1	608.01
+Oliver Twist(-)	2037.9	785.76
+Twilight 	2018.3	555.13
+Pride and Prejudice -(-)The Special Edition 	1931.7	560.7
+The Twilight Saga: The(-)Official Guide	2139.7	554.84
+Marked 	2241.2	377.32
+Twilight Soundtrack	2300.3	573.76
+Twilight: The Complete Illustrated(-)Movie Companion	2258.4	618.46
+Betrayed 	2251.7	421.55
+Run: A(-)Novel	3760.1	1392.2
+The Maytrees:(-)A Novel	3589	1438.4
+Heidegger's Being And Time:(-)A Reader's Guide 	2564.8	1835.7
+Phenomenology of(-)Perception 	2631.1	1751.3
+Introduction to(-)Metaphysics 	2751.1	1768.2
+Phenomenology of(-)Spirit 	2353.5	1855.1
+Basic Writings	2675.8	1844.5
+The Ethics(-)Of Ambiguity	2391.1	1743.8
+No Longer(-)at Ease	2911.4	1228.6
+Chinua Achebe's Things Fall_(-)Apart 	2461.4	1204
+Understanding Things Fall Apart:(-)Selected Essays and Criticisms	2796.4	1234.3
+The Gulag Archipelago Volume 1: An(-)Experiment in Literary Investigation 	3304.2	1742.9
+Cancer Ward	2964.5	1753.3
+"King Henry IV, Part(-)2 "	1541.2	841.27
+Le Morte D'Arthur: The(-)Winchester Manuscript 	1644.7	1022.7
+Manchild in the(-)Promised Land	3743.3	901.73
+Bodega Dreams:(-)A Novel	3847.4	1024.4
+Dreaming in(-)Cuban	3913	1068.5
+How the Garcia Girls(-)Lost Their Accents 	3896.6	978.04
+The Boy In the(-)Striped Pajamas 	4019.5	1431.4
+I Am(-)the Messenger	3990.5	1475.4
+A Thousand(-)Splendid Suns	2995.3	1657.1
+The Satanic Verses:(-)A Novel	3344.7	1330.7
+The Moor's(-)Last Sigh	3298.6	1216.1
+Liberty and Tyranny: A(-)Conservative Manifesto	2682	1982.9
+My Grandfather's Son:(-)A Memoir	3346.7	2048.6
+Men in Black: How the Supreme(-)Court Is Destroying America	2988.9	1890
+An Inconvenient Book: Real Solutions to(-)the World's Biggest Problems	3072.4	2018.4
+The Christmas(-)Sweater	3344.3	2003.9
+The Collected Essays of(-)Ralph Ellison 	3966	684.8
+The Cambridge Companion to(-)Ralph Ellison 	3822.7	725.68
+Juneteenth: A(-)Novel	3971.4	629.47
+Flying Home: and(-)Other Stories	3587.2	770.12
+Ralph Ellison: Emergence(-)of Genius	3900.4	575.08
+Steinbeck's the Grapes of(-)Wrath 	3005.7	720.42
+Spark Notes The(-)Great Gatsby	2957.4	764.46
+The Complete Short Stories of Ernest(-)Hemingway: The Finca Vigia Edition	2801	721.14
+To Have and(-)Have Not	2676.8	783.87
+The Odyssey(-)of Homer	1193	1360.5
+"Aeschylus I: Oresteia: Agamemnon, The Libation(-)Bearers, The Eumenides "	976.42	1371.3
+"Sophocles I: Oedipus The King, Oedipus(-)at Colonus, Antigone "	751.24	1388.2
+The History of the Peloponnesian(-)War: Revised Edition 	1219.4	1572.7
+Medea and Other(-)Plays 	1766.1	1125.4
+Plutarch's Lives Volume(-)1 	1446.3	1535.2
+"Plutarch's Lives, Volume(-)2 "	1370	1591.1
+The Twelve(-)Caesars 	954.59	1530
+The Rise of the(-)Roman Empire 	881.29	1624.7
+"The Annals: The Reigns of Tiberius,(-)Claudius, and Nero "	903.09	1574.8
+The Civil(-)War 	964.24	1645.2
+Paradise Lost and Paradise(-)Regained 	1972.4	1213.1
+The Dore Illustrations for(-)Dante's Divine Comedy	705.77	1229.4
+A Modern Reader's Guide to(-)Dante's the Divine Comedy	1067.6	1283.2
+Paradise_ 	1146.7	1513.1
+Purgatorio 	1806.8	1507.7
+St. Augustine(-)Confessions 	1471.9	1589.8
+Paradiso 	1812.8	1460.4
+"The War with Hannibal: The History of Rome(-)from Its Foundation, Books XXI-XXX "	501.72	1622.6
+The Fall of the Roman(-)Republic: Six Lives 	763.99	1624
+Rome and the Mediterranean: Books XXXI-XLV of the(-)History of Rome from its Foundation 	488.99	1668.7
+The Essential Homer: Selections from the(-)Iliad and the Odyssey	979.06	1327.3
+The Aeneid of(-)Virgil 	1613.7	1498.2
+Anthology Of Classical Myth: Primary Sources in Translation : with Additional Translations by Other(-)Scholars and an Appendix on Linear B sources by Thomas G. Palaima	1753	1570.3
+Classical Mythology	1146.4	1208.3
+The Bhagavad(-)Gita 	1828.8	1744.2
+Homeric Hymns(-)	1453.4	1185
+"Heroes, Gods and Monsters(-)of the Greek Myths"	1417	841.28
+The Dictionary of(-)Classical Mythology	1752	891.75
+The Complete World of(-)Greek Mythology	1309.4	951.61
+D'Aulaires' Book of(-)Greek Myths	1320.9	753.22
+How to Read Novels Like a Professor: A(-)Jaunty Exploration of the World's Favorite Literary Form	4057.7	775.94
+"Voice Lessons: Classroom Activities to Teach(-)Diction, Detail, Imagery, Syntax, and Tone"	4081.1	585.46
+Reading Like a Writer: A Guide for People Who Love(-)Books and for Those Who Want to Write Them 	4336.2	770.19
+Politics 	1651.7	1765.3
+The Communist(-)Manifesto 	1803.8	1951.7
+Nicomachean Ethics	1484.3	1752.5
+The Wealth of(-)Nations 	2056	1953.4
+Leviathan 	1658.4	1810.1
+The Daodejing(-)of Laozi	2447.3	1847
+Meditations on First Philosophy: In Which the Existence of God and(-)the Distinction of the Soul from the Body Are Demonstrated	1442.8	1840.5
+Introductory Lectures(-)on Psychoanalysis	1883.6	1907.7
+The Epic of(-)Gilgamesh 	1743.4	1724
+Legacy of Ashes: The(-)History of the CIA	4372.9	1169.1
+The Age of Turbulence: Adventures(-)in a New World	4644.3	1010.2
+The Coldest Winter: America(-)and the Korean War	4611.4	1058.3
+The Brethren: Inside the(-)Supreme Court	4613.8	966.05
+American Creation: Triumphs and Tragedies in(-)the Founding of the Republic	4580.1	921.85
+The World in Six Songs: How(-)the Musical Brain Created Human Nature	4064.9	1081.3
+"Music, The Brain, And Ecstasy: How(-)Music Captures Our Imagination"	4181.9	967.57
+Music and(-)the Mind	4181.5	1011.7
+"The Singing Neanderthals: The Origins of(-)Music, Language, Mind, and Body"	4140.9	923.45
+The First(-)Man	2630.1	1592.4
+The Fifth(-)Mountain	3165.3	198.75
+The Valkyries	3073.6	110.73
+Brida: A(-)Novel 	2903.2	221.04
+Eleven Minutes: A(-)Novel 	3021.8	265.02
+The Zahir: A Novel(-)of Obsession 	2763.4	234.79
+The Servant-Leader Within: A(-)Transformative Path	2492.4	510.06
+Focus on Leadership: Servant-Leadership(-)for the 21st Century	2305.4	527.41
+Moral Intelligence: Enhancing Business Performance(-)and Leadership Success 	2551.1	465.55
+The Congruent Life: Following the Inward Path(-)to Fulfilling Work and Inspired Leadership	2301.9	465.84
+Gertrude: A(-)Novel	2307.6	889.91
+Catharine: and Other(-)Writings 	1717.3	513.54
+A Tale of Two(-)Cities: 150th Anniversary 	2073.2	833.58
+Wuthering Heights_(-)	1616.5	477.94
+Wuthering Heights__(-)	1590.8	522.11
+On Beauty	3222.1	1381.2
+The Remains of(-)the Day	3103.3	1418.6
+David Copperfield(-)	1923.3	696.05
+Bleak House	1580.4	433.91
+Twilight: Director's Notebook: The Story of How We Made the(-)Movie Based on the Novel by Stephenie Meyer	2030.3	466.63
+Twilight: The(-)Score	1969.4	421.77
+The Twilight(-)Saga Collection	2064.1	510.76
+Chosen 	2176.8	233.39
+Untamed 	2203.6	333.2
+Hunted 	2164.8	421.28
+Vampire Academy(-)	2134.7	289.05
+The Marx-Engels(-)Reader: 	1697	2003.1
+Arrow of(-)God	2934.3	1331.3
+A Man of(-)the People	2973.5	1212.9
+Anthills of(-)the Savannah	3015.8	1279.1
+Girls at(-)War	2940.2	1281.9
+The Good(-)Earth 	2396.8	1159.7
+Warning to(-)the West	3154.8	1825.8
+The Gulag Archipelago 1918-1956 Abridged: An(-)Experiment in Literary Investigation 	3472.9	1799.6
+"The Gulag Archipelago: 1918-1956, An Experiment(-)in Literary Investigation III - IV"	3164	1693.9
+Gulag: A(-)History	3637.1	1790
+In the First Circle:(-)A Novel 	3250.8	1789.8
+"Sir Gawain and the Green(-)Knight, Pearl, Sir Orfeo"	1715.2	1078
+King Richard(-)II 	1554	707.23
+King Henry(-)V 	1497	797.25
+Henry V 	1504.4	751.25
+The Enchantress of Florence:(-)A Novel	3409.4	1252.2
+Shalimar the Clown:(-)A Novel	3278.1	1283.9
+Shame: A(-)Novel	3192.5	1293.2
+Infidel	3803.4	1436.2
+The Ground Beneath Her(-)Feet: A Novel	3302.6	1166.6
+The 5000 Year Leap: A Miracle(-)That Changed the World	2830.2	1976.6
+Atlas Shrugged	2744.5	1932.6
+The Real George(-)Washington 	2497.7	2060.2
+"Common Sense, The Rights of Man and Other(-)Essential Writings of Thomas Paine "	2342.6	2131.3
+Power to(-)the People	3367.8	2092.6
+"If Democrats Had Any(-)Brains, They'd Be Republicans"	3153.4	2142.3
+Surrender Is Not an Option: Defending(-)America at the United Nations	3016.8	2062.4
+The Forgotten Man: A New History(-)of the Great Depression	2998.4	1966.3
+Guilty: Liberal Victims and(-)Their Assault on America	3006.9	2106.5
+"Liberal Fascism: The Secret History of the American(-)Left, From Mussolini to the Politics of Meaning"	2852	2150.5
+Grace: A(-)Novel	3852.5	1794.2
+Do the Right Thing: Inside the Movement That's(-)Bringing Common Sense Back to America	3352.7	2137.3
+Trading Twelves: The Selected Letters of(-)Ralph Ellison and Albert Murray	4134	720.84
+Living with Music: Ralph(-)Ellison's Jazz Writings 	3752.8	813.72
+Shadow and(-)Act	3798.3	571.82
+Going to(-)the Territory	3804	527.79
+Spark Notes The Adventures(-)of Huckleberry Finn	2877	809.17
+Spark Notes The(-)Scarlet Letter	2998.9	817.42
+The Short Stories of F. Scott(-)Fitzgerald: A New Collection	3039	911.67
+Islands in the Stream(-): A Novel	2745	836.6
+"Euripides I: Alcestis, The Medea,(-)The Heracleidae, Hippolytus "	747.43	1342.3
+"Greek Tragedies,(-)Volume 1"	1220.2	1252.4
+"Euripides V: Electra, The Phoenician(-)Women, The Bacchae "	557.95	1410.7
+"Aeschylus II: The Suppliant Maidens and The Persians,(-)Seven against Thebes and Prometheus Bound "	594.25	1454.7
+"Sophocles II: Ajax, The Women of(-)Trachis, Electra & Philoctetes "	533.94	1347.4
+The Last Days of(-)Socrates 	1329.4	1527.2
+The Art(-)Of War	1618	1964.1
+The Art(-)of War	1780.6	1995.7
+Utopia 	1256.4	1316.5
+The Aeneid_(-)	1256.2	1114.8
+The Divine Comedy:(-)Purgatorio 	1220.1	1164.3
+Never Let(-)Me Go	3307.2	1377.7
+Howards End(-)	2967.7	1557.2
+The History of Love:(-)A Novel	3480.5	1426.7
+Saturday	3531.9	1596.4
+The English(-)Patient	3468.6	1542.1
+Little Dorrit(-)	1693.7	570.73
+Our Mutual(-)Friend 	1518.4	478
+Middlemarch 	1744	390.37
+The Pickwick(-)Papers 	1511.4	433.96
+Dombey and(-)Son 	1449.6	514.31
+Frostbite 	2228.8	288.64
+Shadow Kiss(-)	2096.6	244.99
+The Division of Labor(-)in Society	1726.1	2175.2
+From Max Weber: Essays(-)in Sociology	1836.3	2222.4
+Basic Political(-)Writings	1674.9	1864.8
+Second Treatise(-)of Government	1664.5	1908.9
+Discipline & Punish: The(-)Birth of the Prison	1623.3	2230.9
+"The Solzhenitsyn Reader: New(-)and Essential Writings, 1947-2005"	3024.2	1797.3
+We Never Make Mistakes:(-)Two Short Novels	3211.7	1869.8
+"The Gulag Archipelago, 1918-1956: An Experiment(-)in Literary Investigation, Parts V-VII"	3422.2	1698.8
+The Gulag Archipelago(-)1918-1956 I-II	3260.6	1646.8
+Man Is Wolf to(-)Man: Surviving the Gulag	3474.8	1854.3
+Stalin: The Court of(-)the Red Tsar	3664.8	2135.4
+Khrushchev: The Man and(-)His Era	3767.6	2091.3
+August 1914	3102.6	1743
+White Guard	2774.8	1813.5
+The Twelve(-)Chairs 	3517.5	1899.1
+Journey into the(-)Whirlwind 	3430.2	1903.7
+The Song of(-)Roland 	1413.2	1106.6
+Beowulf: A(-)New Telling	1489.6	1076.8
+As You Like(-)It 	1435.2	1017.4
+Cymbeline 	1456.9	929.32
+The Merry Wives of(-)Windsor 	1497.7	885.31
+Haroun and the Sea(-)of Stories	3162.5	1337.2
+The Caged Virgin: An Emancipation Proclamation(-)for Women and Islam	4144.3	1612.3
+While Europe Slept: How Radical Islam(-)is Destroying the West from Within	4260.7	1568.3
+The Fountainhead	3164.6	1974.4
+The Real Benjamin(-)Franklin 	2663.8	2027
+The Real Thomas(-)Jefferson 	2557.4	2016.1
+The Federalist(-)Papers 	2531.2	2220.2
+"The Constitution of the United States of America, with the Bill of Rights and(-)all of the Amendments; The Declaration of Independence; and the Articles of Confederation"	2690.1	2104.2
+"Fleeced: How Barack Obama, Media Mockery of Terrorist Threats, Liberals Who Want to Kill Talk Radio, the Do-Nothing Congress, Companies(-)That Help Iran, and Washington Lobbyists for Foreign Governments Are Scamming Us ... and What to Do About It"	3057.4	2361.2
+Godless: The Church(-)of Liberalism	2699.4	2245
+A Slobbering Love Affair:(-)The True 	3102.2	2186.3
+A Bold Fresh Piece(-)of Humanity	3298.7	2184.8
+Economic Facts(-)and Fallacies	2360.6	2319.6
+"Lenin, Stalin, and Hitler: The Age(-)of Social Catastrophe "	2745.3	2194.5
+The Doors of Perception and(-)Heaven and Hell 	2752.2	590.52
+The Perennial(-)Philosophy 	2484.1	778.12
+The Invisible(-)Man 	2096.3	1056.6
+The Picture of Dorian(-)Gray - Oscar Wilde	2141.5	1100.7
+Bacchae and Other Plays: Iphigenia among the Taurians;(-)Bacchae; Iphigenia at Aulis; Rhesus 	1431.5	1273
+Lysistrata and Other(-)Plays 	1356.5	1350.5
+Copenhagen	1140.5	904.97
+Narrative of the Life(-)of Frederick Douglass 	2298	1011.6
+The Landmark Herodotus:(-)The Histories	2038.8	1648.4
+Gilgamesh: A New Rendering(-)in English Verse	1176.3	1404.5
+Plutarch: Lives of Noble(-)Grecians and Romans 	1597.6	1631.9
+The Conquest of(-)Gaul 	1016.2	1690.7
+Makers of Rome: Nine(-)Lives 	620.31	1577.5
+The Penguin Historical Atlas(-)of Ancient Rome 	402.34	1530.7
+The Jugurthine War / The(-)Conspiracy of Catiline 	711.01	1669
+The Divine Comedy: Inferno;(-)Purgatorio; Paradiso 	1545.2	1386.6
+The Dore(-)Bible Illustrations	751.39	1283.5
+"Dante's Divine Comedy: Hell,(-)Purgatory, Paradise"	881.04	1273.6
+The Cambridge Companion to(-)Dante 	1478	1484
+Purgatory 	1210	1481.8
+Inferno 	1157.3	1625.9
+The Consolation of Philosophy:(-)Revised Edition 	1332.9	1440
+Pseudo Dionysius: The Complete(-)Works 	563.6	1500.1
+Don Quixote	2044.8	1536.3
+The Decameron(-)	1925.3	1468.4
+Montaigne: Essays	1922.1	1513.1
+Five Dialogues	1234.8	1766.1
+City of(-)God 	1272.8	1716
+Rome and Italy: Books VI-X of the History(-)of Rome from its Foundation 	357.64	1713.5
+The Civil(-)Wars 	322.64	1669.4
+The Essential(-)Aeneid	564.56	1248.8
+Oresteia	1377.1	1636
+Ten Plays(-)by Euripides	600.36	1303.4
+Confessions 	1273.5	1620.4
+The Dhammapada(-)	2046	1855.9
+The Koran(-)	2170.7	1865.3
+The Analects(-)	1926.9	1819.6
+Tao Te(-)Ching 	2000.2	1811.9
+The Yoga Sutras of Patanjali: Commentary on the(-)Raja Yoga Sutras by Sri Swami Satchidananda	2176	1811.9
+Hesiod's Theogony(-)	1204.4	1070.8
+"Greek Tragedies,(-)Volume 3"	1117.9	1121
+Greek Gods and(-)Heroes 	1369.7	797.26
+The Last(-)Olympian 	1441.5	753.22
+The Library of Greek(-)Mythology 	1622.5	893
+Bulfinch's Greek and Roman Mythology: The(-)Age of Fable 	1701.7	704.16
+Iliad and Odyssey(-)boxed set	1358.8	1150.6
+D'Aulaires' Book of(-)Norse Myths	1398.6	441.58
+"Classic Myths to Read Aloud: The Great Stories of Greek and Roman(-)Mythology, Specially Arranged for Children Five and Up by an Educational Expert"	1185.2	665.42
+Black Ships Before Troy: The(-)Story of 'The Iliad'	1159.6	509.69
+The Gods and Goddesses(-)of Olympus 	1230.9	553.72
+Greek Myths for Young(-)Children 	976.5	621.34
+Discovering Voice: Voice Lessons for(-)Middle and High School	4288.9	592.11
+How Fiction(-)Works	3998.3	916.33
+5 Steps to a 5 on the AP:(-)Writing the AP English Essay 	3913.6	428.85
+Grammar for High School: A(-)Sentence-Composing Approach---A Student Worktext	4142.9	532.57
+Sentence Composing for High School: A(-)Worktext on Sentence Variety and Maturity	4058.1	483.87
+The Art of Fiction: Notes on(-)Craft for Young Writers	4662.8	680.78
+Bird by Bird: Some Instructions(-)on Writing and Life	4726.1	636.74
+On Writing	4616.6	574.15
+The Republic Of Plato:(-)Second Edition	1448.1	1796.5
+The Social(-)Contract 	1748.1	1864.4
+Civilization and(-)Its Discontents	1796.2	2131.2
+Grounding for the Metaphysics of Morals: With on a(-)Supposed Right to Lie Because of Philanthropic Concerns	1226.5	1928.6
+Kant: Groundwork of the(-)Metaphysics of Morals 	1173.6	1973.5
+Capitalism and Freedom: Fortieth(-)Anniversary Edition	2468.2	1928.1
+"The General Theory of(-)Employment, Interest and Money"	2139.8	2041.4
+Free to Choose: A(-)Personal Statement	2521.5	1972.1
+Theban Plays	1730.7	1768.1
+The Bhagavad-Gita : Krishna's Counsel in(-)Time of War 	2128.9	1909.4
+An Enquiry Concerning(-)Human Understanding	840.53	1923.3
+Dialogues Concerning Natural Religion: The Posthumous Essays of(-)the Immortality of the Soul and of Suicide	928.68	1876.6
+New Introductory Lectures on(-)Psycho-Analysis: 	1545	2186.8
+"Myths from Mesopotamia: Creation, the Flood,(-)Gilgamesh, and Others "	983.69	2014.7
+"Euripides III: Hecuba, Andromache, The(-)Trojan Women, Ion "	299.47	1346.9
+"Euripides II: The Cyclops and Heracles,(-)Iphigenia in Tauris, Helen "	96.5	1361.1
+"Greek Tragedies, Volume 2(-)The Libation Bearers "	992.13	1167.2
+"Euripides IV: Rhesus, The Suppliant Women,(-)Orestes, Iphigenia in Aulis "	353.77	1391.4
+Ulysses Annotated: Notes for James Joyce's(-)Ulysses [Revised and Expanded Edition]	2107.4	1604.4
+The New Bloomsday Book:(-)A Guide Through Ulysses	2147.7	1542
+Gender Trouble: Feminism and the(-)Subversion of Identity 	1999	2131.8
+"Black Skin,(-)White Masks"	1909.9	2087.7
+"The History of Sexuality,(-)Vol. 1: An Introduction"	2162.9	2085.8
+The Beauty Myth: How Images of(-)Beauty Are Used Against Women	1752.3	2276.8
+Backlash: The Undeclared War(-)Against American Women	2106.2	2230
+Full Frontal Feminism: A Young Woman's(-)Guide to Why Feminism Matters	2045.7	2295.5
+A Reader's Guide to(-)Finnegans Wake 	1977.5	1424.4
+Amsterdam: A(-)Novel	3727.5	1703.9
+Enduring Love:(-)A Novel	3863.9	1705
+The Innocent:(-)A Novel	3807.8	1614.5
+In the Skin of(-)a Lion	3589.1	1701.8
+The Old Curiosity(-)Shop 	1498.5	565.91
+Martin Chuzzlewit(-)	1506.8	389.89
+Barnaby Rudge(-)	1423.4	385.54
+The Mill on the(-)Floss 	1800.9	346.33
+Daniel Deronda(-)	1842.2	302.21
+The Woman in(-)White 	1921.5	307.27
+Vanity Fair(-)	1873.9	355.82
+Leviathan: With Selected Variants from the(-)Latin Edition of 1668	1349.7	2016.6
+On Liberty	1202.3	2085.6
+Madness and Civilization: A History of(-)Insanity in the Age of Reason	1664.3	2456
+"Power/Knowledge: Selected Interviews and(-)Other Writings, 1972-1977"	1647.3	2326.8
+"Imagined Communities: Reflections on the Origin(-)and Spread of Nationalism, New Edition"	1451.1	2408.3
+The Order of Things: An Archaeology(-)of the Human Sciences	1400.4	2317.9
+Orientalism	1721.4	2411.9
+Home and(-)Exile	3010.2	1345.5
+God's Bits of(-)Wood 	3038.9	1149.9
+Half of a(-)Yellow Sun	3107.5	1168.5
+A Tree Grows in(-)Brooklyn 	2290.5	1060.6
+The Soul and Barbed Wire:(-)An Introduction to Solzhenitsyn	3278.7	1913.9
+Solzhenitsyn: A Soul(-)in Exile	3142.2	1930.4
+"The Gulag Archipelago 1918-1956,(-)Parts I - II"	3596.8	1746
+Kolyma Tales(-)	3865.9	1838.5
+The Harvest of Sorrow: Soviet(-)Collectivization and the Terror-Famine	3655	1897.9
+Execution by Hunger: The(-)Hidden Holocaust	3825.7	1882.5
+Potemkin: Catherine the Great's(-)Imperial Partner	3715.2	2284.3
+The Whisperers: Private Life(-)in Stalin's Russia	3590.2	2240.2
+Stalin and His Hangmen: The Tyrant(-)and Those Who Killed for Him	3705.3	2328.4
+Sashenka: A(-)Novel	3609.6	2196.2
+Khrushchev's Cold War: The Inside Story(-)of an American Adversary	3926.9	2214.1
+American Prometheus: The Triumph and Tragedy(-)of J. Robert Oppenheimer	4003.2	2124.5
+Truman	3776.9	2237.5
+"One Hell of a Gamble: Khrushchev, Castro, and Kennedy, 1958-1964:(-)The Secret History of the Cuban Missile Crisis"	3891	2169.9
+The Fatal(-)Eggs 	2741.4	1888.5
+Red Cavalry	2971.5	1845.7
+A Dead Man's Memoir:(-)A Theatrical Novel 	2833	1871.8
+Ilf and Petrov's American Road Trip: The(-)1935 Travelogue of Two Soviet Writers	3953.1	1927.4
+The Life and Extraordinary Adventures of(-)Private Ivan Chonkin 	3719.1	2039.6
+Twelve Chairs	3883.8	1987.4
+Envy 	3796.6	1995.5
+Within the(-)Whirlwind	3806.3	1951.5
+Survival In(-)Auschwitz	3730.8	1973.6
+"The Soviet Experiment: Russia, The USSR,(-)and the Successor States"	3584.5	1943.5
+The History of the(-)Kings of Britain 	1406.9	1061.4
+Ecclesiastical History of the(-)English People 	1078.8	1037.2
+Rule of Saint Benedict(-)in English	1153.5	993.01
+The Once and(-)Future King	1418.5	973.4
+Idylls of the(-)King 	1525.8	934.66
+The Virtue of(-)Selfishness 	3511.8	2134.8
+We the(-)Living	3580.8	2109.4
+Anthem	3543.3	2178.8
+Capitalism: The(-)Unknown Ideal	3458.6	2182.2
+The Anti-Federalist Papers and the(-)Constitutional Convention Debates 	2487.3	2268.3
+The Obama Nation: Leftist Politics and(-)the Cult of Personality	3008.9	2300.8
+Real Change: From the World That(-)Fails to the World That Works	3418	2272.8
+The Case Against Barack Obama: The Unlikely Rise(-)and Unexamined Agenda of the Media's Favorite Candidate	3264.9	2317
+Culture Warrior	3373.5	2228.8
+Basic Economics 3rd Ed: A Common(-)Sense Guide to the Economy	2496.8	2326
+"Climate Confusion: How Global Warming Hysteria Leads to Bad Science,(-)Pandering Politicians and Misguided Policies that Hurt the Poor"	2137.6	2345.6
+Ever Wonder Why? And(-)Other Controversial Essays	2661.3	2316.2
+American Progressivism:(-)A Reader	2842.6	2241.4
+The Psychedelic Experience: A Manual Based on the(-)Tibetan Book of the Dead 	2713.5	364.35
+DMT: The Spirit Molecule: A Doctor's Revolutionary Research(-)into the Biology of Near-Death and Mystical Experiences	2805.9	309.22
+Your Brain(-)Is God	2988.9	309.85
+Huxley and(-)God: Essays	2318.7	711.38
+Moksha: Aldous Huxley's Classic Writings on(-)Psychedelics and the Visionary Experience	2336.2	662.91
+Electra and Other(-)Plays 	880.74	1223.4
+Eichmann in Jerusalem: A Report on(-)the Banality of Evil 	858.51	884.1
+The Making of the(-)Atomic Bomb	892.34	970.5
+Michael Frayn's Copenhagen in Debate: Historical Essays and Documents on(-)the 1941 Meeting Between Niels Bohr and Werner Heisenberg	1133.9	840.08
+Arcadia: A(-)Play	975.45	928.12
+Family	1117.3	794.37
+The Autobiography of Benjamin(-)Franklin 	2276.7	808
+Incidents in the Life of(-)a Slave Girl 	2204.5	853.01
+The Landmark(-)Thucydides	1837.4	1679.1
+Travels with(-)Herodotus 	1916.5	1722.9
+"A History of Histories: Epics, Chronicles, and Inquiries from(-)Herodotus and Thucydides to the Twentieth Century "	2092.9	1767.9
+The Landmark Thucydides: A Comprehensive Guide(-)to the Peloponnesian War	1458.9	1708.5
+Gulliver's Travels(-)	1304.7	1664.5
+Selected Works(-)	448.68	1810.2
+The Campaigns of(-)Alexander 	387.61	1762.4
+The 48 Laws(-)of Power	1506.4	2054.6
+Sun Tzu: The Art of War(-)for Managers; 50 Strategic Rules	1749.9	2087.2
+The Book of(-)Five Rings	1593.2	2052.4
+The Art(-)of Seduction	1520.6	2098.6
+On War	1535.1	2142.7
+Dore's Illustrations for Paradise(-)Lost 	484.03	1292.9
+Dore's Illustrations of the(-)Crusades 	492.04	1116.6
+Dore's Angels(-)	460.75	1248.7
+The Dore Gallery: His(-)120 Greatest Illustrations 	435.57	1160.6
+"Dore's Dragons, Demons and(-)Monsters "	553.88	1204.6
+Milton's Paradise(-)Lost	660.76	1160.6
+Vita Nuova(-)	956.04	1446.3
+The Greek Myths:(-)Complete Edition	1191.1	948.98
+The Battle of the(-)Labyrinth 	1433.2	641.76
+The Demigod(-)Files 	1207.3	755.86
+Percy Jackson and the Olympians(-)Paperback Boxed Set 	1364.7	597.76
+The Titan's(-)Curse 	1235.3	709.46
+This Country(-)of Ours	1652.4	614.93
+Poor Richard	1610.8	659.3
+D'Aulaires' Book of(-)Trolls 	1331.6	347.35
+The Children of Odin: The(-)Book of Northern Myths	1204.5	348.95
+D'Aulaires' Book of(-)Animals 	1332.5	303.32
+Leif the(-)Lucky	1418.7	286.64
+"Classics to Read Aloud to Your Children: Selections from Shakespeare, Twain, Dickens,(-)O.Henry, London, Longfellow, Irving Aesop, Homer, Cervantes, Hawthorne, and More"	830.63	533.3
+Aesop's Fables: A Classic(-)Illustrated Edition	933.98	577.31
+Archimedes and the Door(-)of Science 	1159	437.36
+The Children's Homer: The Adventures of(-)Odysseus and the Tale of Troy	968.76	488.77
+The Golden(-)Goblet 	1043.4	441.39
+In Search of a Homeland: The(-)Story of the Aeneid	1157.5	393.25
+The Odyssey_(-)	1308.2	412.27
+DK Readers: Trojan(-)Horse 	1287.2	458.06
+Aesop's Fables(-)	774.06	488.28
+Stories from Around the(-)World 	562.16	579.9
+Grammar for Middle School: A(-)Sentence-Composing Approach--A Student Worktext	4123.6	436.74
+Sentence Composing for Middle School: A(-)Worktext on Sentence Variety and Maturity	4277.9	488.26
+"Mechanically Inclined: Building Grammar, Usage, and(-)Style into Writer's Workshop"	4451.6	548.06
+Nothing to Be(-)Frightened Of	4151.7	878.07
+Home: A(-)Novel	4153.5	832.16
+"5 Steps to a 5: AP(-)English Literature, Second Edition "	3833.3	370.84
+CliffsAP English Language and(-)Composition 	3599.3	280.89
+AP English Literature &(-)Composition 	3724.6	326.06
+Sentence Composing for College: A Worktext(-)on Sentence Variety and Maturity	4278	378.86
+On Becoming(-)a Novelist	4607.9	631.04
+Aspects of(-)the Novel	4512.5	768.87
+Writing Down the Bones:(-)Freeing the Writer Within	4713.7	546.77
+Traveling Mercies: Some Thoughts(-)on Faith	4826.3	684.1
+Grace 	4682.5	591.5
+"On Writing Well, 30th Anniversary Edition:(-)The Classic Guide to Writing Nonfiction"	4495.3	504.02
+Plot &(-)Structure: 	4444.8	423.17
+The Elements of(-)Style 	4341.2	334.85
+The First Five Pages: A Writer's Guide to(-)Staying Out of the Rejection Pile	4597.5	421.22
+"Four Texts on Socrates: Plato's Euthyphro,(-)Apology, and Crito and Aristophanes' Clouds"	968.74	1970.4
+The Ego and the(-)Id 	1289.6	2220.8
+The Future of(-)an Illusion	1548.5	2275.8
+Beyond the Pleasure(-)Principle 	1389.7	2267.8
+On the Genealogy of(-)Morals and Ecce Homo	1541.8	2008.2
+The Elements of(-)Moral Philosophy	968.12	2058.7
+Aristotle: Nicomachean(-)Ethics 	803.22	2017
+"Discourse on Method and Meditations on(-)First Philosophy, 4th Ed."	1206	1884.5
+Utilitarianism	786.95	1832.3
+The Road to Serfdom: Text and(-)Documents--The Definitive Edition 	2416	2016.1
+Why Government Is the(-)Problem 	2379.8	2061.2
+"Capitalism, Socialism,(-)and Democracy"	2167.4	2131.3
+The Return of Depression Economics and(-)the Crisis of 2008	1970.7	2176
+Economics in One Lesson: The Shortest and(-)Surest Way to Understand Basic Economics	2246.3	2175.3
+"Four Plays: Medea, Hippolytus,(-)Heracles, Bacchae "	1870.2	1863.6
+An Introduction to(-)Hinduism 	1865.8	1999.1
+What the Buddha Taught: Revised and Expanded Edition(-)with Texts from Suttas and Dhammapada	1912.2	2043.2
+The World's Religions: Our(-)Great Wisdom Traditions	2015.9	1997.4
+Descartes: Meditations on First Philosophy: With Selections(-)from the Objections and Replies 	702.68	1970.9
+"Prolegomena to Any Future Metaphysics That Will Be Able to Come Forward As Science(-)With Kant's Letter to Marcus Herz, February 27, 1772: The Paul Carus Translation"	524.43	2017.2
+"Memories, Dreams,(-)Reflections"	1310.5	2362.3
+The Interpretation(-)of Dreams	1626.5	2392.4
+Faces in a Cloud:(-)Intersubjectivity in Personality Theory	1237.1	2267.1
+Fantasies of(-)Flight	1270.1	2317.3
+Sumerian Mythology: A Study of Spiritual and Literary(-)Achievement in the Third Millennium B.C. 	1117.7	2162
+"Gods, Demons and Symbols of Ancient(-)Mesopotamia: An Illustrated Dictionary"	879.52	2146.7
+Ancient Iraq: Third(-)Edition 	887.03	2102.7
+Stories from(-)Ancient Canaan	728.45	2061.4
+Ironies of Faith: The Laughter at(-)the Heart of Christian Literature	865.21	1689.8
+Anselm of Canterbury: The(-)Major Works 	849.79	1470.6
+Gregory of Nyssa: The(-)Life of Moses 	118.05	1520.4
+"Origen: An Exortation to Martyrdom,(-)Prayer, and Selected Works"	152.02	1655.5
+Maximus Confessor: Selected(-)Writings 	134.78	1565.5
+Bernard of Clairvaux: Selected(-)Works 	110.27	1610.2
+Augustine of Hippo: A(-)Biography 	956.42	1794.9
+The Roman History: The(-)Reign of Augustus 	151.58	1724.4
+Four Plays by Aristophanes: The Birds;(-)The Clouds; The Frogs; Lysistrata 	876.46	1079.2
+The Homeric(-)Hymns	861.23	1123.2
+The Body Project: An Intimate(-)History of American Girls	1839.1	2458.9
+Can't Buy My Love: How Advertising Changes(-)the Way We Think and Feel	1704.9	2503.6
+The End of America: Letter of(-)Warning to a Young Patriot	1956.4	2502.9
+Female Chauvinist Pigs: Women and the(-)Rise of Raunch Culture	1855.2	2370.8
+Writing Fiction: A Guide(-)to Narrative Craft	4587.3	724.83
+Howl and Other(-)Poems 	3392.5	282.89
+On the(-)Road 	2912	544.12
+The Electric Kool-Aid(-)Acid Test	3012.5	414.65
+Leaves of Grass: The(-)Original 1855 Edition 	3278.7	267.72
+Junky: The Definitive Text(-)of Junk 	3336.9	370.92
+Fear and Loathing in Las Vegas: A Savage(-)Journey to the Heart of the American Dream	3302.9	414.96
+Naked Lunch: The(-)Restored Text	3116.8	391.66
+Hell's Angels: A Strange(-)and Terrible Saga 	3310.3	326.9
+Self-Reliance and Other(-)Essays 	3237.1	150.46
+"Walden; Or, Life in(-)the Woods "	3352.6	146.14
+Civil Disobedience and Other(-)Essays 	3403.6	191.77
+101 Great American(-)Poems 	3269.5	199.94
+The Essential Writings of(-)Ralph Waldo Emerson 	3485.9	235.79
+Queer: A(-)Novel	3473.2	283.03
+Feminism Is for Everybody:(-)Passionate Politics	1893.9	2414.9
+Getting Off: Pornography and(-)the End of Masculinity	2238.3	2536.7
+"Pornified: How Pornography Is Damaging Our(-)Lives, Our Relationships, and Our Families"	1931.7	2549.7
+"The Elements of Style,(-)Fourth Edition"	4663.9	465.26

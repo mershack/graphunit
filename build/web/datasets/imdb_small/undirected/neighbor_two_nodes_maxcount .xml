@@ -1,0 +1,164 @@
+<?xml version="1.0"?>
+<taskFile>
+	<answertype>integer</answertype>
+	<question>
+		<node>Robert Downey Jr.</node>
+		<node>Steve Buscemi</node>
+		<answer>7</answer>
+	</question>
+	<question>
+		<node>Carrie Fisher</node>
+		<node>Gwyneth Paltrow</node>
+		<answer>2</answer>
+	</question>
+	<question>
+		<node>Woody Harrelson</node>
+		<node>Hugh Jackman</node>
+		<answer>5</answer>
+	</question>
+	<question>
+		<node>Daniel radcliffe</node>
+		<node>Antonio Banderas</node>
+		<answer>6</answer>
+	</question>
+	<question>
+		<node>John Cusack</node>
+		<node>Joan Cusack</node>
+		<answer>4</answer>
+	</question>
+	<question>
+		<node>Tom Hanks</node>
+		<node>Samuel L. Jackson</node>
+		<answer>7</answer>
+	</question>
+	<question>
+		<node>Hugo Weaving</node>
+		<node>Al Pacino</node>
+		<answer>6</answer>
+	</question>
+	<question>
+		<node>Owen Wilson</node>
+		<node>Diane Keaton</node>
+		<answer>4</answer>
+	</question>
+	<question>
+		<node>Carrie Fisher</node>
+		<node>Martin Sheen</node>
+		<answer>2</answer>
+	</question>
+	<question>
+		<node>M. Emmet Walsh</node>
+		<node>Alec Baldwin</node>
+		<answer>1</answer>
+	</question>
+	<question>
+		<node>Joan Cusack</node>
+		<node>Seth Rogen</node>
+		<answer>6</answer>
+	</question>
+	<question>
+		<node>Donald Sutherland</node>
+		<node>Woody Harrelson</node>
+		<answer>4</answer>
+	</question>
+	<question>
+		<node>gary Oldman</node>
+		<node>Seymour Cassel</node>
+		<answer>4</answer>
+	</question>
+	<question>
+		<node>Robert De Niro</node>
+		<node>John Cusack</node>
+		<answer>4</answer>
+	</question>
+	<question>
+		<node>Talia Shire</node>
+		<node>Orlando Bloom</node>
+		<answer>7</answer>
+	</question>
+	<question>
+		<node>Danny DeVito</node>
+		<node>Joan Cusack</node>
+		<answer>4</answer>
+	</question>
+	<question>
+		<node>Keanu Reeves</node>
+		<node>Tom Hanks</node>
+		<answer>5</answer>
+	</question>
+	<question>
+		<node>James Franco</node>
+		<node>John Travolta</node>
+		<answer>2</answer>
+	</question>
+	<question>
+		<node>Tom Hanks</node>
+		<node>Robert De Niro</node>
+		<answer>5</answer>
+	</question>
+	<question>
+		<node>Donald Sutherland</node>
+		<node>James Earl Jones</node>
+		<answer>3</answer>
+	</question>
+	<question>
+		<node>Cate Blanchett</node>
+		<node>Al Pacino</node>
+		<answer>5</answer>
+	</question>
+	<question>
+		<node>Robert Downey Jr.</node>
+		<node>Talia Shire</node>
+		<answer>5</answer>
+	</question>
+	<question>
+		<node>Antonio Banderas</node>
+		<node>Cate Blanchett</node>
+		<answer>6</answer>
+	</question>
+	<question>
+		<node>paul Newman</node>
+		<node>Laurence Fishburne</node>
+		<answer>4</answer>
+	</question>
+	<question>
+		<node>Brad Pitt</node>
+		<node>Talia Shire</node>
+		<answer>5</answer>
+	</question>
+	<question>
+		<node>Al Pacino</node>
+		<node>Michael Keaton</node>
+		<answer>4</answer>
+	</question>
+	<question>
+		<node>John Cusack</node>
+		<node>Geoffrey Rush</node>
+		<answer>3</answer>
+	</question>
+	<question>
+		<node>Charlton Heston</node>
+		<node>Jennifer Lawrence</node>
+		<answer>3</answer>
+	</question>
+	<question>
+		<node>Bruce Willis</node>
+		<node>Don Cheadle</node>
+		<answer>4</answer>
+	</question>
+	<question>
+		<node>Joan Cusack</node>
+		<node>Elizabeth Banks</node>
+		<answer>5</answer>
+	</question>
+	<question>
+		<node>Harvey Keitel</node>
+		<node>Liam Neeson</node>
+		<answer>2</answer>
+	</question>
+	<question>
+		<node>Ralph Fiennes</node>
+		<node>Dustin Hoffman</node>
+		<answer>5</answer>
+	</question>
+</taskFile>

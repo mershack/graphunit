@@ -1,0 +1,4 @@
+Time_neighbor_one_step_nodesize10
+2.4
+2.4
+2.0

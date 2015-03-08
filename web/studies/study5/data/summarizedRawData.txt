@@ -1,0 +1,12 @@
+Acc_neighbor_count_graph,Acc_neighbor_count_matrix
+0.3,0.3
+0.2,0.3
+0.3,0.1
+
+
+Time_neighbor_count_graph,Time_neighbor_count_matrix
+2.3,0.5
+0.5,0.2
+0.2,0.3
+
+

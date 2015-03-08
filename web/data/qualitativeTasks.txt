@@ -1,0 +1,3 @@
+Rate how easy the Visualization tasks were between 1 - 5 (where 1 means Not-Easy) and 5 means Very-Easy, Rating
+Rate how easy it was to use the interactive techniques between 1 - 5 (where 1 means Not-Easy and 5 means Very-Easy), Rating
+Rate how helpful the interactive techniques were to tasks between 1 - 5 (where 1 means Not-Helpful) and 5 means Very-Helpful), Rating
