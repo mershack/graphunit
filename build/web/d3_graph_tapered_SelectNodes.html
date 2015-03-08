@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<script src="http://d3js.org/d3.v3.js"></script>
+<script src ="d3.js"></script>
+<script src="jquery-1.10.2.js"></script>
+<style>
+
+    path.link {
+        fill: gray;
+        // stroke: #666;
+        stroke: lightgray;
+        stroke-width: 0.3px;
+    }
+
+    circle {
+        fill: #ccc;
+        //stroke: #fff;
+        stroke: black;
+        //stroke-width: 1.5px;
+    }
+
+    text {
+        fill: #000;
+        font: 10px sans-serif;
+        pointer-events: none;
+    }
+
+
+</style>
+<body>
+    <script>
+        // get the data
+
+        var dataset = ""; //this will be set by the parent
+        var normalColor = "gray";
+        var selectedColor = "red";
+        var nodes = [];
+        var nodeNames = [];
+        // setDataSetAndStartGraph();
+        showGraph();
+        //  getDataset();
+        //showGraph();
+        function showGraph() {
+            //alert(dataset);
+            //imdb_large.csv
+            ////imdb_small.tsv
+            //book_recommendation.tsv
+            //d3.tsv("datasets/imdb_small/imdb_small.tsv", function(error, links) {
+            d3.tsv("datasets/miserables/miserables.tsv", function(error, links) {
+                // Compute the distinct nodes from the links.
+                var cnt = 0;
+                links.forEach(function(link) {
+                    if (!nodes[link.source]) {
+                        nodeNames[cnt] = link.source;
+                        cnt++;
+                    }
+                    if (!nodes[link.target]) {
+                        nodeNames[cnt] = link.target;
+                        cnt++;
+                    }
+                    link.source = nodes[link.source] ||
+                            (nodes[link.source] = {name: link.source});
+                    link.target = nodes[link.target] ||
+                            (nodes[link.target] = {name: link.target});
+                });
+                var width = 800,
+                        height = 600;
+                var nodeRadius = 5;
+                var force = d3.layout.force()
+                        .nodes(d3.values(nodes))
+                        .links(links)
+                        .size([width, height])
+                        .linkDistance(90)
+                        .charge(-70)
+                        .on("tick", tick)
+                        .start();
+                var svg = d3.select("body").append("svg")
+                        .attr("width", width)
+                        .attr("height", height);
+                // add the links and the arrows
+                var path = svg.append("svg:g").selectAll("path")
+                        .data(force.links())
+                        .enter().append("svg:path")
+                        .attr("class", "link")
+                        .attr("marker-end", "url(#end)");
+                // define the nodes
+                var node = svg.selectAll(".node")
+                        .data(force.nodes())
+                        .enter().append("g")
+                        .attr("class", "node")
+                        .on("click", function(d, i) {
+                            getSelectedNode(d.name);
+                            selectNode(d.name);
+                        })
+                        .call(force.drag);
+
+                node.append("title")   //for mouse over
+                        .text(function(d) {
+                            return d.name;
+                        });
+
+                // add the nodes
+                node.append("circle")
+                        .attr("r", nodeRadius);
+                // add the curvy lines
+                function tick() {
+                    path.attr("d", function(d) {
+                        var dx = d.target.x - d.source.x,
+                                dy = d.target.y - d.source.y;
+                        //,dr = Math.sqrt(dx * dx + dy * dy);
+
+                        var centerslope = Math.atan2(dy, dx);
+                        var sideslope = Math.atan2(dy, dx) + Math.PI / (2); //center slope plus 90 degrees in radians
+
+                        var fractionOfRadius = nodeRadius / nodeRadius;
+                        var p1x = d.source.x - fractionOfRadius * Math.cos(centerslope) - fractionOfRadius * Math.cos(sideslope);
+                        var p1y = d.source.y - fractionOfRadius * Math.sin(centerslope) - fractionOfRadius * Math.sin(sideslope);
+                        var p2x = d.target.x + Math.cos(centerslope);
+                        var p2y = d.target.y + Math.sin(centerslope);
+                        var p3x = d.source.x - fractionOfRadius * Math.cos(centerslope) + fractionOfRadius * Math.cos(sideslope);
+                        var p3y = d.source.y - fractionOfRadius * Math.sin(centerslope) + fractionOfRadius * Math.sin(sideslope);
+                        return "M" +
+                                p1x + " " +
+                                p1y + " L " +
+                                p2x + " " +
+                                p2y + " L " +
+                                p3x + " " +
+                                p3y + " Z ";
+                    });
+                    node
+                            .attr("transform", function(d) {
+                                return "translate(" + d.x + "," + d.y + ")";
+                            });
+                    node.style("fill", function(d) {
+                        return "blue";
+                    });
+                }
+            });
+
+        }
+
+        var curSelectedNodes = [];
+        var allNodesAndAnswers = [];
+
+        function getSelectedNode(name) {
+            curSelectedNodes.push(name);
+        }
+
+        function addSelectedNodes() {
+            var answer = document.getElementById("answer").value;
+            var nodes = "";
+
+            for (var i = 0; i < curSelectedNodes.length; i++) {
+                if (i === 0)
+                    nodes = curSelectedNodes[i];
+                else
+                    nodes += "::" + curSelectedNodes[i];
+            }
+            allNodesAndAnswers.push({"nodes": nodes, "answer": answer});
+
+            //now empty the curSelectednodes and the answer element
+            while (curSelectedNodes.length > 0) {
+                curSelectedNodes.pop();
+            }
+            document.getElementById("answer").value = "";
+            selectNode("");
+        }
+
+        function saveTaskInstances() {
+            //now write the positions to file;
+            // var param = '?objarray=' + JSON.stringify(nodePositions);
+            var taskInstancesFileName = document.getElementById("taskInstancesFileName").value;
+            var datasetName = document.getElementById("datasetName").value;
+            
+            var theUrl ='SaveTaskInstances?taskInstancesFileName='+taskInstancesFileName +"&datasetName="+datasetName;
+            
+            $.ajax({
+                url: theUrl,
+                type: 'POST',
+                dataType: 'json',
+                data: {taskInstancesArray: JSON.stringify(allNodesAndAnswers)},
+                success: function(result) {
+                    alert('SUCCESS');
+                },
+                error: function(data) {
+                    alert('fail');
+                }
+            });
+
+        }
+
+
+
+
+        function selectNode(name) {
+            d3.selectAll("circle")
+                    .style("fill", function(d) {
+                        for (var i = 0; i < curSelectedNodes.length; i++) {
+                            if (curSelectedNodes[i] === d.name) {
+                                return selectedColor;
+                            }
+                            
+                        }
+                    });
+        }
+
+        function saveNodePositions() {
+            var nodePositions = [];
+            var name, x, y;
+            var cnt = 0;
+            //create the JSON object
+            for (var i = 0; i < nodeNames.length; i++) {
+                name = nodeNames[i];
+                x = nodes[name].x;
+                y = nodes[name].y;
+                nodePositions.push({"name": name, "x": x, "y": y});
+            }
+            //now write the positions to file;
+            // var param = '?objarray=' + JSON.stringify(nodePositions);
+            $.ajax({
+                url: 'SaveNodePositions',
+                type: 'POST',
+                dataType: 'json',
+                data: {nodePositionsArray: JSON.stringify(nodePositions)},
+                success: function(result) {
+                    alert('SUCCESS');
+                },
+                error: function(data) {
+                    alert('fail');
+                }
+            });
+        }
+    </script>
+  
+    <p>&nbsp;&nbsp;&nbsp;     Answer <input type="text" value="" name="answer" id="answer"/>
+        <input type="button" value="add selected nodes" onclick="addSelectedNodes();"/>
+     </p>
+    <p>Task Instance FileName <input type="text" id="taskInstancesFileName" value=""> Dataset Name <input type="text" id="datasetName" value="" /></p>
+   
+
+    <p> &nbsp;&nbsp;&nbsp; <input type="button" value="Save Task Instances"  onclick = "saveTaskInstances();"/> </p>
+</body>
+</html>

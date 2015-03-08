@@ -1,0 +1,231 @@
+<?xml version="1.0"?>
+<taskFile>
+	<answertype>options</answertype>
+	<option>yes</option>
+	<option>no</option>
+	<question>					 
+		<node>Adam Sandler</node>
+		<node>Steve Buscemi</node>
+		<answer>Yes</answer>		
+	</question>	
+	<question>					 
+		<node>Samuel L. Jackson</node>
+		<node>Robert Downey Jr.</node>
+		<answer>No</answer>		
+	</question>	
+	<question>					 
+		<node>Donald Sutherland</node>
+		<node>Elizabeth Banks</node>
+		<answer>Yes</answer>		
+	</question>	
+	<question>					 
+		<node>James Caan</node>
+		<node>Diane Lane</node>
+		<answer>No</answer>		
+	</question>	
+	<question>					 
+		<node>Ben Affleck</node>
+		<node>Matt Damon</node>
+		<answer>Yes</answer>		
+	</question>
+	<question>					 
+		<node>Bruce Willis</node>
+		<node>Ben Affleck</node>
+		<answer>No</answer>		
+	</question>
+	<question>					 
+		<node>Bill Murray</node>
+		<node>Dan Aykroyd	</node>
+		<answer>Yes</answer>		
+	</question>
+	<question>					 
+		<node>Kathy Bates</node>
+		<node>Dan Aykroyd	</node>
+		<answer>No</answer>		
+	</question>
+	<question>					 
+		<node>Dustin Hoffman</node>
+		<node>Kathy Bates</node>
+		<answer>Yes</answer>		
+	</question>
+	<question>					 
+		<node>Kathy Bates</node>
+		<node>Dustin Hoffman</node>
+		<answer>No</answer>		
+	</question>
+	<question>					 
+		<node>Seth Rogen</node>
+		<node>Steve Carell</node>
+		<answer>Yes</answer>		
+	</question>
+	<question>					 
+		<node>Will Ferrell</node>
+		<node>Steve Carell</node>
+		<answer>No</answer>		
+	</question>
+	<question>					 
+		<node>Seth Rogen</node>
+		<node>Will Ferrell</node>
+		<answer>No</answer>		
+	</question>
+	<question>					 
+		<node>Dustin Hoffman</node>
+		<node>Jack Black</node>
+		<answer>Yes</answer>		
+	</question>
+	<question>					 
+		<node>Dustin Hoffman</node>
+		<node>Owen Wilson</node>
+		<answer>No</answer>		
+	</question>
+	<question>					 
+		<node>Owen Wilson</node>
+		<node>Will Ferrell</node>
+		<answer>Yes</answer>		
+	</question>
+	<question>					 
+		<node>Jada Pinkett Smith</node>
+		<node>Owen Wilson</node>
+		<answer>No</answer>		
+	</question>
+	<question>					 
+		<node>Owen Wilson</node>
+		<node>Vince Vaughn</node>
+		<answer>Yes</answer>		
+	</question>
+	<question>					 
+		<node>Dustin Hoffman</node>
+		<node>Kathy Bates</node>
+		<answer>Yes</answer>		
+	</question>
+	<question>					 
+		<node>Jim Carrey</node>
+		<node>M. Emmet Walsh</node>
+		<answer>No</answer>		
+	</question>
+	<question>					 
+		<node>Elizabeth Banks</node>
+		<node>Jim Carrey</node>
+		<answer>No</answer>		
+	</question>
+	<question>					 
+		<node>Elizabeth Banks</node>
+		<node>Paul Rudd</node>
+		<answer>Yes</answer>		
+	</question>
+	<question>					 
+		<node>Jonah Hill</node>
+		<node>Steve Carell</node>
+		<answer>Yes</answer>		
+	</question>
+	<question>					 
+		<node>Jonah Hill</node>
+		<node>Jack Black</node>
+		<answer>No</answer>		
+	</question>
+	<question>					 
+		<node>David Cross</node>
+		<node>Jack Black</node>
+		<answer>Yes</answer>		
+	</question>
+	<question>					 
+		<node>Cameron Diaz</node>
+		<node>Mike Myers</node>
+		<answer>Yes</answer>		
+	</question>
+	<question>					 
+		<node>Cameron Diaz</node>
+		<node>Christina Ricci</node>
+		<answer>No</answer>		
+	</question>
+	<question>					 
+		<node>Christina Ricci</node>
+		<node>Eddie Murphy</node>
+		<answer>No</answer>		
+	</question>
+	<question>					 
+		<node>Antonio Banderas</node>
+		<node>Christina Ricci</node>
+		<answer>No</answer>		
+	</question>
+	<question>					 
+		<node>Antonio Banderas</node>
+		<node>Eddie Murphy</node>
+		<answer>Yes</answer>		
+	</question>
+	<question>					 
+		<node>paul Newman</node>
+		<node>Geoffrey Rush</node>
+		<answer>No</answer>		
+	</question>
+	<question>					 
+		<node>Geoffrey Rush</node>
+		<node>paul Newman</node>
+		<answer>No</answer>		
+	</question>
+	<question>					 
+		<node>Geoffrey Rush</node>
+		<node>Robert Wagner</node>
+		<answer>No</answer>		
+	</question>
+	<question>					 
+		<node>Helena Bonham Carter</node>
+		<node>Johnny Depp</node>
+		<answer>Yes</answer>		
+	</question>
+	<question>					 
+		<node>Helena Bonham Carter</node>
+		<node>Patrick Stewart</node>
+		<answer>No</answer>		
+	</question>
+	<question>					 
+		<node>Daniel radcliffe</node>
+		<node>Helena Bonham Carter</node>
+		<answer>Yes</answer>		
+	</question>
+	<question>					 
+		<node>Daniel radcliffe</node>
+		<node>gary Oldman</node>
+		<answer>Yes</answer>		
+	</question>
+	<question>					 
+		<node>John Hurt</node>
+		<node>Udo Kier</node>
+		<answer>Yes</answer>		
+	</question>
+	<question>					 
+		<node>Hugh Jackman</node>
+		<node>Helena Bonham Carter</node>
+		<answer>No</answer>		
+	</question>
+	<question>					 
+		<node>Hugh Jackman</node>
+		<node>Patrick Stewart</node>
+		<answer>Yes</answer>		
+	</question>
+	<question>					 
+		<node>Diane Lane</node>
+		<node>Laurence Fishburne</node>
+		<answer>Yes</answer>		
+	</question>
+	<question>					 
+		<node>Dennis Hopper</node>
+		<node>Danny DeVito</node>
+		<answer>No</answer>		
+	</question>
+	<question>					 
+		<node>Dennis Hopper</node>
+		<node>Laurence Fishburne</node>
+		<answer>Yes</answer>		
+	</question>
+	<question>					 
+		<node>Halle Berry</node>
+		<node>Helena Bonham Carter</node>
+		<answer>No</answer>		
+	</question>
+	<question>					 
+		<node>Chris Rock</node>
+		<node>Will Ferrell</node>
+		<answer>No</answer>		
+	</question>
+</taskFile>	

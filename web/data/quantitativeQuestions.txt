@@ -1,0 +1,2 @@
+neighbor::Are the two highlighted nodes directly connected? :: 3 :: 5
+path_three_nodes::Are the three highlighted nodes directly connected? ::3::10

@@ -1,0 +1,4 @@
+Acc_neighbor_one_step_arrow,Acc_neighbor_two_step_arrow
+1.0,0.0
+0.0,0.5
+1.0,0.5

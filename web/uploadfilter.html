@@ -1,0 +1,123 @@
+<html>
+    <head>
+        <title>Upload Image</title>
+
+        <script type="text/javascript" src="uploadImage.js"></script>
+        <script type="text/javascript" src="data.js"></script>
+
+        <script>
+
+            var serviceURL = "";
+            serviceURL = "http://vizlab.cis.fiu.edu/GazeServer/";
+            var but1;
+            var but2;
+
+            window.onload = function()
+            {
+                var div = document.getElementById('div');
+
+                div.appendChild(document.createTextNode("Add to filter: "));
+                but1 = document.createElement("input");
+                but1.type = "file";
+                but1.onchange = function() {
+                    sendJS();
+                };
+                div.appendChild(but1);
+
+                div.appendChild(document.createElement("br"));
+
+                div.appendChild(document.createTextNode("Add java class:"));
+                but2 = document.createElement("input");
+                but2.type = "file";
+                but2.onchange = function() {
+                    sendClass();
+                };
+                div.appendChild(but2);
+
+
+            }
+
+            function sendJS()
+            {
+
+                //var url =  serviceURL + "Upload?page=uploadFilterJS&filter=" + document.getElementById("filtername").value;
+                
+                var url = "Upload?page=uploadFilterJS&filter=" + document.getElementById("filtername").value;
+
+                var formData = new FormData();
+                formData.append("File", but1.files[0]);
+
+
+                var xmlHttpRequest = getXMLHttpRequest();
+                xmlHttpRequest.onreadystatechange = function()
+                {
+                    if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
+                    {
+
+                    }
+                };
+
+                xmlHttpRequest.open("POST", url, true);
+                xmlHttpRequest.send(formData);
+            }
+
+            function sendClass()
+            {
+
+                //var url = serviceURL + "Upload?page=uploadFilterClass&filter=" + document.getElementById("filtername").value;
+                var url = "Upload?page=uploadFilterClass&filter=" + document.getElementById("filtername").value;
+
+                var formData = new FormData();
+                formData.append("File", but2.files[0]);
+
+
+                var xmlHttpRequest = getXMLHttpRequest();
+                xmlHttpRequest.onreadystatechange = function()
+                {
+                    if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
+                    {
+
+                    }
+                };
+
+                xmlHttpRequest.open("POST", url, true);
+                xmlHttpRequest.send(formData);
+            }
+
+            //private function
+            function getXMLHttpRequest() {
+                var xmlHttpReq;
+                // to create XMLHttpRequest object in non-Microsoft browsers  
+                if (window.XMLHttpRequest) {
+                    xmlHttpReq = new XMLHttpRequest();
+                } else if (window.ActiveXObject) {
+                    try {
+                        //to create XMLHttpRequest object in later versions of Internet Explorer  
+                        xmlHttpReq = new ActiveXObject("Msxml2.XMLHTTP");
+                    } catch (exp1) {
+                        try {
+                            //to create XMLHttpRequest object in later versions of Internet Explorer  
+                            xmlHttpReq = new ActiveXObject("Microsoft.XMLHTTP");
+                        } catch (exp2) {
+                            //xmlHttpReq = false;  
+                            alert("Exception in getXMLHttpRequest()!");
+                        }
+                    }
+                }
+                return xmlHttpReq;
+            }
+
+        </script>
+
+
+    </head>
+
+    <body onload=>
+
+        filter name <input type="text" id="filtername"/>  <br>
+
+        <div id="div"></div>
+
+    </body>
+
+</html>

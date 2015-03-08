@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+    .node {
+        stroke: #fff;
+        stroke-width: 1.5px;
+    }
+
+    .link {
+        stroke: #999;
+        stroke-opacity: .6;
+    }
+
+</style>
+<body>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script>
+
+        //var nodes = [];
+        var dataset = "";
+
+        getDataset();
+
+
+
+        function showGraph() {
+            var width = 960,
+                    height = 500;
+            var color = d3.scale.category20();
+
+            var force = d3.layout.force()
+                    .charge(-120)
+                    .linkDistance(30)
+                    .size([width, height]);
+
+            var svg = d3.select("body").append("svg")
+                    .attr("width", width)
+                    .attr("height", height);
+
+            d3.json(dataset, function(error, graph) {
+
+
+
+                force
+                        .nodes(graph.nodes)
+                        .links(graph.links)
+                        .start();
+
+                var link = svg.selectAll(".link")
+                        .data(graph.links)
+                        .enter().append("line")
+                        .attr("class", "link")
+                        .style("stroke-width", function(d) {
+                            return Math.sqrt(d.value);
+                        });
+
+                var node = svg.selectAll(".node")
+                        .data(graph.nodes)
+                        .enter().append("circle")
+                        .attr("class", "node")
+                        .attr("r", 5)
+                        .style("fill", function(d) {
+                            return color(d.group);
+                        })
+                        .call(force.drag);
+
+                node.append("title")
+                        .text(function(d) {
+                            return d.name;
+                        });
+
+                force.on("tick", function() {
+                    link.attr("x1", function(d) {
+                        return d.source.x;
+                    })
+                            .attr("y1", function(d) {
+                                return d.source.y;
+                            })
+                            .attr("x2", function(d) {
+                                return d.target.x;
+                            })
+                            .attr("y2", function(d) {
+                                return d.target.y;
+                            });
+
+                    node.attr("cx", function(d) {
+                        return d.x;
+                    })
+                            .attr("cy", function(d) {
+                                return d.y;
+                            });
+                });
+            });
+
+        }
+
+
+
+        /****************************************************** GRAPHUNIT METHOD STARTS ********************/
+
+        function selectNode(nodenames) {
+            d3.selectAll("circle")
+                    .style("fill", function(d, i) {
+                        for (var j = 0; j < nodenames.length; j++) {
+                            if (d.name === nodenames[j]) {
+                                if (j == 0) { //first node
+                                    return "green";
+                                }
+                                else {
+                                    return "red";
+                                }
+                            }
+                        }
+                    })
+        }
+
+
+        /*This method gets the dataset */
+        /*This method gets the dataset */
+        var dstInterval;//, dataset="";
+        var nodePositionsLoaded = false;
+        var loadNodePositions = false;
+        function getDataset() {
+            //wait a couple of milliseconds for the dataset to be set
+            dstInterval = setInterval(checkIfDatasetIsSet, 200);
+        }
+        //checks if the dataset is set, when it is set, it calls the showGraph method.
+        function checkIfDatasetIsSet() {
+            if (loadNodePositions === true) {
+                //alert("peouf!");
+                if (dataset !== "" && nodePositionsLoaded == true) { //if positions are supposed to be loaded make sure they are loaded
+                    showGraph();
+                    clearInterval(dstInterval);
+
+                }
+            }
+            else if (dataset !== "") {
+                showGraph();
+                clearInterval(dstInterval);
+
+            }
+        }
+        /**
+         * This function will be called to set the dataset variable
+         * @param {type} dataseturl - this is a string of the dataset 
+         * @returns {undefined}
+         */
+        function setDataset(dataseturl) {
+            //alert("dataset set");
+            dataset = dataseturl;
+        }
+
+        function setNodePositions(positions) {
+            nodePositions = positions;
+            nodePositionsLoaded = true;
+        }
+        /***************************************************GRAPHUNIT METHOD ENDS ******************************/
+    </script>
+
+

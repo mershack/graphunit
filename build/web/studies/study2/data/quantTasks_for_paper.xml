@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<study_specification>
+   <dataset>imdb_small</dataset>
+   <studyname>study7</studyname>
+   <experimenttype>Within</experimenttype>
+   <condition>
+	  <conditionurl>arrow_graph.html</conditionurl>
+	  <conditionshortname>arrow</conditionshortname>
+   </condition>
+   <condition>
+	  <conditionurl>tapered_graph.html</conditionurl>
+	  <conditionshortname>tapered</conditionshortname>
+   </condition>
+   <condition>
+	  <conditionurl>circular_graph.html</conditionurl>
+	  <conditionshortname>circular</conditionshortname>
+   </condition>
+   <task>
+	  <name>neighbor_one_step</name>
+	  <question>
+	        Are the two highlighted nodes directly
+	     		connected? </question>
+	  <size>4</size>
+	  <time>5</time>
+   </task>	
+</study_specification>
+

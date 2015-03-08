@@ -1,0 +1,6 @@
+Rate easiness of the Visualization tasks (1 - 5), Rate how easy the Visualization tasks were between 1 - 5 (where 1 means Not-Easy and 5 means Very-Easy), Rating
+Did you have any problem with the Visualization,Did you have any problem with the Visualization?, boolean
+What problem did you have with the visualization?, What problem did you have with the visualization? Write None if none, text
+Rate easiness of using the interactive techniques, Rate how easy it was to use the interactive techniques between 1 - 5 (where 1 means Not-Easy and 5 means Very-Easy), Rating
+Rate helpfulness of the interactive techniques to tasks, Rate how helpful the interactive techniques were to tasks between 1 - 5 (where 1 means Not-Helpful) and 5 means Very-Helpful), Rating
+

@@ -1,0 +1,4 @@
+Acc_neighbor_count_matrix
+0.3
+0.3
+0.1

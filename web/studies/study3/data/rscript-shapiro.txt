@@ -1,0 +1,8 @@
+[1] "TaskName = Acc_neighbor_one_step"
+[1] "Acc_neighbor_one_step_nodesize5 , 0"
+[1] "Acc_neighbor_one_step_nodesize10 , 0"
+[1] "*********************"
+[1] "TaskName = Time_neighbor_one_step"
+[1] "Time_neighbor_one_step_nodesize5 , 0.252969648965826"
+[1] "Time_neighbor_one_step_nodesize10 , 0"
+[1] "*********************"

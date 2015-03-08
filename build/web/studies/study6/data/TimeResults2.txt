@@ -1,0 +1,4 @@
+Time_neighbor_one_step_tapered,Time_neighbor_two_step_tapered
+1.0,1.0
+1.5,1.0
+0.5,1.0

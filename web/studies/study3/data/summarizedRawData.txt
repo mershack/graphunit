@@ -1,0 +1,12 @@
+Acc_neighbor_one_step_nodesize5,Acc_neighbor_one_step_nodesize10
+0.8,0.6
+0.8,0.8
+0.6,0.8
+
+
+Time_neighbor_one_step_nodesize5,Time_neighbor_one_step_nodesize10
+2.2,2.4
+3.4,2.4
+2.0,2.0
+
+

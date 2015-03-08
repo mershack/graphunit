@@ -1,0 +1,3 @@
+Error in shapiro.test(Time_neighbor_two_step_tapered) : 
+  all 'x' values are identical
+Execution halted

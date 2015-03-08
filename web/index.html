@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="style.css" rel="stylesheet" type="text/css" /> 
+        <title>GraphUnit</title>
+
+        <script type='text/javascript'>
+            function showDiv(id) {
+                document.getElementById(id).style.display = "block";
+            }
+            function hideDiv(id) {
+                document.getElementById(id).style.display = "none";
+            }
+
+        </script>
+
+    </head>
+
+    <body>
+        <div id="content-wrapper">
+
+            <!-- <p>Page under construction.</p> -->
+
+
+
+            <div id="header">
+
+                <div id="title-logo">
+                    <div id="project-title">GraphUnit</div>                     
+                </div>  
+                <br />
+
+            </div>
+
+            <div id="content">
+                <hr />
+                <br /> <br/>
+                <b>This page provides supporting materials for GraphUnit. Useful links can be found below.  </b>
+
+                <ul>
+                    <li>
+                        <b>Video showing how to configure a simple user study that compares node sizes </b> <br /> <br />
+
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/K44ySSjKPoo" frameborder="0" allowfullscreen></iframe>
+
+                        <br/><br/>
+                    </li>
+
+                    <li> <b>Setting up a user study:</b>   
+                        <a href="userstudy_setup.html"> Setup form for designing a user study</a>     <br/>   <br/>               
+                    </li>
+                    <li>
+                        <b>Study 1 (run on Mechanical Turk):</b> A Between User study that compares an undirected graph and a matrix visualization using one graph task. <br/> 
+                        <a href="StudyManager?studyname=study1"> Link to the study </a> |
+                        <a href="StudyResults?studyname=study1"> Link to the Result </a> | <a href="https://gist.github.com/graphunit/30802e530781b7db0324">Matrix code</a> | <a href="https://gist.github.com/graphunit/25c06eff32e2baa07ff8">Graph Code</a>
+                        <br /> <br />
+                        &nbsp; &nbsp; &nbsp; Replicate this study  <button onclick='showDiv("matrix-and-graph-study")'>Show steps</button> | <button onclick='hideDiv("matrix-and-graph-study")'>Hide Steps</button><br/>
+                        <div id="matrix-and-graph-study" style = "display:none;">
+                            <br />
+                            <hr />
+                            <ol> 
+                                <li> Download and extract the supporting files to your computer. <a href="matrixAndgraphStudy.zip">Click here to download</a> </li>
+                                <li> Configure the study on the study setup page above by uploading the downloaded files, and specifying other details as shown in this <b><a href="matrixAndGraphConfiguration.png">Image</a></b></li>
+                                <li> You can experiment with the "experiment type", "number of task questions", and the "duration" of tasks</li>
+                                <li> Click on the demo button after configuration </li>
+                                <li> Click on the submit button after seeing a demo. You will be given 2 urls one for the study, and one for the results.                                     
+                                </li>
+                                <li> You will see graphs of your results after you complete at least 2 rounds of the study. Statistical analysis will be provided when you have 3 or more completed studies for each of the visualizations being evaluated.</li>                                                      
+
+                            </ol>
+                            <hr />
+                            <br/><br/>
+                        </div>
+                        <br/>
+                    </li>
+                    <li>
+                        <b>Study 2 (run on Mechanical Turk): </b>
+                        A Within group user study that compares Arrow, Tapered, and curve edges based on two tasks.<br/>
+                        <a href="StudyManager?studyname=study2"> Link to the study </a> |
+                        <a href="StudyResults?studyname=study2"> Link to the Result </a> | <a href="https://gist.github.com/graphunit/6fbecfa02c8902ed8a22">Arrow-edge Code </a> | <a href="https://gist.github.com/graphunit/e91014b3d68aa84554b5">Tapered-edge Code </a>  | <a href="https://gist.github.com/graphunit/287784ff8694dcdf638f">Circular-edge code </a> 
+                        <br /> <br />
+                        &nbsp; &nbsp; &nbsp; Replicate this study  <button onclick='showDiv("graph-edges-study")'>Show steps</button> | <button onclick='hideDiv("graph-edges-study")'>Hide Steps</button> <br/>
+                        <div id="graph-edges-study" style = "display:none;">
+                            <br/>
+                            <hr />
+                            <ol> 
+                                <li> Download and extract the supporting files to your computer. <a href="graphEdgesStudy.zip">Click here to download</a> </li>
+                                <li> Configure the study on the study setup page above by uploading the downloaded files, and specifying other details as shown in this <b><a href="graphEdgesConfiguration.png">Image</a></b></li>
+                                <li>  You can experiment with the "number of task questions", and the "duration" of tasks</li>
+                                <li> Click on the demo button after configuration </li>
+                                <li> Click on the submit button after seeing a demo. You will be given 2 urls one for the study, and one for the results.
+
+                                </li>
+                                <li> You will see graphs of your results after you complete at least one round of the study. Statistical analysis will be provided when you have 3 or more finished rounds of the study.</li>                      
+
+
+                            </ol>
+                            <hr />
+                            <br/><br/>
+                        </div>
+                        <br/>
+                    </li>
+
+                    <!--
+                    <li> 
+                        <b>A Within group user study that compares 3 graph edges: </b>Arrow, Tapered, and curve  using two graph tasks. It uses a small IMDB dataset.<br/>
+                        <a href="StudyManager?studyname=study3"> Link to the study </a> |
+                        <a href="StudyResults?studyname=study3"> Link to the Result </a> | <a href="https://gist.github.com/graphunit/6fbecfa02c8902ed8a22">arrow edge code </a> | <a href="https://gist.github.com/graphunit/e91014b3d68aa84554b5">tapered edge code </a>  | <a href="https://gist.github.com/graphunit/287784ff8694dcdf638f">curve edge code </a> 
+
+                    </li>
+                    -->
+
+                    <li>
+                        <b>Study III: </b>Two user studies configured by 2 grad students in less than an hour. <br />
+                        Original graph used : <a href="original-force.html">force-directed layout</a> downloaded from <a href="http://bl.ocks.org/mbostock/4062045">http://bl.ocks.org/mbostock/4062045</a>
+                        <ol>
+                            <li>Student One - compared node-size=5 vs node-size=10 <br />
+                                <a href="StudyManager?studyname=study3">Link to user study</a> | <a href="StudyResults?studyname=study3">Link for Viewing results</a> |
+                                <a href="https://gist.github.com/graphunit/c0cb5bc6613d285bd29a">Node-size-five Code </a> | <a href="https://gist.github.com/graphunit/9e7bbba7832b52bf2109">Node-size-ten Code </a>
+                            </li>
+                            <li>Student Two - compared edge-size=2 vs edge-size=4 <br />
+                                <a href="StudyManager?studyname=study4">Link to User study</a> |<a href="StudyResults?studyname=study4"> Link to result </a> |
+                                <a href="https://gist.github.com/graphunit/76facf44b45faa24849e">Edge-stroke-two Code</a> | <a href="https://gist.github.com/graphunit/af31d192b9b166b012fa"> Edge-stroke-four Code </a>
+                            </li>
+                        </ol>
+                        <br/>
+                    </li>
+
+
+
+
+                </ul>
+
+                <!--
+                
+                <br>  </br> <b>This page is being hosted  on a free Amazon EC2 server with limited resources. As such, it is possible pages may take longer to load,
+                    and features of this system may be slow or may not work smoothly like they do on our server. </b>  -->
+
+                <br /><br />  <b> &nbsp;&nbsp;<u><i>Page is still under construction please check back again if something does not work well or a link is broken!!<i></u></b>  <br /> <br />
+                                <hr />
+                                </div>  
+
+
+                                </div>
+
+                                </body>
+                                </html>

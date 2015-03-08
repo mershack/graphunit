@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<study_specification>
+<dataset>imdb_small</dataset>
+<studyname>study6</studyname>
+<experimenttype>Within</experimenttype>
+<condition>
+<conditionurl>d3_graph_arrow.html</conditionurl>
+<conditionshortname>arrow</conditionshortname>
+</condition>
+<condition>
+<conditionurl>d3_graph_tapered.html</conditionurl>
+<conditionshortname>tapered</conditionshortname>
+</condition>
+<condition>
+<conditionurl>d3_graph_circular.html</conditionurl>
+<conditionshortname>circular</conditionshortname>
+</condition>
+<viewerwidth>860</viewerwidth>
+<viewerheight>800</viewerheight>
+<task>
+<name>neighbor_one_step</name>
+<question>Are the two highlighted nodes directly connected?</question>
+<size>2</size>
+<time>10</time>
+</task>
+<task>
+<name>neighbor_two_step</name>
+<question>Can you get from one of the highlighted nodes to the other with exactly 2 steps?</question>
+<size>2</size>
+<time>10</time>
+</task>
+</study_specification>

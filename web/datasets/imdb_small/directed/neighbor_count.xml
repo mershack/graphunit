@@ -1,0 +1,140 @@
+<?xml version="1.0"?>
+<taskFile>
+	<answertype>integer</answertype>
+	<question>
+		<node>Tim Allen</node>
+		<answer>1</answer>
+	</question>
+	<question>
+		<node>Hugh Jackman</node>
+		<answer>3</answer>
+	</question>
+	<question>
+		<node>James Earl Jones</node>
+		<answer>2</answer>
+	</question>
+	<question>
+		<node>Ralph Fiennes</node>
+		<answer>0</answer>
+	</question>
+	<question>
+		<node>Antonio Banderas</node>
+		<answer>6</answer>
+	</question>
+	<question>
+		<node>Diane Keaton</node>
+		<answer>2</answer>
+	</question>
+	<question>
+		<node>Laurence Fishburne</node>
+		<answer>1</answer>
+	</question>
+	<question>
+		<node>Robert De Niro</node>
+		<answer>0</answer>
+	</question>
+	<question>
+		<node>Al Pacino</node>
+		<answer>4</answer>
+	</question>
+	<question>
+		<node>Tim Allen</node>
+		<answer>1</answer>
+	</question>
+	<question>
+		<node>Michael Keaton</node>
+		<answer>3</answer>
+	</question>
+	<question>
+		<node>John Cusack</node>
+		<answer>2</answer>
+	</question>
+	<question>
+		<node>Brad Pitt</node>
+		<answer>4</answer>
+	</question>
+	<question>
+		<node>Bruce Willis</node>
+		<answer>3</answer>
+	</question>
+	<question>
+		<node>Diane Lane</node>
+		<answer>1</answer>
+	</question>
+	<question>
+		<node>Hugo Weaving</node>
+		<answer>3</answer>
+	</question>
+	<question>
+		<node>Danny DeVito</node>
+		<answer>2</answer>
+	</question>
+	<question>
+		<node>David Cross</node>
+		<answer>3</answer>
+	</question>
+	<question>
+		<node>paul Newman</node>
+		<answer>1</answer>
+	</question>
+	<question>
+		<node>Dennis Hopper</node>
+		<answer>5</answer>
+	</question>
+	<question>
+		<node>Emma Watson</node>
+		<answer>3</answer>
+	</question>
+	<question>
+		<node>Seth Rogen</node>
+		<answer>1</answer>
+	</question>
+	<question>
+		<node>Robert Downey Jr.</node>
+		<answer>2</answer>
+	</question>
+	<question>
+		<node>Jennifer Lawrence</node>
+		<answer>1</answer>
+	</question>
+	<question>
+		<node>Donald Sutherland</node>
+		<answer>3</answer>
+	</question>
+	<question>
+		<node>Tom Hanks</node>
+		<answer>0</answer>
+	</question>
+	<question>
+		<node>Woody Harrelson</node>
+		<answer>0</answer>
+	</question>
+	<question>
+		<node>Al Pacino</node>
+		<answer>4</answer>
+	</question>
+	<question>
+		<node>Ralph Fiennes</node>
+		<answer>0</answer>
+	</question>
+	<question>
+		<node>Samuel L. Jackson</node>
+		<answer>1</answer>
+	</question>
+	<question>
+		<node>John Cusack</node>
+		<answer>2</answer>
+	</question>
+	<question>
+		<node>Chris Rock</node>
+		<answer>1</answer>
+	</question>
+	<question>
+		<node>Halle Berry</node>
+		<answer>3</answer>
+	</question>
+	<question>
+		<node>Keanu Reeves</node>
+		<answer>2</answer>
+	</question>
+</taskFile>

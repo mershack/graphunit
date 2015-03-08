@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<study_specification>
+<dataset>miserables</dataset>
+<studyname>study3</studyname>
+<experimenttype>Within</experimenttype>
+<condition>
+<conditionurl>node-size-five.html</conditionurl>
+<conditionshortname>nodesize5</conditionshortname>
+</condition>
+<condition>
+<conditionurl>node-size-ten.html</conditionurl>
+<conditionshortname>nodesize10</conditionshortname>
+</condition>
+<viewerwidth>860</viewerwidth>
+<viewerheight>800</viewerheight>
+<task>
+<name>neighbor_one_step</name>
+<question>Are the two highlighted nodes directly connected?</question>
+<size>5</size>
+<time>10</time>
+</task>
+</study_specification>
