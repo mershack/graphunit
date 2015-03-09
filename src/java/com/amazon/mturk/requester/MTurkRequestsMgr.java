@@ -13,8 +13,8 @@ public class MTurkRequestsMgr {
     //private final static String SECRET_KEY;
     private final static String QN_FILE_NAME = "C:\\Users\\Mershack\\Documents\\NetbeansProjects\\GitHub_projects\\d3graphevaluation\\build\\web\\data\\graphQuestionForm.xml";
     //private final static String QN_FILE_NAME = "graphQuestionForm1.xml";
-    private String awsAccessKey = "AKIAIIWBS5IE72WKVEGQ";
-    private String secretKey = "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";
+    private String awsAccessKey = "";
+    private String secretKey = "";
     private String title = "graphTasks";
     private String description = "You will be shown a graph visualization with two or three nodes highlighted. You will be asked whether the "
             + "highlighted nodes are connected or whether there is a path between them"; // description
