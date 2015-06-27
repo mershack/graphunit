@@ -1,0 +1,7 @@
+How will you rate your familiarity with this type of visualization prior to this study?_matrixShortRephrasedQn		Please enter your Mechanical Turk ID_matrixShortRephrasedQn
+ Somewhat familiar -- You have seen this visualization before.		A7NAGBJPLA2FR
+Not familiar -- You have never seen such a visualization before.		A1BPHW0KCTG34P
+null		null
+null		null
+ Familiar -- You have used this visualization before.		A63759KWVJ94F
+ Familiar -- You have used this visualization before.		A14D297BQB6QF3

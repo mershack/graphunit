@@ -32,6 +32,9 @@ public class StudyParameters {
     
     public String firstConditionShortName = "";
     public String firstConditionUrl = "";
+    
+   //
+    
     public String studyname;
     public String dataseturl;
     public String nodePositions;
@@ -58,7 +61,7 @@ public class StudyParameters {
     public int numberOfConditions = 2;
     public int numberOfTasks = 2;
     public int sizeOfACondition;
-    public int tutorialSize = 2;
+    public int trainingSize = 2;
     public boolean studyDetailsLoaded = false;
     public String instruction = "";
     public MyUtils utils = new MyUtils();

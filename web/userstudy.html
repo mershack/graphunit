@@ -18,27 +18,27 @@ and open the template in the editor.
                 border:2px solid;
                 padding: 0px;
                 float: left;
-                height: 800px;
+                height: 850px;
                 width: 860px;
                 display: block;
             }
-            #viewerFrame1{
-                border: none;
-                height: 800px;
-                width: 800px;
-                display: none;
-            }
-            #viewerFrame2{
-                display: none;
-                border: none;
-                height: 720px;
-                width: 1020px;
-            }
+            /*  #viewerFrame1{
+                  border: none;
+                  height: 800px;
+                  width: 800px;
+                  display: none;
+              }
+              #viewerFrame2{
+                  display: none;
+                  border: none;
+                  height: 720px;
+                  width: 1020px;
+              } */
             #viewerFrame{
                 //display: none;
                 border: none;
-                height: 800px;
-                width: 860px;
+                height: 850px;
+                width: 900px;
             }
             #propControl{
                 float: right;
@@ -66,7 +66,7 @@ and open the template in the editor.
             }
             #blankViewer{
                 border: 1px solid;
-                height: 800px;
+                height: 840px;
                 width: 850px;
                 float: left;
                 display: none;
@@ -78,12 +78,13 @@ and open the template in the editor.
             #introduction{
                 padding: 50px;
                 padding-top:0px;
-                border:none;
+                border:1px;
             }
             #introductionframe{
                 width: 100%;
+                padding: 10px;
 
-                border:none;  
+                border:1px solid black;  
             }
 
             .legendTitle{
@@ -104,7 +105,7 @@ and open the template in the editor.
                 height: 100%;
             }
             #study{
-              //  width: 1250px;
+                //  width: 1250px;
             }
 
 
@@ -128,9 +129,19 @@ and open the template in the editor.
             var datasetInterval;
             var questionsPrepared = false;
             var propControlWidth = 350;
+            var visNoteShown = false;
 
             window.onload = function() {
-                getInstruction();
+
+                if (checkBrowserSupport() === true) {
+
+                    getInstruction();
+                }
+                else {
+                    document.getElementById("introduction").style.display = "none";
+                    document.getElementById("browserSupport").style.display = "block";
+                }
+
             };
 
 
@@ -211,11 +222,6 @@ and open the template in the editor.
 
 
             }
-
-
-
-
-
 
             /**
              * Get the Instruction for the user study
@@ -305,44 +311,44 @@ and open the template in the editor.
                         var vframe = document.getElementById("viewerFrame");
                         vframe.style.width = width + "px";
                         vframe.style.height = height + "px";
-                        
+
                         //resize the viewers div
                         var vParentFrame = document.getElementById("viewers");
                         vParentFrame.style.width = width + "px";
                         vParentFrame.style.height = height + "px";
-                        
+
                         //resize the blankviewer div
                         var blankviewer = document.getElementById("blankViewer");
                         blankviewer.style.width = width + "px";
                         blankviewer.style.height = height + "px";
-                        
+
                         //resize the study div //it should be the viewer width + the prop-control width
                         var studydiv = document.getElementById("study");
-                        
-                        
-                        
+
+
+
                         //get the window width
                         var windowWidth = window.innerWidth
-                            || document.documentElement.clientWidth
-                            || document.body.clientWidth;                        
-                        
+                                || document.documentElement.clientWidth
+                                || document.body.clientWidth;
+
                         var totalWidth = width + propControlWidth + 50;
-                        
+
                         //set the width of the window in case it is >= total width
-                        
-                      //  if(windowWidth > totalWidth){
-                              studydiv.style.width = totalWidth + "px";
-                       /* }
-                        else{ //redirect to a page  that shows that there is an error.
-                             window.location.replace("screen-dimension-error.jsp?width="+totalWidth + "&height="+height);
-                        } */
-                          
-                        
-                       
-                       
-                        
-                        
-                        
+
+                        //  if(windowWidth > totalWidth){
+                        studydiv.style.width = totalWidth + "px";
+                        /* }
+                         else{ //redirect to a page  that shows that there is an error.
+                         window.location.replace("screen-dimension-error.jsp?width="+totalWidth + "&height="+height);
+                         } */
+
+
+
+
+
+
+
                     }
                 };
 
@@ -391,7 +397,6 @@ and open the template in the editor.
                     //hide the beginTutorial button and show the next button
                     document.getElementById("beginTutorial").style.display = "none";
                     document.getElementById("nextButton").style.display = "block";
-
                     stage++;
                 }
 
@@ -460,6 +465,21 @@ and open the template in the editor.
                                 imgname = iframe.contentWindow.getQuestionLegend(question.trim());
                                 showTaskLegend(imgname);
                             }
+                            //get the note for the visualization if there is some.
+                            if (typeof iframe.contentWindow.getVisualizationNote == "function" && !visNoteShown) {
+                                var note = "";
+                                note = iframe.contentWindow.getVisualizationNote();
+                                showVisualizationNote(note);
+                                visNoteShown = true;
+                            }
+
+                            if (typeof iframe.contentWindow.getVisualizationHint == "function") {
+                                var hint = "";
+                                hint = iframe.contentWindow.getVisualizationHint();
+                                showVisualizationHint(hint);
+                            }
+
+
 
                             maxQuestionDuration = parseInt(split[2]);  // the maximum time for this task
                             document.getElementById("noteHeader").innerHTML = qnheader;
@@ -468,20 +488,87 @@ and open the template in the editor.
                             document.getElementById("selectedAnswer").value = "";
 
                             getAnswerControllers();
-                            getNodes();
+
+                            //do not show the nodes if the study has not been started, 
+                            // in that case,they will be shown when the start study button is clicked.
+                            if (!(isTutorial === "false" && studystarted === false)) {
+                                getNodes();
+                            }
+                            else {
+                                //deselect the previous nodes 
+                                deselectPrevNodes();
+                            }
+
                             revealViewer();
                             if (studystarted == true) {
                                 startQuestionDurationCountDown();
                             }
-                          /*  else {
-                                gettingTurkID = "false";
-                            } */
+                            /*  else {
+                             gettingTurkID = "false";
+                             } */
                         }
                     }
                 };
                 xmlHttpRequest.open("GET", url, false);
                 xmlHttpRequest.send();
             }
+
+            function showVisualizationHint(hint) {
+                var visHint = document.getElementById("visHint");
+                visHint.innerHTML = hint;
+            }
+
+
+            function showVisualizationNote(note) {
+
+                var visnoteDiv = document.getElementById("visnoteDiv");
+
+                visnoteDiv.innerHTML =
+                        visnoteDiv.innerHTML + note;
+                visnoteDiv.style.display = "block";
+
+
+
+                var iframe = document.getElementById("viewerFrame");
+                if (typeof iframe.contentWindow.getVisualizationNoteImages == "function") {
+                    var imageurls = "";
+                    imageurls = iframe.contentWindow.getVisualizationNoteImages();
+                    showVisualizationNoteImages(imageurls);
+                }
+            }
+
+            function showVisualizationNoteImages(imageurls) {
+                //   alert('yea');
+                if (imageurls !== "") {
+                    var split = imageurls.split(":");
+                    //    alert("hey");
+
+                    var iframeurl = document.getElementById("viewerFrame").src;
+
+                    var ind = iframeurl.lastIndexOf("/");
+                    var pageLocation = iframeurl.substring(0, ind);
+
+                    for (var i = 0; i < split.length; i++) {
+                        var imgurl = pageLocation + "/" + split[i];
+                        var imgElement = document.createElement("img");
+                        imgElement.setAttribute("src", imgurl);
+                        imgElement.setAttribute("width", "110px");
+                        imgElement.setAttribute("height", "110px");
+
+                        var visnoteDiv = document.getElementById("visnoteDiv");
+
+                        visnoteDiv.appendChild(imgElement);
+                        visnoteDiv.style.display = "block";
+                    }
+
+                }
+
+
+
+
+            }
+
+
 
             /*
              * function to get the nodes from the server 
@@ -505,6 +592,14 @@ and open the template in the editor.
                 xmlHttpRequest.send();
             }
 
+
+            function deselectPrevNodes() {
+                displayNodes(""); // send an empty string.
+            }
+
+
+
+
             /**
              * function to highlight the nodes involved in the question
              *  
@@ -512,15 +607,6 @@ and open the template in the editor.
             function displayNodes(nodesStr) {
                 //  alert("yay");
                 var nodesArr = nodesStr.split(",");
-                // alert(nodesArr);
-                //alert(nodesStr)
-                /*if (nodesArr && !viewersChanged) { //not null
-                 document.getElementById("viewerFrame1").contentWindow.selectNode(nodesArr);
-                 }
-                 else {
-                 document.getElementById("viewerFrame2").contentWindow.selectNode(nodesArr);
-                 }  */
-
                 document.getElementById("viewerFrame").contentWindow.selectNode(nodesArr);
 
             }
@@ -855,19 +941,31 @@ and open the template in the editor.
 
             }
 
+            function checkBrowserSupport() {
 
-
-
+                if ((navigator.userAgent.search("Chrome") >= 0
+                        || navigator.userAgent.search("Firefox") >= 0)) {
+                    return true;
+                }
+                return false;
+            }
         </script>
 
 
     </head>
-    <body>
+    <body>       
+
+        <div id="browserSupport" style="display:none;">
+            <h3>Please this site only supports Mozilla Firefox and Google Chrome
+                browsers. Sorry for the inconvenience.</h3>
+        </div>
+
+
         <div id="introduction">
             <u>(Please only use either Chrome or Firefox for this study. And please don't use the back button on the browser)</u><br>
             <br>
             <input class="center" type="button"  value="Got it! Take me to the study" onclick="getPreQualitativeQuestions();">
-
+            <br><br>
             <div id="defaultIntroduction">
                 <h3>Introduction</h3>
 
@@ -897,8 +995,8 @@ and open the template in the editor.
                 <!--<iframe id="viewerFrame1" src="http://localhost:8080/d3graphevaluation/d3_force.html">   
                 </iframe>  -->
 
-                <iframe id="viewerFrame2" src="" >
-                </iframe> 
+                <!--  <iframe id="viewerFrame2" src="" >
+                  </iframe>  -->
             </div> 
 
             <div id="blankViewer">
@@ -915,6 +1013,7 @@ and open the template in the editor.
                     <h4 id="noteHeader"></h4>
 
                     <p id="note"></p>
+                    <p id="visHint"></p>
 
                     <div id="answersDiv" style="display:none;">    
                     </div>
@@ -928,7 +1027,7 @@ and open the template in the editor.
                     <p id="checkAnswer"><input type="button" value="Check Answer" onclick="checkAnswer();"/> &nbsp;&nbsp;
                         <label id="correctnessOfAnswer"></label>
                     </p>
-                    <br><br>
+                    <br>
                     <input id="nextButton" type="button" value="Next" onclick="advanceButtonClicked()" style="display:none;"/>
 
 
@@ -937,11 +1036,12 @@ and open the template in the editor.
                     <div id="durationCountDown">
 
                     </div>
-                    <br /><br /> <br />
-                    <div id="legendDiv" style="display:none">
+                    <div id="visnoteDiv" style="display:none;">
+                        <h4> <u>Interaction Hints:</u></h4>
+                    </div>
+                    <div id="legendDiv" style="display:none;">
                         <h4>Legend</h4>
                         <!--  <div id="legend"></div> -->
-
                     </div>
 
 
@@ -950,12 +1050,12 @@ and open the template in the editor.
                 <div id="afterTrialControls">
                     <!-- <p>Please Enter your Turk ID in the textbox below and click
                         on the Start Study button to Begin the study</p>  -->
-                    
-                    
+
+
                     <!--<input type="text" id="turkId" value="" /> <br><br> -->
-                    
+
                     <p>End of Training. You can now begin the study. </p>
-                    
+
                     <input type="button" id="startStudyButton" value="Start Study" onclick="startStudy()" />
 
                 </div>

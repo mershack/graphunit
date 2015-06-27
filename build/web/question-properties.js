@@ -5,8 +5,8 @@ var studystarted = false;
 var trainingstarted = false;
 var gettingTurkId = false;
 
-function getAnswerControllers() {
 
+function getAnswerControllers() {
     var studyid = document.getElementById("studyid").value;
     //  +"&studyid="+studyid;
     var url = "StudyManager?command=getAnswerControllers" + "&studyid=" + studyid;
@@ -126,14 +126,70 @@ function createQualRangeInput(li, ind, min, max) {
         opt.innerHTML = i;
         select.appendChild(opt);
     }
-    var form = document.createElement("form");
-    form.setAttribute("onsubmit", "return false;");
-    form.appendChild(select);
+    //var form = document.createElement("form");
+    //form.setAttribute("onsubmit", "return false;");
+    //form.appendChild(select);
 
-    li.appendChild(form);
+    li.appendChild(select);
+}
+
+function createQualStringInput(li, ind) {
+    var input1 = document.createElement("input");
+   
+    input1.setAttribute("type","text");
+    input1.setAttribute("value", "");
+    input1.setAttribute("onKeyUp", "setQualSelectedAnswer(this,"+ind+ ")");
+
+    var input2= document.createElement("input");
+    input2.setAttribute("type", "hidden");
+    input2.setAttribute("id", "qualAnswer" + ind);
+    //var form = document.createElement("form");
+  //  form.setAttribute("onsubmit", "return false;");
+    //form.appendChild(input);
+
+    li.appendChild(input1);
+    li.appendChild(input2);
 }
 
 
+
+function createQualMultipleChoiceInput(li, ind, choices) {
+    //createRadio button
+    var input = document.createElement("input");
+    input.setAttribute("type", "hidden");
+    input.setAttribute("value", "");
+    input.setAttribute("id", "qualAnswer" + ind);
+
+    var choicediv = document.createElement("div");
+    var split = choices.split("::");
+    for (var i = 0; i < split.length; i++) {
+        var choice = split[i];
+        var radio = document.createElement("input");
+        radio.setAttribute("type", "radio");
+        radio.setAttribute("name", "radio"+ind);
+        radio.setAttribute("value", choice);
+        radio.setAttribute("onclick", "setQualSelectedAnswer(this,"+ind+ ")");
+        //create label
+        var label = document.createElement("label");
+        label.innerHTML = choice;
+        //create a paragraph
+        var paragraph = document.createElement("p");
+        //append the radio and label to the paragraph
+        paragraph.appendChild(radio);
+        paragraph.appendChild(label);
+        
+        choicediv.appendChild(paragraph);
+    }
+   // var form = document.createElement("form");
+   // form.setAttribute("onsubmit", "return false;");
+   // form.appendChild(choicediv);
+   // form.appendChild(input); //the inputbox that will be used to hold the selected option
+    
+    //li.appendChild(form);
+    li.appendChild(input);
+    li.appendChild(choicediv);
+    
+}
 
 
 function createFloatInput() {
@@ -162,7 +218,6 @@ function createFloatInput() {
     answerDiv.appendChild(form);
 
     input.focus();
-
 }
 
 function createStringInput() {
@@ -204,14 +259,14 @@ function  hideCheckAnswerButton() {
 
 function showAfterTrialControls() {
     //startStudy();
-    
+
     //first hide the studyControls and show the afterTrial controls
     trainingstarted = false;
     gettingTurkId = true;
     document.getElementById("studyControls").style.display = "none";
 
     document.getElementById("afterTrialControls").style.display = "block";
- //   document.getElementById("turkId").focus();  
+    //   document.getElementById("turkId").focus();  
 }
 
 function checkAnswer() {
@@ -241,13 +296,19 @@ function setSelectedAnswer(element) {
     document.getElementById("selectedAnswer").value = element.value;
 }
 
+function setQualSelectedAnswer(element,ind){
+    //alert("hey");
+    document.getElementById("qualAnswer"+ind).value = element.value;
+}
+
+
 function startStudy() {
     //check if the turkId has been provided
     /*var turkId = document.getElementById("turkId").value;
-    if (turkId.trim() === "") {
-        alert("Please Enter your TurkID before continuing");
-        return false;
-    } */
+     if (turkId.trim() === "") {
+     alert("Please Enter your TurkID before continuing");
+     return false;
+     } */
     //hide the after trial controls and show the study controls
 
     studystarted = true;
@@ -255,7 +316,8 @@ function startStudy() {
     gettingTurkId = false;
     document.getElementById("afterTrialControls").style.display = "none";
     document.getElementById("studyControls").style.display = "block";
-
+    //getQuestion();
+    getNodes(); //get the nodes to be highlighted.
     startQuestionDurationCountDown();
 }
 
@@ -297,6 +359,12 @@ function showQualitativeQuestions(qnString) {
             var split3 = split2[2].split("::");
             createQualRangeInput(li, i, split3[0], split3[1]);//append the answer controller too
         }
+        else if (split2[1] === "String") {
+            createQualStringInput(li, i);
+        }
+        else if (split2[1] === "MultipleChoice") {
+            createQualMultipleChoiceInput(li, i, split2[2]);
+        }
         ol.appendChild(li);
     }
     qualqnDiv.appendChild(ol);
@@ -315,10 +383,15 @@ function submitQualitativeAnswers() {
     var numOfQualQns = document.getElementById("numOfQualQns").value;
 
     var allQualitativeAnswers = "";
-
+    
+    //check if all qualitative questions has been answered before coninuing
     for (var i = 1; i <= numOfQualQns; i++) {
         var answer = document.getElementById("qualAnswer" + i).value;
 
+        if(answer==="")   {//if no answer, return false;
+            alert ("Please provide answers to all the questions before you continue");
+            return false;
+        }
 
         if (i == 1) {
             allQualitativeAnswers = answer;
@@ -382,6 +455,12 @@ function showPreQualitativeQuestions(qnString) {
             var split3 = split2[2].split("::");
             createQualRangeInput(li, i, split3[0], split3[1]);//append the answer controller too
         }
+        else if (split2[1] === "String") {
+            createQualStringInput(li, i);
+        }
+        else if (split2[1] === "MultipleChoice") {
+            createQualMultipleChoiceInput(li, i, split2[2]);
+        }
         ol.appendChild(li);
     }
     qualqnDiv.appendChild(ol);
@@ -400,17 +479,25 @@ function submitPreQualitativeAnswers() {
     var numOfQualQns = document.getElementById("numOfPreQualQns").value;
 
     var allQualitativeAnswers = "";
-
+    //check if all answers has been provided.
     for (var i = 1; i <= numOfQualQns; i++) {
         var answer = document.getElementById("qualAnswer" + i).value;
 
-        if (i == 1) {
+         if(answer==="")   {//if no answer, return false;
+            alert ("Please provide answers to all the questions before you continue");
+            return false;
+        }
+
+
+
+        if (i === 1) {
             allQualitativeAnswers = answer;
         }
         else {
             allQualitativeAnswers += "::::" + answer;
         }
     }
+    //-alert(allQualitativeAnswers);
     //now send the answers to the server 
     var studyid = document.getElementById("studyid").value;
     var url = "StudyManager?command=setPreQualitativeAnswers" + "&preQualitativeAnswers=" + allQualitativeAnswers
@@ -427,11 +514,6 @@ function submitPreQualitativeAnswers() {
     };
     xmlHttpRequest.open("GET", url, true);
     xmlHttpRequest.send(null);
-
-
-
-
-
 }
 
 
@@ -612,12 +694,28 @@ function newQualitativeQuestion() {
     opt6.setAttribute("value", "Rate helpfulness of the interactive techniques to tasks");
     opt6.innerHTML = "Rate helpfulness of the interactive techniques to tasks";
 
+    var opt7 = document.createElement("option");
+    opt7.setAttribute("value", "Have you worked with this type of visualization before?");
+    opt7.innerHTML = "Have you worked with this type of visualization before?";
+
+    var opt8 = document.createElement("option");
+    opt8.setAttribute("value", "How will you rate your familiarity with this type of visualization prior to this study?");
+    opt8.innerHTML = "How will you rate your familiarity with this type of visualization prior to this study?";
+
+    var opt9 = document.createElement("option");
+    opt9.setAttribute("value", "Please enter your Mechanical Turk ID");
+    opt9.innerHTML = "Please enter your Mechanical Turk ID";
+
     select.appendChild(opt1);
     select.appendChild(opt2);
     select.appendChild(opt3);
     select.appendChild(opt4);
     select.appendChild(opt5);
     select.appendChild(opt6);
+    select.appendChild(opt7);
+    select.appendChild(opt8);
+    select.appendChild(opt9);
+
 
     parag.appendChild(select);
     //qualTaskDiv.appendChild(parag);
@@ -709,11 +807,11 @@ function addAnotherCondition() {
 
     //viewerCondDiv.appendChild(p);
     //viewerCondDiv.appendChild(p2);
-    
-    
+
+
     div.appendChild(p);
     div.appendChild(p2);
-    
+
     viewerCondDiv.appendChild(document.createElement("br"));
     viewerCondDiv.appendChild(div);
 

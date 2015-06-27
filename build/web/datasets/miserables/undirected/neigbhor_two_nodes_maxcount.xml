@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <taskFile>
+	<answertype>integer</answertype>
 	<question>
 		<node>Perpetue</node>
 		<node>Mme.Burgon</node>

@@ -1,0 +1,48 @@
+
+	Welch Two Sample t-test
+
+data:  Acc_neighbor_two_step_matrixShortSameQn and Acc_neighbor_two_step_matrixShortRephrasedQn
+t = -0.4822, df = 9.978, p-value = 0.64
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -0.3123179  0.2012068
+sample estimates:
+mean of x mean of y 
+0.8611111 0.9166667 
+
+
+	Welch Two Sample t-test
+
+data:  Acc_neighbor_count_matrixShortSameQn and Acc_neighbor_count_matrixShortRephrasedQn
+t = -0.9285, df = 6.56, p-value = 0.386
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -0.4974742  0.2196964
+sample estimates:
+mean of x mean of y 
+0.8055556 0.9444444 
+
+
+	Welch Two Sample t-test
+
+data:  Time_neighbor_two_step_matrixShortSameQn and Time_neighbor_two_step_matrixShortRephrasedQn
+t = -0.8965, df = 7.762, p-value = 0.3969
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -4.183658  1.850324
+sample estimates:
+mean of x mean of y 
+ 5.083333  6.250000 
+
+
+	Welch Two Sample t-test
+
+data:  Time_neighbor_count_matrixShortSameQn and Time_neighbor_count_matrixShortRephrasedQn
+t = -0.3634, df = 6.762, p-value = 0.7274
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -3.357384  2.468495
+sample estimates:
+mean of x mean of y 
+ 5.361111  5.805556 
+

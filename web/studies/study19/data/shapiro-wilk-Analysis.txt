@@ -1,0 +1,32 @@
+TaskName = Acc_neighbor_two_step
+condition  ,  pvalue
+------------------------------------
+Acc_neighbor_two_step_matrixShortSameQn , 1.38927623188188e-12
+Acc_neighbor_two_step_matrixShortRephrasedQn , 3.73744905381101e-12
+**********************************************************
+
+
+TaskName = Acc_neighbor_count
+condition  ,  pvalue
+------------------------------------
+Acc_neighbor_count_matrixShortSameQn , 6.64323914620777e-15
+Acc_neighbor_count_matrixShortRephrasedQn , 7.12331108657481e-14
+**********************************************************
+
+
+TaskName = Time_neighbor_two_step
+condition  ,  pvalue
+------------------------------------
+Time_neighbor_two_step_matrixShortSameQn , 0.869165525503936
+Time_neighbor_two_step_matrixShortRephrasedQn , 0.00364447284455177
+**********************************************************
+
+
+TaskName = Time_neighbor_count
+condition  ,  pvalue
+------------------------------------
+Time_neighbor_count_matrixShortSameQn , 0.00089723147029604
+Time_neighbor_count_matrixShortRephrasedQn , 0.00580077116385772
+**********************************************************
+
+

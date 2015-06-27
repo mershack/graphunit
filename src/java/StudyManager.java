@@ -24,6 +24,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
+import userstudy.ListOfConditionsAndTheirCounters;
 import userstudy.QualitativeQuestion;
 import userstudy.StudyParameters;
 
@@ -40,6 +41,7 @@ public class StudyManager extends HttpServlet {
     private final String TASKS_NODES_FILENAME = "taskNodesIndexes.txt";//"tasksNodes.txt";
 
     HashMap<String, StudyParameters> usersStudyParameters = new HashMap<String, StudyParameters>();
+    HashMap<String, ListOfConditionsAndTheirCounters> onGoingStudyCounts = new HashMap<String, ListOfConditionsAndTheirCounters>();//this will be used to hold the ongoing study counts
 
 //    /ArrayList<String> taskNodes = new ArrayList<String>();
     //HashMap<Integer, ArrayList<String>> allTaskNodes = new HashMap<Integer, ArrayList<String>>(); //this hashmap will be used
@@ -83,8 +85,7 @@ public class StudyManager extends HttpServlet {
                 String nameofstudy;
                 String studyId;
 
-                System.out.println("__the command is " + command);
-
+                // System.out.println("__the command is " + command);
                 if (command.equalsIgnoreCase("instruction")) {
                     //for the first time, get the name of the study from the session otherwise expect it to be passed
                     nameofstudy = session.getAttribute("studyname").toString();
@@ -109,7 +110,7 @@ public class StudyManager extends HttpServlet {
                     // System.out.println("**NEW**");
 
                 }
-                System.out.println("---The command is " + command);
+                //System.out.println("---The command is " + command);
 
                 //  else{
                 upmts.studyname = nameofstudy;
@@ -138,7 +139,7 @@ public class StudyManager extends HttpServlet {
                             allqualQuestions += "::::" + upmts.qualQuestionsBefore.get(i) + ":::" + upmts.qualEvalQuestionBefore.get(i).getAnsDetailsAsString();
                         }
                     }
-                    System.out.println("allQualQuestions::: " + allqualQuestions);
+                    //  System.out.println("allQualQuestions::: " + allqualQuestions);
                     if (!allqualQuestions.isEmpty()) {
                         allqualQuestions = "Qualitative::::" + allqualQuestions;
                     }
@@ -148,17 +149,14 @@ public class StudyManager extends HttpServlet {
                     upmts.viewerConditionCounter++;
                 } else if (command.equalsIgnoreCase("getDataset")) {
                     msg = upmts.dataseturl;
-                }
-                else if(command.equalsIgnoreCase("prepareQuestions")){
+                } else if (command.equalsIgnoreCase("prepareQuestions")) {
                     prepareQuantitativeQuestions(request, upmts);
-                }
-                else if(command.equalsIgnoreCase("getViewerDimensions")){
-                      String width = upmts.viewerWidth;
-                      String height = upmts.viewerHeight;
-                      
-                      msg = width +"x" + height;  //i.e. w x h  e.g. 800x600   
-                }                
-                else if (command.equalsIgnoreCase("getQuestion")) {
+                } else if (command.equalsIgnoreCase("getViewerDimensions")) {
+                    String width = upmts.viewerWidth;
+                    String height = upmts.viewerHeight;
+
+                    msg = width + "x" + height;  //i.e. w x h  e.g. 800x600   
+                } else if (command.equalsIgnoreCase("getQuestion")) {
                     if (upmts.tutorialCounter < upmts.tutorialQuestions.size()) {
                         upmts.isTutorial = true;
                         upmts.tutorialCounter++;
@@ -169,16 +167,27 @@ public class StudyManager extends HttpServlet {
                             && ((upmts.testCounter % upmts.sizeOfACondition) == 0) && !upmts.viewersChanged) {
                         msg = "ChangeViewers:: " + upmts.viewerConditionUrls.get(upmts.viewerConditionCounter);
 
-                        System.out.println("ChangeViewer string is ::: " + msg);
+                        //System.out.println("ChangeViewer string is ::: " + msg);
                         upmts.viewerConditionCounter++;
                         upmts.viewersChanged = true;
 
                     } else if (upmts.testCounter < upmts.evalQuestions.size()) {
                         if (upmts.testCounter > 0) {//get the previousAnswer
+
+                            if (upmts.testCounter == 1) { //let's label this as an ongoing study                                    
+                                ListOfConditionsAndTheirCounters ongoing_studyCounts
+                                        = (ListOfConditionsAndTheirCounters) onGoingStudyCounts.get(upmts.studyname);
+
+                                ongoing_studyCounts.incrementCondCounter(upmts.firstConditionShortName);
+
+                                onGoingStudyCounts.put(upmts.studyname, ongoing_studyCounts);
+
+                            }
+
                             String prevAnswer = request.getParameter("previousAnswer");
                             String prevTime = request.getParameter("previousTime");
 
-                            System.out.println("Previous Time is ::: " + prevTime);
+                            //System.out.println("Previous Time is ::: " + prevTime);
                             int previousTime = Integer.parseInt(prevTime);
                             upmts.evalQuestions.get(upmts.testCounter - 1).setIsGivenAnsCorrect(prevAnswer.trim());
                             upmts.evalQuestions.get(upmts.testCounter - 1).setTimeInSeconds(previousTime);
@@ -193,7 +202,7 @@ public class StudyManager extends HttpServlet {
                         String prevAnswer = request.getParameter("previousAnswer");
                         String prevTime = request.getParameter("previousTime");
 
-                        System.out.println("Previous Time is ::: " + prevTime);
+                        //  System.out.println("Previous Time is ::: " + prevTime);
                         int previousTime = Integer.parseInt(prevTime);
 
                         upmts.evalQuestions.get(upmts.testCounter - 1).setIsGivenAnsCorrect(prevAnswer.trim());
@@ -204,6 +213,8 @@ public class StudyManager extends HttpServlet {
                         if (upmts.qualEvalQuestionAfter.size() == 0) {
                             writeAnswersToFile(upmts);
                             String studyNameReverse = new StringBuffer(upmts.studyname.toUpperCase()).reverse().toString();
+
+                            //System.out.println("Name Reversed is:: "+studyNameReverse);
                             msg = "Finished::" + upmts.turkCode + studyNameReverse;
                         } else {
                                 //send the qualitative questions                          
@@ -225,15 +236,17 @@ public class StudyManager extends HttpServlet {
                 } else if (command.equalsIgnoreCase("setPreQualitativeAnswers")) {
                     String qualAnswers = request.getParameter("preQualitativeAnswers");
                     String split[] = qualAnswers.split("::::");
-                    //    System.out.println("__PRE-QUALITATIVE ANSWERS ::: ");
+                    System.out.println("__PRE-QUALITATIVE ANSWERS ::: " + qualAnswers);
+                    //System.out.println("__PRE-QUAL-ARRAY ::: "+split[0] + " --- " +split[1]);
                     for (int i = 0; i < upmts.qualEvalQuestionBefore.size(); i++) {
                         upmts.qualEvalQuestionBefore.get(i).setAnswer(split[i]);
-                        //System.out.println(upmts.qualEvalQuestionBefore.get(i).getAnswer());
+                        System.out.println(upmts.qualEvalQuestionBefore.get(i).getAnswer());
                     }
                 } else if (command.equalsIgnoreCase("setQualitativeAnswers")) {
                     //set the qualitative answer and send the turk code
                     String qualAnswers = request.getParameter("qualitativeAnswers");
-                    //    System.out.println("_____ Post-Qualitative Answers are ::: " + qualAnswers);
+
+                    System.out.println("_____ Post-Qualitative Answers are ::: " + qualAnswers);
 
                     String split[] = qualAnswers.split("::::");
 
@@ -332,12 +345,12 @@ public class StudyManager extends HttpServlet {
 
         if (upmts.questionCodes.size() > 1) {
             instruction = "Instruction about the tasks::In this study there are " + upmts.questionCodes.size() + " types of questions.\n\n"
-                    + "You will be given a simple training  with " + upmts.tutorialSize + " sample questions of each type. "
+                    + "You will be given a simple training  with " + upmts.trainingSize + " sample questions of each type. "
                     + "You can check whether your chosen answer is correct or not during the training session.\n\n"
                     + "There are " + upmts.totalNumOfQuestions + " questions in total for the  main study";
         } else {
             instruction = "Instruction about the tasks::In this study there is " + upmts.questionCodes.size() + " type of question.\n\n"
-                    + "You will be given a simple training  with " + upmts.tutorialSize + " sample questions. "
+                    + "You will be given a simple training  with " + upmts.trainingSize + " sample questions. "
                     + "You can check whether your chosen answer is correct or not during the training session.\n\n"
                     + "There are " + upmts.totalNumOfQuestions + " questions in total for the  main study";
         }
@@ -404,8 +417,8 @@ public class StudyManager extends HttpServlet {
             NodeList qualtaskNode = doc.getElementsByTagName("qualtask");
             NodeList viewerwidthNode = doc.getElementsByTagName("viewerwidth");
             NodeList viewerheightNode = doc.getElementsByTagName("viewerheight");
-            
-            
+            NodeList trainingSizeNode = doc.getElementsByTagName("trainingsize");
+
             //get the dataseturl
             datasetname = ((Element) datasetNode.item(0)).getTextContent();
             upmts.dataseturl = getServerUrl(request) + ("/datasets/" + datasetname + "/" + datasetname);
@@ -418,7 +431,16 @@ public class StudyManager extends HttpServlet {
             upmts.studyname = ((Element) studynameNode.item(0)).getTextContent();
             //get the experiment type
             upmts.studyType = ((Element) experimentTypeNode.item(0)).getTextContent();
-                        
+            //get the training size
+            if (trainingSizeNode != null && trainingSizeNode.item(0) != null) {
+                upmts.trainingSize = Integer.parseInt(((Element) trainingSizeNode.item(0)).getTextContent());
+            }
+
+            //NB: We do not want training size to be less than 2.
+            if (upmts.trainingSize < 2) {
+                upmts.trainingSize = 2;
+            }
+
             //get the condition urls and shortnames
             for (int i = 0; i < conditionNode.getLength(); i++) {
                 Node nNode = conditionNode.item(i);
@@ -454,23 +476,22 @@ public class StudyManager extends HttpServlet {
                     upmts.questionCodes.add(questionCode);
                     upmts.questions.add(question);
                     upmts.questionSizes.add(Integer.parseInt(questionSize));
-                    upmts.totalNumOfQuestions +=Integer.parseInt(questionSize);
+                    upmts.totalNumOfQuestions += Integer.parseInt(questionSize);
                     upmts.questionMaxTimes.add(Integer.parseInt(questionTime));
                 }
             }
-            
-            if(upmts.studyType.equalsIgnoreCase("within")){
-           //     System.out.println("****Within "+ upmts.viewerConditionShortnames.size());
-                upmts.totalNumOfQuestions *=  upmts.viewerConditionShortnames.size();
+
+            if (upmts.studyType.equalsIgnoreCase("within")) {
+                //     System.out.println("****Within "+ upmts.viewerConditionShortnames.size());
+                upmts.totalNumOfQuestions *= upmts.viewerConditionShortnames.size();
             }
-            
+
             //viewer dimensions
             String viewerWidth = ((Element) viewerwidthNode.item(0)).getTextContent();
             String viewerHeight = ((Element) viewerheightNode.item(0)).getTextContent();
             upmts.viewerWidth = viewerWidth;
             upmts.viewerHeight = viewerHeight;
-            
-            
+
             /**
              * ********************************************************************************
              */
@@ -512,6 +533,7 @@ public class StudyManager extends HttpServlet {
                 taskNode = doc2.getElementsByTagName("answertype");
                 String answerType = ((Element) taskNode.item(0)).getTextContent(); //answerType
                 int min = -1, max = -1;
+                ArrayList<String> mchoices = new ArrayList<String>();
                 //if answer type is rating, then get the minimum and maximum values
                 if (answerType.equalsIgnoreCase("range")) {
 
@@ -519,7 +541,16 @@ public class StudyManager extends HttpServlet {
                     NodeList maxNode = doc2.getElementsByTagName("maximum");
                     min = Integer.parseInt(((Element) minNode.item(0)).getTextContent());
                     max = Integer.parseInt(((Element) maxNode.item(0)).getTextContent());
+                } else if (answerType.equalsIgnoreCase("multiplechoice")) {
+                    //get the different choices
+                    NodeList choiceNodeList = doc2.getElementsByTagName("choice");
+
+                    for (int temp = 0; temp < choiceNodeList.getLength(); temp++) {
+                        String choice = ((Element) choiceNodeList.item(temp)).getTextContent();
+                        mchoices.add(choice);
+                    }
                 }
+
                 //get the values of the variables
                 String question = upmts.qualQuestionsAfter.get(i);
                 QualitativeQuestion qualEvalQn = new QualitativeQuestion(question, answerType);
@@ -527,6 +558,7 @@ public class StudyManager extends HttpServlet {
                     qualEvalQn.setRangeMinimum(min);
                     qualEvalQn.setRangeMaximum(max);
                 }
+                qualEvalQn.setMChoices(mchoices);
                 //add the qualitativequestion to file
                 upmts.qualEvalQuestionAfter.add(qualEvalQn);
 
@@ -546,6 +578,7 @@ public class StudyManager extends HttpServlet {
                 taskNode = doc2.getElementsByTagName("answertype");
                 String answerType = ((Element) taskNode.item(0)).getTextContent(); //answerType
                 int min = -1, max = -1;
+                ArrayList<String> mchoices = new ArrayList<String>();
                 //if answer type is rating, then get the minimum and maximum values
                 if (answerType.equalsIgnoreCase("range")) {
 
@@ -553,6 +586,14 @@ public class StudyManager extends HttpServlet {
                     NodeList maxNode = doc2.getElementsByTagName("maximum");
                     min = Integer.parseInt(((Element) minNode.item(0)).getTextContent());
                     max = Integer.parseInt(((Element) maxNode.item(0)).getTextContent());
+                } else if (answerType.equalsIgnoreCase("multiplechoice")) {
+                    //get the different choices
+                    NodeList choiceNodeList = doc2.getElementsByTagName("choice");
+
+                    for (int temp = 0; temp < choiceNodeList.getLength(); temp++) {
+                        String choice = ((Element) choiceNodeList.item(temp)).getTextContent();
+                        mchoices.add(choice);
+                    }
                 }
                 //get the values of the variables
                 String question = upmts.qualQuestionsBefore.get(i);
@@ -561,6 +602,7 @@ public class StudyManager extends HttpServlet {
                     qualEvalQn.setRangeMinimum(min);
                     qualEvalQn.setRangeMaximum(max);
                 }
+                qualEvalQn.setMChoices(mchoices);
                 //add the qualitativequestion to file
                 upmts.qualEvalQuestionBefore.add(qualEvalQn);
             }
@@ -583,14 +625,13 @@ public class StudyManager extends HttpServlet {
          */
         try {
             String filename = "";
-            
+
             String graphType = request.getParameter("graphType"); //get the graph type variable
-            
-                        
+
             for (int i = 0; i < upmts.questionCodes.size(); i++) {
                 String xmlname = upmts.questionCodes.get(i) + ".xml";
-                filename = getServletContext().getRealPath("datasets" + File.separator 
-                        + upmts.datasetname + File.separator 
+                filename = getServletContext().getRealPath("datasets" + File.separator
+                        + upmts.datasetname + File.separator
                         + graphType + File.separator + xmlname);
 
                 File xmlFile = new File(filename);
@@ -632,11 +673,27 @@ public class StudyManager extends HttpServlet {
                             //System.out.println("Node "+(j+1) + " is " + nodeText);
                             nodes.add(nodeText);
                         }
-                        System.out.println();
+                        //check if there are questionnodes i.e. nodes that will form part of the actual questions
+                        String qnodeText = "";
+                        //  eElement.getElementsByTagName("questionnode").item(0).getTextContent();
+                        if (eElement.getElementsByTagName("questionnode").item(0) != null) {
+                         //System.out.println("Yoooo --"+eElement.getElementsByTagName("questionnode").getLength());
+                            //for now we will assume there can be only 1 of such nodes
+                            qnodeText = eElement.getElementsByTagName("questionnode").item(0).getTextContent();
+                        }
 
-                        EvaluationQuestion evalQn = new EvaluationQuestion(question, answer, nodes, options, answerType, maxTime);
+                        String newquestion = "";
+                        if (qnodeText != null && !qnodeText.isEmpty()) {
+                            //append the qnodeText to the question
+                            newquestion = question + " <strong>\"" + qnodeText + "\"</strong>?";
+                        }
+                        else{
+                            newquestion = question;
+                        }
+
+                        EvaluationQuestion evalQn = new EvaluationQuestion(newquestion, answer, nodes, options, answerType, maxTime);
                         //add the question to either the tutorial list or the test list
-                        if (tutorialCount < upmts.tutorialSize) {
+                        if (tutorialCount < upmts.trainingSize) {
                             upmts.tutorialQuestions.add(evalQn);
                             tutorialCount++;
                         } else {
@@ -720,6 +777,7 @@ public class StudyManager extends HttpServlet {
             String studydataurl = "studies" + File.separator + upmts.studyname + File.separator + "data";
             File file = new File(getServletContext().getRealPath(studydataurl + File.separator + filename));
             if (!file.exists()) {
+                System.out.println("^^^^^ " + file.getAbsolutePath());
                 file.createNewFile();
             }
 
@@ -741,14 +799,43 @@ public class StudyManager extends HttpServlet {
             //find one of the condition with the minimum count
             int minIndex = 0;
             int minimumCount = conditionCount[0];
-            for (int i = 1; i < conditionCount.length; i++) {
+
+            ListOfConditionsAndTheirCounters ongoing_studycounts = null;
+
+            if (this.onGoingStudyCounts.get(upmts.studyname) != null) {
+                ongoing_studycounts = (ListOfConditionsAndTheirCounters) this.onGoingStudyCounts.get(upmts.studyname);
+            }
+
+            if (ongoing_studycounts == null) { //first time
+                ongoing_studycounts = new ListOfConditionsAndTheirCounters(upmts.viewerConditionShortnames);
+                onGoingStudyCounts.put(upmts.studyname, ongoing_studycounts);
+            }
+
+            for (int i = 0; i < ongoing_studycounts.conditionCounters.size(); i++) {
+                System.out.println(ongoing_studycounts.conditionNames.get(i) + " **** " + ongoing_studycounts.conditionCounters.get(i));
+            }
+
+            for (int i = 0; i < conditionCount.length; i++) {
                 if (conditionCount[i] < minimumCount) {
-                    minIndex = i;
-                    minimumCount = conditionCount[i];
+                    //Check to make sure the minimum does not have
+                    //too many ongoing studies running already.. for now lets keep
+                    //the minimum to 5
+                    String cur_cshortname = upmts.viewerConditionShortnames.get(i);
+                    int cur_count = ongoing_studycounts.getCondCounter(cur_cshortname);
+                    String min_cshortname = upmts.viewerConditionShortnames.get(minIndex);
+                    int min_count = ongoing_studycounts.getCondCounter(min_cshortname);
+
+                    if ((cur_count < 1) || (cur_count < min_count) || ((minimumCount - conditionCount[i]) > 2)) {
+                        minIndex = i;
+                        minimumCount = conditionCount[i];
+                    }
+
                 }
             }
             upmts.firstConditionShortName = upmts.viewerConditionShortnames.get(minIndex);
             upmts.firstConditionUrl = upmts.viewerConditionUrls.get(minIndex);
+            //int ongoingCount = upmts.onGoingConditionCount.get(minIndex);
+            // upmts.onGoingConditionCount.set(minIndex, (ongoingCount + 1));
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -846,6 +933,14 @@ public class StudyManager extends HttpServlet {
             //write the first condition also to file
             writeFirstConditionToFile(upmts);
 
+            //decrement ongoingStudy counter for with this first condition. 
+            ListOfConditionsAndTheirCounters ongoing_studyCounts
+                    = (ListOfConditionsAndTheirCounters) onGoingStudyCounts.get(upmts.studyname);
+
+            ongoing_studyCounts.decrementCondCounter(upmts.firstConditionShortName);
+
+            onGoingStudyCounts.put(upmts.studyname, ongoing_studyCounts);
+
             writeQualitativeAnswersToFile(upmts);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -855,7 +950,19 @@ public class StudyManager extends HttpServlet {
     public void writeQualitativeAnswersToFile(StudyParameters upmts) {
         //write the pre-qualitative questions and the postqualitative questions to file
         try {
-            String filename = "QualitativeAnswers.txt";
+            String filename;// = "QualitativeAnswers.txt";
+            String firstcondition;
+            //get the filename for the qualitative qn.
+            //For between-group we will get the name for the current condition
+            //for within group, we will use the first condition: TODO: change this later.
+            if (upmts.studyType.equalsIgnoreCase("Between")) {
+                firstcondition = upmts.currentCondition;
+                filename = upmts.utils.getConditionQualitativeQnFileName(firstcondition);
+            } else {
+                firstcondition = upmts.orderOfConditionShortNames.get(0);
+                filename = upmts.utils.getConditionQualitativeQnFileName(firstcondition);
+            }
+
             String studydataurl = "studies" + File.separator + upmts.studyname + File.separator + "data";
             File file = new File(getServletContext().getRealPath(studydataurl + File.separator + filename));
 
@@ -873,7 +980,7 @@ public class StudyManager extends HttpServlet {
             String question, answer;
             if (newFile) { //print the header
                 for (int i = 0; i < upmts.qualEvalQuestionBefore.size(); i++) {
-                    question = upmts.qualEvalQuestionBefore.get(i).getQuestion();
+                    question = upmts.qualEvalQuestionBefore.get(i).getQuestion() + "_" + firstcondition;
                     if (i == 0) {
                         pw.print(question);
                     } else {
@@ -881,7 +988,7 @@ public class StudyManager extends HttpServlet {
                     }
                 }
                 for (int i = 0; i < upmts.qualEvalQuestionAfter.size(); i++) {
-                    question = upmts.qualEvalQuestionAfter.get(i).getQuestion();
+                    question = upmts.qualEvalQuestionAfter.get(i).getQuestion() + "_" + firstcondition;
 
                     if (i == 0 && upmts.qualQuestionCodesBefore.size() == 0) {
                         pw.print(question);
@@ -895,6 +1002,7 @@ public class StudyManager extends HttpServlet {
             //write the answers
             for (int i = 0; i < upmts.qualEvalQuestionBefore.size(); i++) {
                 answer = upmts.qualEvalQuestionBefore.get(i).getAnswer();
+                System.out.println("Answer for the pre Qual is " + answer);
                 if (i == 0) {
                     pw.print(answer);
                 } else {
@@ -953,9 +1061,13 @@ public class StudyManager extends HttpServlet {
             int taskSize = upmts.questionSizes.get(j);
             int cnt = 0;
             int numCorrect = 0;
-
+ 
             for (int i = 0; i < upmts.evalQuestions.size(); i++) {
+                
+                
+                
                 cnt++;
+                 
                 if (!(cnt <= taskSize)) {
                     // taskCorrectness.add(cnt);
                     if (j == 0) {
@@ -963,9 +1075,11 @@ public class StudyManager extends HttpServlet {
                     } else {
                         pw1.print("," + (double) numCorrect / taskSize);
                     }
+                   
                     taskSize = (Integer) upmts.questionSizes.get(j);
+                   
                     j++;
-                    cnt = 0;
+                    cnt = 1;
                     numCorrect = 0;
                 }
                 if (upmts.evalQuestions.get(i).getIsGivenAnsCorrect()) {
@@ -973,7 +1087,10 @@ public class StudyManager extends HttpServlet {
                 }
             }
             //pw1.print("," + (double) numCorrect / taskSize);
+            
+           
             if (j == 0) { //only one question
+                
                 pw1.print((double) numCorrect / taskSize);
             } else {
                 pw1.print("," + (double) numCorrect / taskSize);
@@ -1027,7 +1144,7 @@ public class StudyManager extends HttpServlet {
                     }
                     taskSize_time = (Integer) upmts.questionSizes.get(k);
                     k++;
-                    cnt2 = 0;
+                    cnt2 = 1;
                     totalTime = 0;
                 }
 
@@ -1316,7 +1433,7 @@ public class StudyManager extends HttpServlet {
                         }
                         taskSize = (Integer) upmts.questionSizes.get(j);
                         j++;
-                        cnt = 0;
+                        cnt = 1;
                         numCorrect = 0;
                     }
                     if (upmts.evalQuestions.get(k).getIsGivenAnsCorrect()) {
@@ -1391,7 +1508,7 @@ public class StudyManager extends HttpServlet {
                         }
                         taskSize = (Integer) upmts.questionSizes.get(j);
                         j++;
-                        cnt = 0;
+                        cnt = 1;
                         totalTime = 0;
                     }
 

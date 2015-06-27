@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+    .node {
+        stroke: #fff;
+        stroke-width: 1.5px;
+    }
+
+    .link {
+        stroke: #999;
+        stroke-opacity: .6;
+    }
+
+</style>
+<body>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="jquery-1.10.2.js"></script>
+    <script>
+
+       
+    //ar dataset = ""; //this will be set by the parent
+        var normalColor = "gray";
+        var selectedColor = "red";
+        var nodes = [];
+        var nodeNames = [];
+    
+    window.onkeyup = function(e){
+        if(e.keyCode==13){
+          saveNodePositions();
+        }
+    };
+    
+    
+  //  createVisualization ("book_recommendation2.json");
+  //  createVisualization ("imdb_small_2.json");
+    createVisualization ("miserables_very_small.json");
+    
+    function createVisualization(dataseturl) {
+            var width = 800,
+                    height = 800;
+
+            var color = d3.scale.category20();
+
+            var force = d3.layout.force()
+                    .charge(-200)
+                    .linkDistance(60)
+                    .size([width, height]);
+
+            var svg = d3.select("body").append("svg")
+                    .attr("width", width)
+                    .attr("height", height);
+
+
+            d3.json(dataseturl, function(error, graph) {
+                
+                
+                nodes = graph.nodes;
+                force
+                        .nodes(graph.nodes)
+                        .links(graph.links)
+                        .start();
+
+                var link = svg.selectAll(".link")
+                        .data(graph.links)
+                        .enter().append("line")
+                        .attr("class", "link")
+                        /* .style("stroke-width", function(d) {
+                         return Math.sqrt(d.value);
+                         })*/;
+
+                var node = svg.selectAll(".node")
+                        .data(graph.nodes)
+                        .enter().append("circle")
+                        .attr("class", "node")
+                        .attr("r", 5)
+                        .style("fill", function(d) {
+                            return "gray";
+                        })
+                        .call(force.drag);
+
+                node.append("title")
+                        .text(function(d) {
+                            return d.name;
+                        });
+
+                force.on("tick", function() {
+                    link.attr("x1", function(d) {
+                        return d.source.x;
+                    })
+                            .attr("y1", function(d) {
+                                return d.source.y;
+                            })
+                            .attr("x2", function(d) {
+                                return d.target.x;
+                            })
+                            .attr("y2", function(d) {
+                                return d.target.y;
+                            });
+
+                    node.attr("cx", function(d) {
+                        return d.x;
+                    })
+                            .attr("cy", function(d) {
+                                return d.y;
+                            });
+                });
+                
+               // setTimeout(function(){force.stop();},3000);
+            });
+            
+        }
+        /********************* GRAPHUNIT METHOD STARTS **********************/
+
+         /**
+         * This method returns the type of edges in the graph "directed" / "undirected" 
+         */
+        function getGraphType() {
+            //directed/undirected            
+            return "undirected";
+        }
+
+        /** 
+         * This method accepts an array of node names, and highlights 
+         * the nodes in the graph
+         */
+        function selectNode(nodenames) {
+            d3.selectAll("circle")
+                    .style("fill", function(d, i) {
+                        for (var j = 0; j < nodenames.length; j++) {
+                            if (d.name === nodenames[j]) {
+                                return "red";
+                            }
+                        }
+                    });
+        }
+        /**
+         * This function will be called to set the dataset variable
+         * @param {type} dataseturl - this is a string of the dataset 
+         * @returns {undefined}
+         */
+
+        /**
+         * This function will be called to set the value of a JSON dataset variable
+         * 
+         */
+        function setJSONdataset(dataseturl) {
+            createVisualization(dataseturl);
+        }
+        /**
+         * a question will be passed to this method, and if the developer wants to change the question, he will do it
+         * in here. He will return the appropriate replacement to the question.
+         * @param {type} question : a string question.
+         * @returns {undefined} : it returns a string which is the replacement question
+         */
+        function changeQuestion(question) {   /***OPTIONAL FUNCTION ***/
+            var newquestion = "";
+            
+        if (question === "How many nodes can be reached in one step from the highlighted node?") {
+                    //newquestion = "How many black boxes  are on the row highlighted red?";
+                    newquestion = "How many connections does the highlighted node have?";
+         }
+         else if(question ==="Can you get from one of the highlighted nodes to the other with exactly 2 steps?"){
+                    newquestion = "Is there a common neighbor between the two highlighted nodes?";
+          }
+            
+            return newquestion;
+        }
+        
+        function setIntroduction() {   /***OPTIONAL FUNCTION ***/
+            var introPageName = "intro_graph_interpShort.html";
+            return introPageName;
+        }
+
+
+        /*
+         * This function will be given a question and based on the question,
+         * it will return the name of an image to be used as the legend 
+         */
+        function getQuestionLegend(question) {    /***OPTIONAL FUNCTION ***/
+
+            if (question === "How many nodes can be reached in one step from the highlighted node?") {
+                return "undirectedgraph_legend.png";
+            }
+            else {
+                return "";
+            }
+        }
+
+
+        var nodePositions = {};
+        function setNodePositions(positions) {
+            nodePositions = positions;
+        }
+
+        function saveNodePositions() {
+         //   alert("The length of the nodeNames array is :: " + nodeNames.length);
+            var nodePositions = [];
+            var name, x, y;
+            var cnt = 0;
+            //create the JSON object
+            
+           // alert(nodes[0].name + " "+nodes[0].x + nodes[0].y);
+            
+            
+            for (var i = 0; i < nodes.length; i++) {
+                name = nodes[i].name;
+                x = nodes[i].x;
+                y = nodes[i].y;
+                nodePositions.push({"name": name, "x": x, "y": y});
+            }
+            //now write the positions to file;
+            // var param = '?objarray=' + JSON.stringify(nodePositions);
+            $.ajax({
+                url: 'SaveNodePositions',
+                type: 'POST',
+                dataType: 'json',
+                data: {nodePositionsArray: JSON.stringify(nodePositions)},
+                success: function(result) {
+                    alert('SUCCESS');
+                },
+                error: function(data) {
+                    alert('fail');
+                }
+            });
+            /*  var param = '?objarray=' + JSON.stringify(nodePositions);
+             $.ajax({
+             url: 'SaveNodePositions' + param,
+             type: 'POST',
+             dataType: 'json',
+             success: function(result) {
+             alert('SUCCESS');
+             }
+             });
+             */
+        }
+    </script>
+
+    <input type="button" value="Save Positions"  onclick = "saveNodePositions()"/>

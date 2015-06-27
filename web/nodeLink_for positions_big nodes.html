@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+    .node {
+        stroke: #fff;
+        stroke-width: 1px;
+        fill: lightGray;
+        stroke:black;
+    }
+
+    .link {
+        stroke: #999;
+        stroke-opacity: .6;
+        stroke-width: 1.5px;
+    }
+    .selectedLink{
+        stroke: red;
+        stroke-width: 3px;         
+        stroke-opacity: 0.6;
+    }
+    .hoveredLink{
+        stroke: green;
+        stroke-width: 3px;
+        stroke-opacity: 0.9;
+    }
+    .unselectedLink .unhoveredLink{
+        stroke: gray;
+    }
+    .hoveredNode{
+        //fill: green;
+        stroke: green;
+        stroke-width: 5px;
+    }
+    .selectedNode{
+        // fill:red;
+        stroke: red;
+        stroke-width: 5px;
+    }
+
+    text{
+        pointer-events: none;
+        font-size: 13px;
+    }
+
+</style>
+<body>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script>
+
+
+       // createVisualization("book_recommendation_small.json");
+        createVisualization("miserables_small3.json");
+
+        function createVisualization(dataseturl) {
+            var width = 750,
+                    height = 750;
+
+            var color = d3.scale.category20();
+            var force = d3.layout.force()
+                    .charge(-300)
+                    .linkDistance(60)
+                    .size([width, height]);
+
+            var svg = d3.select("body").append("svg")
+                    .attr("width", width)
+                    .attr("height", height);
+
+
+            d3.json(dataseturl, function(error, graph) {
+
+
+                graph.nodes.forEach(function(node) {
+                    
+                });
+
+
+                force
+                        .nodes(graph.nodes)
+                        .links(graph.links)
+                        .start();
+
+                var link = svg.selectAll(".link")
+                        .data(graph.links)
+                        .enter().append("line")
+                        .attr("class", "link")
+                        //  .style("stroke-width", "1")
+                        .on("mouseover", mouseOverLink)
+                        .on("mouseout", mouseOutOnLink);
+
+                var node = svg.append("g")
+                        .attr("class", "nodes")
+                        .selectAll("circle")
+                        .data(graph.nodes)
+                        .enter().append("circle")
+                        .attr("class", "node")
+                        .attr("r", 12)
+                        .on("mouseover", mouseOverNode)
+                        .on("mouseout", mouseOutNode)
+                        .call(force.drag);
+                /* .attr("transform", function(d) {
+                 return "translate(" + d.x + "," + d.y + ")";
+                 });*/
+
+
+                /*  node.append("circle")
+                 .attr("r", 15)
+                 /*  .attr("cx", function(d) {
+                 return d.x;
+                 })
+                 .attr("cy", function(d) {
+                 return d.y;
+                 })*/
+                /*   .on("mouseover", mouseOverNode)
+                 .on("mouseout", mouseOutNode)
+                 .call(force.drag);*/
+
+                node.append("title")
+                        .text(function(d) {
+                            return d.name;
+                        });
+
+                var text = svg.append("g")
+                        .attr("class", "labels")
+                        .selectAll("text")
+                        .data(graph.nodes)
+                        .enter()
+                        .append("text")
+                        //.attr("dx", 12)
+                        .attr("dy", ".35em")
+                        .style("text-anchor", "middle")
+                        .text(function(d) {
+                            return d.name;
+                        });
+                /*  node.append("text")
+                 .attr("dy", ".3em")
+                 .style("text-anchor", "middle")
+                 .text(function(d){return d.name;}); */
+
+                //force
+                force.on("tick", function() {
+                    link.attr("x1", function(d) {
+                        return d.source.x;
+                    })
+                            .attr("y1", function(d) {
+                                return d.source.y;
+                            })
+                            .attr("x2", function(d) {
+                                return d.target.x;
+                            })
+                            .attr("y2", function(d) {
+                                return d.target.y;
+                            });
+
+                    node.attr("transform", function(d) {
+                        return "translate(" + d.x + "," + d.y + ")";
+                    });
+
+                    text.attr("transform", function(d) {
+                        return "translate(" + d.x + "," + d.y + ")";
+                    });
+                });
+
+                /*  label.attr("x", function(d) {
+                 return d.x;
+                 })
+                 .attr("y", function(d) {
+                 return d.y;
+                 });  */
+            });
+        }
+        function mouseOverNode(node) {
+            //color the node green
+            //d3.select(this).style("fill", "green");
+
+            d3.select(this).classed("hoveredNode", true);
+
+
+            //color all its incident edges also as green.
+            d3.selectAll(".link")
+                    .classed("hoveredLink", function(d) {
+                        if (d.source.name === node.name || d.target.name === node.name) {
+                            return true;
+                        }
+                        else {
+                            return false;
+                        }
+                    });
+        }
+        function mouseOutNode(node) {
+            //recolor this node with the default color
+            //  d3.select(this).style("fill", "gray");
+            d3.select(this).classed("hoveredNode", false);
+
+            //recolor the edges with the default color
+            d3.selectAll(".link").classed("hoveredLink", false);
+
+        }
+
+        function mouseOverLink(link) {
+            //d3.select(this).style("stroke", "green");
+            d3.select(this).classed("hoveredLink", true);
+
+            d3.selectAll(".node")
+                    .classed("hoveredNode", function(d) {
+                        if (d.name === link.source.name || d.name === link.target.name) {
+                            return true;
+                        }
+                        else {
+                            return false;
+                        }
+                    });
+        }
+        function mouseOutOnLink(link) {
+            //d3.select(this).style("stroke", "gray");
+
+            d3.select(this).classed("hoveredLink", false);
+
+            d3.selectAll(".node").classed("hoveredNode", false);
+
+        }
+
+
+
+
+
+        /********************* GRAPHUNIT METHOD STARTS **********************/
+
+        /**
+         * This method returns the type of edges in the graph "directed" / "undirected" 
+         */
+        function getGraphType() {
+            return "undirected";
+        }
+
+        /** 
+         * This method accepts an array of node names, and highlights 
+         * the nodes in the graph
+         */
+        function selectNode(nodenames) {
+            var nodeIndex;
+
+            d3.selectAll("circle")
+                    .classed("selectedNode", function(d) {
+                        for (var j = 0; j < nodenames.length; j++) {
+                            if (d.name === nodenames[j]) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    });
+
+            /*d3.selectAll("circle")
+             .style("stroke", function(d) {
+             for (var j = 0; j < nodenames.length; j++) {
+             if (d.name === nodenames[j]) {
+             return "red";
+             }
+             }
+             })
+             .style("stroke-width", function(d) {
+             for (var j = 0; j < nodenames.length; j++) {
+             if (d.name === nodenames[j]) {
+             return "5px";
+             }
+             }
+             //  return "2px";
+             });   */
+
+
+            d3.selectAll(".link")
+                    .classed("selectedLink", function(d) {
+                        for (var j = 0; j < nodenames.length; j++) {
+                            if (d.source.name === nodenames[j] || d.target.name === nodenames[j]) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    });
+
+
+            /* d3.selectAll(".link")
+             .style("stroke", function(d) {
+             for (var j = 0; j < nodenames.length; j++) {
+             if (d.source.name === nodenames[j] || d.target.name === nodenames[j]) {
+             return "red";
+             }
+             }
+             })
+             .style("stroke-width", function(d) {
+             for (var j = 0; j < nodenames.length; j++) {
+             if (d.source.name === nodenames[j] || d.target.name === nodenames[j]) {
+             return "2.5px";
+             }
+             }
+             // return "1.5px";
+             })
+             .style("stroke-opacity", function(d) {
+             for (var j = 0; j < nodenames.length; j++) {
+             if (d.source.name === nodenames[j] || d.target.name === nodenames[j]) {
+             return "1";
+             }
+             }
+             //  return "0.6";
+             }) 
+             
+             
+             ;*/
+        }
+        /**
+         * This function will be called to set the dataset variable
+         * @param {type} dataseturl - this is a string of the dataset 
+         * @returns {undefined}
+         */
+
+        /**
+         * This function will be called to set the value of a JSON dataset variable
+         * 
+         */
+        function setJSONdataset(dataseturl) {
+            createVisualization(dataseturl);
+        }
+        /**
+         * a question will be passed to this method, and if the developer wants to change the question, he will do it
+         * in here. He will return the appropriate replacement to the question.
+         * @param {type} question : a string question.
+         * @returns {undefined} : it returns a string which is the replacement question
+         */
+        function changeQuestion(question) {   /***OPTIONAL FUNCTION ***/
+            var newquestion = "";
+
+            if (question === "How many nodes can be reached in one step from the highlighted node?") {
+                //newquestion = "How many black boxes  are on the row highlighted red?";
+                newquestion = "How many connections does the highlighted node have?";
+            }
+            else if (question === "Can you get from one of the highlighted nodes to the other with exactly 2 steps?") {
+                newquestion = "Is there a common neighbor between the two highlighted nodes?";
+            }
+
+            return newquestion;
+        }
+
+        function setIntroduction() {
+            /***OPTIONAL FUNCTION ***/
+            var introPageName = "intro_graph_interpLong.html";
+            return introPageName;
+        }
+
+
+        /*
+         * This function will be given a question and based on the question,
+         * it will return the name of an image to be used as the legend 
+         */
+        function getQuestionLegend(question) {    /***OPTIONAL FUNCTION ***/
+
+            if (question === "How many nodes can be reached in one step from the highlighted node?") {
+                return "undirectedgraph_legend.png";
+            }
+            else {
+                return "";
+            }
+        }
+
+        //this function will be used to display a note for the visualization.
+        function getVisualizationNote() {
+            var html_note = "<ul>"
+                    + "<li> Grab and drag a node around if you're unsure where its links go. </li>"
+                    + "<li> Hover your mouse on a node or a link to to see its connections.</li>"
+                    
+                    + "</ul>";
+
+            return html_note;
+        }
+
+        function getVisualizationNoteImages() {
+            //return the image names separated by a colon.
+            return "edge-hover.png:node-hover.png";
+        }
+        
+        function getVisualizationHint(){            
+            return " (<strong>Hint</strong>: Interaction might help to make sure - grab and drag a node around.)";
+        }
+
+        var nodePositions = {};
+        function setNodePositions(positions) {
+            nodePositions = positions;
+        }
+
+        /********************************GRAPHUNIT FUNCTIONS ENDS*****************************/
+
+    </script>
+</body>
+</html>

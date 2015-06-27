@@ -1,0 +1,72 @@
+
+	Welch Two Sample t-test
+
+data:  Acc_neighbor_1_step_1N_NL and Acc_neighbor_1_step_1N_matrix
+t = 2.3371, df = 26.316, p-value = 0.02731
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ 0.02339441 0.36327226
+sample estimates:
+mean of x mean of y 
+0.8933333 0.7000000 
+
+
+	Welch Two Sample t-test
+
+data:  Acc_neighbor_two_step_NL and Acc_neighbor_two_step_matrix
+t = 0.1502, df = 26.864, p-value = 0.8818
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -0.1689041  0.1955708
+sample estimates:
+mean of x mean of y 
+0.8133333 0.8000000 
+
+
+	Welch Two Sample t-test
+
+data:  Acc_neighbor_one_step_NL and Acc_neighbor_one_step_matrix
+t = 1.4575, df = 25.247, p-value = 0.1573
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -0.05615683  0.32853778
+sample estimates:
+mean of x mean of y 
+0.8933333 0.7571429 
+
+
+	Welch Two Sample t-test
+
+data:  Time_neighbor_1_step_1N_NL and Time_neighbor_1_step_1N_matrix
+t = -0.9019, df = 24.213, p-value = 0.376
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -4.286053  1.678434
+sample estimates:
+mean of x mean of y 
+ 8.053333  9.357143 
+
+
+	Welch Two Sample t-test
+
+data:  Time_neighbor_two_step_NL and Time_neighbor_two_step_matrix
+t = -1.1251, df = 24.41, p-value = 0.2715
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -4.327297  1.272058
+sample estimates:
+mean of x mean of y 
+ 7.186667  8.714286 
+
+
+	Welch Two Sample t-test
+
+data:  Time_neighbor_one_step_NL and Time_neighbor_one_step_matrix
+t = -0.5947, df = 26.215, p-value = 0.5571
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -2.112827  1.164256
+sample estimates:
+mean of x mean of y 
+ 4.840000  5.314286 
+

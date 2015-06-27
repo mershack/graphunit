@@ -1,0 +1,29 @@
+ <?xml version="1.0"?>
+ <taskFile>
+	<answertype>options</answertype>
+	<option>yes</option>
+	<option>no</option>
+	<question>					 
+		<node>Adam Sandler</node>
+		<node>Steve Buscemi</node>
+		<answer>Yes</answer>		
+	</question>	
+	<question>					 
+		<node>Ben Affleck</node>
+		<node>Matt Damon</node>
+		<answer>Yes</answer>		
+	</question>
+	<question>					 
+		<node>James Caan</node>
+		<node>Diane Lane</node>
+		<answer>No</answer>		
+	</question>		
+	<question>					 
+		<node>Bruce Willis</node>
+		<node>Ben Affleck</node>
+		<answer>No</answer>		
+	</question>
+ </taskFile>	
+
+
+ 

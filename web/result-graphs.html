@@ -73,25 +73,25 @@ and open the template in the editor.
                 {
                     if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
                     {
-                    
+
                         if (xmlHttpRequest.responseText !== "") {
-                           var theResponse = xmlHttpRequest.responseText;
+                            var theResponse = xmlHttpRequest.responseText;
                             var split = theResponse.split("::");
-                            
-                            for(var i=0; i<split.length; i++){
+
+                            for (var i = 0; i < split.length; i++) {
                                 //create a paragraph with the short name and the number completed.
                                 var split2 = split[i].split(",");
-                                
+
                                 var p = document.createElement("p");
-                                
-                                p.innerHTML = split2[0] + "&nbsp;&nbsp;&nbsp;&nbsp;  ----- &nbsp;&nbsp;&nbsp;&nbsp;  "+split2[1];
-                                
+
+                                p.innerHTML = split2[0] + "&nbsp;&nbsp;&nbsp;&nbsp;  ----- &nbsp;&nbsp;&nbsp;&nbsp;  " + split2[1];
+
                                 document.getElementById("completionStats").appendChild(p);
-                                
-                                
+
+
                             }
-                           
-                           
+
+
                         }
                     }
                 };
@@ -157,8 +157,6 @@ and open the template in the editor.
                 //put in a linebreaker
                 var linebreak = document.createElement("br");
                 document.getElementById("chart").appendChild(linebreak);
-
-
 
 
                 var split = result.split("::::");
@@ -271,7 +269,7 @@ and open the template in the editor.
                             .attr("text-anchor", "middle")
                             .text(String)
                             .attr("font-family", "sans-serif")
-                            .attr("font-size", "9px");
+                            .attr("font-size", "15px");
 
                     // vertical grid lines
                     chart.selectAll("line").data(x.ticks(5)).enter().append("line").attr('transform', 'translate(' + barLabelWidth + ',' + gridLabelHeight + ')')
@@ -279,7 +277,8 @@ and open the template in the editor.
                             .attr("x2", x)
                             .attr("y1", 2)
                             .attr("y2", 5)
-                            .style("stroke", "black");
+                            .style("stroke", "black")
+                    .style("stroke-width", "2px");
 
                     gridContainer.selectAll("line").data(x.ticks(5)).enter().append("line")
                             .attr("x1", x)
@@ -324,7 +323,7 @@ and open the template in the editor.
                             })
 
                             .style("stroke-width", 2)
-                            .style("stroke", "black");
+                            .style("stroke", "blue");
 
 
                     //small lines for error lines
@@ -349,7 +348,7 @@ and open the template in the editor.
                                         + (yScale.rangeBand()) - 5;
                             })
                             .style("stroke-width", 2)
-                            .style("stroke", "black");
+                            .style("stroke", "blue");
 
 
                     //small lines for error lines
@@ -517,7 +516,7 @@ and open the template in the editor.
 
             <h3>Number of completed studies (per condition)</h3> <hr />
             <div id="completionStats"></div>
-            
+
             <br />
 
             <h3>Graphs of the Results</h3> <hr />

@@ -1,0 +1,18 @@
+
+Taskname , p-value
+----------------------------------------------------
+Acc_neighbor_1_step_1N  ,  0.0128940786092486 
+
+Acc_neighbor_1_step_1N  ,  0.725744254583711 
+
+Acc_neighbor_1_step_1N  ,  0.14448046237134 
+
+
+
+Time_neighbor_1_step_1N  ,  0.161810384852908 
+
+Time_neighbor_1_step_1N  ,  0.2377197687923 
+
+Time_neighbor_1_step_1N  ,  0.483424962075507 
+
+

@@ -1,0 +1,2 @@
+How will you Rate your familiarity with this type of visualization prior to this study?_matrixLongSameQn2		Please enter your Mechanical Turk ID_matrixLongSameQn2
+ A little familiar / I have done less than 10 tasks with this visualization before.		bb

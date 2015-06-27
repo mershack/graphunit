@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<taskFile>	
+	<answertype>String</answertype>
+	 <question>
+		Please enter your Mechanical Turk ID
+	</question>	
+</taskFile>	

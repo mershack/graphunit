@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<taskFile>	
-	<answertype>Range</answertype>
-	<minimum>1</minimum>
-	<maximum>5</maximum>
-	<question>
-		Rate the easiness of the visualization tasks  from 1-Not easy to 5-Very Easy
-	</question>	
-</taskFile>	

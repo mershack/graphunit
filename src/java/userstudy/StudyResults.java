@@ -494,7 +494,7 @@ public class StudyResults extends HttpServlet {
                 br.close();
             }
             numOfRows = cnt - 1;
-            //  System.out.println("The number of lines is ::  "+ numOfRows);
+            //System.out.println("The number of lines is ::  "+ numOfRows);
 
             for (int i = 0; i < rpmts.numOfConditions; i++) {
                 File timeFile = new File(getServletContext().getRealPath(rpmts.studydataurl + File.separator + rpmts.timeFilenames.get(i)));
@@ -537,14 +537,14 @@ public class StudyResults extends HttpServlet {
             /**
              * ** For Accuracy ****
              */
-            for (int i = 0; i < rpmts.numOfTasks; i++) {
+           for (int i = 0; i < rpmts.numOfConditions - 1; i++) {
                 //check if task is part of the non-normal tasks
                 String tname = accColumnNames[0][i].substring(0, accColumnNames[0][i].lastIndexOf("_")); //first name without the condition name
 
                 for (String task : nonNormalTasks) {
-                    System.out.println(task + "::"+tname);
+                    System.out.println(task + "::" + tname);
                     if (task.trim().equalsIgnoreCase(tname.trim())) {
-                       
+
                         nonNormalAccuracy = true;
                         break;
                     }
@@ -558,7 +558,7 @@ public class StudyResults extends HttpServlet {
                     //print the taskname so that we can know which anova this belongs to 
                     String taskname = accColumnNames[0][i].substring(0, accColumnNames[0][i].lastIndexOf("_")); //first name without the condition name
                     pw.println("taskname=\"TaskName = " + taskname + "\"");
-                    //  pw.println("cat(taskname)");
+                     pw.println("cat(taskname)");
 
                     pw.println("cat(paste(\"\\n" + "Taskname" + " ,\" ,\"" + "p-value\"))");//get mean and standard deviation
                     pw.println("cat(\"\\n----------------------------------------------------\")");
@@ -567,6 +567,7 @@ public class StudyResults extends HttpServlet {
                         pw.println("" + accColumnNames[i][j] + "= c(" + dataName1 + "[," + (j + 1) + "])");
                         pw.println("" + accColumnNames[i + 1][j] + "= c(" + dataName2 + "[," + (j + 1) + "])");
 
+                        taskname = accColumnNames[0][j].substring(0, accColumnNames[0][j].lastIndexOf("_")); //first name without the condition name
                         /* String cbindData = "combineddata =data.frame(cbind(" + accColumnNames[i][j] + ", " + accColumnNames[i + 1][j] + "))";
                          pw.println(cbindData);
                          pw.println("combineddata = stack(combineddata)"); */
@@ -584,7 +585,7 @@ public class StudyResults extends HttpServlet {
             /**
              * ** For Time **
              */
-            for (int i = 0; i < rpmts.numOfTasks; i++) {
+           for (int i = 0; i < rpmts.numOfConditions - 1; i++) {
                 //check if task is part of the non-normal tasks
                 String tname = timeColumnNames[0][i].substring(0, timeColumnNames[0][i].lastIndexOf("_")); //first name without the condition name
 
@@ -614,6 +615,8 @@ public class StudyResults extends HttpServlet {
                         pw.println("" + timeColumnNames[i][j] + "= c(" + dataName1 + "[," + (j + 1) + "])");
                         pw.println("" + timeColumnNames[i + 1][j] + "= c(" + dataName2 + "[," + (j + 1) + "])");
 
+                        taskname = timeColumnNames[0][j].substring(0, timeColumnNames[0][j].lastIndexOf("_")); //first name without the condition name
+                        
                         pw.println("result = wilcox.test(" + timeColumnNames[i][j] + "," + timeColumnNames[i + 1][j] + ")");
 
                         pw.println("cat(paste(\"\\n" + taskname + "\", " + "\" , \"" + " , result$p.value, " + "\"\\n\" ))");
@@ -911,63 +914,68 @@ public class StudyResults extends HttpServlet {
             //do the wilcoxon rank-sum tests
             //write the accuracy analysis
             for (int i = 0; i < rpmts.numOfConditions - 1; i++) {
-
                 String dataName1 = "accuracy" + (i + 1);
-                String dataName2 = "accuracy" + (i + 2);
-                pw.println("tasknames = NULL");
-                pw.println("pvalues = NULL");
+                //String dataName2 = "accuracy" + (i + 2);
 
-                for (int j = 0; j < accColumnNames[i].length; j++) {
+                for (int k = i; k < rpmts.numOfConditions - 1; k++) {
+                    String dataName2 = "accuracy" + (k + 2);
+                    pw.println("tasknames = NULL");
+                    pw.println("pvalues = NULL");
 
-                    String taskname = accColumnNames[i][j] + "-" + accColumnNames[i + 1][j];
-                    pw.println("" + accColumnNames[i][j] + "= c(" + dataName1 + "[," + (j + 1) + "])");
-                    pw.println("" + accColumnNames[i + 1][j] + "= c(" + dataName2 + "[," + (j + 1) + "])");
+                    for (int j = 0; j < accColumnNames[i].length; j++) {
 
-                    // pw.println("combineddata");
-                    pw.println("results = wilcox.test(" + accColumnNames[i][j] + "," + accColumnNames[i + 1][j] + ")");
+                        String taskname = accColumnNames[i][j] + "-" + accColumnNames[k + 1][j];
+                        pw.println("" + accColumnNames[i][j] + "= c(" + dataName1 + "[," + (j + 1) + "])");
+                        pw.println("" + accColumnNames[k + 1][j] + "= c(" + dataName2 + "[," + (j + 1) + "])");
 
-                    pw.println("tasknames[" + (j + 1) + "] = \"" + taskname + "\"");
-                    pw.println("pvalues[" + (j + 1) + "] = " + "results$p.value");
+                        // pw.println("combineddata");
+                        pw.println("results = wilcox.test(" + accColumnNames[i][j] + "," + accColumnNames[k + 1][j] + ")");
+
+                        pw.println("tasknames[" + (j + 1) + "] = \"" + taskname + "\"");
+                        pw.println("pvalues[" + (j + 1) + "] = " + "results$p.value");//                        
+                    }
+                    //adjust the pvalues{
+                    pw.println("pvalues_adj = p.adjust(pvalues, \"bonferroni\")");
+                    //now print the name and the adjusted pvalues to file
+                    for (int j = 0; j < accColumnNames[i].length; j++) {
+                        pw.println("paste(tasknames[" + (j + 1) + "] , " + "\",\" , pvalues_adj[" + (j + 1) + "])");//get the pvalue for each column name
+                    }
+
                 }
-               // pw.println("pvalues");
 
-                //adjust the pvalues{
-                pw.println("pvalues_adj = p.adjust(pvalues, \"bonferroni\")");
-                //now print the name and the adjusted pvalues to file
-                for (int j = 0; j < accColumnNames[i].length; j++) {
-                    pw.println("paste(tasknames[" + (j + 1) + "] , " + "\",\" , pvalues_adj[" + (j + 1) + "])");//get the pvalue for each column name
-                }
             }
 
             //time
             for (int i = 0; i < rpmts.numOfConditions - 1; i++) {
                 String dataName1 = "time" + (i + 1);
-                String dataName2 = "time" + (i + 2);
-                pw.println("tasknames = NULL");
-                pw.println("pvalues = NULL");
+                //  String dataName2 = "time" + (i + 2);
 
-                for (int j = 0; j < timeColumnNames[i].length; j++) {
-                    String taskname = timeColumnNames[i][j] + "-" + timeColumnNames[i + 1][j];
-                    pw.println("" + timeColumnNames[i][j] + "= c(" + dataName1 + "[," + (j + 1) + "])");
-                    pw.println("" + timeColumnNames[i + 1][j] + "= c(" + dataName2 + "[," + (j + 1) + "])");
-                    String cbindData = "combineddata =data.frame(cbind(" + timeColumnNames[i][j] + ", " + timeColumnNames[i + 1][j] + "))";
-                    pw.println(cbindData);
-                    pw.println("combineddata = stack(combineddata)");
-                    // pw.println("combineddata");
-                    pw.println("results = wilcox.test(values~ind, combineddata)");
+                for (int k = i; k < rpmts.numOfConditions - 1; k++) {
+                    String dataName2 = "time" + (k + 2);
+                    pw.println("tasknames = NULL");
+                    pw.println("pvalues = NULL");
 
-                    pw.println("tasknames[" + (j + 1) + "] = \"" + taskname + "\"");
-                    pw.println("pvalues[" + (j + 1) + "] = " + "results$p.value");
+                    for (int j = 0; j < timeColumnNames[i].length; j++) {
+                        String taskname = timeColumnNames[i][j] + "-" + timeColumnNames[k + 1][j];
+                        pw.println("" + timeColumnNames[i][j] + "= c(" + dataName1 + "[," + (j + 1) + "])");
+                        pw.println("" + timeColumnNames[k + 1][j] + "= c(" + dataName2 + "[," + (j + 1) + "])");
+                        String cbindData = "combineddata =data.frame(cbind(" + timeColumnNames[i][j] + ", " + timeColumnNames[k + 1][j] + "))";
+                        pw.println(cbindData);
+                        pw.println("combineddata = stack(combineddata)");
+                        pw.println("results = wilcox.test(values~ind, combineddata)");
+                        pw.println("tasknames[" + (j + 1) + "] = \"" + taskname + "\"");
+                        pw.println("pvalues[" + (j + 1) + "] = " + "results$p.value");
+                    }
+                    //adjust the pvalues{
+                    pw.println("pvalues_adj = p.adjust(pvalues, \"bonferroni\")");
+                    //now print the name and the adjusted pvalues to file
+                    for (int j = 0; j < timeColumnNames[i].length; j++) {
+                        pw.println("paste(tasknames[" + (j + 1) + "] , " + "\",\" , pvalues_adj[" + (j + 1) + "])");//get the pvalue for each column name
+                    }
+
                 }
-                // pw.println("pvalues");
-                //adjust the pvalues{
-                pw.println("pvalues_adj = p.adjust(pvalues, \"bonferroni\")");
-                //now print the name and the adjusted pvalues to file
-                for (int j = 0; j < timeColumnNames[i].length; j++) {
-                    pw.println("paste(tasknames[" + (j + 1) + "] , " + "\",\" , pvalues_adj[" + (j + 1) + "])");//get the pvalue for each column name
-                }
 
-            }
+            }            
             pw.println("sink()");
             //close the printwriter
             pw.close();
@@ -2138,7 +2146,7 @@ public class StudyResults extends HttpServlet {
             String curtask = "";
             while ((line = br2.readLine()) != null) {
                 //NB we are looking for the string within the quotation marks
-               // System.out.println("Line::: " + line);
+                // System.out.println("Line::: " + line);
 
                 if (line.indexOf("******") >= 0) {
                     //write the previous task
@@ -2165,19 +2173,18 @@ public class StudyResults extends HttpServlet {
                   //  System.out.println("The taskname is " + line2[1]);                
 
                     //line2 = Acc_neighbor_one_step"
-                   // curtask = line2[1].substring(0, line2[1].length() - 1); //leave out the last quotation
-                     curtask = line2[1].substring(0, line2[1].length()); //leave out the last quotation
+                    // curtask = line2[1].substring(0, line2[1].length() - 1); //leave out the last quotation
+                    curtask = line2[1].substring(0, line2[1].length()); //leave out the last quotation
 
                 } else if (cnt >= 3) {
                     //"Acc_neighbor_cond1 , 0.00647000075166546"
                     int ind1 = line.indexOf("\"") + 1;
                     int ind2 = line.lastIndexOf("\"");
-                   // line = line.substring(ind1, ind2);
+                    // line = line.substring(ind1, ind2);
 
                     double pvalue = Double.valueOf(line.split(",")[1]).doubleValue();
 
 //                   / System.out.println("PVALUE IS ++ " + pvalue);
-
                     //double pvalue = Double.parseDouble(line.split(",")[1]);
                     /*NB: if at one point one of the p_values is less than 0.05, then the data for the task is not normal*/
                     if (pvalue < 0.05) {
@@ -2336,7 +2343,7 @@ public class StudyResults extends HttpServlet {
                     pw.println("cat(paste(\"\\n" + colnames.get(n) + " ,\" , mean_" + colnames.get(n) + " , \",\"" + " , sd_" + colnames.get(n) + "))");//get mean and standard deviation
                 }
                 pw.println("cat(\"\\n******************************************************************\")");
-                pw.println("cat(\"\\n\\n\"");
+                pw.println("cat(\"\\n\\n\")");
                 //pw.println("\"                                                       \"");
             }
 

@@ -1,0 +1,12 @@
+Acc_neighbor_two_step_matrixShortSameQn,,,,, :: Acc_neighbor_count_matrixShortSameQn,,,,,
+Q1,Q2,Q3,Q4,Q5,Q6 :: Q1,Q2,Q3,Q4,Q5,Q6
+false,true,true,false,false,true :: true,true,true,true,true,true
+true,true,true,false,true,true :: false,false,false,false,false,true
+true,true,true,true,true,true :: true,true,true,true,true,true
+true,true,true,false,true,true :: true,true,true,true,true,true
+true,true,true,true,true,true :: true,false,false,true,true,true
+true,true,true,true,true,true :: true,true,true,true,true,true
+true,false,true,true,true,true :: false,true,true,true,true,true
+true,true,true,true,true,true :: true,true,true,true,true,true
+true,true,true,true,true,true :: true,true,true,true,true,true
+false,false,false,false,true,false :: true,true,true,true,true,true
