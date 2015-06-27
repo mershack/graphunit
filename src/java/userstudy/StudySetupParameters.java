@@ -29,6 +29,7 @@ public class StudySetupParameters {
     String studydataurl;
     String viewerWidth ="";
     String viewerHeight ="";
+    int trainingSize = 2;
     
     
 }

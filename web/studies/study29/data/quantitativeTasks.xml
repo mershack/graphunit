@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<study_specification>
+<dataset>book_recommendation_small</dataset>
+<studyname>study29</studyname>
+<experimenttype>Between</experimenttype>
+<trainingsize>5</trainingsize>
+<condition>
+<conditionurl>nodeLink_LongTrainnig2.html</conditionurl>
+<conditionshortname>NL</conditionshortname>
+</condition>
+<condition>
+<conditionurl>matrix__Long_intro_IdenticalQn_1_1.html</conditionurl>
+<conditionshortname>matrix</conditionshortname>
+</condition>
+<viewerwidth>820</viewerwidth>
+<viewerheight>820</viewerheight>
+<task>
+<name>neighbor_1_step_1N</name>
+<question>Is the highlighted node directly connected to node </question>
+<size>5</size>
+<time>15</time>
+</task>
+<task>
+<name>neighbor_two_step</name>
+<question>Can you get from one of the highlighted nodes to the other with exactly 2 steps?</question>
+<size>5</size>
+<time>15</time>
+</task>
+<task>
+<name>neighbor_one_step</name>
+<question>Are the two highlighted nodes directly connected?</question>
+<size>5</size>
+<time>10</time>
+</task>
+</study_specification>

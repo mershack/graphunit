@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<taskFile>
+<answertype>options</answertype>
+	<option>yes</option>
+	<option>no</option>
+	<question>
+		<node>D 1</node>
+		<node>F 9</node>
+		<answer>yes</answer>
+	</question>
+	<question>
+		<node>E 0</node>
+		<node>C 5</node>
+		<answer>no</answer>
+	</question>
+	<question>
+		<node>C 7</node>
+		<node>G 4</node>
+		<answer>no</answer>
+	</question>
+	<question>
+		<node>C 6</node>
+		<node>G 0</node>
+		<answer>yes</answer>
+	</question>		
+	<question>
+		<node>D 1</node>
+		<node>I 5</node>
+		<answer>no</answer>
+	</question>
+	<question>
+		<node>C 1</node>
+		<node>D 3</node>
+		<answer>yes</answer>
+	</question>
+		
+	<question>
+		<node>F 9</node>
+		<node>I 6</node>
+		<answer>no</answer>
+	</question>
+	<question>
+		<node>C 9</node>
+		<node>F 6</node>
+		<answer>yes</answer>
+	</question>	
+	<question>
+		<node>A 3</node>
+		<node>F 7</node>
+		<answer>yes</answer>
+	</question>	
+	<question>
+		<node>G 1</node>
+		<node>E 6</node>
+		<answer>no</answer>
+	</question>
+	<question>
+		<node>I 5</node>
+		<node>I 1</node>
+		<answer>no</answer>
+	</question>		
+	<question>
+		<node>C 1</node>
+		<node>A 7</node>
+		<answer>yes</answer>
+	</question>
+	<question>
+		<node>I 9</node>
+		<node>A 7</node>
+		<answer>no</answer>
+	</question>
+	<question>
+		<node>B 5</node>
+		<node>E 4</node>
+		<answer>yes</answer>
+	</question>		
+</taskFile>

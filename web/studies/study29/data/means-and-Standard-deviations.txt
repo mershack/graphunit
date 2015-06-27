@@ -1,0 +1,42 @@
+TaskName = Acc_neighbor_1_step_1N
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Acc_neighbor_1_step_1N_NL , 0.893333333333333 , 0.212019765475724
+Acc_neighbor_1_step_1N_matrix , 0.7 , 0.232047740446129
+******************************************************************
+
+TaskName = Acc_neighbor_two_step
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Acc_neighbor_two_step_NL , 0.813333333333333 , 0.255976189368874
+Acc_neighbor_two_step_matrix , 0.8 , 0.221880078490092
+******************************************************************
+
+TaskName = Acc_neighbor_one_step
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Acc_neighbor_one_step_NL , 0.893333333333333 , 0.225092573548455
+Acc_neighbor_one_step_matrix , 0.757142857142857 , 0.273760944886328
+******************************************************************
+
+TaskName = Time_neighbor_1_step_1N
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Time_neighbor_1_step_1N_NL , 8.05333333333333 , 3.30753828758029
+Time_neighbor_1_step_1N_matrix , 9.35714285714286 , 4.3643158395392
+******************************************************************
+
+TaskName = Time_neighbor_two_step
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Time_neighbor_two_step_NL , 7.18666666666667 , 3.13639161791897
+Time_neighbor_two_step_matrix , 8.71428571428571 , 4.07749114848016
+******************************************************************
+
+TaskName = Time_neighbor_one_step
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Time_neighbor_one_step_NL , 4.84 , 2.03005981614899
+Time_neighbor_one_step_matrix , 5.31428571428571 , 2.24871147475689
+******************************************************************
+

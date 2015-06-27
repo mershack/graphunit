@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
 <taskFile>
+	<answertype>options</answertype>
+	<option>yes</option>
+	<option>no</option>
 	<question>
 		<node>Gribier</node>
 		<node>Fauchelevent</node>

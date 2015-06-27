@@ -125,6 +125,7 @@ public class StudySetup extends HttpServlet {
                 spmts.quantQuestionSizes = new ArrayList<String>();
                 spmts.quantQuestionTime = new ArrayList<String>();
                 spmts.qualitativeQuestions = new ArrayList<String>();
+                spmts.qualitativeQuestionsPositions = new ArrayList<String>();
 
                 if (qt != null && qts != null & qtt != null) {
                     for (int i = 0; i < qt.length; i++) {
@@ -137,6 +138,12 @@ public class StudySetup extends HttpServlet {
                         }
                     }
                 }
+                //get the trainingSize
+                 if(!request.getParameter("trainingSize").isEmpty()) //NB: if it is empty we will use the default training size
+                    spmts.trainingSize = Integer.parseInt(request.getParameter("trainingSize"));
+                //System.out.println("The training size is: "+ spmts.trainingSize);
+                
+                
                 //qet the qualitative task details as well                       
                 String qlt[] = request.getParameterValues("qualitativeTasks");
                 String qltPos[] = request.getParameterValues("qualitativeTasksPositions");
@@ -144,7 +151,7 @@ public class StudySetup extends HttpServlet {
                 if (qlt != null && !qlt[0].isEmpty()) {
                     for (int i = 0; i < qlt.length; i++) {
                         spmts.qualitativeQuestions.add(qlt[i]);
-                        //System.out.println("QUAL:: " + qlt[i]);
+                       // System.out.println("QUAL:: " + qlt[i] + " ---- POS:: "+qltPos[i]);
                     }
                     if (qltPos != null) {
                         for (int i = 0; i < qltPos.length; i++) {
@@ -278,6 +285,7 @@ public class StudySetup extends HttpServlet {
             //pw1.println("<datasetType>" + spmts.datasetType + "</datasetType>");
             pw1.println("<studyname>" + spmts.studyname + "</studyname>");
             pw1.println("<experimenttype>" + spmts.expType + "</experimenttype>");
+            pw1.println("<trainingsize>" + spmts.trainingSize + "</trainingsize>");
 
             //the conditions
             for (int i = 0; i < spmts.viewerConditions.size(); i++) {
@@ -366,6 +374,20 @@ public class StudySetup extends HttpServlet {
         if (task.equalsIgnoreCase("Rate the easiness of the visualization tasks  from 1-Not easy to 5-Very Easy")) {
             taskCode = "rate_vis_easiness";
         }
+        else if(task.equalsIgnoreCase("Have you worked with this type of visualization before?")){
+          taskCode = "worked_with_vis_before";  
+        }
+        else if (task.equalsIgnoreCase("How will you Rate your familiarity with this type of visualization prior to this study?")){
+            taskCode = "rate_vis_familiarity";  
+        }
+        else if(task.equalsIgnoreCase("Please enter your Mechanical Turk ID")){
+            taskCode = "enter_turk_id";  
+        }
+        
+        
+        
+                              
+        
 
         return taskCode;
     }

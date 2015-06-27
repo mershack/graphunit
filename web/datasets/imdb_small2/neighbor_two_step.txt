@@ -1,0 +1,43 @@
+Daniel radcliffe	Ralph Fiennes	Yes
+Billy Dee Williams	Mark Hamill	Yes
+Peter Falk	Dennis Hopper	No
+Hugh Jackman	Famke Janssen	No
+Liam Neeson	gary Oldman	No
+Alan Rickman	gary Oldman	No
+Gwyneth Paltrow	Samuel L. Jackson	Yes
+Robert Downey Jr.	Don Cheadle	No
+Jon Favreau	Will Ferrell	Yes
+Elizabeth Banks	Steve Carell	Yes
+Jon Favreau	Scarlett Johansson	Yes
+Halle Berry	paul Newman	No
+Halle Berry	Geoffrey Rush	No
+Halle Berry	Sean Bean Yes
+Christina Ricci	Helena Bonham Carter	No
+Cate Blanchett	Geoffrey Rush	No
+Cate Blanchett	Sean Bean Yes
+Arnold Schwarzenegger	Talia Shire	Yes
+Arnold Schwarzenegger	Cameron Diaz	No
+Hugo Weaving	Patrick Stewart	Yes
+Hugo Weaving	Diane Keaton	No
+Patrick Stewart	Diane Keaton	No
+Halle Berry	Diane Keaton	No
+Natalie Portman	Scarlett Johansson	Yes
+Gwyneth Paltrow	Vince Vaughn	Yes
+Owen Wilson	Ben Stiller	No
+Elijah Wood	Cate Blanchett	No
+Famke Janssen	Orlando Bloom	Yes
+Orlando Bloom	Johnny Depp	No
+Charlton Heston	Robert Wagner	Yes
+Al Pacino	Robert Duvall	Yes
+Robert Duvall	Al Pacino No
+Dustin Hoffman	Tom Hanks	No
+Michael Keaton	Dustin Hoffman	No
+Michael Keaton	Scarlett Johansson	Yes
+Jack Black	James Franco	No
+Jack Black	Bill Murray	No
+Jack Black Steve Carell	Yes
+Christopher Lee	 Sean Bean Yes
+Orlando Bloom	Helena Bonham Carter	No
+
+
+

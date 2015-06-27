@@ -1,0 +1,48 @@
+TaskName = Acc_neighbor_1_step_1N
+condition  ,  pvalue
+------------------------------------
+Acc_neighbor_1_step_1N_NL , 1.17228983751857e-05
+Acc_neighbor_1_step_1N_matrix , 0.025028936383472
+**********************************************************
+
+
+TaskName = Acc_neighbor_two_step
+condition  ,  pvalue
+------------------------------------
+Acc_neighbor_two_step_NL , 0.00142067327445985
+Acc_neighbor_two_step_matrix , 0.00865690794914741
+**********************************************************
+
+
+TaskName = Acc_neighbor_one_step
+condition  ,  pvalue
+------------------------------------
+Acc_neighbor_one_step_NL , 1.17765703498397e-05
+Acc_neighbor_one_step_matrix , 0.00389960418749383
+**********************************************************
+
+
+TaskName = Time_neighbor_1_step_1N
+condition  ,  pvalue
+------------------------------------
+Time_neighbor_1_step_1N_NL , 0.000536651553017577
+Time_neighbor_1_step_1N_matrix , 0.111222192231549
+**********************************************************
+
+
+TaskName = Time_neighbor_two_step
+condition  ,  pvalue
+------------------------------------
+Time_neighbor_two_step_NL , 0.0642945778569193
+Time_neighbor_two_step_matrix , 0.270642827323188
+**********************************************************
+
+
+TaskName = Time_neighbor_one_step
+condition  ,  pvalue
+------------------------------------
+Time_neighbor_one_step_NL , 0.350052231414452
+Time_neighbor_one_step_matrix , 0.281817205203212
+**********************************************************
+
+

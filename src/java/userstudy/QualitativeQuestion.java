@@ -18,15 +18,23 @@ public class QualitativeQuestion {
     private int rangeMaximum;
     private String answer;
     private String positionOfTask;
+    private ArrayList<String> mchoices;
 
     public QualitativeQuestion(String question, String ansType) {
         this.question = question;
         this.ansType = ansType;
         rangeMinimum =-1;
-        rangeMaximum = -1;
-                
+        rangeMaximum = -1;    
+        mchoices = new ArrayList<String>();
     }
-
+   
+    public void setMChoices(ArrayList<String> mchoices){
+        this.mchoices = mchoices;
+    }
+    public ArrayList<String> getMChoices(){
+        return mchoices;
+    }
+    
     public String getAnswer() {
         return answer;
     }
@@ -78,11 +86,26 @@ public class QualitativeQuestion {
     
     
      public String getAnsDetailsAsString(){
-        String ansDetaislsString = ansType +":::"+ rangeMinimum + ":: "  + rangeMaximum;
+        String ansDetailsString = ansType;//+ rangeMinimum + ":: "  + rangeMaximum;
         
+        if(ansType.equalsIgnoreCase("Range")){
+            ansDetailsString += ":::";
+            ansDetailsString +=  rangeMinimum + ":: "  + rangeMaximum;
+        }
+        else if(ansType.equalsIgnoreCase("MultipleChoice")){
+                ansDetailsString += ":::";
+               for(int i=0; i<mchoices.size(); i++){
+                  if(i==0){
+                      ansDetailsString += mchoices.get(i);
+                  }
+                  else{
+                      ansDetailsString += ":: "+mchoices.get(i);
+                  }
+            }
+        }
        /* if(rangeMaximum>0 && rangeMinimum>=0){
             ansDetaislsString += rangeMinimum + ":: "  + rangeMaximum;
         } */
-        return ansDetaislsString;        
+        return ansDetailsString;        
     }
 }

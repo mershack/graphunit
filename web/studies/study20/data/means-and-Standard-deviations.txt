@@ -1,0 +1,20 @@
+TaskName = Acc_neighbor_two_step
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Acc_neighbor_two_step_matrixLongSameQn1 , 0.976190476190476 , 0.0716616179577929
+Acc_neighbor_two_step_matrixLongSameQn2 , 0.952380952380952 , 0.13142897738743
+******************************************************************
+
+TaskName = Acc_neighbor_count
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Acc_neighbor_count_matrixLongSameQn1 , 0.971428571428571 , 0.142833798279349
+Acc_neighbor_count_matrixLongSameQn2 , 0.961904761904762 , 0.0710071602496726
+******************************************************************
+
+TaskName = Time_neighbor_two_step
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Time_neighbor_two_step_matrixLongSameQn1 , 6.1047619047619 , 1.3534546177939
+Time_neighbor_two_step_matrixLongSameQn2 , 5.97619047619048 , 1.51686750293994
+******************************************************************

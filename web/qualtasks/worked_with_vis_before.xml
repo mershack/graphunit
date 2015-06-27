@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<taskFile>	
+	<answertype>MultipleChoice</answertype>
+	<choice>Yes</choice>
+	<choice>No</choice>
+	<question>
+		Have you worked with this type of visualization before?
+	</question>	
+</taskFile>	

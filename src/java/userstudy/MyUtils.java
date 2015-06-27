@@ -31,8 +31,7 @@ public class MyUtils {
          for(int i=0; i<conditionNames.size(); i++){
             if(conditionNames.get(i).equalsIgnoreCase(cname)){
                 filename = "AccuracyResults" +(i+1) +".txt";
-            }
-            
+            }            
          }
         
         
@@ -50,7 +49,19 @@ public class MyUtils {
 
         return filename;
     }
-
+public String getConditionQualitativeQnFileName(String cname){
+    String filename = "";
+        
+        for(int i=0; i<conditionNames.size(); i++){
+            if(conditionNames.get(i).equalsIgnoreCase(cname)){
+                 filename = "QualitativeQn" + (i+1) + ".txt";
+                 break;
+            }
+        }
+        return filename;
+}
+     
+     
     public String getConditionTimeFileName(String cname) {
         String filename = "";
 

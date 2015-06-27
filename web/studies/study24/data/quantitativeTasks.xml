@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<study_specification>
+<dataset>miserables_small</dataset>
+<studyname>study24</studyname>
+<experimenttype>Between</experimenttype>
+<trainingsize>6</trainingsize>
+<condition>
+<conditionurl>nodeLink_LongTrainnig2.html</conditionurl>
+<conditionshortname>NL-Long-Same1</conditionshortname>
+</condition>
+<condition>
+<conditionurl>nodeLink_LongTrainnig2.html</conditionurl>
+<conditionshortname>NL-Long-Same2</conditionshortname>
+</condition>
+<viewerwidth>860</viewerwidth>
+<viewerheight>800</viewerheight>
+<task>
+<name>neighbor_two_step</name>
+<question>Can you get from one of the highlighted nodes to the other with exactly 2 steps?</question>
+<size>6</size>
+<time>10</time>
+</task>
+<task>
+<name>neighbor_count</name>
+<question>How many nodes can be reached in one step from the highlighted node?</question>
+<size>6</size>
+<time>10</time>
+</task>
+<qualtask>
+<name>rate_vis_familiarity</name>
+<question>How will you rate your familiarity with this type of visualization prior to this study?</question>
+<qualtaskPos>before</qualtaskPos>
+</qualtask>
+</study_specification>

@@ -1,0 +1,40 @@
+Acc_neighbor_two_step_matrixShortSameQn,,,,, , ,Acc_neighbor_two_step_matrixShortRephrasedQn,,,,, 
+Q1,Q2,Q3,Q4,Q5,Q6 , ,Q1,Q2,Q3,Q4,Q5,Q6 
+false,true,true,false,false,true , ,true,true,true,true,true,true 
+true,true,true,false,true,true , ,true,true,true,true,true,true 
+true,true,true,true,true,true , ,true,true,true,true,true,true 
+true,true,true,false,true,true , ,true,true,true,true,true,true 
+true,true,true,true,true,true , ,true,false,false,true,true,false 
+true,true,true,true,true,true , ,true,true,true,true,true,true 
+
+
+ Acc_neighbor_count_matrixShortSameQn,,,,,, , Acc_neighbor_count_matrixShortRephrasedQn,,,,,
+ Q1,Q2,Q3,Q4,Q5,Q6, , Q1,Q2,Q3,Q4,Q5,Q6
+ true,true,true,true,true,true, , true,true,true,true,true,true
+ false,false,false,false,false,true, , true,true,true,true,true,true
+ true,true,true,true,true,true, , true,true,true,true,true,true
+ true,true,true,true,true,true, , true,true,true,true,true,true
+ true,false,false,true,true,true, , true,true,true,true,true,true
+ true,true,true,true,true,true, , false,true,false,true,true,true
+
+
+Time_neighbor_two_step_matrixShortSameQn,,,,, , ,Time_neighbor_two_step_matrixShortRephrasedQn,,,,, 
+Q1,Q2,Q3,Q4,Q5,Q6 , ,Q1,Q2,Q3,Q4,Q5,Q6 
+2,3,2,1,2,2 , ,10,7,7,5,6,7 
+10,10,9,10,9,7 , ,5,7,6,4,4,10 
+8,10,7,8,7,5 , ,10,10,10,10,6,6 
+4,4,4,4,5,3 , ,6,7,5,7,5,5 
+5,7,5,6,3,5 , ,7,3,4,3,3,4 
+4,4,2,2,2,2 , ,10,0,5,10,5,6 
+
+
+ Time_neighbor_count_matrixShortSameQn,,,,,, , Time_neighbor_count_matrixShortRephrasedQn,,,,,
+ Q1,Q2,Q3,Q4,Q5,Q6, , Q1,Q2,Q3,Q4,Q5,Q6
+ 2,4,4,3,2,3, , 3,10,8,7,4,3
+ 10,10,10,10,10,10, , 5,10,6,5,2,3
+ 4,8,7,6,3,3, , 6,10,8,6,4,4
+ 4,7,7,7,2,1, , 4,9,9,6,4,7
+ 8,10,10,7,3,3, , 3,6,6,4,2,2
+ 1,4,4,2,2,2, , 10,8,9,7,4,5
+
+

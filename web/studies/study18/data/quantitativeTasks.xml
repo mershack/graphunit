@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<study_specification>
+<dataset>miserables</dataset>
+<studyname>study18</studyname>
+<experimenttype>Between</experimenttype>
+<trainingsize>7</trainingsize>
+<condition>
+<conditionurl>matrix__Long_intro_IdenticalQn_1.html</conditionurl>
+<conditionshortname>matrixLongSameQn1</conditionshortname>
+</condition>
+<condition>
+<conditionurl>matrix__Long_intro_IdenticalQn_1.html</conditionurl>
+<conditionshortname>matrixLongSameQn2</conditionshortname>
+</condition>
+<viewerwidth>860</viewerwidth>
+<viewerheight>800</viewerheight>
+<task>
+<name>neighbor_two_step</name>
+<question>Can you get from one of the highlighted nodes to the other with exactly 2 steps?</question>
+<size>8</size>
+<time>10</time>
+</task>
+<task>
+<name>neighbor_count</name>
+<question>How many nodes can be reached in one step from the highlighted node?</question>
+<size>8</size>
+<time>10</time>
+</task>
+<qualtask>
+<name>rate_vis_familiarity</name>
+<question>How will you Rate your familiarity with this type of visualization prior to this study?</question>
+<qualtaskPos>before</qualtaskPos>
+</qualtask>
+<qualtask>
+<name>enter_turk_id</name>
+<question>Please enter your Mechanical Turk ID</question>
+<qualtaskPos>before</qualtaskPos>
+</qualtask>
+</study_specification>

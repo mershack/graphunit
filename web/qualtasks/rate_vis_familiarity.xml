@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<taskFile>	
+	<answertype>MultipleChoice</answertype>
+	<choice>Not familiar -- You have never seen such a visualization before.</choice>
+	<choice>Somewhat familiar -- You have seen this visualization before.</choice>
+	<choice>Familiar -- You have used this visualization before.</choice>
+	<choice>Very familiar -- You have used this visualization extensively.</choice>
+	<question>		
+		How familiar are you with this type of visualization
+		prior to this study? Rate on a scale 1-Not familiar to 5-Very familiar
+	</question>	
+</taskFile>	

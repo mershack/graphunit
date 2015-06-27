@@ -1,0 +1,2 @@
+How will you Rate your familiarity with this type of visualization prior to this study?_matrixShortRephrasedQn		Please enter your Mechanical Turk ID_matrixShortRephrasedQn
+ Very Familiar / I have done more than 20 tasks with this visualization.		aa
