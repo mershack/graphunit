@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<study_specification>
+<dataset>miserables</dataset>
+<studyname>study34</studyname>
+<experimenttype>Between</experimenttype>
+<trainingsize>2</trainingsize>
+<condition>
+<conditionurl>matrix__Long_intro_IdenticalQn3.html</conditionurl>
+<conditionshortname>cond1</conditionshortname>
+</condition>
+<condition>
+<conditionurl>matrix__Long_intro_IdenticalQn3.html</conditionurl>
+<conditionshortname>cond2</conditionshortname>
+</condition>
+<viewerwidth>900</viewerwidth>
+<viewerheight>860</viewerheight>
+<task>
+<name>neighborTwoStep</name>
+<question>Can you get from one of the highlighted nodes to the other with exactly 2 steps?</question>
+<size>3</size>
+<time>10</time>
+</task>
+</study_specification>

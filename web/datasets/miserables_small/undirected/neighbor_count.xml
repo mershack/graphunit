@@ -2,92 +2,92 @@
 <taskFile>
 	<answertype>integer</answertype>
 	<question>					 
-		<node>Child1</node>
+		<input>Child1</input>
 		<answer>1</answer>	
 	</question>
 	<question>					 
-		<node>Anzelma</node>
+		<input>Anzelma</input>
 		<answer>2</answer>			
 	</question>		
 	<question>					 
-		<node>Child2</node>
+		<input>Child2</input>
 		<answer>2</answer>	
 	</question>		
 	<question>					 
-		<node>Myriel</node>
+		<input>Myriel</input>
 		<answer>9</answer>	
 	</question>			
 	<question>					 
-		<node>Judge</node>
+		<input>Judge</input>
 		<answer>6</answer>			
 	</question>	
 	<question>					 
-		<node>Count</node>
+		<input>Count</input>
 		<answer>1</answer>			
 	</question>	
 	<question>					 
-		<node>Tholomyes</node>
+		<input>Tholomyes</input>
 		<answer>9</answer>			
 	</question>		
 	<question>					 
-		<node>Perpetue</node>
+		<input>Perpetue</input>
 		<answer>2</answer>			
 	</question>
 	<question>					 
-		<node>Dahlia</node>
+		<input>Dahlia</input>
 		<answer>7</answer>			
 	</question>	
 	<question>					 
-		<node>Gervais</node>
+		<input>Gervais</input>
 		<answer>1</answer>			
 	</question>	
 	<question>					 
-		<node>Brujon</node>
+		<input>Brujon</input>
 		<answer>6</answer>			
 	</question>	
 	<question>					 
-		<node>Brevet</node>
+		<input>Brevet</input>
 		<answer>6</answer>			
 	</question>	
 	<question>
-		<node>Cochepaille</node>
+		<input>Cochepaille</input>
 		<answer>6</answer>
 	</question>
 	<question>					 
-		<node>Cosette</node>
+		<input>Cosette</input>
 		<answer>2</answer>			
 	</question>	
 	<question>
-		<node>Mme.Magloire</node>
+		<input>Mme.Magloire</input>
 		<answer>1</answer>
 	</question>
 	<question>
-		<node>Champmathieu</node>
+		<input>Champmathieu</input>
 		<answer>3</answer>
 	</question>	
 	<question>
-		<node>Favourite</node>
+		<input>Favourite</input>
 		<answer>2</answer>
 	</question>
 	
 	<question>
-		<node>Blacheville</node>
+		<input>Blacheville</input>
 		<answer>2</answer>
 	</question>	
 	<question>
-		<node>Geborand</node>
+		<input>Geborand</input>
 		<answer>1</answer>
 	</question>
 	<question>
-		<node>Fantine</node>
+		<input>Fantine</input>
 		<answer>3</answer>
 	</question>
 	<question>
-		<node>Valjean</node>
+		<input>Valjean</input>
 		<answer>5</answer>
 	</question>
 	<question>
-		<node>Chenildieu</node>
+		<input>Chenildieu</input>
 		<answer>3</answer>
 	</question>
 	

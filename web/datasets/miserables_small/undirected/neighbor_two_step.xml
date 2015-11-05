@@ -4,124 +4,124 @@
 	<option>yes</option>
 	<option>no</option>
 	<question>
-		<node>Bamatabois</node>
-		<node>Champmathieu</node>
+		<input>Bamatabois</input>
+		<input>Champmathieu</input>
 		<answer>yes</answer>
 	</question>
 	<question>
-		<node>Mme.Thenardier</node>
-		<node>Judge</node>
+		<input>Mme.Thenardier</input>
+		<input>Judge</input>
 		<answer>no</answer>
 	</question>
 	<question>
-		<node>Blacheville</node>
-		<node>Fameuil</node>
-		<answer>yes</answer>
-	</question>	
-	<question>
-		<node>Listolier</node>
-		<node>Valjean</node>
-		<answer>no</answer>
-	</question>
-	<question>
-		<node>Gervais</node>
-		<node>Napoleon</node>
-		<answer>no</answer>
-	</question>
-	<question>
-		<node>Babet</node>
-		<node>Thenardier</node>
-		<answer>yes</answer>
-	</question>
-	<question>
-		<node>Napoleon</node>
-		<node>Valjean</node>
+		<input>Blacheville</input>
+		<input>Fameuil</input>
 		<answer>yes</answer>
 	</question>	
 	<question>
-		<node>Anzelma</node>
-		<node>Gavroche</node>
+		<input>Listolier</input>
+		<input>Valjean</input>
 		<answer>no</answer>
 	</question>
 	<question>
-		<node>Tholomyes</node>
-		<node>Fantine</node>
+		<input>Gervais</input>
+		<input>Napoleon</input>
+		<answer>no</answer>
+	</question>
+	<question>
+		<input>Babet</input>
+		<input>Thenardier</input>
+		<answer>yes</answer>
+	</question>
+	<question>
+		<input>Napoleon</input>
+		<input>Valjean</input>
 		<answer>yes</answer>
 	</question>	
 	<question>
-		<node>Thenardier</node>
-		<node>Dahlia</node>
+		<input>Anzelma</input>
+		<input>Gavroche</input>
 		<answer>no</answer>
 	</question>
 	<question>
-		<node>Gueulemer</node>
-		<node>Anzelma</node>
+		<input>Tholomyes</input>
+		<input>Fantine</input>
+		<answer>yes</answer>
+	</question>	
+	<question>
+		<input>Thenardier</input>
+		<input>Dahlia</input>
+		<answer>no</answer>
+	</question>
+	<question>
+		<input>Gueulemer</input>
+		<input>Anzelma</input>
 		<answer>no</answer>
 	</question>		
 	<question>
-		<node>Tholomyes</node>
-		<node>Myriel</node>
+		<input>Tholomyes</input>
+		<input>Myriel</input>
 		<answer>no</answer>
 	</question>
 	<question>
-		<node>Brevet</node>
-		<node>Myriel</node>
+		<input>Brevet</input>
+		<input>Myriel</input>
 		<answer>yes</answer>
 	</question>
 	<question>
-		<node>Judge</node>
-		<node>Champmathieu</node>
+		<input>Judge</input>
+		<input>Champmathieu</input>
 		<answer>yes</answer>
 	</question>	
 	<question>
-		<node>Child1</node>
-		<node>Gavroche</node>
+		<input>Child1</input>
+		<input>Gavroche</input>
 		<answer>yes</answer>
 	</question>
 
 	<question>
-		<node>Mme.Magloire</node>
-		<node>Simplice</node>
+		<input>Mme.Magloire</input>
+		<input>Simplice</input>
 		<answer>no</answer>
 	</question>	
 	<question>
-		<node>Dahlia</node>
-		<node>Mme.Magloire</node>
+		<input>Dahlia</input>
+		<input>Mme.Magloire</input>
 		<answer>no</answer>
 	</question>
 	<question>
-		<node>Cochepaille</node>
-		<node>Myriel</node>
+		<input>Cochepaille</input>
+		<input>Myriel</input>
 		<answer>yes</answer>
 	</question>	
 	<question>
-		<node>Tholomyes</node>
-		<node>Mlle.Baptistine</node>
+		<input>Tholomyes</input>
+		<input>Mlle.Baptistine</input>
 		<answer>no</answer>
 	</question>
 	<question>
-		<node>Brujon</node>
-		<node>Child2</node>
+		<input>Brujon</input>
+		<input>Child2</input>
 		<answer>yes</answer>
 	</question>
 	<question>
-		<node>Gervais</node>
-		<node>Brevet</node>
+		<input>Gervais</input>
+		<input>Brevet</input>
 		<answer>yes</answer>
 	</question>
 	<question>
-		<node>Marius</node>
-		<node>Cravatte</node>
+		<input>Marius</input>
+		<input>Cravatte</input>
 		<answer>no</answer>
 	</question>
 	<question>
-		<node>Fantine</node>
-		<node>Valjean</node>
+		<input>Fantine</input>
+		<input>Valjean</input>
 		<answer>no</answer>
 	</question>
 	<question>
-		<node>Cochepaille</node>
-		<node>Blacheville</node>
+		<input>Cochepaille</input>
+		<input>Blacheville</input>
 		<answer>no</answer>
 	</question>	
 </taskFile>

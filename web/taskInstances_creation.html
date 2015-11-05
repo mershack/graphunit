@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Creation Task Instances</title>
+        <meta charset="UTF-8">
+        <!-- <meta name="viewport" content="width=device-width"> -->
+        <script type="text/javascript" src="question-properties.js"></script>
+        <script type="text/javascript" src="taskinstances.js"></script>
+        <script type="text/javascript" src="utils.js"></script>
+        <script src="jquery-1.10.2.js"></script>
+
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css"> 
+        <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+
+        <style type="text/css" >
+            #controlBox{
+                padding: 10px 50px;
+                margin-left: 20px;
+                //padding-left: 20px;
+                width:560px;
+            }
+            .right{                
+                float:right;
+            }
+            .innerBox{                
+                padding-left: 20px;
+            }
+            .miniHeader{
+                padding-left: 20px;
+                font-style: italic;
+            }
+            .center{
+                margin-left: 150px;
+                margin-right: 150px;
+            }
+            .questionNumberEven, .conditionNumberEven{
+                background-color: #E8E8E8 ;
+                margin: 1px;
+                padding: 1px;
+            }
+            .questionNumberOdd, .conditionNumberOdd{
+                background-color: #F0F0F0  ;
+                margin: 1px;
+                padding: 1px;
+            }
+        </style>
+        <script type="text/javascript">
+
+            window.onload = function() {
+                //we will try and get the respective name for this current study
+                var command = "getTempName";
+                var url = "TaskInstancesCreator?command=" + command;
+                var xmlHttpRequest = getXMLHttpRequest();
+
+                xmlHttpRequest.onreadystatechange = function()
+                {
+                    if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
+                    {  
+                        document.getElementById("tempname").value = xmlHttpRequest.responseText;
+                    }
+                };
+                xmlHttpRequest.open("GET", url, true);
+                xmlHttpRequest.send();
+            };
+
+        </script>
+    </head>
+    <body>
+        <div id="controlBox">
+            <h2> Create Task Instances </h2>
+            <form>
+                <hr>
+                <h4> Supporting Files </h4>
+                <div class="innerBox">
+                    <p> Load Supporting Files &nbsp; &nbsp; &nbsp;
+                        <input type="file" name="thefiles[]" id="thefiles" onchange="getUploadedFileNames(this)" multiple/>   
+                    </p>
+                </div>  
+            </form>
+            <form method="GET" action="TaskInstancesCreator"  id="setupForm">
+                <hr>
+                <h4> Viewer </h4>
+                <div class="innerBox">
+                    <div id="viewerConditionsDiv">
+                        <div class="conditionNumberOdd">
+                            <p> Specify Viewer Name
+                                <select id="viewer" name="conditions" class="right" style="min-width:50%;">
+                                    <option value="">Select An Uploaded File</option>
+                                </select>                           
+                        </div>
+                        <br />
+                    </div>
+                 
+                </div>
+                <hr>
+
+                <h4>Dataset</h4>
+                <div class="innerBox">
+                    <p> Select the Dataset                         
+                        <select name="dataset" id="dataset" class="right">
+                            <option value=""> Select One </option>
+                            <option value="imdb_small">IMDB - small</option>
+                            <option value="miserables">Les Miserables</option>
+                            <option value="miserables_small">Les Miserables (small)</option>
+                        </select>
+                    </p>
+                </div>
+
+                <hr />
+
+                <h4> Quantitative Tasks </h4>
+                <div class="innerBox">
+                    <div id="quantitativeTasksDiv">
+                        <div class="questionNumberOdd">
+                            <p>
+                                Task Type 1  
+                                <select class="right" name="quantitativeTasks" id="quantitativeTasks">
+                                    <option>Select a Task</option>
+                                    <optgroup label="Topology-Based Tasks">
+                                        <option value="Are the two highlighted nodes directly connected?">Are the two highlighted nodes directly connected?</option>
+                                        <option value="Can you get from one of the highlighted nodes to the other with exactly 2 steps?">Can you get from one of the highlighted nodes to the other with exactly 2 steps?</option>
+                                        <option value="Are the three highlighted nodes directly connected?">Are the three highlighted nodes directly connected?</option>
+                                        <option value="Can you get from one of the highlighted nodes to the other in at most 3 steps?">Can you get from one of the highlighted nodes to the other in at most 3 steps?</option>
+                                        <option value="How many nodes can be reached in one step from the highlighted node?">How many nodes can be reached in one step from the highlighted node?</option>
+                                        <option value="What is the maximum number of nodes connected to one of the two highlighted nodes?">What is the maximum number of nodes connected to one of the two highlighted nodes?</option>                                          
+                                    </optgroup>
+                                    <optgroup label="Attribute-Based Tasks">
+                                        <option value="Is there an adjacent node that contains the letter B?">Is there an adjacent node that contains the letter B?</option>
+                                        <option value="How many adjacent nodes contain the letter B?">How many adjacent nodes contain the letter B?</option>                       
+                                    </optgroup>
+                                    <optgroup label="Browsing-Based Tasks">
+                                        <option value="Find the number of nodes on a given path starting with a letter">Find the number of nodes on a given path starting with a letter</option>
+                                        <option value="Find the number of nodes starting with a letter on all paths between 2 nodes">Find the number of nodes starting with a letter on all paths between 2 nodes</option>                        
+                                    </optgroup>
+                                    <option value="Select the most connected node">Select the most connected node</option>
+                                </select>
+                            </p>
+                            <br>                          
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="center">
+                    <input type="button" value="Next step: Selecting task instances" onclick="uploadFiles()"/>
+                    &nbsp; &nbsp; &nbsp; 
+                    
+                    <input type="hidden" value="" id="command" name="submitForm" />
+                    <input type="hidden" value=""  id="tempname" name="studyname" />
+                </div>
+            </form>
+        </div>
+
+    </body>
+</html>

@@ -5,10 +5,30 @@ var studystarted = false;
 var trainingstarted = false;
 var gettingTurkId = false;
 
+var answergroup = "";  //this can be widget or interface. 
+var answerDataType; //if answer group is widget, this will be a primary data type such as integer, double etc. If answer group is interface, this will be a name of a method. 
+var inputInterface = "";
+var outputInterface = "";
+
+function getAnswerGroup() {
+    return answergroup;
+}
+function getAnswerDataType() {
+    return answerDataType;
+}
+
+function getInputInterface() {
+    return inputInterface;
+}
+
+function getOutputInterface() {
+    return outputInterface;
+}
 
 function getAnswerControllers() {
     var studyid = document.getElementById("studyid").value;
     //  +"&studyid="+studyid;
+    //alert("here");
     var url = "StudyManager?command=getAnswerControllers" + "&studyid=" + studyid;
     var xmlHttpRequest = getXMLHttpRequest();
     xmlHttpRequest.onreadystatechange = function()
@@ -17,6 +37,7 @@ function getAnswerControllers() {
         {
             //create the controls received from the servlet
             setUpAnswerControllers(xmlHttpRequest.responseText);
+            // alert("here1");
         }
     };
     xmlHttpRequest.open("GET", url, true);
@@ -24,17 +45,24 @@ function getAnswerControllers() {
 }
 
 function setUpAnswerControllers(controllersString) {
-    //NB: the controllersString will be of the format:   dataType:::option1::option2
+    //NB: the controllersString will be of the format:   answerGroup:::dataType:::option1::option2:::inputInterface:::outputInterface
 
     var split = controllersString.split(":::");
-    var dataType = split[0];
+    answergroup = split[0];
+    var dataType = split[1];
+    inputInterface = split[3];
+    outputInterface = split[4];
+
+     //alert(controllersString);
+
+    //alert("answer-group: "+answergroup + " datatype: "+ dataType);    
+
     //remove the previous answer controllers
     removeDivChildren(document.getElementById("answersDiv"));
 
     if (dataType === "options") {
         //get the options
-        var split2 = split[1].split("::");
-
+        var split2 = split[2].split("::");
 
         for (var i = 0; i < split2.length; i++) {
             createAnswerOption(split2[i]);
@@ -135,16 +163,16 @@ function createQualRangeInput(li, ind, min, max) {
 
 function createQualStringInput(li, ind) {
     var input1 = document.createElement("input");
-   
-    input1.setAttribute("type","text");
-    input1.setAttribute("value", "");
-    input1.setAttribute("onKeyUp", "setQualSelectedAnswer(this,"+ind+ ")");
 
-    var input2= document.createElement("input");
+    input1.setAttribute("type", "text");
+    input1.setAttribute("value", "");
+    input1.setAttribute("onKeyUp", "setQualSelectedAnswer(this," + ind + ")");
+
+    var input2 = document.createElement("input");
     input2.setAttribute("type", "hidden");
     input2.setAttribute("id", "qualAnswer" + ind);
     //var form = document.createElement("form");
-  //  form.setAttribute("onsubmit", "return false;");
+    //  form.setAttribute("onsubmit", "return false;");
     //form.appendChild(input);
 
     li.appendChild(input1);
@@ -166,9 +194,9 @@ function createQualMultipleChoiceInput(li, ind, choices) {
         var choice = split[i];
         var radio = document.createElement("input");
         radio.setAttribute("type", "radio");
-        radio.setAttribute("name", "radio"+ind);
+        radio.setAttribute("name", "radio" + ind);
         radio.setAttribute("value", choice);
-        radio.setAttribute("onclick", "setQualSelectedAnswer(this,"+ind+ ")");
+        radio.setAttribute("onclick", "setQualSelectedAnswer(this," + ind + ")");
         //create label
         var label = document.createElement("label");
         label.innerHTML = choice;
@@ -177,18 +205,18 @@ function createQualMultipleChoiceInput(li, ind, choices) {
         //append the radio and label to the paragraph
         paragraph.appendChild(radio);
         paragraph.appendChild(label);
-        
+
         choicediv.appendChild(paragraph);
     }
-   // var form = document.createElement("form");
-   // form.setAttribute("onsubmit", "return false;");
-   // form.appendChild(choicediv);
-   // form.appendChild(input); //the inputbox that will be used to hold the selected option
-    
+    // var form = document.createElement("form");
+    // form.setAttribute("onsubmit", "return false;");
+    // form.appendChild(choicediv);
+    // form.appendChild(input); //the inputbox that will be used to hold the selected option
+
     //li.appendChild(form);
     li.appendChild(input);
     li.appendChild(choicediv);
-    
+
 }
 
 
@@ -270,12 +298,44 @@ function showAfterTrialControls() {
 }
 
 function checkAnswer() {
+
     var givenAnswer = document.getElementById("selectedAnswer").value;
 
-    if (givenAnswer === "") {
-        alert("Please provide a valid answer to check its correctness");
-        return false;
+    if (getAnswerGroup() === "widget") {
+        if (givenAnswer === "") {
+            alert("Please provide a valid answer to check its correctness");
+            return false;
+        }
     }
+    else if (getAnswerGroup() === "interface") {
+        var iframe = document.getElementById("viewerFrame");
+        var outInterfaceName = getOutputInterface();
+
+        if (typeof iframe.contentWindow.window[outInterfaceName] == "function") {
+            var output = iframe.contentWindow.window[outInterfaceName]();
+            if (output === "") {
+                alert("Please provide a valid answer to check its correctness");
+                return false;
+            }
+            
+            var outputStr = "";
+            for (var i = 0; i < output.length; i++) {
+                if (i === 0) {
+                    outputStr = output[i];
+                }
+                else {
+                    outputStr += ";;" + output[i];
+                }
+            }
+
+            document.getElementById("selectedAnswer").value = outputStr;
+
+        }
+        else {
+            alert("The output method that returns the output is not implemented.");
+        }
+    }
+
     var studyid = document.getElementById("studyid").value;
     //  +"&studyid="+studyid;
     var url = "StudyManager?command=checkAnswer&givenAnswer=" + givenAnswer + "&studyid=" + studyid;
@@ -296,21 +356,13 @@ function setSelectedAnswer(element) {
     document.getElementById("selectedAnswer").value = element.value;
 }
 
-function setQualSelectedAnswer(element,ind){
+function setQualSelectedAnswer(element, ind) {
     //alert("hey");
-    document.getElementById("qualAnswer"+ind).value = element.value;
+    document.getElementById("qualAnswer" + ind).value = element.value;
 }
 
 
 function startStudy() {
-    //check if the turkId has been provided
-    /*var turkId = document.getElementById("turkId").value;
-     if (turkId.trim() === "") {
-     alert("Please Enter your TurkID before continuing");
-     return false;
-     } */
-    //hide the after trial controls and show the study controls
-
     studystarted = true;
     trainingstarted = false;
     gettingTurkId = false;
@@ -383,13 +435,13 @@ function submitQualitativeAnswers() {
     var numOfQualQns = document.getElementById("numOfQualQns").value;
 
     var allQualitativeAnswers = "";
-    
+
     //check if all qualitative questions has been answered before coninuing
     for (var i = 1; i <= numOfQualQns; i++) {
         var answer = document.getElementById("qualAnswer" + i).value;
 
-        if(answer==="")   {//if no answer, return false;
-            alert ("Please provide answers to all the questions before you continue");
+        if (answer === "") {//if no answer, return false;
+            alert("Please provide answers to all the questions before you continue");
             return false;
         }
 
@@ -483,8 +535,8 @@ function submitPreQualitativeAnswers() {
     for (var i = 1; i <= numOfQualQns; i++) {
         var answer = document.getElementById("qualAnswer" + i).value;
 
-         if(answer==="")   {//if no answer, return false;
-            alert ("Please provide answers to all the questions before you continue");
+        if (answer === "") {//if no answer, return false;
+            alert("Please provide answers to all the questions before you continue");
             return false;
         }
 

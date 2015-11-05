@@ -15,19 +15,19 @@
 <viewerwidth>820</viewerwidth>
 <viewerheight>820</viewerheight>
 <task>
-<name>neighbor_one_step</name>
+<name>neighborOneStep</name>
 <question>Are the two highlighted nodes directly connected?</question>
 <size>5</size>
 <time>10</time>
 </task>
 <task>
-<name>neighbor_1_step_1N</name>
+<name>neighborOneStepOneNode</name>
 <question>Is the highlighted node directly connected to node </question>
 <size>5</size>
 <time>10</time>
 </task>
 <task>
-<name>neighbor_two_step</name>
+<name>neighborTwoStep</name>
 <question>Can you get from one of the highlighted nodes to the other with exactly 2 steps?</question>
 <size>5</size>
 <time>10</time>

@@ -4,168 +4,168 @@
 	<option>yes</option>
 	<option>no</option>
 	<question>				
-		<node>Daniel radcliffe</node>
-		<node>Ralph Fiennes</node>
+		<input>Daniel radcliffe</input>
+		<input>Ralph Fiennes</input>
 		<answer>Yes</answer>		
 	</question>
 	<question>
-		<node>Burgess Meredith</node>
-		<node>Danny DeVito</node>
+		<input>Burgess Meredith</input>
+		<input>Danny DeVito</input>
 		<answer>no</answer>
 	</question>
 	<question>
-		<node>Bruce Willis</node>
-		<node>Seymour Cassel</node>
+		<input>Bruce Willis</input>
+		<input>Seymour Cassel</input>
 		<answer>no</answer>
 	</question>	
 	<question>					 
-		<node>Billy Dee Williams</node>
-		<node>Mark Hamill</node>
+		<input>Billy Dee Williams</input>
+		<input>Mark Hamill</input>
 		<answer>Yes</answer>		
 	</question>		
 	<question>					 
-		<node>Gwyneth Paltrow</node>
-		<node>Samuel L. Jackson</node>
+		<input>Gwyneth Paltrow</input>
+		<input>Samuel L. Jackson</input>
 		<answer>Yes</answer>		
 	</question>	
 	<question>
-		<node>Jon Voight</node>
-		<node>Monica Bellucci</node>
+		<input>Jon Voight</input>
+		<input>Monica Bellucci</input>
 		<answer>no</answer>
 	</question>
 	<question>					 
-		<node>Jon Favreau</node>
-		<node>Will Ferrell</node>
+		<input>Jon Favreau</input>
+		<input>Will Ferrell</input>
 		<answer>Yes</answer>		
 	</question>	
 	<question>					 
-		<node>Elizabeth Banks</node>
-		<node>Steve Carell</node>
+		<input>Elizabeth Banks</input>
+		<input>Steve Carell</input>
 		<answer>Yes</answer>		
 	</question>	
 	<question>
-		<node>Jon Favreau</node>
-		<node>Paul Rudd</node>
+		<input>Jon Favreau</input>
+		<input>Paul Rudd</input>
 		<answer>no</answer>
 	</question>
 	<question>
-		<node>Robert Duvall</node>
-		<node>Mark Hamill</node>
+		<input>Robert Duvall</input>
+		<input>Mark Hamill</input>
 		<answer>no</answer>
 	</question>
 	<question>					 
-		<node>Jon Favreau</node>
-		<node>Scarlett Johansson</node>
+		<input>Jon Favreau</input>
+		<input>Scarlett Johansson</input>
 		<answer>Yes</answer>		
 	</question>	
 	<question>					 
-		<node>Halle Berry</node>
-		<node>Sean Bean</node>
+		<input>Halle Berry</input>
+		<input>Sean Bean</input>
 		<answer>Yes</answer>		
 	</question>	
 	<question>
-		<node>James Franco</node>
-		<node>Paul Rudd</node>
+		<input>James Franco</input>
+		<input>Paul Rudd</input>
 		<answer>no</answer>
 	</question>
 	<question>
-		<node>Elizabeth Banks</node>
-		<node>Don Cheadle</node>
+		<input>Elizabeth Banks</input>
+		<input>Don Cheadle</input>
 		<answer>no</answer>
 	</question>
 	<question>
-		<node>Michael Keaton</node>
-		<node>Alec Baldwin</node>
+		<input>Michael Keaton</input>
+		<input>Alec Baldwin</input>
 		<answer>no</answer>
 	</question>	
 	<question>					 
-		<node>Cate Blanchett</node>
-		<node>Sean Bean</node>
+		<input>Cate Blanchett</input>
+		<input>Sean Bean</input>
 		<answer>Yes</answer>		
 	</question>		
 	<question>					 
-		<node>Arnold Schwarzenegger</node>
-		<node>Talia Shire</node>
+		<input>Arnold Schwarzenegger</input>
+		<input>Talia Shire</input>
 		<answer>Yes</answer>		
 	</question>		
 	<question>					 
-		<node>Hugo Weaving</node>
-		<node>Patrick Stewart</node>
+		<input>Hugo Weaving</input>
+		<input>Patrick Stewart</input>
 		<answer>Yes</answer>		
 	</question>	
 	<question>
-		<node>Gwyneth Paltrow</node>
-		<node>Paul Rudd</node>
+		<input>Gwyneth Paltrow</input>
+		<input>Paul Rudd</input>
 		<answer>no</answer>
 	</question>
 	<question>
-		<node>Jack Nicholson</node>
-		<node>Bruce Willis</node>
+		<input>Jack Nicholson</input>
+		<input>Bruce Willis</input>
 		<answer>no</answer>
 	</question>
 	<question>					 
-		<node>Natalie Portman</node>
-		<node>Scarlett Johansson</node>
+		<input>Natalie Portman</input>
+		<input>Scarlett Johansson</input>
 		<answer>Yes</answer>		
 	</question>
 	<question>
-		<node>Peter Falk</node>
-		<node>Robert Duvall</node>
+		<input>Peter Falk</input>
+		<input>Robert Duvall</input>
 		<answer>no</answer>
 	</question>
 	<question>					 
-		<node>Gwyneth Paltrow</node>
-		<node>Vince Vaughn</node>
+		<input>Gwyneth Paltrow</input>
+		<input>Vince Vaughn</input>
 		<answer>Yes</answer>		
 	</question>
 	<question>					 
-		<node>Famke Janssen</node>
-		<node>Orlando Bloom</node>
+		<input>Famke Janssen</input>
+		<input>Orlando Bloom</input>
 		<answer>Yes</answer>		
 	</question>
 	<question>
-		<node>Natalie Portman</node>
-		<node>John Travolta</node>
+		<input>Natalie Portman</input>
+		<input>John Travolta</input>
 		<answer>no</answer>
 	</question>
 	<question>
-		<node>Carrie Fisher</node>
-		<node>Antonio Banderas</node>
+		<input>Carrie Fisher</input>
+		<input>Antonio Banderas</input>
 		<answer>no</answer>
 	</question>
 	<question>					 
-		<node>Charlton Heston</node>
-		<node>Robert Wagner</node>
+		<input>Charlton Heston</input>
+		<input>Robert Wagner</input>
 		<answer>Yes</answer>		
 	</question>
 	<question>					 
-		<node>Al Pacino</node>
-		<node>Robert Duvall</node>
+		<input>Al Pacino</input>
+		<input>Robert Duvall</input>
 		<answer>Yes</answer>		
 	</question>
 	<question>
-		<node>Alan Rickman</node>
-		<node>Dennis Hopper</node>
+		<input>Alan Rickman</input>
+		<input>Dennis Hopper</input>
 		<answer>no</answer>
 	</question>
 	<question>					 
-		<node>Michael Keaton</node>
-		<node>Scarlett Johansson</node>
+		<input>Michael Keaton</input>
+		<input>Scarlett Johansson</input>
 		<answer>Yes</answer>		
 	</question>
 	<question>					 
-		<node>Jack Black</node>
-		<node>Steve Carell</node>
+		<input>Jack Black</input>
+		<input>Steve Carell</input>
 		<answer>Yes</answer>		
 	</question>
 		<question>
-		<node>Adam Sandler</node>
-		<node>Carrie Fisher</node>
+		<input>Adam Sandler</input>
+		<input>Carrie Fisher</input>
 		<answer>no</answer>
 	</question>
 	<question>					 
-		<node>Christopher Lee</node>
-		<node>Sean Bean</node>
+		<input>Christopher Lee</input>
+		<input>Sean Bean</input>
 		<answer>Yes</answer>		
 	</question>	
 </taskFile>

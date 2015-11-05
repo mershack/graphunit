@@ -14,7 +14,7 @@
 <viewerwidth>860</viewerwidth>
 <viewerheight>800</viewerheight>
 <task>
-<name>neighbor_count</name>
+<name>neighborCount</name>
 <question>How many nodes can be reached in one step from the highlighted node?</question>
 <size>20</size>
 <time>10</time>

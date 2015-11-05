@@ -130,7 +130,8 @@ and open the template in the editor.
             var questionsPrepared = false;
             var propControlWidth = 350;
             var visNoteShown = false;
-
+            var inputInterfaceInterval;
+            var inputValues;
             window.onload = function() {
 
                 if (checkBrowserSupport() === true) {
@@ -442,7 +443,6 @@ and open the template in the editor.
                         }
                         else if (split[0] === "Feedback") {
                             //call the qualitative function
-                            // alert(xmlHttpRequest.responseText)
                             showQualitativeQuestions(xmlHttpRequest.responseText);
                         }
 
@@ -538,10 +538,8 @@ and open the template in the editor.
             }
 
             function showVisualizationNoteImages(imageurls) {
-                //   alert('yea');
                 if (imageurls !== "") {
                     var split = imageurls.split(":");
-                    //    alert("hey");
 
                     var iframeurl = document.getElementById("viewerFrame").src;
 
@@ -562,10 +560,6 @@ and open the template in the editor.
                     }
 
                 }
-
-
-
-
             }
 
 
@@ -576,7 +570,6 @@ and open the template in the editor.
             function getNodes() {
                 // Give a command to get the nodes from the server
                 var studyid = document.getElementById("studyid").value;
-                //  "&studyid="+studyid;
                 var command = "getNodes";
                 var url = "StudyManager?command=" + command + "&studyid=" + studyid;
                 var xmlHttpRequest = getXMLHttpRequest();
@@ -585,7 +578,13 @@ and open the template in the editor.
                 {
                     if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
                     {
-                        displayNodes(xmlHttpRequest.responseText);
+                        inputValues = xmlHttpRequest.responseText;
+                        if (getInputInterface() === "") {
+                            inputInterfaceInterval = setInterval("checkIfInputInterfaceNameIsSet()", 200);
+                        }
+                        else {
+                            displayNodes(inputValues);
+                        }
                     }
                 };
                 xmlHttpRequest.open("GET", url, false);
@@ -593,23 +592,33 @@ and open the template in the editor.
             }
 
 
+            function checkIfInputInterfaceNameIsSet() {
+                if (getInputInterface() !== "") {
+                    clearInterval(inputInterfaceInterval);
+                    displayNodes(inputValues);
+                }
+            }
+
+
             function deselectPrevNodes() {
                 displayNodes(""); // send an empty string.
             }
 
-
-
-
             /**
              * function to highlight the nodes involved in the question
              *  
-             *  */
+             **/
             function displayNodes(nodesStr) {
-                //  alert("yay");
+                //alert(getInputInterface());
                 var nodesArr = nodesStr.split(",");
-                document.getElementById("viewerFrame").contentWindow.selectNode(nodesArr);
-
+                //get the inputInterface name                
+                var inpInterfaceName = getInputInterface();
+                var iframeContentWindow = document.getElementById("viewerFrame").contentWindow;
+                //call the method 
+                iframeContentWindow.window[inpInterfaceName](nodesArr);
             }
+
+
             /**
              * function that makes and returns an HttpRequest object 
              */
@@ -641,7 +650,6 @@ and open the template in the editor.
             function checkIsTutorial() {
 
                 var studyid = document.getElementById("studyid").value;
-                //  "&studyid="+studyid;
                 var command = "checkIsTutorial";
                 var url = "StudyManager?command=" + command + "&studyid=" + studyid;
 
@@ -714,19 +722,65 @@ and open the template in the editor.
              * function that is executed when the next button is clicked.   
              */
             function advanceButtonClicked() {
-
                 if (durationRecorded === false) {
                     continueAfterQuestionDurationOver();
                 }
 
-                var answer = document.getElementById("selectedAnswer").value;
-
-                if (answer === "") {
-                    alert("Please provide a valid answer before continuing");
-                    return false;
+                //for widgets we will get the answer from the answer widget
+                if (getAnswerGroup() === "widget") {
+                    var answer = document.getElementById("selectedAnswer").value;
+                    if (answer === "") {
+                        alert("Please provide a valid answer before continuing");
+                        return false;
+                    }
                 }
-                //get the question
+                //for interface we will get the answer from the interface method of the visualization
+                else if (getAnswerGroup() === "interface") {
+                    //we will get the output by calling the interface method to get the output
+                    var iframe = document.getElementById("viewerFrame");
+
+                    var outInterfaceName = getOutputInterface();
+
+
+                    if (typeof iframe.contentWindow.window[outInterfaceName] == "function") {
+
+                        var output = iframe.contentWindow.window[outInterfaceName]();
+
+                        var outputStr = "";
+
+                       
+                        for (var i = 0; i < output.length; i++) {
+                            if (i === 0) {
+                                outputStr = output[i];
+                            }
+                            else {
+                                outputStr += ";;" + output[i];
+                            }
+                        }
+
+                        //alert(outputStr);
+
+
+                        if (output === "") {
+                            alert("Please provide a valid answer before continuing");
+                            return false;
+                        }
+
+                        document.getElementById("selectedAnswer").value = outputStr;
+
+
+                        //alert(document.getElementById("selectedAnswer").value);
+                    }
+                    else {
+                        alert("The output method that returns the output is not implemented.");
+                    }
+                }
+
+
+                //now call the question get again.
                 getQuestion();
+
+
             }
 
             /**
@@ -777,14 +831,6 @@ and open the template in the editor.
 
             function setFrameDataset(dataset) {
                 var iframe = document.getElementById("viewerFrame");
-                /* if (typeof iframe.contentWindow.setDataset == "function") {
-                 //  alert("here");
-                 iframe.contentWindow.setDataset(dataset);
-                 clearInterval(datasetInterval);
-                 }
-                 else { */
-                /*   var ind = dataset.lastIndexOf(".");
-                 var dataset2 = dataset.substring(0, ind); */
 
                 var dataset2 = dataset;
 
@@ -810,9 +856,6 @@ and open the template in the editor.
 
             }
             function setFrameNodePositions(nodePositions) {
-
-
-
                 var iframe = document.getElementById("viewerFrame"); //set the node positions                        
 
                 if (typeof iframe.contentWindow.setNodePositions == "function") {
@@ -860,13 +903,7 @@ and open the template in the editor.
                         nodePosInterval = setInterval(function() {
                             setFrameNodePositions(nodePositions);
                         }, 200);
-
-                        //get and set the dataset
-
                     }
-                    /*  else {
-                     getAndSetDataset();
-                     }  */
                 };
 
 
