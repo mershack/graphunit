@@ -4,209 +4,209 @@
 	<option>yes</option>
 	<option>no</option>
 	<question>					 
-		<node>Adam Sandler</node>
-		<node>Steve Buscemi</node>
+		<input>Adam Sandler</input>
+		<input>Steve Buscemi</input>
 		<answer>Yes</answer>		
 	</question>	
 	<question>
-		<node>Jada Pinkett Smith</node>
-		<node>Dennis Hopper</node>
+		<input>Jada Pinkett Smith</input>
+		<input>Dennis Hopper</input>
 		<answer>no</answer>
 	</question>
 	<question>
-		<node>Carrie Fisher</node>
-		<node>Tom Hanks</node>
+		<input>Carrie Fisher</input>
+		<input>Tom Hanks</input>
 		<answer>no</answer>
 	</question>
 	<question>					 
-		<node>Donald Sutherland</node>
-		<node>Elizabeth Banks</node>
+		<input>Donald Sutherland</input>
+		<input>Elizabeth Banks</input>
 		<answer>Yes</answer>		
 	</question>	
 	<question>					 
-		<node>Ben Affleck</node>
-		<node>Matt Damon</node>
+		<input>Ben Affleck</input>
+		<input>Matt Damon</input>
 		<answer>Yes</answer>		
 	</question>
 	<question>
-		<node>Steve Buscemi</node>
-		<node>Willem Dafoe</node>
+		<input>Steve Buscemi</input>
+		<input>Willem Dafoe</input>
 		<answer>no</answer>
 	</question>
 	<question>					 
-		<node>Bill Murray</node>
-		<node>Dan Aykroyd	</node>
+		<input>Bill Murray</input>
+		<input>Dan Aykroyd	</input>
 		<answer>Yes</answer>		
 	</question>
 	<question>					 
-		<node>Dustin Hoffman</node>
-		<node>Kathy Bates</node>
+		<input>Dustin Hoffman</input>
+		<input>Kathy Bates</input>
 		<answer>Yes</answer>		
 	</question>
 	
 	<question>
-		<node>Alec Baldwin</node>
-		<node>Tim Allen</node>
+		<input>Alec Baldwin</input>
+		<input>Tim Allen</input>
 		<answer>no</answer>
 	</question>
 	<question>
-		<node>Antonio Banderas</node>
-		<node>Bruce Willis</node>
+		<input>Antonio Banderas</input>
+		<input>Bruce Willis</input>
 		<answer>no</answer>
 	</question>
 	<question>					 
-		<node>Seth Rogen</node>
-		<node>Steve Carell</node>
+		<input>Seth Rogen</input>
+		<input>Steve Carell</input>
 		<answer>Yes</answer>		
 	</question>	
 	<question>
-		<node>Dennis Hopper</node>
-		<node>Bruce Willis</node>
+		<input>Dennis Hopper</input>
+		<input>Bruce Willis</input>
 		<answer>no</answer>
 	</question>
 	<question>					 
-		<node>Dustin Hoffman</node>
-		<node>Jack Black</node>
+		<input>Dustin Hoffman</input>
+		<input>Jack Black</input>
 		<answer>Yes</answer>		
 	</question>
 	<question>					 
-		<node>Owen Wilson</node>
-		<node>Will Ferrell</node>
+		<input>Owen Wilson</input>
+		<input>Will Ferrell</input>
 		<answer>Yes</answer>		
 	</question>	
 	<question>
-		<node>Steve Buscemi</node>
-		<node>Udo Kier</node>
+		<input>Steve Buscemi</input>
+		<input>Udo Kier</input>
 		<answer>no</answer>
 	</question>
 	<question>
-		<node>Elijah Wood</node>
-		<node>Patrick Stewart</node>
+		<input>Elijah Wood</input>
+		<input>Patrick Stewart</input>
 		<answer>no</answer>
 	</question>
 	<question>					 
-		<node>Owen Wilson</node>
-		<node>Vince Vaughn</node>
+		<input>Owen Wilson</input>
+		<input>Vince Vaughn</input>
 		<answer>Yes</answer>		
 	</question>
 	<question>					 
-		<node>Dustin Hoffman</node>
-		<node>Kathy Bates</node>
+		<input>Dustin Hoffman</input>
+		<input>Kathy Bates</input>
 		<answer>Yes</answer>		
 	</question>
 	<question>					 
-		<node>Elizabeth Banks</node>
-		<node>Paul Rudd</node>
+		<input>Elizabeth Banks</input>
+		<input>Paul Rudd</input>
 		<answer>Yes</answer>		
 	</question>
 	<question>
-		<node>Dustin Hoffman</node>
-		<node>Will Ferrell</node>
+		<input>Dustin Hoffman</input>
+		<input>Will Ferrell</input>
 		<answer>no</answer>
 	</question>
 	<question>
-		<node>Alan Rickman</node>
-		<node>Patrick Stewart</node>
+		<input>Alan Rickman</input>
+		<input>Patrick Stewart</input>
 		<answer>no</answer>
 	</question>
 	<question>
-		<node>Laurence Fishburne</node>
-		<node>Hugh Jackman</node>
+		<input>Laurence Fishburne</input>
+		<input>Hugh Jackman</input>
 		<answer>no</answer>
 	</question>
 	<question>
-		<node>Arnold Schwarzenegger</node>
-		<node>Jack Nicholson</node>
+		<input>Arnold Schwarzenegger</input>
+		<input>Jack Nicholson</input>
 		<answer>no</answer>
 	</question>
 	<question>					 
-		<node>Jonah Hill</node>
-		<node>Steve Carell</node>
+		<input>Jonah Hill</input>
+		<input>Steve Carell</input>
 		<answer>Yes</answer>		
 	</question>
 	<question>					 
-		<node>David Cross</node>
-		<node>Jack Black</node>
+		<input>David Cross</input>
+		<input>Jack Black</input>
 		<answer>Yes</answer>		
 	</question>
 	<question>					 
-		<node>Cameron Diaz</node>
-		<node>Mike Myers</node>
+		<input>Cameron Diaz</input>
+		<input>Mike Myers</input>
 		<answer>Yes</answer>		
 	</question>
 	<question>
-		<node>Dennis Hopper</node>
-		<node>Brad Pitt</node>
+		<input>Dennis Hopper</input>
+		<input>Brad Pitt</input>
 		<answer>no</answer>
 	</question>
 	<question>
-		<node>George Clooney</node>
-		<node>Julia Roberts</node>
+		<input>George Clooney</input>
+		<input>Julia Roberts</input>
 		<answer>no</answer>
 	</question>
 	<question>					 
-		<node>Antonio Banderas</node>
-		<node>Eddie Murphy</node>
+		<input>Antonio Banderas</input>
+		<input>Eddie Murphy</input>
 		<answer>Yes</answer>		
 	</question>
 	<question>					 
-		<node>Helena Bonham Carter</node>
-		<node>Johnny Depp</node>
+		<input>Helena Bonham Carter</input>
+		<input>Johnny Depp</input>
 		<answer>Yes</answer>		
 	</question>
 	<question>					 
-		<node>Daniel radcliffe</node>
-		<node>Helena Bonham Carter</node>
+		<input>Daniel radcliffe</input>
+		<input>Helena Bonham Carter</input>
 		<answer>Yes</answer>		
 	</question>
 	<question>
-		<node>Cate Blanchett</node>
-		<node>Hugh Jackman</node>
+		<input>Cate Blanchett</input>
+		<input>Hugh Jackman</input>
 		<answer>no</answer>
 	</question>
 	<question>
-		<node>Harry Dean Stanton</node>
-		<node>Antonio Banderas</node>
+		<input>Harry Dean Stanton</input>
+		<input>Antonio Banderas</input>
 		<answer>no</answer>
 	</question>
 	<question>					 
-		<node>Daniel radcliffe</node>
-		<node>gary Oldman</node>
+		<input>Daniel radcliffe</input>
+		<input>gary Oldman</input>
 		<answer>Yes</answer>		
 	</question>
 	<question>					 
-		<node>John Hurt</node>
-		<node>Udo Kier</node>
+		<input>John Hurt</input>
+		<input>Udo Kier</input>
 		<answer>Yes</answer>		
 	</question>
 	<question>
-		<node>Salma Hayek</node>
-		<node>Johnny Depp</node>
+		<input>Salma Hayek</input>
+		<input>Johnny Depp</input>
 		<answer>no</answer>
 	</question>
 	<question>					 
-		<node>Hugh Jackman</node>
-		<node>Patrick Stewart</node>
+		<input>Hugh Jackman</input>
+		<input>Patrick Stewart</input>
 		<answer>Yes</answer>		
 	</question>
 	<question>					 
-		<node>Diane Lane</node>
-		<node>Laurence Fishburne</node>
+		<input>Diane Lane</input>
+		<input>Laurence Fishburne</input>
 		<answer>Yes</answer>		
 	</question>
 	<question>
-		<node>Cate Blanchett</node>
-		<node>Geoffrey Rush</node>
+		<input>Cate Blanchett</input>
+		<input>Geoffrey Rush</input>
 		<answer>no</answer>
 	</question>	
 	<question>					 
-		<node>Dennis Hopper</node>
-		<node>Laurence Fishburne</node>
+		<input>Dennis Hopper</input>
+		<input>Laurence Fishburne</input>
 		<answer>Yes</answer>		
 	</question>
 	<question>
-		<node>Elizabeth Banks</node>
-		<node>Robin Williams</node>
+		<input>Elizabeth Banks</input>
+		<input>Robin Williams</input>
 		<answer>no</answer>
 	</question>	
 	

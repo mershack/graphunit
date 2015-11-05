@@ -4,183 +4,183 @@
 	<option>yes</option>
 	<option>no</option>
 	<question>
-		<node>Sylvester Stallone</node>
-		<node>Dennis Hopper</node>
+		<input>Sylvester Stallone</input>
+		<input>Dennis Hopper</input>
 		<answer>no</answer>
 	</question>
 	<question>
-		<node>Elijah Wood</node>
-		<node>Sean Bean</node>
+		<input>Elijah Wood</input>
+		<input>Sean Bean</input>
 		<answer>yes</answer>
 	</question>
 	<question>
-		<node>Dustin Hoffman</node>
-		<node>Steve Carell</node>
+		<input>Dustin Hoffman</input>
+		<input>Steve Carell</input>
 		<answer>yes</answer>
 	</question>
 	<question>
-		<node>Jeff Goldblum</node>
-		<node>John Cusack</node>
+		<input>Jeff Goldblum</input>
+		<input>John Cusack</input>
 		<answer>yes</answer>
 	</question>
 	<question>
-		<node>Don Cheadle</node>
-		<node>Seth Rogen</node>
+		<input>Don Cheadle</input>
+		<input>Seth Rogen</input>
 		<answer>no</answer>
 	</question>	
 	<question>
-		<node>Keanu Reeves</node>
-		<node>Martin Sheen</node>
+		<input>Keanu Reeves</input>
+		<input>Martin Sheen</input>
 		<answer>yes</answer>
 	</question>
 	<question>
-		<node>Elizabeth Banks</node>
-		<node>Chris Rock</node>
+		<input>Elizabeth Banks</input>
+		<input>Chris Rock</input>
 		<answer>no</answer>
 	</question>
 	<question>
-		<node>Elizabeth Banks</node>
-		<node>Robin Williams</node>
+		<input>Elizabeth Banks</input>
+		<input>Robin Williams</input>
 		<answer>yes</answer>
 	</question>
 	<question>
-		<node>James Franco</node>
-		<node>Kirsten Dunst</node>
+		<input>James Franco</input>
+		<input>Kirsten Dunst</input>
 		<answer>yes</answer>
 	</question>
 	<question>
-		<node>Laurence Fishburne</node>
-		<node>Diane Keaton</node>
+		<input>Laurence Fishburne</input>
+		<input>Diane Keaton</input>
 		<answer>no</answer>
 	</question>
 	<question>
-		<node>Willem Dafoe</node>
-		<node>gary Oldman</node>
+		<input>Willem Dafoe</input>
+		<input>gary Oldman</input>
 		<answer>no</answer>
 	</question>
 	<question>
-		<node>Charlton Heston</node>
-		<node>Sean Bean</node>
+		<input>Charlton Heston</input>
+		<input>Sean Bean</input>
 		<answer>yes</answer>
 	</question>
 	<question>
-		<node>Johnny Depp</node>
-		<node>Laurence Fishburne</node>
+		<input>Johnny Depp</input>
+		<input>Laurence Fishburne</input>
 		<answer>no</answer>
 	</question>
 	<question>
-		<node>Alec Baldwin</node>
-		<node>Tim Allen</node>
+		<input>Alec Baldwin</input>
+		<input>Tim Allen</input>
 		<answer>yes</answer>
 	</question>
 	<question>
-		<node>Gwyneth Paltrow</node>
-		<node>Mark Hamill</node>
+		<input>Gwyneth Paltrow</input>
+		<input>Mark Hamill</input>
 		<answer>no</answer>
 	</question>
 	<question>
-		<node>Harvey Keitel</node>
-		<node>Diane Keaton</node>
+		<input>Harvey Keitel</input>
+		<input>Diane Keaton</input>
 		<answer>yes</answer>
 	</question>
 	<question>
-		<node>Al Pacino</node>
-		<node>Robert Duvall</node>
+		<input>Al Pacino</input>
+		<input>Robert Duvall</input>
 		<answer>yes</answer>
 	</question>
 	<question>
-		<node>Jeff Goldblum</node>
-		<node>John Malkovich</node>
+		<input>Jeff Goldblum</input>
+		<input>John Malkovich</input>
 		<answer>no</answer>
 	</question>
 	<question>
-		<node>Matt Damon</node>
-		<node>Joe Pesci</node>
+		<input>Matt Damon</input>
+		<input>Joe Pesci</input>
 		<answer>no</answer>
 	</question>
 	<question>
-		<node>Dean Stockwell</node>
-		<node>Steve Buscemi</node>
+		<input>Dean Stockwell</input>
+		<input>Steve Buscemi</input>
 		<answer>yes</answer>
 	</question>
 	<question>
-		<node>Famke Janssen</node>
-		<node>Orlando Bloom</node>
+		<input>Famke Janssen</input>
+		<input>Orlando Bloom</input>
 		<answer>yes</answer>
 	</question>
 	<question>
-		<node>Ben Stiller</node>
-		<node>Steve Buscemi</node>
+		<input>Ben Stiller</input>
+		<input>Steve Buscemi</input>
 		<answer>yes</answer>
 	</question>
 	<question>
-		<node>Tom Hanks</node>
-		<node>Mark Hamill</node>
+		<input>Tom Hanks</input>
+		<input>Mark Hamill</input>
 		<answer>no</answer>
 	</question>
 	<question>
-		<node>Patrick Stewart</node>
-		<node>Dennis Hopper</node>
+		<input>Patrick Stewart</input>
+		<input>Dennis Hopper</input>
 		<answer>no</answer>
 	</question>
 	<question>
-		<node>Adam Sandler</node>
-		<node>Jada Pinkett Smith</node>
+		<input>Adam Sandler</input>
+		<input>Jada Pinkett Smith</input>
 		<answer>yes</answer>
 	</question>
 		<question>
-		<node>Karen Black</node>
-		<node>Al Pacino</node>
+		<input>Karen Black</input>
+		<input>Al Pacino</input>
 		<answer>no</answer>
 	</question>
 	<question>
-		<node>Sylvester Stallone</node>
-		<node>Harvey Keitel</node>
+		<input>Sylvester Stallone</input>
+		<input>Harvey Keitel</input>
 		<answer>no</answer>
 	</question>
 	<question>
-		<node>Elizabeth Banks</node>
-		<node>Steve Carell</node>
+		<input>Elizabeth Banks</input>
+		<input>Steve Carell</input>
 		<answer>yes</answer>
 	</question>
 	<question>
-		<node>Jack Black</node>
-		<node>Jennifer Lawrence</node>
+		<input>Jack Black</input>
+		<input>Jennifer Lawrence</input>
 		<answer>no</answer>
 	</question>
 	<question>
-		<node>Johnny Depp</node>
-		<node>Samuel L. Jackson</node>
+		<input>Johnny Depp</input>
+		<input>Samuel L. Jackson</input>
 		<answer>no</answer>
 	</question>
 	<question>
-		<node>James Franco</node>
-		<node>Woody Harrelson</node>
+		<input>James Franco</input>
+		<input>Woody Harrelson</input>
 		<answer>no</answer>
 	</question>
 	<question>
-		<node>Jada Pinkett Smith</node>
-		<node>Steve Buscemi</node>
+		<input>Jada Pinkett Smith</input>
+		<input>Steve Buscemi</input>
 		<answer>yes</answer>
 	</question>
 	<question>
-		<node>Ralph Fiennes</node>
-		<node>Donald Sutherland</node>
+		<input>Ralph Fiennes</input>
+		<input>Donald Sutherland</input>
 		<answer>no</answer>
 	</question>	
 	<question>
-		<node>Woody Harrelson</node>
-		<node>Jonah Hill</node>
+		<input>Woody Harrelson</input>
+		<input>Jonah Hill</input>
 		<answer>yes</answer>
 	</question>
 	<question>
-		<node>Willem Dafoe</node>
-		<node>Ralph Fiennes</node>
+		<input>Willem Dafoe</input>
+		<input>Ralph Fiennes</input>
 		<answer>no</answer>
 	</question>
 	<question>
-		<node>Elijah Wood</node>
-		<node>Robert Wagner</node>
+		<input>Elijah Wood</input>
+		<input>Robert Wagner</input>
 		<answer>no</answer>
 	</question>
 </taskFile>

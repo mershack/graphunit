@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+    <title>Create a new Task</title>
+        <meta charset="UTF-8">
+        <!-- <meta name="viewport" content="width=device-width"> -->
+        <script type="text/javascript" src="question-properties.js"></script>
+        <script type="text/javascript" src="taskcreation.js"></script>
+        <script type="text/javascript" src="utils.js"></script>
+        <script src="jquery-1.10.2.js"></script>
+
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css"> 
+        <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+
+        <style type="text/css" >
+            #controlBox{
+                padding: 10px 50px;
+                margin-left: 20px;
+                //padding-left: 20px;
+                width:600px;
+            }
+            .right{                
+                float:right;
+            }
+            .innerBox{                
+                padding-left: 20px;
+            }
+            .miniHeader{
+                padding-left: 20px;
+                font-style: italic;
+            }
+            .center{
+                margin-left: 150px;
+                margin-right: 150px;
+            }
+            .questionNumberEven, .conditionNumberEven{
+                background-color: #E8E8E8 ;
+                margin: 1px;
+                padding: 1px;
+            }
+            .questionNumberOdd, .conditionNumberOdd{
+                background-color: #F0F0F0  ;
+                margin: 1px;
+                padding: 1px;
+            }
+            #nameAvailable{
+                color: green;
+            }
+            #nameUnavailable{
+                color:red;
+            }
+        </style>
+        <script type="text/javascript">
+
+
+        </script>
+    </head>
+    <body>
+        <div id="controlBox">
+            <h2> Create a New Task </h2>
+            <form>
+                <hr>
+                <h4> Task Question </h4>
+                <div class="innerBox">
+                    <p> Type the task question &nbsp; &nbsp;
+                        <textarea rows="2" cols="40" id="taskQuestion" class="right"></textarea>
+                    </p>
+                    <br /><br/>
+                </div>  
+            </form>
+            <form>
+                <hr />
+                <h4> Task Shortname </h4>
+                <div class="innerBox">
+                    <p> Specify a short name for this task  &nbsp; &nbsp; &nbsp;
+                        <input type="text" size="30" id="taskshortname" value="" class="right"
+
+                               onblur="checkShortNameAvailability();" />
+
+                    </p>
+
+                    <div id="nameAvailabilityChecking" style="display:none;">
+                        <p> <span id="nameAvailable" style="display:none;" class="center"> (Name is Available)</span>
+                            <span id="nameUnavailable" style="display:none;" class="center"> (Name is not Available, try another)</span>
+                        </p>
+                    </div>
+
+                </div>  
+            </form>
+            <form method="GET" action="TaskCreator"  id="setupForm">
+                <hr>
+                <h4> Answer type </h4>
+                <div class="innerBox">                    
+                    <div class="condgitionNumberOdd">
+                        <p> Select the answer type
+                            <select id="answertype" name="answertype" 
+                                    class="right" style="min-width:50%;" onchange="answerOptionChanged(this);">
+                                <option value="">Select One</option>
+                                <option value="Number">Number</option>
+                                <option value="Options">Options</option>
+                                <option value="Text">Text</option>                                    
+                                <option value="Selection">Selection</option>
+                            </select>
+                        </p>
+
+                        <div id="ansOptionsDiv" style="display:none;">
+                            <div id="optionsBlock">
+                                <p>Specify Option1 <input type="text" id ="ansOptions1" name="ansOptions1" value="" class="right"/></p>
+                                <p>Specify Option2 <input type="text" id = "ansOptions2" name="ansOptions2" value="" class="right"/></p>
+                            </div>
+                            <input type="button" value="Add more answer options" onclick="addMoreAnsOptions();" class="center" />
+                        </div>
+
+
+                    </div>
+                    <br />
+                </div> 
+                <hr/>
+                <h4> Custom function names for passing input and getting output </h4>
+                <div class="innerBox">
+                    <p>Name of function for passing task inputs to the visualization &nbsp; &nbsp;
+                        <input type="text" id ="inputInterface" name="inputInterface" value="setInput" class="right"/>
+                    </p>
+
+                    <p>Name of function for getting task outputs from the visualization &nbsp; &nbsp;
+                        <input type="text" id ="outputInterface" name="outputInterface" value="getOutput" class="right"/>
+                    </p>
+                </div> 
+                <hr/>
+                <h4>Info about the inputs</h4>
+                <div class="innerBox">
+                    <p> Specify number of inputs this task require &nbsp; &nbsp;
+                        <input type="number" id ="numberOfInputs" name="numberOfInputs" min="0" value="0" class="right"
+                               onchange="getNumberOfInputs(this)" />
+                    </p>
+                    <div id="inputInfo" style="display:none;">
+                       
+                    </div>
+
+
+
+
+                </div> 
+                <hr />
+                <div class="center">    
+                    <input type="button" value="Save Task" onclick="saveNewTask()"/>
+                    &nbsp; &nbsp; &nbsp;                   
+                </div>
+
+            </form>
+        </div>
+
+    </body>
+</html>

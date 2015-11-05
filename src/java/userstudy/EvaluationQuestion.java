@@ -12,24 +12,31 @@ import java.util.ArrayList;
  * @author Mershack
  */
 public class EvaluationQuestion {
-
     private String question;
     ArrayList<String> nodes;
     private String correctAns;
     private String ansType;
     private ArrayList<String> ansOptions;
     private boolean isGivenAnsCorrect;
+    private String givenAnswer;
     private int timeInSeconds;
     private int maxTimeInSeconds;
+    private String answerGroup;
+    private String inputInterface;
+    private String outputInterface;
 
-    public EvaluationQuestion(String question, String correctAns, ArrayList<String> nodes, ArrayList<String> ansOptions, String ansType, int maxTime) {
+    public EvaluationQuestion(String question, String correctAns, ArrayList<String> nodes, 
+            ArrayList<String> ansOptions, String ansType, String ansGroup, int maxTime, String inputInterface, String outputInterface) {
         this.question = question;
         this.correctAns = correctAns;
         this.nodes = nodes;
         this.ansOptions = ansOptions;
         this.ansType = ansType;
-        isGivenAnsCorrect = false;
-        maxTimeInSeconds = maxTime;
+        this.answerGroup = ansGroup;
+        this.inputInterface = inputInterface;
+        this.outputInterface = outputInterface;
+        this.isGivenAnsCorrect = false;
+        this.maxTimeInSeconds = maxTime;
     }
 
     public String getQuestion() {
@@ -72,6 +79,32 @@ public class EvaluationQuestion {
         this.ansOptions = ansOptions;
     }
 
+    public String getAnswerGroup() {
+        return answerGroup;
+    }
+
+    public void setAnswerGroup(String answerGroup) {
+        this.answerGroup = answerGroup;
+    }
+
+    public String getInputInterface() {
+        return inputInterface;
+    }
+
+    public void setInputInterface(String inputInterface) {
+        this.inputInterface = inputInterface;
+    }
+
+    public String getOutputInterface() {
+        return outputInterface;
+    }
+
+    public void setOutputInterface(String outputInterface) {
+        this.outputInterface = outputInterface;
+    }
+
+    
+    
     public String getNodesAsString() {
         String nodesString = "";
         if (nodes.size() > 0) {
@@ -84,14 +117,20 @@ public class EvaluationQuestion {
     }
     
     public String getAnsOptionsAsString(){
-        String ansOptionsString = ansType +":::";
-        
+        String ansOptionsString = answerGroup + ":::" +ansType +":::";
+        //include the answer options
         if(ansOptions.size()>0){
             ansOptionsString += ansOptions.get(0);
             for(int i=1; i<ansOptions.size(); i++){
                 ansOptionsString += "::" +ansOptions.get(i);
             }            
-        }        
+        }
+        else{
+            ansOptionsString += "none";
+        }
+        //now include the names the inputinterface and output interface names.
+        ansOptionsString += ":::"+inputInterface + ":::"+outputInterface;
+        
         return ansOptionsString;        
     }
     
@@ -130,6 +169,14 @@ public class EvaluationQuestion {
 
     public void setMaxTimeInSeconds(int maxTimeInSeconds) {
         this.maxTimeInSeconds = maxTimeInSeconds;
+    }
+
+    public String getGivenAnswer() {
+        return givenAnswer;
+    }
+
+    public void setGivenAnswer(String givenAnswer) {
+        this.givenAnswer = givenAnswer;
     }
 
     

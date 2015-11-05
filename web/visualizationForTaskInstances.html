@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Task instance selection</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <script type="text/javascript" src="taskinstances.js"></script>
+        <script type="text/javascript" src="question-properties.js"></script>
+        <script src="http://d3js.org/d3.v3.js"></script> 
+        <script src="jquery-1.10.2.js"></script>
+        <script type="text/javascript" src="utils.js"></script>
+        <style type="text/css" >
+            #viewers{
+                border:2px solid;
+                padding: 0px;
+                float: left;
+                height: 850px;
+                width: 860px;
+                display: block;
+            }            
+            #viewerFrame{
+                //display: none;
+                border: none;
+                height: 850px;
+                width: 900px;
+            }
+            #propControl{
+                float: right;
+                width: 350px;
+                height: 810px;
+                border: solid #000;
+                padding: 10px;
+                font-size: 120%;
+            }
+            #checkAnswer{
+                display:none;
+            }
+            #correctnessOfAnswer{
+                font-weight: bold;
+            }
+            #afterTrialControls{
+                display:none;
+                padding: 10px;
+            }
+            #turkcode{
+                font-weight: bold;
+            }
+            #endOfQuantitative{
+                display: none;
+            }
+            #blankViewer{
+                border: 1px solid;
+                height: 840px;
+                width: 850px;
+                float: left;
+                display: none;
+            }
+            #durationCountDown{
+                margin-left: 50px;
+                font-size: 18pt;
+            } 
+            #introduction{
+                padding: 50px;
+                padding-top:0px;
+                border:1px;
+            }
+            #introductionframe{
+                width: 100%;
+                padding: 10px;
+
+                border:1px solid black;  
+            }
+            .legendTitle{
+                text-align: center;
+                text-decoration: underline;
+            }
+            #legendDiv{
+                margin-left: 20px;
+                marging-right: 20px;
+                width: 300px;
+                height: 300px;
+            }
+            .center{
+                margin-left: 30%;
+                margin-right: 30%;
+            }
+            body{
+                height: 100%;
+            }
+            #study{
+                //  width: 1250px;
+            }
+
+
+        </style>
+        <script type="text/javascript">
+            var nodePosInterval;
+            var datasetInterval;
+
+            var answers = []; //an array to hold answers of task instances
+            var taskInstances = []; //
+
+            window.onload = function() {
+                getTempId();
+            };
+
+            window.onkeyup = function(event) {
+
+                event = event || window.event; // IE-ism
+
+                var keyCode = event.keyCode;
+                // alert(studystarted);
+                //alert(keyCode);
+
+                if (keyCode == 13 && (studystarted == true || trainingstarted == true)) { //click the next                     
+                    advanceButtonClicked();
+                }
+                else if (keyCode == 13 && (gettingTurkId == true)) {
+                    startStudy();  //call the start study method, which the button would have called anyway.
+                }
+
+
+            };
+
+
+            function getTempId() {
+                var command = "getTempId";
+                var url = "TaskInstancesCreator?command=" + command;
+
+                var xmlHttpRequest = getXMLHttpRequest();
+
+                xmlHttpRequest.onreadystatechange = function()
+                {
+                    if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
+                    {
+                        getViewer();
+                    }
+                };
+
+                xmlHttpRequest.open("GET", url, true);
+                xmlHttpRequest.send();
+            }
+
+            /**
+             * This method gets the url of the first condition viewer 
+             */
+            function getViewer() {
+                var command = "getViewerUrl";
+
+                var url = "TaskInstancesCreator?command=" + command;
+
+                var xmlHttpRequest = getXMLHttpRequest();
+
+                xmlHttpRequest.onreadystatechange = function()
+                {
+                    if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
+                    {
+                        createViewerFrame(xmlHttpRequest.responseText);
+                        getTask();
+                        getAnswerType();
+                    }
+                };
+                xmlHttpRequest.open("GET", url, true);
+                xmlHttpRequest.send();
+            }
+
+            //get the required task.
+            function getTask() {
+                var command = "getTask";
+
+                var url = "TaskInstancesCreator?command=" + command;
+
+                var xmlHttpRequest = getXMLHttpRequest();
+
+                xmlHttpRequest.onreadystatechange = function()
+                {
+                    if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
+                    {
+                        // alert(xmlHttpRequest.responseText);       
+
+                        var taskPara = document.getElementById("task");
+
+                        taskPara.innerHTML = "<strong>Task: </strong>" + xmlHttpRequest.responseText;
+
+                    }
+                };
+                xmlHttpRequest.open("GET", url, true);
+                xmlHttpRequest.send();
+            }
+
+
+
+
+            /**
+             * function that makes and returns an HttpRequest object 
+             */
+            function getXMLHttpRequest() {
+                var xmlHttpReq;
+                // to create XMLHttpRequest object in non-Microsoft browsers  
+                if (window.XMLHttpRequest) {
+                    xmlHttpReq = new XMLHttpRequest();
+                } else if (window.ActiveXObject) {
+                    try {
+                        //to create XMLHttpRequest object in later versions of Internet Explorer  
+                        xmlHttpReq = new ActiveXObject("Msxml2.XMLHTTP");
+                    } catch (exp1) {
+                        try {
+                            //to create XMLHttpRequest object in later versions of Internet Explorer  
+                            xmlHttpReq = new ActiveXObject("Microsoft.XMLHTTP");
+                        } catch (exp2) {
+                            //xmlHttpReq = false;  
+                            alert("Exception in getXMLHttpRequest()!");
+                        }
+                    }
+                }
+                return xmlHttpReq;
+            }
+
+            /**
+             * This method creates a frame whose source will be the url that is passed to it.
+             */
+            function createViewerFrame(url) {
+
+                var viewers = document.getElementById("viewers");
+                var myframe = document.createElement("iframe");
+                myframe.setAttribute("id", "viewerFrame");
+                myframe.setAttribute("src", url);
+                viewers.appendChild(myframe);
+                //get the dataset  
+                getAndSetNodePositions();
+                //getAndSetDataset();
+
+            }
+            function getAndSetNodePositions() {
+                var studyid = document.getElementById("studyid").value;
+                //  "&studyid="+studyid;
+
+                var command = "getNodePositions";
+                var url = "StudyManager?command=" + command + "&studyid=" + studyid;
+
+                var xmlHttpRequest = getXMLHttpRequest();
+
+                xmlHttpRequest.onreadystatechange = function()
+                {
+                    if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
+                    { // alert(xmlHttpRequest.responseText);
+                        var nodesAndPositions = xmlHttpRequest.responseText.split("::::");
+                        var nodePositions = [];
+
+                        for (var i = 0; i < nodesAndPositions.length; i++) {
+                            var posValues = nodesAndPositions[i].split("::");
+                            var name = posValues[0];
+                            var x = Number(posValues[1]);
+                            var y = Number(posValues[2]);
+                            nodePositions[name] = {"x": x, "y": y};
+                        }
+                        nodePosInterval = setInterval(function() {
+                            setFrameNodePositions(nodePositions);
+                        }, 200);
+                    }
+                };
+                xmlHttpRequest.open("GET", url, true);
+                xmlHttpRequest.send();
+            }
+            //this function gets the dataset from the servlet and sets it for the iframe
+            function getAndSetDataset() {
+
+                var command = "getDataset";
+                var url = "TaskInstancesCreator?command=" + command;
+
+                var xmlHttpRequest = getXMLHttpRequest();
+
+                xmlHttpRequest.onreadystatechange = function()
+                {
+                    if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
+                    {
+                        var dataset = xmlHttpRequest.responseText;
+
+                        datasetInterval = setInterval(function() {
+                            setFrameDataset(dataset);
+                        }, 200);
+
+                    }
+                };
+
+                xmlHttpRequest.open("GET", url, true);
+                xmlHttpRequest.send();
+            }
+            function setFrameDataset(dataset) {
+                var iframe = document.getElementById("viewerFrame");
+                var dataset2 = dataset;
+                //check the setdataset type that has been implemented
+                if (typeof iframe.contentWindow.setJSONdataset == "function") { //json
+                    dataset2 += ".json";
+                    //alert(dataset2);
+                    iframe.contentWindow.setJSONdataset(dataset2);
+                    clearInterval(datasetInterval);
+                }
+                else if (typeof iframe.contentWindow.setCSVdataset == "function") {
+                    dataset2 += ".csv";
+                    iframe.contentWindow.setCSVdataset(dataset2);
+                    clearInterval(datasetInterval);
+                }
+                else if (typeof iframe.contentWindow.setTSVdataset == "function") {
+                    dataset2 += ".tsv";
+                    iframe.contentWindow.setTSVdataset(dataset2);
+                    clearInterval(datasetInterval);
+                }
+            }
+            function setFrameNodePositions(nodePositions) {
+                var iframe = document.getElementById("viewerFrame"); //set the node positions                        
+                if (typeof iframe.contentWindow.setNodePositions == "function") {
+                    getAndSetDataset();
+                    iframe.contentWindow.setNodePositions(nodePositions);
+                    clearInterval(nodePosInterval);
+                }
+            }
+            function getAndSetNodePositions() {
+
+                var command = "getNodePositions";
+                var url = "TaskInstancesCreator?command=" + command;
+
+                var xmlHttpRequest = getXMLHttpRequest();
+
+                xmlHttpRequest.onreadystatechange = function()
+                {
+                    if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
+                    {
+                        var nodesAndPositions = xmlHttpRequest.responseText.split("::::");
+                        var nodePositions = [];
+
+                        for (var i = 0; i < nodesAndPositions.length; i++) {
+                            var posValues = nodesAndPositions[i].split("::");
+                            var name = posValues[0];
+                            var x = Number(posValues[1]);
+                            var y = Number(posValues[2]);
+                            nodePositions[name] = {"x": x, "y": y};
+                        }
+                        nodePosInterval = setInterval(function() {
+                            setFrameNodePositions(nodePositions);
+                        }, 200);
+                    }
+                };
+                xmlHttpRequest.open("GET", url, true);
+                xmlHttpRequest.send();
+            }
+
+
+
+
+
+
+        </script>
+    </head>
+    <body>       
+        <div id="viewers">  
+        </div> 
+        <div id="propControl">  
+            <h4 style="margin-top: 0px;">Select task instances for the task listed below.</h4>
+            <p id="task"><strong>Task: </strong></p>
+            <hr />
+            <p><u>Steps</u></p>
+        <ol>
+            <li>Select the inputs for each task instance one at a time.</li>
+            <li>Provide the correct answer for each task instance.</li> 
+            <li>Click on the "Next Instance" button, and repeat step 1 and 2.</li>
+            <li>Click on the "Save All Instances" button when you finish creating instances. </li>
+        </ol>    
+        <p> <u><strong>Current Task instance #</strong>: <span id="taskInstanceNumber">1</span></u></p>
+
+    <div id="inputsDiv">
+        Provide Inputs for current instance <!--and specify the type of input
+        <p> <input type="radio" /> Will be selected</p>
+        <p> <input type="radio" /> Will be part of a question</p> -->
+        <p>  
+            <input type="button" value="Save Input and Proceed" onclick="saveInputs();"/> 
+            <!--<input type="button" value="Done with Inputs" onclick="doneWithInputs()"/> -->
+        </p>
+    </div>
+
+    <div id="answersDivContainer" style="display:none;">
+        <div>
+            Provide answer for current task instance
+            <div id="answerSelectionDiv" style="display:none">
+                <br/>
+                <strong><em>Note: Answer should be selected in the visualization</em></strong>
+            </div>    
+
+            <div id="answersDiv">           
+                <input type="text" name="answer" id="answer" value=""/>
+            </div>
+        </div>
+    </div>    
+    <p>  <input type="button" id="nextInstance" value="Go to Next Instance" onclick="saveInstance();" disabled/></p>
+    <hr/>
+    <p><input type="button" value="Save All Instances" onclick="saveAllTaskInstances();"/></p>
+</div>
+
+<input type="hidden" name="tempname" id="tempname" value=""/>
+<input type="hidden" id="selectedAnswer" value=""/>
+
+
+</body>
+</html>

@@ -1,0 +1,1039 @@
+
+<!DOCTYPE html>
+<html class="ocks-org do-not-copy">
+    <meta charset="utf-8">
+    <title>Les Misérables Co-occurrence</title>
+    <style>
+        @import url(http://bost.ocks.org/mike/style.css?aea6f0a);
+
+        .background {
+            fill: #eee;
+        }
+
+        line {
+            stroke: #fff;
+        }
+
+        .cell{
+            fill: black;
+        }
+        .selectedRow{
+            fill: red;
+        }
+
+        text.active {
+            fill:red;
+            stroke: red;
+        }
+        text.inactive{
+            fill: black;
+        }
+        text.selectedLabel{
+            fill: red;
+        }
+        .hoveredLabel{
+            fill: green ;
+            stroke: green ;
+        }
+        .normalLabel{
+            fill: black;
+            stroke: none;
+        }
+        body{
+            margin: 5px !important;
+            
+         //   margin-left: 0px;
+           // border-left: 0px;
+            width: 865px !important;
+        }
+        html{
+            min-width: 100%;
+        }
+        .hoveredBackground{
+            fill: rgb(138, 230, 92);
+        }     
+        .hoveredSelectedBackground{
+            fill: rgb(138, 230, 92);
+        }
+        .labelrect{
+            pointer-events: none;
+        }  
+        .overlay{
+            fill: none;
+            //  overflow: hidden;
+            pointer-events: all;
+        }
+        .row{
+            pointer-events: none;
+            //overflow: hidden;
+        }
+        .column{
+            pointer-events: none;
+            //overflow: hidden;
+        }
+        rect{
+            pointer-events: none;
+            //overflow: hidden;
+        }
+        .rowlabel{
+            pointer-events: none;
+            //overflow: hidden;
+        }
+        .columnlabel{
+            pointer-events: none;
+        }
+        .zoomBtn{
+            position: absolute;
+            width:40px;
+        }      
+        #zoom_in, #zoom_out{
+            //margin-top: 2px;
+            padding: 0px;
+            font-size: 13px;
+            border: 1.5px solid grey;
+            width:30px;
+            height:30px;
+        }
+        /*  #majorContainer{
+              float:right;
+          } */
+        #colHeaderSvg{
+            border: 2px solid black;    
+        }
+
+
+    </style>
+    <script src="http://d3js.org/d3.v2.min.js?2.8.1"></script>
+    <body>     
+
+        <span class="zoomBtn" >            
+            <input type="button" id="zoom_in" style="background: url(plusImage.png)" onclick="zoomClick(this);" />
+            <input type="button" id="zoom_out" style="background: url(minusImage.png)" onclick="zoomClick(this);" />
+
+        </span> 
+
+        <script>
+
+            var nodes = [];
+            var sortedIndices = [];
+
+            var zoom = d3.behavior.zoom()
+                    .translate([0, 0])
+                    .scaleExtent([0.8, 1.5])
+                    .on("zoom", zoomed);
+
+            var container;
+            var colHeaderContainer;
+            var rowHeaderContainer;
+
+
+            var margin = {top: 0, right: 0, bottom: 0, left: 0},
+            width = 730,
+                    height = 730;
+
+           // createVisualization("miserables.json");
+
+            function createVisualization(dataseturl) {
+
+
+                var x = d3.scale.ordinal().rangeBands([0, width]),
+                        z = d3.scale.linear().domain([0, 4]).clamp(true),
+                        c = d3.scale.category10().domain(d3.range(10));
+
+                //This is the column header svg
+                var colHeaderSvg = d3.select("body").append("svg")
+                        .attr("width", width)
+                        .attr("height", 100)
+                        .style("margin-left", +115 + "px")
+                        .style("margin-top", +0 + "px")
+                        .append("g")
+                        .attr("transform", "translate(" + 0 + "," + 100 + ")");
+
+
+                //This is the row header
+                var rowHeaderSvg = d3.select("body").append("svg")
+                        .attr("width", 100)
+                        .attr("height", height)
+                        .style("margin-left", 0 + "px")
+                        .style("margin-right", 15 + "px")
+                        .style("margin-top", +0 + "px")
+                        .append("g")
+                        .attr("transform", "translate(" + 0 + "," + 0 + ")");
+
+
+
+
+                //This is the main container svg
+                var majorContainer = d3.select("body").append("svg")
+                        .attr("width", width)
+                        .attr("height", height + margin.top + margin.bottom)
+                        .attr("id", "majorContainer")
+                        .style("margin-left", +0 + "px")
+                        .style("margin-top", +0 + "px")
+                        .append("g")
+                        .attr("transform", "translate(" + 0 + "," + margin.top + ")");
+
+
+
+
+
+                /* var rowHeaderSvg = majorContainer.append("svg")
+                 .attr("width", 100)
+                 .attr("height", height + margin.top + margin.bottom)
+                 .style("margin-left", +0 + "px")
+                 .style("margin-top", +0 + "px")
+                 .append("g");
+                 //  .attr("transform", "translate(" + 0 + "," + 0 + ")");*/
+
+                var svg = majorContainer.append("svg")
+                        .attr("width", width + margin.left + margin.right)
+                        .attr("height", height + margin.bottom + margin.top)
+                        .style("margin-left", 100 + "px")
+                        .style("margin-top", +0 + "px")
+                        .append("g")
+                        .attr("transform", "translate(" + 0 + "," + 0 + ")");
+
+                svg.append("rect")
+                        .attr("x", 0)
+                        .attr("y", 0)
+                        .attr("class", "overlay")
+                        .call(zoom)
+                        .attr("width", "100%")
+                        .attr("height", "100%");
+
+                container = svg.append("g");
+
+                d3.json(dataseturl, function(miserables) {
+                    var matrix = [];
+
+                    nodes = miserables.nodes;
+
+
+                    var n = nodes.length;
+
+                    // Compute index per node.
+                    nodes.forEach(function(node, i) {
+                        node.index = i;
+                        node.count = 0;
+                        node.sortedIndex = -1;
+                        matrix[i] = d3.range(n).map(function(j) {
+                            return {x: j, y: i, z: 0, name: node.name};
+                        });
+                    });
+                   
+                    // Convert links to matrix; count character occurrences.
+                    miserables.links.forEach(function(link) {
+                        matrix[link.source][link.target].z += link.value;
+                        matrix[link.target][link.source].z += link.value;
+                        nodes[link.source].count += link.value;
+                        nodes[link.target].count += link.value;
+                    });
+
+
+                    // Precompute the orders.
+                    var orders = {
+                        name: d3.range(n).sort(function(a, b) {
+                            return d3.ascending(nodes[a].name, nodes[b].name);
+                        }),
+                        count: d3.range(n).sort(function(a, b) {
+                            return nodes[b].count - nodes[a].count;
+                        }),
+                        group: d3.range(n).sort(function(a, b) {
+                            return nodes[b].group - nodes[a].group;
+                        })
+                    };
+
+                    // The default sort order.
+
+                    x.domain(orders.count);
+
+                    sortedIndices = d3.range(n).sort(function(a, b) {
+                        return nodes[b].count - nodes[a].count;
+                    });
+
+                    container.append("rect")
+                            .attr("class", "background")
+                            .attr("width", width)
+                            .attr("height", height)
+                            .append("g");
+
+                    /** Column headers settings */
+                    var column = container.selectAll(".column")
+                            .data(matrix)
+                            .enter().append("g")
+                            .attr("class", "column")
+                            .attr("transform", function(d, i) {
+                                return "translate(" + x(i) + ")rotate(-90)";
+                            });
+
+                    column.append("line")
+                            .attr("x1", -width);
+
+
+
+
+                    colHeaderSvg.append("rect")
+                            .attr("x", -100)
+                            .attr("y", -100)
+                            .attr("class", "overlay")
+                            .call(zoom)
+                            .attr("width", "100%")
+                            .attr("height", "100%");
+
+                    colHeaderContainer = colHeaderSvg.append("g");
+
+
+
+                   /* colHeaderContainer.append("rect")
+                            .attr("class", "background")
+                            .attr("width", width)
+                            .attr("height", 100)
+                            .append("g");  */
+
+
+                    var colHeader = colHeaderContainer.selectAll(".columnh")
+                            .data(matrix)
+                            .enter().append("g")
+                            .attr("class", "columnh")
+                            .attr("transform", function(d, i) {
+                                return "translate(" + x(i) + ")rotate(-90)";
+                            });
+
+                    //colHeader.append("line")
+                    //     .attr("x1", 5);
+
+                    colHeader.append("rect")
+                            .attr("x",
+                                    function(d, i) {
+                                        if (getSortedIndex(i) % 2 === 1) {
+                                            return 6;
+                                        }
+                                        else {
+                                            //return 24;
+                                            return 6;
+                                        }
+                                    })
+                            .attr("class", "labelrect")
+                            .attr("width", x.rangeBand() + 100)
+                            .attr("height", x.rangeBand())
+                            .style("fill", function(d, i) {
+
+                                if (getSortedIndex(i) % 2 === 1) {
+                                    // return "rgb(255,255, 229)";
+                                    return "rgb(178, 178, 178)";
+                                }
+                                else {
+                                    return "lightGray";
+                                    // return "rgb(140, 140, )";
+                                }
+                            });
+
+
+
+                    colHeader.append("text")
+                            .attr("x",
+                                    function(d, i) {
+                                        if (getSortedIndex(i) % 2 === 1) {
+                                            return 6;
+                                        }
+                                        else {
+                                            return 25;
+                                        }
+                                    })
+                            .attr("y", x.rangeBand() / 2)
+                            .attr("dy", ".32em")
+                            .attr("text-anchor", "start")
+                            .style("font-size", "12px")
+                            .style("font-family", "serif")
+                            .attr("id", function(d, i) {
+                                return "columnlabel" + i;
+                            })
+                            .attr("class", "columnlabel")
+                            .text(function(d, i) {
+                                return nodes[i].name;
+                                // return "A "+i;
+                            })
+                            .on("mouseover", function(d, i) {
+                                d3.select(this).classed("hoveredLabel", true);
+
+                                //this are for the cells on that column and row
+                                d3.selectAll(".row").selectAll(".background")
+                                        .attr("class", function(d) {
+                                            if (d.x === i) {
+                                                return "hoveredBackground";
+                                            }
+                                            else
+                                                return "background";
+                                        });
+
+
+                                d3.selectAll(".row").selectAll(".selectedRow")
+                                        .classed("hoveredSelectedBackground",
+                                                function(d) {
+                                                    if (d.x === i) {
+                                                        return true;
+                                                    }
+                                                    else {
+                                                        return false;
+                                                    }
+                                                });
+                            })
+                            .on("mouseout", function() {
+                                d3.select(this).classed("hoveredLabel", false);
+                                d3.selectAll(".row").selectAll(".hoveredBackground")
+                                        .attr("class", "background");
+
+                                d3.selectAll(".row").selectAll(".selectedRow")
+                                        .classed("hoveredSelectedBackground", false);
+                            });
+
+
+                    /** Now let's deal with the rows */
+                    var row = container.selectAll(".row")
+                            .data(matrix)
+                            .enter().append("g")
+                            .attr("class", "row")
+                            .attr("transform", function(d, i) {
+                                //alert(x(i));
+                                return "translate(0," + x(i) + ")";
+                            })
+                            .each(background)
+                            .each(row);
+
+                    row.append("line")
+                            .attr("x2", width);
+
+
+
+
+                    rowHeaderSvg.append("rect")
+                            .attr("x", 0)
+                            .attr("y", 0)
+                            .attr("class", "overlay")
+                            .call(zoom)
+                            .attr("width", "100%")
+                            .attr("height", "100%");
+
+                    rowHeaderContainer = rowHeaderSvg.append("g");
+
+
+
+                    var rowHeader = rowHeaderContainer.selectAll(".rowh")
+                            .data(matrix)
+                            .enter().append("g")
+                            .attr("class", "rowh")
+                            .attr("transform", function(d, i) {
+                                //alert(x(i));
+                                return "translate(0," + x(i) + ")";
+                            });
+                    //.each(background)
+                    //.each(row);
+
+
+
+                    rowHeader.append("rect")
+                            .attr("x", function(d, i) {
+                                if (getSortedIndex(i) % 2 === 1) {
+                                    return 10;
+                                }
+                                else {
+                                    return 10;
+                                }
+                            })
+                            .attr("class", "labelrect")
+                            .attr("width", x.rangeBand() + 100)
+                            .attr("height", x.rangeBand())
+                            .style("fill", function(d, i) {
+
+                                if (getSortedIndex(i) % 2 === 1) {
+                                    // return "rgb(255,255, 229)";
+                                    return "rgb(178, 178, 178)";
+                                }
+                                else {
+                                    return "lightGray";
+                                    // return "rgb(140, 140, )";
+                                }
+
+
+
+                            });
+
+                    rowHeader.append("text")
+                            .attr("x", function(d, i) {
+                                if (getSortedIndex(i) % 2 === 1) {
+                                    return 20;
+                                }
+                                else {
+                                    return 10;
+                                }
+                            })
+                            .attr("y", x.rangeBand() / 2)
+                            .attr("dy", ".32em")
+                            .attr("text-anchor", "start")
+                            .attr("id", function(d, i) {
+                                return "rowlabel" + i;
+                            })
+                            .attr("class", "rowlabel")
+                            .style("font-size", "12px")
+                            .style("font-family", "serif")
+                            .text(function(d, i) {
+                                return nodes[i].name;
+                            })
+                            .on("mouseover", function(d, i) {
+                                // d3.select(this).style("fill", "green");
+                                // d3.select(this).style("stroke", "green");
+                                d3.select(this).classed("hoveredLabel", true);
+
+                                //this are for the cells on that column and row
+                                d3.selectAll(".rowh").selectAll(".background")
+                                        .attr("class", function(d) {
+                                            if (d.y === i) {
+                                                return "hoveredBackground";
+                                            }
+                                            else
+                                                return "background";
+
+                                        });
+
+                                d3.selectAll(".rowh").selectAll(".selectedRow")
+                                        .classed("hoveredSelectedBackground",
+                                                function(d) {
+                                                    if (d.y === i) {
+                                                        return true;
+                                                    }
+                                                    else {
+                                                        return false;
+                                                    }
+                                                });
+                            })
+                            .on("mouseout", function() {
+                                //d3.select(this).style("fill", "black");
+                                //d3.select(this).style("stroke", "none");
+
+                                d3.select(this).classed("hoveredLabel", false);
+
+                                //d3.select(this).style("stroke", "none");
+                                d3.selectAll(".rowh").selectAll(".hoveredBackground")
+                                        .attr("class", "background");
+
+                                d3.selectAll(".rowh").selectAll(".selectedRow")
+                                        .classed("hoveredSelectedBackground", false);
+
+                            });
+
+
+
+
+                    /* row.append("line")
+                     .attr("x2", width);
+                     
+                     row.append("rect")
+                     .attr("x", function(d, i) {
+                     if (getSortedIndex(i) % 2 === 1) {
+                     return -20;
+                     }
+                     else {
+                     return -41;
+                     }
+                     })
+                     .attr("class", "labelrect")
+                     .attr("width", x.rangeBand() + 11)
+                     .attr("height", x.rangeBand())
+                     .style("fill", function(d, i) {
+                     
+                     if (getSortedIndex(i) % 2 === 1) {
+                     return "rgb(255,255, 229)";
+                     }
+                     else {
+                     return "lightGray";
+                     }
+                     });
+                     
+                     row.append("text")
+                     .attr("x", function(d, i) {
+                     if (getSortedIndex(i) % 2 === 1) {
+                     return -6;
+                     }
+                     else {
+                     return -25;
+                     }
+                     })
+                     .attr("y", x.rangeBand() / 2)
+                     .attr("dy", ".32em")
+                     .attr("text-anchor", "end")
+                     .attr("id", function(d, i) {
+                     return "rowlabel" + i;
+                     })
+                     .attr("class", "rowlabel")
+                     .style("font-size", "12px")
+                     .style("font-family", "serif")
+                     .text(function(d, i) {
+                     return nodes[i].name;
+                     })
+                     .on("mouseover", function(d, i) {
+                     // d3.select(this).style("fill", "green");
+                     // d3.select(this).style("stroke", "green");
+                     d3.select(this).classed("hoveredLabel", true);
+                     
+                     //this are for the cells on that column and row
+                     d3.selectAll(".row").selectAll(".background")
+                     .attr("class", function(d) {
+                     if (d.y === i) {
+                     return "hoveredBackground";
+                     }
+                     else
+                     return "background";
+                     
+                     });
+                     
+                     d3.selectAll(".row").selectAll(".selectedRow")
+                     .classed("hoveredSelectedBackground",
+                     function(d) {
+                     if (d.y === i) {
+                     return true;
+                     }
+                     else {
+                     return false;
+                     }
+                     });
+                     
+                     
+                     
+                     
+                     })
+                     .on("mouseout", function() {
+                     //d3.select(this).style("fill", "black");
+                     //d3.select(this).style("stroke", "none");
+                     
+                     d3.select(this).classed("hoveredLabel", false);
+                     
+                     //d3.select(this).style("stroke", "none");
+                     d3.selectAll(".row").selectAll(".hoveredBackground")
+                     .attr("class", "background");
+                     
+                     d3.selectAll(".row").selectAll(".selectedRow")
+                     .classed("hoveredSelectedBackground", false);
+                     
+                     }); */
+
+                    //   var cnt1 = 0;
+
+
+
+
+                    function getSortedIndex(indx) {
+                        for (var i = 0; i < sortedIndices.length; i++) {
+                            if (sortedIndices[i] === indx) {
+                                return i;
+                            }
+                        }
+                    }
+
+                    function row(row) {
+                        //alert("here");
+                        var cell = d3.select(this).selectAll(".cell")
+                                .data(row.filter(function(d) {
+                                    return d.z;
+                                }))
+                                .enter().append("rect")
+                                .attr("class", "cell")
+                                .attr("x", function(d) {
+                                    return x(d.x);
+                                })
+                                .attr("width", x.rangeBand())
+                                .attr("height", x.rangeBand())
+                                .on("mouseover", mouseover)
+                                .on("mouseout", mouseout);
+                    }
+
+                    function background(row) {
+                        //alert("here");
+                        var cell = d3.select(this).selectAll(".cell")
+                                .data(row)
+                                .enter().append("rect")
+                                .attr("class", "background")
+                                .attr("x", function(d) {
+                                    return x(d.x);
+                                })
+                                .attr("width", x.rangeBand())
+                                .attr("height", x.rangeBand());
+                    }
+
+                    function mouseover(p) {
+                        /*  d3.selectAll(".row text")
+                         .style("fill", function(d, i) {
+                         if (i === p.y) {
+                         return "red";
+                         }
+                         else
+                         return "black";
+                         }); */
+
+
+                        d3.select("#rowlabel" + p.y)
+                                .classed("hoveredLabel", true);
+
+                        //for the column label
+
+                        d3.select("#columnlabel" + p.x)
+                                .classed("hoveredLabel", true);
+
+                        //this are for the cells on that column and row
+                        d3.selectAll(".row").selectAll(".background")
+                                .attr("class", function(d) {
+                                    if (d.y === p.y || d.x === p.x) {
+                                        return "hoveredBackground";
+                                    }
+                                    else
+                                        return "background";
+
+                                });
+
+
+
+                        d3.selectAll(".row").selectAll(".selectedRow")
+                                .classed("hoveredSelectedBackground",
+                                        function(d) {
+                                            if (d.y === p.y || d.x === p.x) {
+                                                return true;
+                                            }
+                                            else {
+                                                return false;
+                                            }
+                                        });
+                    }
+
+                    function mouseout(p) {
+                        /*  d3.selectAll(".row text")
+                         .style("fill", "black"); */
+
+                        d3.select("#rowlabel" + p.y)
+                                .classed("hoveredLabel", false);
+
+                        /*d3.select("#rowlabel" + p.y)
+                         .style("fill", "black");
+                         
+                         d3.select("#rowlabel" + p.y)
+                         .style("stroke", "none");*/
+
+                        d3.select("#columnlabel" + p.x)
+                                .classed("hoveredLabel", false);
+                        /*d3.select("#columnlabel" + p.x)
+                         .style("fill", "black");
+                         
+                         d3.select("#columnlabel" + p.x)
+                         .style("stroke", "none");*/
+
+                        /*d3.selectAll(".column text")
+                         .style("fill", "black"); */
+
+                        d3.selectAll(".row").selectAll(".hoveredBackground")
+                                .attr("class", "background");
+                        d3.selectAll(".row").selectAll(".selectedRow")
+                                .classed("hoveredSelectedBackground", false);
+
+                    }
+
+
+                    function order(value) {
+                        x.domain(orders[value]);
+
+                        var t = container.transition().duration(2500);
+
+                        t.selectAll(".row")
+                                .delay(function(d, i) {
+                                    return x(i) * 4;
+                                })
+                                .attr("transform", function(d, i) {
+                                    return "translate(0," + x(i) + ")";
+                                })
+                                .selectAll(".cell")
+                                .delay(function(d) {
+                                    return x(d.x) * 4;
+                                })
+                                .attr("x", function(d) {
+                                    return x(d.x);
+                                });
+
+                        t.selectAll(".column")
+                                .delay(function(d, i) {
+                                    return x(i) * 4;
+                                })
+                                .attr("transform", function(d, i) {
+                                    return "translate(" + x(i) + ")rotate(-90)";
+                                });
+                    }
+
+                });
+            }
+
+            /****************************************************** GRAPHUNIT METHOD STARTS ********************/
+
+            /**
+             * This method returns the type of edges in the graph "directed" / "undirected" 
+             */
+            function getGraphType() {
+                //directed/undirected            
+                return "undirected";
+            }
+
+            /** 
+             * This method accepts an array of node names, and highlights 
+             * the nodes in the graph
+             */
+            function selectNode(nodenames) {
+                /* d3.selectAll("text")
+                 .style("fill", "black")
+                 .style("stroke", "none"); */
+                //d3.selectAll("text").classed("normalLabel", true);
+
+                //first unselect all selected if any             
+                d3.selectAll(".row").selectAll(".selectedRow").classed("background", true);
+
+                d3.selectAll("text").classed("active", false);
+
+                //do the selection
+                for (var j = 0; j < nodenames.length; j++) {
+                    var nameIndex = "";
+                    var nodeName = nodenames[j];
+
+                    for (var i = 0; i < nodes.length; i++) {
+                        if (nodes[i].name === nodeName) {
+                            nameIndex = i;
+                            break;
+                        }
+                    }
+
+                    //make the whole row red
+                    d3.selectAll(".row").selectAll(".background")
+                            .attr("class", function(d) {
+                                if (d.y === nameIndex || d.x === nameIndex) {
+                                    return "selectedRow";
+                                }
+
+                                else
+                                    return "background";
+
+                            });
+
+
+
+                    //make the row label red
+                    /*   d3.selectAll("text").classed("active", function(d){
+                     if (d.y === nameIndex || d.x === nameIndex) {
+                     return true;
+                     }
+                     else 
+                     return false;
+                     
+                     });*/
+
+
+
+                    d3.select("#rowlabel" + nameIndex).classed("active", true);
+
+
+
+
+                    /* d3.select("#rowlabel" + nameIndex)
+                     .style("fill", "red");
+                     
+                     d3.select("#rowlabel" + nameIndex)
+                     .style("stroke", "red");  */
+
+                    /*  d3.selectAll(".row text")
+                     .attr("class", function(d, i) {
+                     if (i === nameIndex) {
+                     
+                     return "active";
+                     }
+                     
+                     });*/
+
+                    //make the column label red
+
+                    d3.select("#columnlabel" + nameIndex).classed("active", true);
+
+                    /* d3.select("#columnlabel" + nameIndex)
+                     .style("fill", "red");
+                     
+                     
+                     d3.select("#columnlabel" + nameIndex)
+                     .style("stroke", "red"); */
+
+                    /*   d3.selectAll(".column text")
+                     .attr("class", function(d, i) {
+                     
+                     if (i === nameIndex) {
+                     
+                     return "active";
+                     }                               
+                     }); */
+
+                }
+            }
+
+            function zoomed() {
+                /*main container*/
+                container.attr("transform", "translate(" +
+                        Math.max(-width + 200, /*Math.min(0,*/ d3.event.translate[0])/*)*/ + "," +
+                        Math.max(-width + 200, Math.min(0, d3.event.translate[1])) + ")" +
+                        "scale(" + d3.event.scale + ")");
+                /* the column header container */
+                colHeaderContainer.attr("transform",
+                        "translate(" + Math.max(-width + 200, /*Math.min(0,*/ d3.event.translate[0])/*)*/ + "," + 0 + ")" +
+                        "scale(" + d3.event.scale + ")");
+                /*the rowheader container */
+                 rowHeaderContainer.attr("transform", "translate(" +
+                 0 + "," +
+                 Math.max(-width + 200, Math.min(0, d3.event.translate[1])) + ")" +
+                 "scale(" + d3.event.scale + ")");  
+        /*         rowHeaderContainer.attr("transform", "translate(" +
+                Math.max(-width + 100, /*Math.min(0, */
+        //d3.event.translate[0])/*)*/ + "," +
+          //      Math.max(-width + 100, /*Math.min(0, */d3.event.translate[1])/*)*/ + ")" +
+            //     "scale(" + d3.event.scale + ")");
+            }
+
+
+
+            function zoomed2usingBtn(translate, scale) {
+                /*main container*/
+                container.attr("transform", "translate(" +
+                        Math.max(-width + 200, /*Math.min(0,*/ translate[0])/*)*/ + "," +
+                        Math.max(-width + 200, Math.min(0, translate[1])) + ")" +
+                        "scale(" + scale + ")");
+                /* the column header container */
+                colHeaderContainer.attr("transform",
+                        "translate(" + Math.max(-width + 200, /*Math.min(0,*/ translate[0])/*) */+ "," + 0 + ")" +
+                        "scale(" + scale + ")");
+                /*the rowheader container */
+                rowHeaderContainer.attr("transform", "translate(" +
+                 0 + "," +
+                 Math.max(-width + 200, Math.min(0, translate[1])) + ")" +
+                 "scale(" + scale + ")"); 
+               /* rowHeaderContainer.attr("transform", "translate(" +
+                        Math.max(-width + 100, /*Math.min(0,*/ 
+                            //translate[0])/*)*/ + "," +
+                         //Math.max(-width + 100, /*Math.min(0, */translate[1])/*)*/+ ")" +
+                     //   "scale(" + scale + ")");
+            }
+
+
+
+
+            /**
+             * This function will be called to set the value of a JSON dataset variable
+             * 
+             */
+            function setJSONdataset(dataseturl) {
+                createVisualization(dataseturl);
+            }
+            /**
+             * a question will be passed to this method, and if the developer wants to change the question, he will do it
+             * in here. He will return the appropriate replacement to the question.
+             * @param {type} question : a string question.
+             * @returns {undefined} : it returns a string which is the replacement question
+             */
+            function changeQuestion(question) {   /**** OPTIONAL FUNCTION ******/
+                //Task1: Is there a a common neighbor between the two highlighted nodes?
+                //Task2: How many links does the highlighted node has?
+
+                var newquestion = "";
+                if (question === "How many nodes can be reached in one step from the highlighted node?") {
+                    //newquestion = "How many black boxes  are on the row highlighted red?";
+                    newquestion = "How many connections does the highlighted node have?";
+                }
+                else if (question === "Can you get from one of the highlighted nodes to the other with exactly 2 steps?") {
+                    newquestion = "Is there a common neighbor between the two highlighted nodes?";
+                }
+                return newquestion;
+            }
+
+            function setIntroduction() {    /**** OPTIONAL FUNCTION ******/
+                var introPageName = "intro_matrix_interpLong.html";
+                return introPageName;
+            }
+            /*
+             * This function will be given a question and based on the question,
+             * it will return the name of an image to be used as the legend 
+             */
+            function getQuestionLegend(question) {   /**** OPTIONAL FUNCTION ******/
+
+                if (question === "How many nodes can be reached in one step from the highlighted node?") {
+                    return "matrix_legend.png";
+                }
+                else {
+                    return "";
+                }
+            }
+            //this function will be used to display a note for the visualization.
+            function getVisualizationNote() {
+                var html_note = "<ul>"
+                        + "<li>Hover your mouse over a node label to highlight its row or column.  </li>"
+                        + "<li>Hover your mouse over a connection (i.e. a black box) to highlight the node labels it is connected to.</li>"
+                        + "</ul>";
+                return html_note;
+            }
+            function getVisualizationHint() {
+                return "(<strong>Hint</strong>: interaction might help to make sure - hover over connections or labels)";
+            }
+            function getVisualizationNoteImages() {
+                //return the image names separated by a colon.
+                return "row-label-hover.png:column-label-hover.png:matrix-hover.png";
+            }
+            /**
+             * This method may be used to set static node positions.
+             */
+            var nodePositions = {};
+            function setNodePositions(positions) {
+                nodePositions = positions;
+            }
+            /***************************************************GRAPHUNIT METHOD ENDS ******************************/
+
+            function zoomClick(btn) {
+                var direction = 1,
+                        factor = 0.1,
+                        target_zoom = 1,
+                        center = [width / 2, height / 2],
+                        extent = zoom.scaleExtent(),
+                        translate = zoom.translate(),
+                        translate0 = [],
+                        l = [],
+                        view = {x: translate[0], y: translate[1], k: zoom.scale()};
+
+
+                direction = (btn.id === 'zoom_in') ? 1 : -1;
+                target_zoom = zoom.scale() * (1 + factor * direction);
+
+                if (target_zoom < extent[0] || target_zoom > extent[1]) {
+                    return false;
+                }
+
+                translate0 = [(center[0] - view.x) / view.k, (center[1] - view.y) / view.k];
+                view.k = target_zoom;
+                l = [translate0[0] * view.k + view.x, translate0[1] * view.k + view.y];
+
+                view.x += center[0] - l[0];
+                view.y += center[1] - l[1];
+
+                interpolateZoom([view.x, view.y], view.k);
+            }
+
+            function interpolateZoom(translate, scale) {
+                return d3.transition().duration(350).tween("zoom", function() {
+                    return function(t) {
+                        zoom
+                                .scale(scale)
+                                .translate(translate);
+                        zoomed2usingBtn(translate, scale);
+                    };
+                });
+            }
+        </script>
+
+
+    </body>
+
+
+

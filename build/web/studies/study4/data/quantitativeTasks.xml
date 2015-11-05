@@ -14,7 +14,7 @@
 <viewerwidth>860</viewerwidth>
 <viewerheight>800</viewerheight>
 <task>
-<name>neighbor_one_step</name>
+<name>neighborOneStep</name>
 <question>Are the two highlighted nodes directly connected?</question>
 <size>5</size>
 <time>10</time>

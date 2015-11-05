@@ -90,13 +90,7 @@ public class StudyManager extends HttpServlet {
                     //for the first time, get the name of the study from the session otherwise expect it to be passed
                     nameofstudy = session.getAttribute("studyname").toString();
                 } else {
-
-                    //  System.out.println("QUERY STRING IS:: "+ request.getQueryString());
-                    // System.out.println("command---- "+command);
-                    //System.out.println(request.getAttribute("studyid"));
-                    //    System.out.println("--------------");
                     nameofstudy = request.getParameter("studyid").toString();
-                    //  System.out.println();
                 }
 
                 //String nameofstudy = session.getAttribute("studyname").toString();
@@ -190,6 +184,7 @@ public class StudyManager extends HttpServlet {
                             //System.out.println("Previous Time is ::: " + prevTime);
                             int previousTime = Integer.parseInt(prevTime);
                             upmts.evalQuestions.get(upmts.testCounter - 1).setIsGivenAnsCorrect(prevAnswer.trim());
+                            upmts.evalQuestions.get(upmts.testCounter - 1).setGivenAnswer(prevAnswer.trim());
                             upmts.evalQuestions.get(upmts.testCounter - 1).setTimeInSeconds(previousTime);
                         }
                         upmts.isTutorial = false;
@@ -206,6 +201,7 @@ public class StudyManager extends HttpServlet {
                         int previousTime = Integer.parseInt(prevTime);
 
                         upmts.evalQuestions.get(upmts.testCounter - 1).setIsGivenAnsCorrect(prevAnswer.trim());
+                        upmts.evalQuestions.get(upmts.testCounter - 1).setGivenAnswer(prevAnswer.trim());
                         upmts.evalQuestions.get(upmts.testCounter - 1).setTimeInSeconds(previousTime);
 
                         // writeAnswersToFile(upmts);
@@ -536,7 +532,6 @@ public class StudyManager extends HttpServlet {
                 ArrayList<String> mchoices = new ArrayList<String>();
                 //if answer type is rating, then get the minimum and maximum values
                 if (answerType.equalsIgnoreCase("range")) {
-
                     NodeList minNode = doc2.getElementsByTagName("minimum");
                     NodeList maxNode = doc2.getElementsByTagName("maximum");
                     min = Integer.parseInt(((Element) minNode.item(0)).getTextContent());
@@ -624,36 +619,53 @@ public class StudyManager extends HttpServlet {
          * read the question nodes *
          */
         try {
-            String filename = "";
-
+            String taskFilenameUrl = "";
             String graphType = request.getParameter("graphType"); //get the graph type variable
 
             for (int i = 0; i < upmts.questionCodes.size(); i++) {
-                String xmlname = upmts.questionCodes.get(i) + ".xml";
-                filename = getServletContext().getRealPath("datasets" + File.separator
+                String taskXmlName = upmts.questionCodes.get(i) + ".xml";
+
+                taskFilenameUrl = getServletContext().getRealPath("datasets" + File.separator
                         + upmts.datasetname + File.separator
-                        + graphType + File.separator + xmlname);
+                        + graphType + File.separator + taskXmlName);
 
-                File xmlFile = new File(filename);
-                DocumentBuilderFactory dbFactory2 = DocumentBuilderFactory.newInstance();
-                DocumentBuilder dBuilder2 = dbFactory2.newDocumentBuilder();
-                Document doc2 = dBuilder2.parse(xmlFile);
-                doc2.getDocumentElement().normalize();
+                /**
+                 * *****************************************
+                 */
+                Node tasknode = getTaskNodeFromTaskFile(request, upmts.questionCodes.get(i));
+                String anstypestr = ((Element) tasknode).getElementsByTagName("answertype").item(0).getTextContent();
 
-                NodeList ansTypeNode = doc2.getElementsByTagName("answertype");
-                String answerType = ((Element) ansTypeNode.item(0)).getTextContent(); //answerType
+                //String taskquestion = ((Element) tasknode).getElementsByTagName("taskquestion").item(0).getTextContent();
+                String inInterface = ((Element) tasknode).getElementsByTagName("inputinterface").item(0).getTextContent();
+                String outInterface = ((Element) tasknode).getElementsByTagName("outputinterface").item(0).getTextContent();
+
+                //NB: answertype format:  answergroup ::: answertype ::: options_if_answertype_is options separated by ::.
+                String split[] = anstypestr.split(":::");
+
+                String answerGroup = split[0];
+                String answerType = split[1];
+                ArrayList<String> options = new ArrayList<String>();
+
+                if (split.length > 2) {
+                    String opts = split[2];
+                    String optionsStr[] = opts.split("::");
+                    //add the options of the question 
+                    for (int k = 0; k < optionsStr.length; k++) {
+                        String ansOption = optionsStr[k];
+                        options.add(ansOption);
+                    }
+                }
+
                 int questionsize = upmts.questionSizes.get(i);               //questionSize
                 String question = upmts.questions.get(i);
                 int maxTime = upmts.questionMaxTimes.get(i);
 
-                ArrayList<String> options = new ArrayList<String>();
-                NodeList optionsNode = doc2.getElementsByTagName("option");
-                //add the options of the question 
-                for (int k = 0; k < optionsNode.getLength(); k++) {
-                    String ansOption = optionsNode.item(k).getTextContent();
-                    options.add(ansOption);
-                }
-
+                File xmlFile = new File(taskFilenameUrl);
+                DocumentBuilderFactory dbFactory2 = DocumentBuilderFactory.newInstance();
+                DocumentBuilder dBuilder2 = dbFactory2.newDocumentBuilder();
+                Document doc2 = dBuilder2.parse(xmlFile);
+                doc2.getDocumentElement().normalize();
+                //question instances
                 NodeList questionNode = doc2.getElementsByTagName("question");
                 int questionCount = 0;
                 int tutorialCount = 0;
@@ -666,18 +678,16 @@ public class StudyManager extends HttpServlet {
                         //System.out.println("ANSWER -> " + answer);
                         //get the nodes
                         ArrayList<String> nodes = new ArrayList<String>();
-                        NodeList nodeList = eElement.getElementsByTagName("node");
+                        NodeList inputList = eElement.getElementsByTagName("input");
 
-                        for (int j = 0; j < nodeList.getLength(); j++) {
-                            String nodeText = nodeList.item(j).getTextContent();
-                            //System.out.println("Node "+(j+1) + " is " + nodeText);
+                        for (int j = 0; j < inputList.getLength(); j++) {
+                            String nodeText = inputList.item(j).getTextContent();
                             nodes.add(nodeText);
                         }
                         //check if there are questionnodes i.e. nodes that will form part of the actual questions
                         String qnodeText = "";
                         //  eElement.getElementsByTagName("questionnode").item(0).getTextContent();
                         if (eElement.getElementsByTagName("questionnode").item(0) != null) {
-                         //System.out.println("Yoooo --"+eElement.getElementsByTagName("questionnode").getLength());
                             //for now we will assume there can be only 1 of such nodes
                             qnodeText = eElement.getElementsByTagName("questionnode").item(0).getTextContent();
                         }
@@ -686,12 +696,12 @@ public class StudyManager extends HttpServlet {
                         if (qnodeText != null && !qnodeText.isEmpty()) {
                             //append the qnodeText to the question
                             newquestion = question + " <strong>\"" + qnodeText + "\"</strong>?";
-                        }
-                        else{
+                        } else {
                             newquestion = question;
                         }
 
-                        EvaluationQuestion evalQn = new EvaluationQuestion(newquestion, answer, nodes, options, answerType, maxTime);
+                        EvaluationQuestion evalQn = new EvaluationQuestion(newquestion, answer, nodes, options,
+                                answerType, answerGroup, maxTime, inInterface, outInterface);
                         //add the question to either the tutorial list or the test list
                         if (tutorialCount < upmts.trainingSize) {
                             upmts.tutorialQuestions.add(evalQn);
@@ -718,6 +728,45 @@ public class StudyManager extends HttpServlet {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    public Node getTaskNodeFromTaskFile(HttpServletRequest request, String taskname) {
+        String taskFilename = "quanttasks.xml";
+        String taskFileDir = "quanttasks";
+
+        Node node = null;
+        try {
+
+            File xmlFile = new File(getServletContext().getRealPath(taskFileDir + File.separator + taskFilename));
+            DocumentBuilderFactory dbFactory2 = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder2 = dbFactory2.newDocumentBuilder();
+            Document doc = dBuilder2.parse(xmlFile);
+            doc.getDocumentElement().normalize();
+            NodeList taskNodes = doc.getElementsByTagName("task");
+
+            for (int i = 0; i < taskNodes.getLength(); i++) {
+                Node tNode = taskNodes.item(i);
+                if (tNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element eElement = (Element) tNode;
+
+                    String curTaskName = eElement.getElementsByTagName("taskname").item(0).getTextContent();
+
+                    //   System.out.println("**** ---- "+ curTaskName  + " ++++ "+ taskname);
+                    //check if the name is the same.
+                    if (taskname.trim().equals(curTaskName.trim())) {
+
+                        node = tNode;
+                        break;
+                    }
+                }
+
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return node;
+
     }
 
     public void setOrderOfConditions(StudyParameters upmts) {
@@ -854,7 +903,8 @@ public class StudyManager extends HttpServlet {
             for (int i = 0; i < length; i++) {
                 EvaluationQuestion evq = upmts.evalQuestions.get(i);
                 EvaluationQuestion evalQ = new EvaluationQuestion(evq.getQuestion(), evq.getCorrectAns(), evq.getNodes(),
-                        evq.getAnsOptions(), evq.getAnsType(), evq.getMaxTimeInSeconds());
+                        evq.getAnsOptions(), evq.getAnsType(), evq.getAnswerGroup(), evq.getMaxTimeInSeconds(),
+                        evq.getInputInterface(), evq.getOutputInterface());
 
                 upmts.evalQuestions.add(evalQ);
             }
@@ -1061,13 +1111,11 @@ public class StudyManager extends HttpServlet {
             int taskSize = upmts.questionSizes.get(j);
             int cnt = 0;
             int numCorrect = 0;
- 
+
             for (int i = 0; i < upmts.evalQuestions.size(); i++) {
-                
-                
-                
+
                 cnt++;
-                 
+
                 if (!(cnt <= taskSize)) {
                     // taskCorrectness.add(cnt);
                     if (j == 0) {
@@ -1075,9 +1123,9 @@ public class StudyManager extends HttpServlet {
                     } else {
                         pw1.print("," + (double) numCorrect / taskSize);
                     }
-                   
+
                     taskSize = (Integer) upmts.questionSizes.get(j);
-                   
+
                     j++;
                     cnt = 1;
                     numCorrect = 0;
@@ -1087,10 +1135,9 @@ public class StudyManager extends HttpServlet {
                 }
             }
             //pw1.print("," + (double) numCorrect / taskSize);
-            
-           
+
             if (j == 0) { //only one question
-                
+
                 pw1.print((double) numCorrect / taskSize);
             } else {
                 pw1.print("," + (double) numCorrect / taskSize);
@@ -1245,15 +1292,26 @@ public class StudyManager extends HttpServlet {
 
             for (int m = 0; m < upmts.evalQuestions.size(); m++) {
                 cnt++;
-                boolean ans = upmts.evalQuestions.get(m).getIsGivenAnsCorrect();
-
-                if (j == 0 && cnt == 1) {
-                    pw_bacc.print(ans);
-                } else if (cnt == 1) {
-                    pw_bacc.print(" :: " + ans);
-                } else {
-                    pw_bacc.print("," + ans);
+                if (upmts.evalQuestions.get(m).getAnswerGroup().equalsIgnoreCase("widget")) {
+                    boolean ans = upmts.evalQuestions.get(m).getIsGivenAnsCorrect();
+                    if (j == 0 && cnt == 1) {
+                        pw_bacc.print(ans);
+                    } else if (cnt == 1) {
+                        pw_bacc.print(" :: " + ans);
+                    } else {
+                        pw_bacc.print("," + ans);
+                    }
+                } else if (upmts.evalQuestions.get(m).getAnswerGroup().equalsIgnoreCase("interface")) {
+                    String givenAns = upmts.evalQuestions.get(m).getGivenAnswer();
+                    if (j == 0 && cnt == 1) {
+                        pw_bacc.print(givenAns);
+                    } else if (cnt == 1) {
+                        pw_bacc.print(" :: " + givenAns);
+                    } else {
+                        pw_bacc.print("," + givenAns);
+                    }
                 }
+
                 if (cnt == taskSize) {
                     taskSize = (Integer) upmts.questionSizes.get(j);
                     j++;
@@ -1636,14 +1694,27 @@ public class StudyManager extends HttpServlet {
                 //   System.out.println("The Start is:: " + start +"  The LIMIT IS :: " +limit);
                 for (int k = start; k < limit; k++) {
                     cnt++;
-                    boolean ans = upmts.evalQuestions.get(k).getIsGivenAnsCorrect();
 
-                    if (j == 0 && cnt == 1) {
-                        pws[i].print(ans);
-                    } else if (cnt == 1) {
-                        pws[i].print(" :: " + ans);
-                    } else {
-                        pws[i].print("," + ans);
+                    if (upmts.evalQuestions.get(k).getAnswerGroup().equalsIgnoreCase("widget")) {
+                        boolean ans = upmts.evalQuestions.get(k).getIsGivenAnsCorrect();
+
+                        if (j == 0 && cnt == 1) {
+                            pws[i].print(ans);
+                        } else if (cnt == 1) {
+                            pws[i].print(" :: " + ans);
+                        } else {
+                            pws[i].print("," + ans);
+                        }
+                    } else if (upmts.evalQuestions.get(k).getAnswerGroup().equalsIgnoreCase("interface")) {
+                        String givenAns = upmts.evalQuestions.get(k).getGivenAnswer();
+
+                        if (j == 0 && cnt == 1) {
+                            pws[i].print(givenAns);
+                        } else if (cnt == 1) {
+                            pws[i].print(" :: " + givenAns);
+                        } else {
+                            pws[i].print("," + givenAns);
+                        }
                     }
 
                     if (cnt == taskSize) {

@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<quanttasks>	
+	<task>
+		<taskname>neighborTwoStep</taskname>
+		<inputinterface>selectNodes</inputinterface>
+		<outputinterface>getOutput</outputinterface>
+		<answertype>widget:::options:::yes::no</answertype>
+		<taskquestion>
+		  Can you get from one of the highlighted nodes to the other with exactly 2 steps?
+		</taskquestion>	
+			
+		<inputsize>2</inputsize>
+	</task>
+	<task>
+	   <taskname>neighborOneStep</taskname>
+	   <inputinterface>selectNode</inputinterface>
+	   <outputinterface>getOutput</outputinterface>
+	   <answertype>widget:::options:::yes::no</answertype>
+	   <taskquestion>Are the two highlighted nodes directly connected?</taskquestion>
+	   <inputsize>2</inputsize>
+	</task>	
+	<task>
+	  <taskname>neighborThreeNodes</taskname>
+	   <inputinterface>selectNode</inputinterface>
+	   <outputinterface>getOutput</outputinterface>
+	  <answertype>widget:::options:::yes::no</answertype>
+	   <taskquestion>
+			Are the three highlighted nodes directly connected?
+		</taskquestion>
+		<inputsize>3</inputsize>
+	</task>
+	<task>
+	    <taskname>neighborCount</taskname>
+	    <inputinterface>selectNode</inputinterface>
+	   <outputinterface>getOutput</outputinterface>
+		<answertype>widget:::integer</answertype>
+		<taskquestion>
+			How many nodes can be reached in one step from the highlighted node?
+		</taskquestion>
+		<inputsize>1</inputsize>
+    </task>					
+	<task>
+	    <taskname>neighborTwoNodesMaxcount</taskname>
+		<inputinterface>selectNode</inputinterface>
+	    <outputinterface>getOutput</outputinterface>
+		<answertype>integer</answertype>
+		<taskquestion>
+			What is the maximum number of nodes connected to one of the two highlighted nodes?
+		</taskquestion>
+		<inputsize>2</inputsize>
+	</task>		
+    <task>
+	  <taskname>mostConnectedNode</taskname>
+	   <inputinterface>selectNode</inputinterface>
+	   <outputinterface>getOutput</outputinterface>
+	  <answertype>interface:::interface-type:::none</answertype>
+	   <taskquestion>
+			Select the most connected node
+		</taskquestion>
+		<inputsize>0</inputsize>
+	</task>
+	
+</quanttasks>	

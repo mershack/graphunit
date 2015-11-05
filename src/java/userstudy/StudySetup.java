@@ -18,6 +18,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  *
@@ -94,26 +100,16 @@ public class StudySetup extends HttpServlet {
                     }
                 }
 
-                
                 //get the viewer width and height
-                String viewerWidth =request.getParameter("viewerWidth");
+                String viewerWidth = request.getParameter("viewerWidth");
                 String viewerHeight = request.getParameter("viewerHeight");
-                
+
                 spmts.viewerHeight = viewerHeight;
                 spmts.viewerWidth = viewerWidth;
-                
-               // System.out.println("%%%%%%%% The viewer Width is "+viewerWidth +" and height is :: "+viewerHeight);
-                
-                
-                
-                
-                
-                //System.out.println("ViewerConditions +++ "+ viewerConditions.size());
+
                 //get the dataset
                 spmts.dataset = request.getParameter("dataset");
-              //  spmts.datasetType = request.getParameter("datasetType");
 
-                //System.out.println("****The dataset type i s::::: "+datasetType);
                 //get the experiment type;
                 spmts.expType = request.getParameter("expType");
                 //get the quantitative tasks, task sizes, and task times            
@@ -139,11 +135,12 @@ public class StudySetup extends HttpServlet {
                     }
                 }
                 //get the trainingSize
-                 if(!request.getParameter("trainingSize").isEmpty()) //NB: if it is empty we will use the default training size
+                if (!request.getParameter("trainingSize").isEmpty()) //NB: if it is empty we will use the default training size
+                {
                     spmts.trainingSize = Integer.parseInt(request.getParameter("trainingSize"));
+                }
                 //System.out.println("The training size is: "+ spmts.trainingSize);
-                
-                
+
                 //qet the qualitative task details as well                       
                 String qlt[] = request.getParameterValues("qualitativeTasks");
                 String qltPos[] = request.getParameterValues("qualitativeTasksPositions");
@@ -151,7 +148,7 @@ public class StudySetup extends HttpServlet {
                 if (qlt != null && !qlt[0].isEmpty()) {
                     for (int i = 0; i < qlt.length; i++) {
                         spmts.qualitativeQuestions.add(qlt[i]);
-                       // System.out.println("QUAL:: " + qlt[i] + " ---- POS:: "+qltPos[i]);
+                        // System.out.println("QUAL:: " + qlt[i] + " ---- POS:: "+qltPos[i]);
                     }
                     if (qltPos != null) {
                         for (int i = 0; i < qltPos.length; i++) {
@@ -174,9 +171,8 @@ public class StudySetup extends HttpServlet {
                     String hitReward = request.getParameter("hitReward");
 
                     String questionTemplatePath = getServletContext().getRealPath(DATA_DIR + File.separator + questionTemplateName);
-//if(title.)
-                    //put the study on Mechanical Turk
 
+                    //put the study on Mechanical Turk
                     // createMTurkHIT(hitTitle, awsAccessKey, awsSecretKey, hitReward.trim(), Integer.parseInt(maxAssignments), questionTemplatePath);
                     //redirect to the setup-completed page
                     //TODO: Check if the HIT was successfully created otherwise redirect to an error acknowledgement page.
@@ -186,6 +182,9 @@ public class StudySetup extends HttpServlet {
 
                 setupParameters.put(session.getId(), spmts); //reput the object to the hashtable for future reference
 
+            } else if (command.equalsIgnoreCase("getTaskInterfaceMethods")) {
+                String taskQuestion = request.getParameter("taskQuestion").toString();
+                out.print(getTaskInterfaceMethods(taskQuestion, request));
             }
 
             /* String studyUrl = "StudyManager?studyname" + spmts.studyname;
@@ -294,11 +293,11 @@ public class StudySetup extends HttpServlet {
                 pw1.println("<conditionshortname>" + spmts.viewerConditionShortNames.get(i) + "</conditionshortname>");
                 pw1.println("</condition>");
             }
-            
+
             //the viewer dimensions
-            pw1.println("<viewerwidth>" +spmts.viewerWidth +"</viewerwidth>");
-            pw1.println("<viewerheight>" +spmts.viewerHeight +"</viewerheight>");
-            
+            pw1.println("<viewerwidth>" + spmts.viewerWidth + "</viewerwidth>");
+            pw1.println("<viewerheight>" + spmts.viewerHeight + "</viewerheight>");
+
             //the tasks
             String taskName = "";
             for (int i = 0; i < spmts.quantitativeQuestions.size(); i++) {
@@ -357,13 +356,15 @@ public class StudySetup extends HttpServlet {
 
         //System.out.println("::::::::"+task+"::::::::::::");
         if (task.equalsIgnoreCase("Are the two highlighted nodes directly connected?")) {
-            taskCode = "neighbor_one_step";
+            taskCode = "neighborOneStep";
         } else if (task.equalsIgnoreCase("Can you get from one of the highlighted nodes to the other with exactly 2 steps?")) {
-            taskCode = "neighbor_two_step";
+            taskCode = "neighborTwoStep";
         } else if (task.equalsIgnoreCase("How many nodes can be reached in one step from the highlighted node?")) {
-            taskCode = "neighbor_count";
+            taskCode = "neighborCount";
         } else if (task.equalsIgnoreCase("Are the three highlighted nodes directly connected?")) {
-            taskCode = "neighbor_three_nodes";
+            taskCode = "neighborThreeNodes";
+        } else if (task.equalsIgnoreCase("Select the most connected node")) {
+            taskCode = "mostConnectedNode";
         }
 
         return taskCode;
@@ -373,23 +374,62 @@ public class StudySetup extends HttpServlet {
         String taskCode = "";
         if (task.equalsIgnoreCase("Rate the easiness of the visualization tasks  from 1-Not easy to 5-Very Easy")) {
             taskCode = "rate_vis_easiness";
+        } else if (task.equalsIgnoreCase("Have you worked with this type of visualization before?")) {
+            taskCode = "worked_with_vis_before";
+        } else if (task.equalsIgnoreCase("How will you Rate your familiarity with this type of visualization prior to this study?")) {
+            taskCode = "rate_vis_familiarity";
+        } else if (task.equalsIgnoreCase("Please enter your Mechanical Turk ID")) {
+            taskCode = "enter_turk_id";
         }
-        else if(task.equalsIgnoreCase("Have you worked with this type of visualization before?")){
-          taskCode = "worked_with_vis_before";  
-        }
-        else if (task.equalsIgnoreCase("How will you Rate your familiarity with this type of visualization prior to this study?")){
-            taskCode = "rate_vis_familiarity";  
-        }
-        else if(task.equalsIgnoreCase("Please enter your Mechanical Turk ID")){
-            taskCode = "enter_turk_id";  
-        }
-        
-        
-        
-                              
-        
 
         return taskCode;
+    }
+
+    public String getTaskInterfaceMethods(String taskQn, HttpServletRequest request) {
+
+        //read the quantitative tasks file and get the taskNode
+        Node tasknode = getTaskNodeFromTaskFile(request, taskQn);
+          //get the interface methods
+        String inInterface = ((Element) tasknode).getElementsByTagName("inputinterface").item(0).getTextContent();
+        String outInterface = ((Element) tasknode).getElementsByTagName("outputinterface").item(0).getTextContent();
+
+        return inInterface + "::" + outInterface;
+    }
+
+    public Node getTaskNodeFromTaskFile(HttpServletRequest request, String taskname) {
+        String taskFilename = "quanttasks.xml";
+        String taskFileDir = "quanttasks";
+
+        Node node = null;
+        try {
+
+            File xmlFile = new File(getServletContext().getRealPath(taskFileDir + File.separator + taskFilename));
+            DocumentBuilderFactory dbFactory2 = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder2 = dbFactory2.newDocumentBuilder();
+            Document doc = dBuilder2.parse(xmlFile);
+            doc.getDocumentElement().normalize();
+            NodeList taskNodes = doc.getElementsByTagName("task");
+
+            for (int i = 0; i < taskNodes.getLength(); i++) {
+                Node tNode = taskNodes.item(i);
+                if (tNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element eElement = (Element) tNode;
+
+                    String curTaskName = eElement.getElementsByTagName("taskquestion").item(0).getTextContent();
+
+                    if (taskname.trim().equals(curTaskName.trim())) {
+                        node = tNode;
+                        break;
+                    }
+                }
+
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return node;
+
     }
 
     /**

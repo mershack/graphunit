@@ -27,13 +27,13 @@
 <viewerwidth>860</viewerwidth>
 <viewerheight>800</viewerheight>
 <task>
-<name>neighbor_two_step</name>
+<name>neighborTwoStep</name>
 <question>Can you get from one of the highlighted nodes to the other with exactly 2 steps?</question>
 <size>6</size>
 <time>10</time>
 </task>
 <task>
-<name>neighbor_count</name>
+<name>neighborCount</name>
 <question>How many nodes can be reached in one step from the highlighted node?</question>
 <size>6</size>
 <time>10</time>

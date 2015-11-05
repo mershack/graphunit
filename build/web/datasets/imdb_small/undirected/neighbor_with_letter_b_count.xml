@@ -2,159 +2,159 @@
 <taskFile>
 	<answertype>integer</answertype>
 	<question>
-		<node>Tom Hanks</node>
+		<input>Tom Hanks</input>
 		<answer>1</answer>
 	</question>
 	<question>
-		<node>Christopher Walken</node>
+		<input>Christopher Walken</input>
 		<answer>2</answer>
 	</question>
 	<question>
-		<node>Eddie Murphy</node>
+		<input>Eddie Murphy</input>
 		<answer>1</answer>
 	</question>
 	<question>
-		<node>Elizabeth Banks</node>
+		<input>Elizabeth Banks</input>
 		<answer>1</answer>
 	</question>
 	<question>
-		<node>John Hurt</node>
+		<input>John Hurt</input>
 		<answer>0</answer>
 	</question>
 	<question>
-		<node>Carrie Fisher</node>
+		<input>Carrie Fisher</input>
 		<answer>1</answer>
 	</question>
 	<question>
-		<node>Vince Vaughn</node>
+		<input>Vince Vaughn</input>
 		<answer>2</answer>
 	</question>
 	<question>
-		<node>Don Cheadle</node>
+		<input>Don Cheadle</input>
 		<answer>1</answer>
 	</question>
 	<question>
-		<node>Al Pacino</node>
+		<input>Al Pacino</input>
 		<answer>1</answer>
 	</question>
 	<question>
-		<node>Robert De Niro</node>
+		<input>Robert De Niro</input>
 		<answer>0</answer>
 	</question>
 	<question>
-		<node>Woody Harrelson</node>
+		<input>Woody Harrelson</input>
 		<answer>1</answer>
 	</question>
 	<question>
-		<node>George Clooney</node>
+		<input>George Clooney</input>
 		<answer>1</answer>
 	</question>
 	<question>
-		<node>Liam Neeson</node>
+		<input>Liam Neeson</input>
 		<answer>0</answer>
 	</question>
 	<question>
-		<node>Salma Hayek</node>
+		<input>Salma Hayek</input>
 		<answer>2</answer>
 	</question>
 	<question>
-		<node>Alec Baldwin</node>
+		<input>Alec Baldwin</input>
 		<answer>0</answer>
 	</question>
 	<question>
-		<node>Antonio Banderas</node>
+		<input>Antonio Banderas</input>
 		<answer>1</answer>
 	</question>
 	<question>
-		<node>Robert Downey Jr.</node>
+		<input>Robert Downey Jr.</input>
 		<answer>0</answer>
 	</question>
 	<question>
-		<node>Jon Voight</node>
+		<input>Jon Voight</input>
 		<answer>1</answer>
 	</question>
 	<question>
-		<node>Ben Affleck</node>
+		<input>Ben Affleck</input>
 		<answer>0</answer>
 	</question>
 	<question>
-		<node>Udo Kier</node>
+		<input>Udo Kier</input>
 		<answer>0</answer>
 	</question>
 	<question>
-		<node>Jon Favreau</node>
+		<input>Jon Favreau</input>
 		<answer>1</answer>
 	</question>
 	<question>
-		<node>Jennifer Lawrence</node>
+		<input>Jennifer Lawrence</input>
 		<answer>1</answer>
 	</question>
 	<question>
-		<node>Brad Pitt</node>
+		<input>Brad Pitt</input>
 		<answer>1</answer>
 	</question>
 	<question>
-		<node>Daniel radcliffe</node>
+		<input>Daniel radcliffe</input>
 		<answer>1</answer>
 	</question>
 	<question>
-		<node>Johnny Depp</node>
+		<input>Johnny Depp</input>
 		<answer>1</answer>
 	</question>
 	<question>
-		<node>Robert Duvall</node>
+		<input>Robert Duvall</input>
 		<answer>0</answer>
 	</question>
 	<question>
-		<node>Laurence Fishburne</node>
+		<input>Laurence Fishburne</input>
 		<answer>0</answer>
 	</question>
 	<question>
-		<node>Chris Rock</node>
+		<input>Chris Rock</input>
 		<answer>1</answer>
 	</question>
 	<question>
-		<node>Michael York</node>
+		<input>Michael York</input>
 		<answer>0</answer>
 	</question>
 	<question>
-		<node>Mike Myers</node>
+		<input>Mike Myers</input>
 		<answer>1</answer>
 	</question>
 	<question>
-		<node>Keanu Reeves</node>
+		<input>Keanu Reeves</input>
 		<answer>2</answer>
 	</question>
 	<question>
-		<node>Jack Black</node>
+		<input>Jack Black</input>
 		<answer>1</answer>
 	</question>
 	<question>
-		<node>James Franco</node>
+		<input>James Franco</input>
 		<answer>0</answer>
 	</question>
 	<question>
-		<node>Sylvester Stallone</node>
+		<input>Sylvester Stallone</input>
 		<answer>1</answer>
 	</question>
 	<question>
-		<node>Joan Cusack</node>
+		<input>Joan Cusack</input>
 		<answer>1</answer>
 	</question>
 	<question>
-		<node>Bonnie Hunt</node>
+		<input>Bonnie Hunt</input>
 		<answer>0</answer>
 	</question>
 	<question>
-		<node>Bruce Willis</node>
+		<input>Bruce Willis</input>
 		<answer>1</answer>
 	</question>
 	<question>
-		<node>paul Newman</node>
+		<input>paul Newman</input>
 		<answer>1</answer>
 	</question>
 	<question>
-		<node>Monica Bellucci</node>
+		<input>Monica Bellucci</input>
 		<answer>0</answer>
 	</question>
 </taskFile>
