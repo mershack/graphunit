@@ -102,8 +102,7 @@ public class TaskCreator extends HttpServlet {
                 String inputTypeShortNamesArr[] = inputTypeShortNames.split(":::");
                 String inputTypeDescriptionsArr[] = inputTypeDescriptions.split(":::");
                 
-                
-                
+                            
                 
                 
                 //conjugate the answertype
@@ -170,12 +169,7 @@ public class TaskCreator extends HttpServlet {
                     //append the input Elem to the task Elem.
                     taskElem.appendChild(inputElem);                    
                 }
-                
-                
-                
-                
-                
-                
+                               
                 
                 //append the task node to the root node.
                 root.appendChild(taskElem);
