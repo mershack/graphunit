@@ -39,13 +39,13 @@ public class FileUpload extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            String studyname = request.getParameter("studyname");
+            String studyname = request.getParameter("viewername");
             String fileName = null;
             
-            String studyFolderPath = getServletContext().getRealPath("studies" +File.separator + studyname);
+            String studyFolderPath = getServletContext().getRealPath("/studies/" + studyname);
+            System.out.println("StudyFolder path:: "+studyFolderPath);
             File studyFolder = new File(studyFolderPath);
             
-            System.out.println("StudyFolder path:: "+studyFolderPath);
             //create the folder if it does not exist
             if(!studyFolder.exists()){
                 studyFolder.mkdir();
