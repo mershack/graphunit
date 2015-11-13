@@ -42,7 +42,7 @@ public class FileUpload extends HttpServlet {
             String studyname = request.getParameter("viewername");
             String fileName = null;
             
-            String studyFolderPath = getServletContext().getRealPath("/studies/" + studyname);
+            String studyFolderPath = getServletContext().getRealPath("/views/" + studyname);
             System.out.println("StudyFolder path:: "+studyFolderPath);
             File studyFolder = new File(studyFolderPath);
             

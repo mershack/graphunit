@@ -12,8 +12,17 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/wamp/www/gu/graphunit/web/dbWeb/js/viewerUpload.js</file>
+            <file>file:/C:/wamp/www/gu/graphunit/web/dbWeb/views/include/managementTabs/viewer/viewerManagement.inc.php</file>
+            <file>file:/C:/wamp/www/gu/graphunit/web/dbWeb/views/include/index/bootstrap.inc.php</file>
+            <file>file:/C:/wamp/www/gu/graphunit/src/java/DatasetUpload.java</file>
+            <file>file:/C:/wamp/www/gu/graphunit/web/dbWeb/controllers/DatabaseManager.php</file>
+            <file>file:/C:/wamp/www/gu/graphunit/web/dbWeb/views/include/managementTabs/viewer/addViewer.html</file>
+            <file>file:/C:/wamp/www/gu/graphunit/web/dbWeb/controllers/Viewer.php</file>
+            <file>file:/C:/wamp/www/gu/graphunit/web/dbWeb/views/include/managementTabs/dataset/addDataset.html</file>
+            <file>file:/C:/wamp/www/gu/graphunit/web/dbWeb/js/datasetUpload.js</file>
+            <file>file:/C:/wamp/www/gu/graphunit/web/dbWeb/controllers/Dataset.php</file>
             <file>file:/C:/wamp/www/gu/graphunit/src/java/FileUpload.java</file>
+            <file>file:/C:/wamp/www/gu/graphunit/web/dbWeb/views/include/managementTabs/dataset/datasetManagement.inc.php</file>
         </group>
     </open-files>
 </project-private>

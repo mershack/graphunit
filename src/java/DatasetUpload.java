@@ -38,14 +38,13 @@ public class DatasetUpload extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            //String datasetName = request.getParameter("datasetName");
 
             //process only if its multipart content
             if (ServletFileUpload.isMultipartContent(request)) {
                 try {
                     List<FileItem> multiparts = new ServletFileUpload(
                             new DiskFileItemFactory()).parseRequest(request);
-                    String datasetFolderPath = getServletContext().getRealPath("datasets" + File.separator + "uploads");
+                    String datasetFolderPath = getServletContext().getRealPath("/datasets" + File.separator + "uploads");
                     File datasetFolder = new File(datasetFolderPath);
 
                     //create the folder if it does not exist
