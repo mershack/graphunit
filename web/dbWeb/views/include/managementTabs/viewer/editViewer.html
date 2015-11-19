@@ -1,0 +1,61 @@
+<h2 style="text-align: center;">Edit Viewer</h2>
+<div class="well">
+    <form id="login" role="form" >
+        <div class="row">
+            <div class="form-group">
+                <label for="nameEditViewer">Viewer Name:</label>
+                <input name="nameEditViewer" type="text" class="form-control" id="nameEditViewer" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label for="descriptionEditViewer">Description</label>
+                <input name="descriptionEditViewer"  type="text" class="form-control " id="descriptionEditViewer" placeholder="Please enter a description" />
+            </div>
+        </div>
+        <div class="form-group col-sm-offset-5">
+            <button id="submitButtonEditViewer" type="submit" class="btn btn-primary">Edit Viewer</button>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    var viewerId;
+    $('#editViewerOpen').click(function () {
+        viewerId = $(this).data('viewer-id');
+        $.ajax({
+            type: "POST",
+            url: "controllers/Viewer.php",
+            data: {
+                action: 'editInfo',
+                userId: userId,
+                viewerId: viewerId
+            },
+            success: function (data)
+            {
+                console.log(data);
+                data = JSON.parse(data);
+                $('#nameEditViewer').val(data.name);
+                $('#descriptionEditViewer').val(data.description);
+            }
+        });
+    });
+    
+    $('#submitButtonEditViewer').click(function () {
+        $.ajax({
+            type: "POST",
+            url: "controllers/Viewer.php",
+            data: {
+                action: 'editViewer',
+                userId: userId,
+                viewerId: viewerId,
+                name: $("#nameEditViewer").val(),
+                description: $("#descriptionEditViewer").val()
+            },
+            success: function ()
+            {
+                location.reload();
+            }
+        });
+    });
+</script>

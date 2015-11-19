@@ -1,0 +1,43 @@
+<h2 style="text-align: center;">Add Viewer</h2>
+<div class="well">
+    <form id="login" role="form" >
+        <div class="row">
+            <div class="form-group">
+                <label for="nameAddViewer">Viewer Name:</label>
+                <input name="nameAddViewer" type="text" class="form-control" id="nameAddViewer" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label for="descriptionAddViewer">Description</label>
+                <input name="descriptionAddViewer"  type="text" class="form-control " id="descriptionAddViewer" placeholder="Please enter a description" />
+            </div>
+        </div>
+        <input type="file" name="thefiles[]" id="thefiles" multiple/> 
+        <div class="form-group col-sm-offset-5">
+            <button id="submitButtonAddViewer" type="submit" class="btn btn-primary">Add Viewer</button>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    $('#submitButtonAddViewer').click(function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: "controllers/Viewer.php",
+            data: {
+                action: 'add',
+                userId: userId,
+                name: $("#nameAddViewer").val(),
+                description: $("#descriptionAddViewer").val()
+            },
+            success: function (data)
+            {
+                console.log(data);
+                uploadFiles(data);
+                location.reload();
+            }
+        });
+    });
+</script>
