@@ -43,9 +43,7 @@ public class DatasetUpload extends HttpServlet {
                 try {
                     List<FileItem> multiparts = new ServletFileUpload(
                             new DiskFileItemFactory()).parseRequest(request);
-<<<<<<< HEAD
-
-                    
+                  
                       String DatasetName ="";
                      for (FileItem item : multiparts) {
                         if (!item.isFormField()) {
@@ -63,9 +61,6 @@ public class DatasetUpload extends HttpServlet {
                     
                     String datasetFolderPath = getServletContext().getRealPath("datasets" + File.separator + DatasetName);
 
-=======
-                    String datasetFolderPath = getServletContext().getRealPath("/datasets" + File.separator + "uploads");
->>>>>>> cb7c83fc1d68bdea224a8bddd9b75fbf2f853d1f
                     File datasetFolder = new File(datasetFolderPath);
 
                     //create the folder if it does not exist
