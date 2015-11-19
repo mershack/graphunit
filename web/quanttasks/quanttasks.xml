@@ -59,5 +59,18 @@
 		</taskquestion>
 		<inputsize>0</inputsize>
 	</task>
+	<task>
+	   <taskname>selectNodeWithHighestDegree2</taskname>
+	   <inputinterface>selectNode</inputinterface>
+	   <outputinterface>getOutput</outputinterface>
+	  <answertype>interface:::interface-type:::none</answertype>
+	   <taskquestion>
+			Select the most connected node
+		</taskquestion>
+		<inputsize>0</inputsize>
+	</task>
+
+	
+	
 	
 </quanttasks>	

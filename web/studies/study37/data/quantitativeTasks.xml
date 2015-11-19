@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<study_specification>
+<dataset>miserables</dataset>
+<studyname>study37</studyname>
+<experimenttype>Between</experimenttype>
+<trainingsize>2</trainingsize>
+<condition>
+<conditionurl>matrix__Long_intro_IdenticalQn10.html</conditionurl>
+<conditionshortname>cond1</conditionshortname>
+</condition>
+<condition>
+<conditionurl>matrix__Long_intro_IdenticalQn10.html</conditionurl>
+<conditionshortname>cond2</conditionshortname>
+</condition>
+<viewerwidth>860</viewerwidth>
+<viewerheight>800</viewerheight>
+<task>
+<name>neighborOneStep</name>
+<question>Are the two highlighted nodes directly connected?</question>
+<size>10</size>
+<time>4</time>
+</task>
+</study_specification>

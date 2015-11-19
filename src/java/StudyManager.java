@@ -160,11 +160,9 @@ public class StudyManager extends HttpServlet {
                     } else if (upmts.studyType.equalsIgnoreCase("Within") && (upmts.testCounter > 0 && upmts.testCounter < upmts.evalQuestions.size())
                             && ((upmts.testCounter % upmts.sizeOfACondition) == 0) && !upmts.viewersChanged) {
                         msg = "ChangeViewers:: " + upmts.viewerConditionUrls.get(upmts.viewerConditionCounter);
-
                         //System.out.println("ChangeViewer string is ::: " + msg);
                         upmts.viewerConditionCounter++;
                         upmts.viewersChanged = true;
-
                     } else if (upmts.testCounter < upmts.evalQuestions.size()) {
                         if (upmts.testCounter > 0) {//get the previousAnswer
 
@@ -175,12 +173,10 @@ public class StudyManager extends HttpServlet {
                                 ongoing_studyCounts.incrementCondCounter(upmts.firstConditionShortName);
 
                                 onGoingStudyCounts.put(upmts.studyname, ongoing_studyCounts);
-
                             }
 
                             String prevAnswer = request.getParameter("previousAnswer");
                             String prevTime = request.getParameter("previousTime");
-
                             //System.out.println("Previous Time is ::: " + prevTime);
                             int previousTime = Integer.parseInt(prevTime);
                             upmts.evalQuestions.get(upmts.testCounter - 1).setIsGivenAnsCorrect(prevAnswer.trim());
@@ -338,7 +334,6 @@ public class StudyManager extends HttpServlet {
 
     public String getInstruction(StudyParameters upmts) {
         String instruction = "";
-
         if (upmts.questionCodes.size() > 1) {
             instruction = "Instruction about the tasks::In this study there are " + upmts.questionCodes.size() + " types of questions.\n\n"
                     + "You will be given a simple training  with " + upmts.trainingSize + " sample questions of each type. "
@@ -350,7 +345,6 @@ public class StudyManager extends HttpServlet {
                     + "You can check whether your chosen answer is correct or not during the training session.\n\n"
                     + "There are " + upmts.totalNumOfQuestions + " questions in total for the  main study";
         }
-
         return instruction;
     }
 
@@ -632,6 +626,7 @@ public class StudyManager extends HttpServlet {
                 /**
                  * *****************************************
                  */
+                System.out.println(upmts.questionCodes.get(i) + "----->");
                 Node tasknode = getTaskNodeFromTaskFile(request, upmts.questionCodes.get(i));
                 String anstypestr = ((Element) tasknode).getElementsByTagName("answertype").item(0).getTextContent();
 

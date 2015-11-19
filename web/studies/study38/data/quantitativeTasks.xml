@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<study_specification>
+<dataset>receipe_small</dataset>
+<studyname>study38</studyname>
+<experimenttype>Between</experimenttype>
+<trainingsize>2</trainingsize>
+<condition>
+<conditionurl>matrix__Long_intro_IdenticalQn10.html</conditionurl>
+<conditionshortname>cond1</conditionshortname>
+</condition>
+<condition>
+<conditionurl>matrix__Long_intro_IdenticalQn10.html</conditionurl>
+<conditionshortname>cond2</conditionshortname>
+</condition>
+<viewerwidth>810</viewerwidth>
+<viewerheight>790</viewerheight>
+<task>
+<name>neighborOneStep</name>
+<question>Are the two highlighted nodes directly connected?</question>
+<size>2</size>
+<time>10</time>
+</task>
+</study_specification>

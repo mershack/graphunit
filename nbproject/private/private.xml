@@ -11,6 +11,15 @@
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/Mershack/Documents/NetbeansProjects/GitHub_projects/d3graphevaluation/web/userstudy_setup.html</file>
+            <file>file:/C:/Users/Mershack/Documents/NetbeansProjects/GitHub_projects/d3graphevaluation/src/java/StudyManager.java</file>
+            <file>file:/C:/Users/Mershack/Documents/NetbeansProjects/GitHub_projects/d3graphevaluation/web/taskInstances_creation.html</file>
+            <file>file:/C:/Users/Mershack/Documents/NetbeansProjects/GitHub_projects/d3graphevaluation/src/java/userstudy/TaskInstancesCreator.java</file>
+            <file>file:/C:/Users/Mershack/Documents/NetbeansProjects/GitHub_projects/d3graphevaluation/src/java/userstudy/StudySetup.java</file>
+            <file>file:/C:/Users/Mershack/Documents/NetbeansProjects/GitHub_projects/d3graphevaluation/web/META-INF/context.xml</file>
+            <file>file:/C:/Users/Mershack/Documents/NetbeansProjects/GitHub_projects/d3graphevaluation/web/setup.js</file>
+            <file>file:/C:/Users/Mershack/Documents/NetbeansProjects/GitHub_projects/d3graphevaluation/web/WEB-INF/web.xml</file>
+        </group>
     </open-files>
 </project-private>

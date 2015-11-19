@@ -366,6 +366,9 @@ public class StudySetup extends HttpServlet {
         } else if (task.equalsIgnoreCase("Select the most connected node")) {
             taskCode = "mostConnectedNode";
         }
+        else if(task.equalsIgnoreCase("Given the two highlighted nodes, select the one with the highest degree")){
+            taskCode = "selectNodeWithHighestDegree2";
+        }
 
         return taskCode;
     }
