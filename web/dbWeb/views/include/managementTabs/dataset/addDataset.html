@@ -1,0 +1,41 @@
+<h2 style="text-align: center;">Add Dataset</h2>
+<div class="well">
+    <form id="login" role="form" >
+        <div class="row">
+            <div class="form-group">
+                <label for="name">Dataset Name:</label>
+                <input name="name" type="text" class="form-control" id="name" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label for="description">Description</label>
+                <input name="description"  type="text" class="form-control " id="description" placeholder="Please enter a description" />
+            </div>
+        </div>
+        <input type="file" name="thedataset[]" id="thedataset" onchange="uploadDataset()"/>
+        <div class="form-group col-sm-offset-5">
+            <button id="submitButtonAddDataset" type="submit" class="btn btn-primary">Add Dataset</button>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    $('#submitButtonAddDataset').click(function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: "controllers/Dataset.php",
+            data: {
+                action: 'add',
+                userId: userId,
+                name: $("#name").val(),
+                description: $("#description").val()
+            },
+            success: function ()
+            {
+                location.reload();
+            }
+        });
+    });
+</script>
