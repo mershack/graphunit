@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<study_specification>
+<dataset>receipe_small</dataset>
+<studyname>study45</studyname>
+<experimenttype>Within</experimenttype>
+<trainingsize>5</trainingsize>
+<condition>
+<conditionurl>matrix__Long_intro_IdenticalQn10.html</conditionurl>
+<conditionshortname>cond1</conditionshortname>
+</condition>
+<condition>
+<conditionurl>matrix__Long_intro_IdenticalQn10.html</conditionurl>
+<conditionshortname>cond2</conditionshortname>
+</condition>
+<viewerwidth>860</viewerwidth>
+<viewerheight>800</viewerheight>
+<task>
+<name>selectNodeWithHighestDegree2</name>
+<question>Given the two highlighted nodes, select the one with the highest degree</question>
+<size>10</size>
+<time>10</time>
+</task>
+</study_specification>

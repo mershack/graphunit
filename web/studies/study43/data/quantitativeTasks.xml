@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<study_specification>
+<dataset>receipe_small</dataset>
+<studyname>study43</studyname>
+<experimenttype>Between</experimenttype>
+<trainingsize>2</trainingsize>
+<condition>
+<conditionurl>nodeLink_LongTrainnig4.html</conditionurl>
+<conditionshortname>cond1</conditionshortname>
+</condition>
+<condition>
+<conditionurl>nodeLink_LongTrainnig4.html</conditionurl>
+<conditionshortname>cond2</conditionshortname>
+</condition>
+<viewerwidth>780</viewerwidth>
+<viewerheight>780</viewerheight>
+</study_specification>

@@ -258,7 +258,9 @@ public class TaskInstancesCreator extends HttpServlet {
             String dataseturl = "datasets" + File.separator + dataset + File.separator + edgeType;
             File file = new File(getServletContext().getRealPath(dataseturl + File.separator + taskShortName));
 
-            // if (!file.exists()) {
+            System.out.println(dataseturl);
+            
+           // if (!file.exists()) {
             file.createNewFile();
             // }
             //do the actual writings of the results to the file

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Evaluation Setup</title>
+        <meta charset="UTF-8">
+        <!-- <meta name="viewport" content="width=device-width"> -->
+        <script type="text/javascript" src="question-properties.js"></script>
+        <script type="text/javascript" src="setup.js"></script>
+        <script type="text/javascript" src="utils.js"></script>
+        <script src="jquery-1.10.2.js"></script>
+
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css"> 
+        <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+
+        <style type="text/css" >
+            #controlBox{
+                padding: 10px 50px;
+                margin-left: 20px;
+                //padding-left: 20px;
+                width:560px;
+            }
+            .right{                
+                float:right;
+            }
+            .innerBox{                
+                padding-left: 20px;
+            }
+            .miniHeader{
+                padding-left: 20px;
+                font-style: italic;
+            }
+            .center{
+                margin-left: 150px;
+                margin-right: 150px;
+            }
+            .questionNumberEven, .conditionNumberEven{
+                background-color: #E8E8E8 ;
+                margin: 1px;
+                padding: 1px;
+            }
+            .questionNumberOdd, .conditionNumberOdd{
+                background-color: #F0F0F0  ;
+                margin: 1px;
+                padding: 1px;
+            }
+        </style>
+        <script type="text/javascript">
+
+            window.onload = function() {
+                //we will try and get the respective name for this current study
+                var command = "getStudyName";
+                var url = "StudySetup?command=" + command;
+                var xmlHttpRequest = getXMLHttpRequest();
+
+                xmlHttpRequest.onreadystatechange = function()
+                {
+                    if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
+                    {                        //set the studyname variable
+                        // alert(xmlHttpRequest.responseText);
+                        document.getElementById("studyname").value = xmlHttpRequest.responseText;
+                    }
+                };
+                xmlHttpRequest.open("GET", url, true);
+                xmlHttpRequest.send();
+            };
+
+            function uploadDatasetFilesHere() {
+                var studyname = document.getElementById("studyname").value;
+               //alert(studyname);
+                var thefiles = document.getElementById("thefiles2").files;
+                var url = "DatasetUpload?studyname=" + studyname;
+                var formData = new FormData();
+                for (var i = 0; i < thefiles.length; i++)
+                    formData.append("File", thefiles[i]);
+
+                var xmlHttpRequest = getXMLHttpRequest();
+
+                xmlHttpRequest.onreadystatechange = function()
+                {
+                    if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
+                    {
+                    }
+                };
+                xmlHttpRequest.open("POST", url, false);
+                xmlHttpRequest.send(formData);
+            }
+            
+            function uploadViewerFilesHere() {
+                //var studyname = document.getElementById("studyname").value;
+              // alert(studyname);
+               //var studyname = "study1";
+               var studyname = "miserables";
+                var thefiles = document.getElementById("thefiles2").files;
+                
+                //var url = "ManageViewerFiles?command=addViewerFiles&studyid=" + studyname;
+                var url = "ManageDatasetFiles?command=addDatasetFiles&datasetid=" + studyname;
+                var formData = new FormData();
+                alert(thefiles.length);
+                for (var i = 0; i < thefiles.length; i++)
+                    formData.append("File", thefiles[i]);
+
+                var xmlHttpRequest = getXMLHttpRequest();
+
+                xmlHttpRequest.onreadystatechange = function()
+                {
+                    if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
+                    {
+                        alert(xmlHttpRequest.responseText);
+                    }
+                };
+                xmlHttpRequest.open("POST", url, false);
+                xmlHttpRequest.send(formData);
+            }
+
+        </script>
+
+    </head>
+    <body>
+
+        <input type="file" name="thefiles2[]" id="thefiles2" onchange="uploadDatasetFilesHere()" multiple/>   
+
+        <div id="controlBox">
+            <h2>Set up an Evaluation for Graph Visualizations  </h2>
+            <form>
+                <hr>
+                <h4> Supporting Files </h4>
+                <div class="innerBox">
+                    <p> Load Supporting Files &nbsp; &nbsp; &nbsp;
+                        <input type="file" name="thefiles[]" id="thefiles" onchange="getUploadedFileNames(this)" multiple/>   
+                    </p>
+                </div>  
+            </form>
+            <form method="GET" action="StudySetup"  id="setupForm">
+                <hr>
+                <h4> Viewers </h4>
+                <div class="innerBox">
+                    <div id="viewerConditionsDiv">
+                        <div class="conditionNumberOdd">
+                            <p> Condition 1 URL 
+                                <select id="condition1" name="conditions" class="right" style="min-width:50%;">
+                                    <option value="">Select An Uploaded File</option>
+                                </select>                           
+                                <!--<input name="conditions" class="right" type = "text" size="45"/>  --> </p>
+                            <p> Condition 1 Short Name <input name="condition-shortnames" class="right" type = "text" style="min-width:49%;" value="cond1"/> </p>                            
+                        </div>
+                        <br />
+                        <div class="conditionNumberEven">
+                            <p> Condition 2 URL  
+                                <select id="condition2" name="conditions" class="right" style="min-width:50%;">
+                                    <option value="">Select An Uploaded File</option>
+                                </select>  
+                                <!-- <input name="conditions" class="right" type ="text" size="45" /> </span> --></p>
+                            <p> Condition 2 Short Name <input name="condition-shortnames" class="right" type = "text" style="min-width:49%;" value="cond2"/> </p>
+                        </div>
+                    </div>
+                    <input type="button" value="Add Another Condition" onclick="{
+                                addAnotherCondition();
+                            }" class="center"/>
+                </div>
+                <hr>
+                <h4>Viewer Dimensions</h4>
+                <div class="innerBox">
+                    <p>Viewer Width <input type="text" value="860" name="viewerWidth" id="viewerWidth" class="right"/></p> 
+                    <p>Viewer Height <input type="text" value="800" name="viewerHeight" id="viewerHeight" class="right"/></p> 
+                </div>
+
+
+                <hr>
+                <h4>Dataset</h4>
+                <div class="innerBox">
+                    <p> Select the Dataset for the study
+                        <select name="dataset" id="dataset" class="right">
+                            <option value=""> Select One </option>
+                            <!-- <option value="book_recommendation"> Book recommendation</option> -->
+                            <option value="imdb_small">IMDB - small</option>
+                            <!--  <option value="imdb_large">IMDB - large</option> -->
+                            <option value="miserables">Les Miserables</option>
+                        </select>
+                        <!--  <input type="hidden" name="datasetType" id="datasetType" value="" /> -->
+                    </p>
+                </div>
+
+                <hr>
+
+                <h4>Experiment Type</h4>
+                <div class="innerBox">
+                    <p> Select Experiment Type 
+                        <select name="expType" class="right">
+                            <option value="">Select One</option>
+                            <option value="Within">Within</option>
+                            <option value="Between">Between</option>
+                        </select>
+
+                    </p>
+                </div>
+
+                <hr>
+
+                <h4> Quantitative Tasks </h4>
+                <div class="innerBox">
+                    <div id="quantitativeTasksDiv">
+                        <div class="questionNumberOdd">
+
+                            <p>
+                                Task Type 1  
+                                <select class="right" name="quantitativeTasks" onchange="checkExistenceOfInterfaceMethods(this);">
+                                    <option>Select a Task</option>
+                                    <optgroup label="Topology-Based Tasks">
+                                        <option value="Are the two highlighted nodes directly connected?">Are the two highlighted nodes directly connected?</option>
+                                        <option value="Can you get from one of the highlighted nodes to the other with exactly 2 steps?">Can you get from one of the highlighted nodes to the other with exactly 2 steps?</option>
+                                        <option value="Are the three highlighted nodes directly connected?">Are the three highlighted nodes directly connected?</option>
+                                        <option value="Can you get from one of the highlighted nodes to the other in at most 3 steps?">Can you get from one of the highlighted nodes to the other in at most 3 steps?</option>
+                                        <option value="How many nodes can be reached in one step from the highlighted node?">How many nodes can be reached in one step from the highlighted node?</option>
+                                        <option value="What is the maximum number of nodes connected to one of the two highlighted nodes?">What is the maximum number of nodes connected to one of the two highlighted nodes?</option>                                          
+                                    </optgroup>
+                                    <optgroup label="Attribute-Based Tasks">
+                                        <option value="Is there an adjacent node that contains the letter B?">Is there an adjacent node that contains the letter B?</option>
+                                        <option value="How many adjacent nodes contain the letter B?">How many adjacent nodes contain the letter B?</option>                       
+                                    </optgroup>
+                                    <optgroup label="Browsing-Based Tasks">
+                                        <option value="Find the number of nodes on a given path starting with a letter">Find the number of nodes on a given path starting with a letter</option>
+                                        <option value="Find the number of nodes starting with a letter on all paths between 2 nodes">Find the number of nodes starting with a letter on all paths between 2 nodes</option>                        
+                                    </optgroup>
+                                    <option value="Select the most connected node">Select the most connected node</option>
+                                </select>
+                            </p>
+                            <br>
+                            <p>
+                                Number of Task Type 1 Questions  
+                                <input type="text" class="right"  name="quantitativeTaskSize"/>
+                            </p>
+                            <p>
+                                Time In Seconds for Task Type 1 (Enter 0 for unlimited)
+                                <input type="text"  class="right" name="quantitativeTaskTime"/>
+                            </p>
+                        </div>
+
+
+                    </div>
+                    <br><br><input type="button" value="Add Another Quantitative Task Type" class="center" onclick="newQuantitativeTaskDetails()"/> <br>
+                    <br>
+                </div>
+
+                <hr>
+                <h4>Number of Training Questions</h4>
+                <div class="innerBox">
+                    <p> Specify number of training questions 
+                        <input type="text" class="right"  name="trainingSize"/>
+
+                    </p>
+                </div>
+
+                <hr>
+
+                <h4>Qualitative Tasks</h4>               
+                <div class="innerBox">
+                    <div id="qualitativeTasksDiv">                        
+                        <div class="questionNumberOdd">
+                            Task Type 1
+                            <select name="qualitativeTasks" class="right">
+                                <option value="">Select One</option>
+                                <option value="Rate the easiness of the visualization tasks  from 1-Not easy to 5-Very Easy">Rate the easiness of the visualization tasks  from 1-Not easy to 5-Very Easy</option>
+                                <option value="What problem did you have with the visualization?">What problem did you have with the visualization?</option>
+                                <option value="Do you have any comments about the visualization?">Do you have any comments about the visualization?</option>                            
+                                <option value="Rate easiness of using the interactive techniques">Rate easiness of using the interactive techniques</option>
+                                <option value="Rate helpfulness of the interactive techniques to tasks">Rate helpfulness of the interactive techniques to tasks</option>
+                                <option value="Have you worked with this type of visualization before?">Have you worked with this type of visualization before?</option>
+                                <option value="How will you rate your familiarity with this type of visualization prior to this study?">
+                                    How will you rate your familiarity with this type of visualization prior to this study?
+                                </option>
+                                <option value="Please enter your Mechanical Turk ID">Please enter your Mechanical Turk ID</option>
+
+
+                            </select>
+                            <br><br><br>
+                            When should Task type 1 be asked?
+                            <select name="qualitativeTasksPositions" class="right">
+                                <option>Select One</option>
+                                <option value="before">Before quantitative tasks</option>
+                                <option value="after">After  quantitative tasks</option>
+                            </select>
+                        </div>                       
+                    </div>                 
+
+                    <br><br> <input class="center" type="button" value="Add another Qualitative Question" onclick="newQualitativeQuestion()" />
+                    <br>
+                </div>  
+
+                <hr>
+
+                <h4> Mechanical Turk Details </h4>
+                <div class="innerBox">
+                    <p> AWS Access Key <input name="awsAccessKey" class="right" type="text" value="" size="35"/> </p>
+                    <p> AWS Secret Key <input name="awsSecretKey" class="right" type="text" value="" size="35"/> </p>
+                    <p> HIT Title <input name="hitTitle" class="right" type="text" value="" size="35"/> </p>
+                    <p> Number of Assignments <input name="maxAssignments" class="right" type="text" value="" size="35"/> </p>
+                    <p> Reward <input name="hitReward" class="right" type="text" value="" size="35"/> </p>
+                </div>
+                <hr>
+
+                <div class="center">
+                    <input type="button" value="See Demo" onclick="getDemo()"/>
+                    &nbsp; &nbsp; &nbsp; 
+                    <input type="submit" value="Submit" onclick="setSubmitCommand();"/>
+
+                    <input type="hidden" value="" id="command" name="command" />
+                    <input type="hidden" value=""  id="studyname" name="studyname" />
+                </div>
+
+            </form>
+            <div id="frameForViewerTesting" style="display:none;">
+
+            </div>
+        </div>
+
+    </body>
+</html>

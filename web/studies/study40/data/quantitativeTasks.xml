@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<study_specification>
+<dataset>receipe_small</dataset>
+<studyname>study40</studyname>
+<experimenttype>Between</experimenttype>
+<trainingsize>2</trainingsize>
+<condition>
+<conditionurl>nodeLink_LongTrainnig4.html</conditionurl>
+<conditionshortname>cond1</conditionshortname>
+</condition>
+<condition>
+<conditionurl>nodeLink_LongTrainnig4.html</conditionurl>
+<conditionshortname>cond2</conditionshortname>
+</condition>
+<viewerwidth>860</viewerwidth>
+<viewerheight>800</viewerheight>
+<task>
+<name>neighborOneStep</name>
+<question>Are the two highlighted nodes directly connected?</question>
+<size>3</size>
+<time>12</time>
+</task>
+</study_specification>
