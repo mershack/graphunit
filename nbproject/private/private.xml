@@ -13,6 +13,7 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
 <<<<<<< HEAD
+<<<<<<< HEAD
             <file>file:/C:/Users/Mershack/Documents/NetbeansProjects/GitHub_projects/d3graphevaluation/web/userstudy_setup.html</file>
             <file>file:/C:/Users/Mershack/Documents/NetbeansProjects/GitHub_projects/d3graphevaluation/src/java/StudyManager.java</file>
             <file>file:/C:/Users/Mershack/Documents/NetbeansProjects/GitHub_projects/d3graphevaluation/web/taskInstances_creation.html</file>
@@ -22,6 +23,8 @@
             <file>file:/C:/Users/Mershack/Documents/NetbeansProjects/GitHub_projects/d3graphevaluation/web/setup.js</file>
             <file>file:/C:/Users/Mershack/Documents/NetbeansProjects/GitHub_projects/d3graphevaluation/web/WEB-INF/web.xml</file>
 =======
+=======
+>>>>>>> cb7c83fc1d68bdea224a8bddd9b75fbf2f853d1f
             <file>file:/C:/wamp/www/gu/graphunit/web/dbWeb/views/include/managementTabs/viewer/viewerManagement.inc.php</file>
             <file>file:/C:/wamp/www/gu/graphunit/web/dbWeb/views/include/index/bootstrap.inc.php</file>
             <file>file:/C:/wamp/www/gu/graphunit/src/java/DatasetUpload.java</file>
@@ -33,6 +36,9 @@
             <file>file:/C:/wamp/www/gu/graphunit/web/dbWeb/controllers/Dataset.php</file>
             <file>file:/C:/wamp/www/gu/graphunit/src/java/FileUpload.java</file>
             <file>file:/C:/wamp/www/gu/graphunit/web/dbWeb/views/include/managementTabs/dataset/datasetManagement.inc.php</file>
+<<<<<<< HEAD
+>>>>>>> cb7c83fc1d68bdea224a8bddd9b75fbf2f853d1f
+=======
 >>>>>>> cb7c83fc1d68bdea224a8bddd9b75fbf2f853d1f
         </group>
     </open-files>
