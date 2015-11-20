@@ -1,20 +1,46 @@
-<h2 style="text-align: center;">Login</h2>
+<h2 style="text-align: center;">Create Study</h2>
 <div class="well">
-    <form id="login" role="form" >
-        <div class="row">
-            <div class="form-group">
-                <label for="emailLogin">Email address:</label>
-                <input name="emailLogin" type="email" class="form-control" id="emailLogin" placeholder="Please enter your email"/>
+    <form id="study" role="form" >
+        <div id="viewer" class="row">
+            <div class="form-group col-md-12">
+                <label for="viewerSelect">Viewer</label>
             </div>
         </div>
         <div class="row">
-            <div class="form-group">
-                <label for="passwordLogin">Password:</label>
-                <input name="passwordLogin"  type="password" class="form-control " id="passwordLogin" placeholder="Please enter a minimum 4 characters password" />
+            <div class="form-group col-md-3">
+                <select name="viewerSelect"  style="width: 180px;" id="viewerSelect">
+                    <option>Select viewer</option>
+                </select>
+            </div>
+            <div class="form-group col-md-3">
+                <select name="datasetSelect"  style="width: 180px;" id="datasetSelect" >
+                    <option>Select dataset</option>
+                </select>
+            </div>
+        </div>
+        <div id="task" class="row"><hr class="divider">
+            <div class="form-group col-md-5">
+                <label for="taskSelect">Task</label><br />
+                <select name="taskSelect" style="width: 180px;" id="taskSelect">
+                    <option>Select task</option>
+                </select>
+            </div>
+        </div>
+        <div id="experiment" class="row"><hr class="divider">
+            <div class="form-group col-md-3">
+                <label for="taskSelect">Experiment Type</label><br />
+                <select name="taskSelect" style="width: 180px;" id="taskSelect">
+                    <option>Select Experiment Type</option>
+                </select>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="taskSelect">Number of Training Questions</label><br />
+                <input name="taskSelect"  id="taskSelect" placeholder="Please select the task"/>
             </div>
         </div>
         <div class="form-group col-sm-offset-5">
-            <button id="submitButtonLogin" disabled="disabled" type="submit" class="btn btn-primary">Login</button>
+            <button id="demoStudy" disabled="disabled" class="btn btn-default">See Demo</button>
+            <button id="submitStudy" disabled="disabled" class="btn btn-primary">Submit</button>
         </div>
     </form>
 </div>
