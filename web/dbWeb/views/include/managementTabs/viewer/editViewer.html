@@ -13,6 +13,12 @@
                 <input name="descriptionEditViewer"  type="text" class="form-control " id="descriptionEditViewer" placeholder="Please enter a description" />
             </div>
         </div>
+        <div class="row">
+            <div class="form-group">
+                <label id="filesEditViewer" for="filesEditViewer">Files:</label>
+                <input type="file" name="thefiles[]" id="editViewerFileInput" multiple/>
+            </div>
+        </div>
         <div class="form-group col-sm-offset-5">
             <button id="submitButtonEditViewer" type="submit" class="btn btn-primary">Edit Viewer</button>
         </div>
@@ -20,9 +26,7 @@
 </div>
 
 <script type="text/javascript">
-    var viewerId;
-    $('#editViewerOpen').click(function () {
-        viewerId = $(this).data('viewer-id');
+    $('[id^=editViewerOpe]').click(function () {
         $.ajax({
             type: "POST",
             url: "controllers/Viewer.php",
@@ -33,14 +37,13 @@
             },
             success: function (data)
             {
-                console.log(data);
                 data = JSON.parse(data);
                 $('#nameEditViewer').val(data.name);
                 $('#descriptionEditViewer').val(data.description);
             }
         });
     });
-    
+
     $('#submitButtonEditViewer').click(function () {
         $.ajax({
             type: "POST",
@@ -54,8 +57,15 @@
             },
             success: function ()
             {
-                location.reload();
+                console.log("sadas");
+                uploadViewer();
+                window.location = window.location.href;
+                $('#editViewer').modal('hide');
             }
         });
+    });
+    $('#editViewer').on('hidden.bs.modal', function () {
+        $('#editViewerFileInput').val("");
+        $('[id^=fileNameViewer_]').remove();
     });
 </script>

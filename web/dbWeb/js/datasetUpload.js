@@ -53,7 +53,7 @@ function getDataset() {
         {
             if (xmlHttpRequest.responseText !== "") {
                 fileName = "" + xmlHttpRequest.responseText;
-                var link = '<a href="#" onclick="deleteDataset()">X</a>';
+                var link = "<a href='#' onclick=\"deleteDataset('" + xmlHttpRequest.responseText.replace(/(\r\n|\n|\r)/gm,"") + "')\">X</a>";
                 $('#fileNameDataset').html(xmlHttpRequest.responseText + link);
                 $('#editDatasetFileInput').hide();
             } else {
@@ -67,9 +67,9 @@ function getDataset() {
 }
 
 
-function deleteDataset() {
+function deleteDataset(file) {
     var dataset = "Dataset" + datasetId;
-    var urlCustom = "http://" + location.host + ":8080/graphunit/ManageDatasetFiles?datasetid=" + dataset + "&fileNames=" + fileName + "&command=deleteDatasetFiles";
+    var urlCustom = "http://" + location.host + ":8080/graphunit/ManageDatasetFiles?datasetid=" + dataset + "&fileNames=" + file + "&command=deleteDatasetFiles";
 
     var xmlHttpRequest = getXMLHttpRequest();
 

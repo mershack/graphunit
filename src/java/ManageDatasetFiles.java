@@ -53,7 +53,7 @@ public class ManageDatasetFiles extends HttpServlet {
                 //first get the filenames in the directory.
                 //I will get the list of files in this directory and send it
 
-                String datasetPath = getServletContext().getRealPath("/datasets/"+ datasetid);
+                String datasetPath = getServletContext().getRealPath("/datasets/" + datasetid);
 
                 System.out.println(datasetid);
                 File root = new File(datasetPath);
@@ -84,8 +84,10 @@ public class ManageDatasetFiles extends HttpServlet {
                 for (int i = 0; i < fileItemList.size(); i++) {
                     outputStr += fileItemList.get(i);
                 }
+                if (outputStr.length() > 1) {
 
-                out.println(outputStr);
+                    out.println(outputStr);
+                }
             } else if (command.equalsIgnoreCase("addDatasetFiles")) {
                 //add the files
                 //get the files and add them

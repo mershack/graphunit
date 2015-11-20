@@ -44,7 +44,7 @@ public class ManageViewerFiles extends HttpServlet {
             //delete some files
             /* TODO output your page here. You may use following sample code. */
             String command = request.getParameter("command");
-            String studyid = request.getParameter("studyid");
+            String viewerid = request.getParameter("viewerid");
             //System.out.println("Hello World");
             //System.out.println(command);
             //System.out.println(studyid);
@@ -53,7 +53,7 @@ public class ManageViewerFiles extends HttpServlet {
                 //first get the filenames in the directory.
                 //I will get the list of files in this directory and send it
 
-                String studyPath = getServletContext().getRealPath("studies" + File.separator + studyid);
+                String studyPath = getServletContext().getRealPath("/viewer/" + viewerid);
 
                 File root = new File(studyPath);
                 File[] list = root.listFiles();
@@ -81,7 +81,7 @@ public class ManageViewerFiles extends HttpServlet {
                 System.out.println("**** Printing the fileItems now **** ");
                 String outputStr = "";
                 for (int i = 0; i < fileItemList.size(); i++) {
-                    outputStr += getServerUrl(request) + "/studies/" + studyid + "/" + fileItemList.get(i) + "::::";
+                    outputStr += fileItemList.get(i) + "::::";
                 }
 
                 out.println(outputStr);
@@ -89,7 +89,7 @@ public class ManageViewerFiles extends HttpServlet {
                 //add the files
                 //get the files and add them
 
-                String studyFolderPath = getServletContext().getRealPath("studies" + File.separator + studyid);
+                String studyFolderPath = getServletContext().getRealPath("/viewer/" + viewerid);
                 File studyFolder = new File(studyFolderPath);
 
                 //process only if its multipart content
@@ -130,8 +130,7 @@ public class ManageViewerFiles extends HttpServlet {
                 //get the array of file-names
                 mpk = request.getParameterValues("fileNames");
                 for (int i = 0; i < mpk.length; i++) {
-                    String filePath = getServletContext().getRealPath("studies"
-                            + File.separator + studyid + File.separator + mpk[i]);
+                    String filePath = getServletContext().getRealPath("/viewer/" + viewerid + "/" + mpk[i]);
 
                     File f = new File(filePath);
                     f.delete();
