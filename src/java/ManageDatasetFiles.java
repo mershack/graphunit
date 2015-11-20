@@ -53,8 +53,9 @@ public class ManageDatasetFiles extends HttpServlet {
                 //first get the filenames in the directory.
                 //I will get the list of files in this directory and send it
 
-                String datasetPath = getServletContext().getRealPath("datasets" + File.separator + datasetid);
+                String datasetPath = getServletContext().getRealPath("/datasets/"+ datasetid);
 
+                System.out.println(datasetid);
                 File root = new File(datasetPath);
                 File[] list = root.listFiles();
 
@@ -73,7 +74,7 @@ public class ManageDatasetFiles extends HttpServlet {
                         }
 
                     } else {
-                        //System.out.println(f.getName());
+                        System.out.println(f.getName());
                         fileItemList.add(f.getName());
                     }
                 }
@@ -81,7 +82,7 @@ public class ManageDatasetFiles extends HttpServlet {
                 System.out.println("**** Printing the fileItems now **** ");
                 String outputStr = "";
                 for (int i = 0; i < fileItemList.size(); i++) {
-                    outputStr += getServerUrl(request) + "/datasets/" + datasetid + "/" + fileItemList.get(i) + "::::";
+                    outputStr += fileItemList.get(i);
                 }
 
                 out.println(outputStr);
@@ -89,7 +90,7 @@ public class ManageDatasetFiles extends HttpServlet {
                 //add the files
                 //get the files and add them
 
-                String studyFolderPath = getServletContext().getRealPath("datasets" + File.separator + datasetid);
+                String studyFolderPath = getServletContext().getRealPath("/datasets/" + datasetid);
                 File studyFolder = new File(studyFolderPath);
 
                 //process only if its multipart content
@@ -102,21 +103,25 @@ public class ManageDatasetFiles extends HttpServlet {
                             if (!item.isFormField()) {
                                 // cnt++;
                                 String name = new File(item.getName()).getName();
-                                //write the file to disk
+                                //write the file to disk            
+                                if (!studyFolder.exists()) {
+                                    studyFolder.mkdir();
+                                    System.out.println("The Folder has been created");
+                                }
                                 item.write(new File(studyFolder + File.separator + name));
                                 System.out.println("File name is :: " + name);
                             }
                         }
 
-                        out.print("Files successfully uploaded");
+                        System.out.print("Files successfully uploaded");
                     } catch (Exception ex) {
                         //System.out.println("File Upload Failed due to " + ex);
-                        out.print("File Upload Failed due to " + ex);
+                        System.out.print("File Upload Failed due to " + ex);
                     }
 
                 } else {
                     // System.out.println("The request did not include files");
-                    out.println("The request did not include files");
+                    System.out.println("The request did not include files");
                 }
 
             } else if (command.equalsIgnoreCase("deleteDatasetFiles")) {
@@ -126,12 +131,12 @@ public class ManageDatasetFiles extends HttpServlet {
                 //get the array of file-names
                 mpk = request.getParameterValues("fileNames");
                 for (int i = 0; i < mpk.length; i++) {
-                    String filePath = getServletContext().getRealPath("datasets"
-                            + File.separator + datasetid + File.separator + mpk[i]);
+                    String filePath = getServletContext().getRealPath("/datasets/" + datasetid + "/" + mpk[i]);
 
+                    System.out.println(filePath);
                     File f = new File(filePath);
                     f.delete();
-                    
+
                 }
             }
             //out.println("</html>");
@@ -143,10 +148,14 @@ public class ManageDatasetFiles extends HttpServlet {
     }
 
     public String getServerUrl(HttpServletRequest request) {
-        String uri = request.getScheme() + "://" + // "http" + "://
-                request.getServerName() + // "myhost"
-                ":" + // ":"
-                request.getServerPort() + // "8080"
+        String uri = request.getScheme() + "://"
+                + // "http" + "://
+                request.getServerName()
+                + // "myhost"
+                ":"
+                + // ":"
+                request.getServerPort()
+                + // "8080"
                 request.getRequestURI();//+       // "/people"
 
         int lastbackslash = uri.lastIndexOf("/");

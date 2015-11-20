@@ -102,7 +102,11 @@ public class ManageViewerFiles extends HttpServlet {
                             if (!item.isFormField()) {
                                 // cnt++;
                                 String name = new File(item.getName()).getName();
-                                //write the file to disk
+                                //write the file to disk  
+                                if (!studyFolder.exists()) {
+                                    studyFolder.mkdir();
+                                    System.out.println("The Folder has been created");
+                                }
                                 item.write(new File(studyFolder + File.separator + name));
                                 System.out.println("File name is :: " + name);
                             }
@@ -131,7 +135,7 @@ public class ManageViewerFiles extends HttpServlet {
 
                     File f = new File(filePath);
                     f.delete();
-                    
+
                 }
             }
             //out.println("</html>");
@@ -143,10 +147,14 @@ public class ManageViewerFiles extends HttpServlet {
     }
 
     public String getServerUrl(HttpServletRequest request) {
-        String uri = request.getScheme() + "://" + // "http" + "://
-                request.getServerName() + // "myhost"
-                ":" + // ":"
-                request.getServerPort() + // "8080"
+        String uri = request.getScheme() + "://"
+                + // "http" + "://
+                request.getServerName()
+                + // "myhost"
+                ":"
+                + // ":"
+                request.getServerPort()
+                + // "8080"
                 request.getRequestURI();//+       // "/people"
 
         int lastbackslash = uri.lastIndexOf("/");
