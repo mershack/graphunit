@@ -12,6 +12,7 @@
         <div id = "navbar" class = "collapse navbar-collapse">
             <ul class = "nav navbar-nav navbar-right">
                 <?php if ($isLogged) { ?>
+                    <li><a href = "#deleteAccount" data-toggle="modal" data-target="#modalViewSettings">Settings</a></li>
                     <li><a href = "#" onclick="logout()" id="logout">Logout</a></li>
 
                 <?php } else { ?>
@@ -38,5 +39,6 @@
             }
         });
     }
+
 
 </script>

@@ -17,7 +17,7 @@ $result = $viewer->viewerManagerView();
             </div>
             <div class="col-md-3">
             </div>
-            <button id="addViewerButton" onclick="getViewer(); setViewerid(<?php echo ($result[0]['id'] + 1); ?>);" class="btn btn-primary text-right" data-toggle="modal" 
+            <button id="addViewerButton" onclick="getViewer(); setViewerid(<?php echo isset($result[0]) ? ($result[0]['id'] + 1) : 1 ; ?>);" class="btn btn-primary text-right" data-toggle="modal" 
                     data-target="#modalAddViewer" >Add Viewer</button>
         </div>
     </div>
@@ -47,7 +47,7 @@ $result = $viewer->viewerManagerView();
                         ?>
                     </td>
                     <td class="text-right">
-                        <button type="button" class="btn btn-default btn-xs" onclick="copyViewer('<?php echo $value['id']; ?>', '<?php echo $value['name']; ?>', '<?php echo $value['path'] ?>', '<?php echo $value['description']; ?>')">Copy</button>
+                        <button type="button" class="btn btn-default btn-xs" onclick="copyViewer('<?php echo $value['name']; ?>', '<?php echo $value['path'] ?>', '<?php echo $value['description']; ?>')">Copy</button>
                         <button type="button" class="btn btn-default btn-xs" onclick="setViewerid(<?php echo $value['id']; ?>); getViewer();" id="editViewerOpen_<?php echo $value['id']; ?>" data-toggle="modal" 
                                 data-target="#editViewer">Edit</button>
                         <button type="button" class="btn btn-danger btn-xs" onclick="delViewer(<?php echo $value['id']; ?>)">Delete</button>
@@ -63,12 +63,12 @@ $result = $viewer->viewerManagerView();
 <script type="text/javascript">
     var viewerId;
     var userId = <?php echo $userId; ?>;
-    var nextId = <?php echo ($result[0]['id'] + 1); ?>;
+    var nextId = <?php echo isset($result[0]) ? ($result[0]['id'] + 1) : 1 ;?>;
     function setViewerid(id){
         viewerId = id;
     }
-    function copyViewer(originalId, name, path, description) {
-        copyViewerFiles(originalId,nextId);
+    function copyViewer(name, path, description) {
+//        copyViewerFiles(originalId,nextId);
         $.ajax({
             type: "POST",
             url: "controllers/Viewer.php",

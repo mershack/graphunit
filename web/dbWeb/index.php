@@ -17,12 +17,12 @@
         <div class="container">
             <div class="jumbotron">
                 <?php
-//                if (!$isLogged) {
-//                    include dirname(__FILE__) . '/views/welcome.inc.php';
-//                } else {
-//                    include dirname(__FILE__) . '/views/management.inc.php';
-//                }
-                include dirname(__FILE__) . '/views/include/managementTabs/study/addStudy.html';
+                if (!$isLogged) {
+                    include dirname(__FILE__) . '/views/welcome.inc.php';
+                } else {
+                    include dirname(__FILE__) . '/views/management.inc.php';
+                }
+//                include dirname(__FILE__) . '/views/include/managementTabs/study/addStudy.html';
                 ?>
             </div>
         </div>
