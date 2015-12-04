@@ -9,10 +9,10 @@
         </div>
 
         <div class="form-group col-md-offset-3">
-            <button id="submitPasswordButton" type="submit" class="btn btn-primary" disabled="disabled">Change Password</button>
+            <button id="submitPasswordButton" class="btn btn-primary" disabled="disabled">Change Password</button>
         </div>
         <div class="form-group col-sm-offset-3">
-            &nbsp; &nbsp; <button id="deleteAccountButton" type="submit"  class="btn btn-danger">Delete Account</button>
+            &nbsp; &nbsp; <button id="deleteAccountButton" class="btn btn-danger">Delete Account</button>
         </div>
     </form>
 </div>

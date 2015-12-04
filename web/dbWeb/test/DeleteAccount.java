@@ -9,7 +9,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
-public class Deleting {
+public class DeleteAccount {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -23,12 +23,11 @@ public class Deleting {
   }
 
   @Test
-  public void testDeleting() throws Exception {
-    driver.get(baseUrl + "/graphunit/web/dbWeb/index.php?changePassword=#");
-    assertTrue(driver.findElement(By.id("Settings")).isDisplayed());
+  public void testDeleteAccount() throws Exception {
+    assertTrue(driver.findElement(By.linkText("Settings")).isDisplayed());
     driver.findElement(By.linkText("Settings")).click();
     driver.findElement(By.id("deleteAccountButton")).click();
-    assertTrue(driver.findElement(By.id("Login")).isDisplayed());
+    assertTrue(driver.findElement(By.linkText("Login")).isDisplayed());
   }
 
   @After

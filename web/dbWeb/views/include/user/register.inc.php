@@ -15,7 +15,7 @@
         </div>
 
         <div class="form-group col-sm-offset-5">
-            <button id="submitButton" type="submit" class="btn btn-primary" disabled="disabled">Register</button>
+            <button id="submitButton" class="btn btn-primary" disabled="disabled">Register</button>
         </div>
     </form>
 </div>
