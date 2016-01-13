@@ -1,0 +1,342 @@
+Acc_allCommonNeighborOf2NodesFromOptions_NL,,,, , ,Acc_allCommonNeighborOf2NodesFromOptions_MAT,,,, 
+Q1,Q2,Q3,Q4,Q5 , ,Q1,Q2,Q3,Q4,Q5 
+cayenne,wine,lentil,tangerine,lettuce , ,cayenne,crab,lentil,tangerine,lettuce 
+cayenne,caviar,pork,tangerine,lettuce , ,tuna,wine,lentil,peach,vegetable 
+cayenne,caviar,lentil,tangerine,lettuce , ,cayenne,crab,lentil,mango,vegetable 
+cayenne,caviar,lentil,tangerine,lettuce , ,tuna,crab,lentil,peach,vegetable 
+cayenne,caviar,turnip,tangerine,lettuce , ,tuna,crab,lentil,tangerine,lettuce 
+cayenne,crab,lentil,tangerine,lettuce , ,tuna,crab,lentil,mango,lettuce 
+tuna,caviar,pork,tangerine,vegetable , ,cayenne,caviar,pork,tangerine,vegetable 
+cayenne,caviar,turnip,tangerine,lettuce , ,cayenne,crab,lentil,tangerine,lettuce 
+cayenne,crab,lentil,tangerine,lettuce , ,cayenne,crab,lentil,tangerine,lettuce 
+cayenne,caviar,lentil,tangerine,lettuce , ,tuna,crab,pork,peach,lettuce 
+cayenne,caviar,pork,tangerine,vegetable , ,cayenne,crab,lentil,tangerine,lettuce 
+cayenne,caviar,lentil,tangerine,vegetable , ,basil,crab,lentil,mango,lettuce 
+cayenne,caviar,lentil,tangerine,lettuce , ,cayenne,crab,lentil,mango,lettuce 
+cayenne,crab,lentil,tangerine,lettuce , ,cayenne,crab,lentil,tangerine,lettuce 
+cayenne,crab,lentil,tangerine,lettuce , ,basil,crab,lentil,tangerine,lettuce 
+cayenne,caviar,lentil,tangerine,lettuce , ,cayenne,crab,lentil,tangerine,lettuce 
+cayenne,crab,lentil,tangerine,lettuce , ,cayenne,crab,lentil,tangerine,lettuce 
+cayenne,crab,turnip,tangerine,lettuce , ,cayenne,crab,lentil,tangerine,lettuce 
+cayenne,wine,lentil,tangerine,lettuce , ,cayenne,crab,pork,peach,lettuce 
+cayenne,crab,lentil,tangerine,lettuce , ,cayenne,crab,lentil,tangerine,lettuce 
+cayenne,crab,lentil,tangerine,vegetable , ,cayenne,crab,lentil,tangerine,lettuce 
+cayenne,crab,lentil,tangerine,lettuce , ,cayenne,crab,pork,tangerine,lettuce 
+basil,caviar,lentil,tangerine,lettuce , ,cayenne,crab,lentil,tangerine,lettuce 
+cayenne,caviar,lentil,mango,lettuce , ,cayenne,crab,lentil,tangerine,lettuce 
+cayenne,crab,lentil,tangerine,lettuce , ,cayenne,crab,lentil,tangerine,lettuce 
+cayenne,crab,lentil,tangerine,lettuce , ,cayenne,crab,lentil,tangerine,lettuce 
+cayenne,crab,lentil,tangerine,lettuce , ,cayenne,crab,lentil,tangerine,lettuce 
+cayenne,crab,lentil,tangerine,lettuce , ,tuna,caviar,lentil,mango,rice 
+cayenne,wine,lentil,tangerine,lettuce , ,cayenne,crab,lentil,tangerine,lettuce 
+tuna,wine,lentil,tangerine,lettuce , ,basil,wine,lentil,tangerine,lettuce 
+cayenne,crab,lentil,tangerine,lettuce , ,cayenne,crab,lentil,tangerine,lettuce 
+cayenne,crab,lentil,tangerine,lettuce , ,basil,crab,lentil,tangerine,lettuce 
+cayenne,crab,lentil,tangerine,lettuce , ,cayenne,crab,pork,mango,vegetable 
+cayenne,crab,lentil,tangerine,lettuce , ,cayenne,crab,lentil,tangerine,lettuce 
+cayenne,crab,lentil,tangerine,lettuce , ,cayenne,crab,lentil,tangerine,lettuce 
+cayenne,crab,lentil,tangerine,lettuce , ,cayenne,crab,lentil,tangerine,lettuce 
+cayenne,crab,lentil,tangerine,lettuce , ,basil,wine,pork,peach,lettuce 
+cayenne,caviar,lentil,tangerine,lettuce , ,cayenne,crab,lentil,tangerine,lettuce 
+cayenne,crab,lentil,tangerine,lettuce , ,cayenne,crab,lentil,tangerine,lettuce 
+cayenne,crab,lentil,tangerine,vegetable , ,cayenne,crab,lentil,tangerine,lettuce 
+cayenne,caviar,lentil,tangerine,lettuce , ,cayenne,crab,lentil,tangerine,lettuce 
+cayenne,crab,lentil,tangerine,lettuce , ,tuna,crab,turnip,tangerine,lettuce 
+cayenne,crab,lentil,tangerine,lettuce , ,basil,wine,lentil,mango,lettuce 
+basil,crab,lentil,tangerine,vegetable , ,cayenne,crab,lentil,tangerine,lettuce 
+cayenne,crab,lentil,tangerine,lettuce , ,cayenne,crab,pork,tangerine,lettuce 
+cayenne,crab,lentil,tangerine,lettuce , ,tuna,crab,pork,tangerine,lettuce 
+cayenne,wine,lentil,tangerine,lettuce , ,cayenne,crab,lentil,tangerine,lettuce 
+cayenne,crab,lentil,tangerine,lettuce , ,basil,crab,lentil,tangerine,lettuce 
+cayenne,crab,lentil,mango,lettuce , ,cayenne,crab,pork,tangerine,lettuce 
+cayenne,crab,lentil,tangerine,vegetable , ,tuna,caviar,lentil,tangerine,vegetable 
+cayenne,caviar,lentil,tangerine,lettuce , ,null
+cayenne,caviar,lentil,tangerine,lettuce , ,null
+cayenne,caviar,lentil,tangerine,lettuce , ,null
+
+
+ Acc_howManyNodesAreWithin2LinkReach_NL,,,, , , Acc_howManyNodesAreWithin2LinkReach_MAT,,,, 
+ Q1,Q2,Q3,Q4,Q5 , , Q1,Q2,Q3,Q4,Q5 
+ 40,22,11,30,16 , , 1,13,6,3,2 
+ 16,10,8,25,12 , , 2,3,1,2,3 
+ 3,2,1,4,2 , , 30,15,29,23,30 
+ 3,7,5,9,6 , , 2,3,2,2,2 
+ 5,4,8,9,6 , , 12,22,6,6,5 
+ 5,6,10,8,12 , , 1,2,1,4,2 
+ 2,2,5,5,3 , , 1,7,10,15,2 
+ 4,8,3,3,4 , , 13,9,22,4,19 
+ 8,8,17,7,12 , , 3,2,1,4,2 
+ 25,19,10,36,15 , , 20,10,7,10,30 
+ 13,7,14,9,13 , , 3,4,5,3,3 
+ 2,5,7,4,2 , , 11,7,14,16,11 
+ 22,10,9,24,15 , , 2,18,1,4,2 
+ 4,3,2,6,4 , , 3,1,1,3,1 
+ 20,23,10,34,14 , , 3,2,1,2,2 
+ 3,23,11,56,14 , , 20,25,9,50,5 
+ 2,17,10,6,17 , , 21,21,11,32,9 
+ 3,2,1,4,2 , , 35,20,9,38,13 
+ 23,19,10,25,14 , , 9,20,6,29,12 
+ 21,20,10,26,14 , , 20,16,10,9,14 
+ 21,14,10,26,15 , , 40,20,10,850,14 
+ 26,22,10,33,15 , , 32,14,31,24,28 
+ 17,2,1,2,2 , , 9,10,20,7,19 
+ 3,2,1,20,2 , , 11,6,6,16,3 
+ lettuce,2,1,4,2 , , 12,20,5,17,5 
+ 19,15,10,25,15 , , 21,21,1,4,2 
+ 24,20,9,34,15 , , 2,4,20,4,25 
+ 3,2,3,4,2 , , 5,5,7,10,8 
+ 3,1,1,4,4 , , 8,9,21,3,19 
+ 13,2,5,5,5 , , 8,2,1,4,2 
+ 6,3,5,9,4 , , 3,2,1,4,2 
+ 27,17,10,18,14 , , 11,8,12,25,35 
+ 26,18,10,33,15 , , 5,10,5,3,2 
+ 30,15,10,35,15 , , 9,15,21,24,23 
+ 25,13,9,26,13 , , 23,12,35,26,33 
+ 22,16,10,32,15 , , 4,2,1,5,3 
+ 11,12,7,36,13 , , 21,22,24,19,21 
+ 11,17,9,22,13 , , 3,2,8,15,5 
+ 13,15,10,26,15 , , 13,11,21,8,21 
+ 30,22,11,27,12 , , 24,15,37,26,41 
+ 25,20,09,35,15 , , 3,2,1,4,2 
+ 25,19,10,36,13 , , 3,2,1,2,2 
+ 25,17,10,28,15 , , 3,6,4,4,7 
+ 19,2,1,3,2 , , 28,13,36,24,39 
+ 26,17,10,34,16 , , 3,14,23,8,19 
+ 24,8,10,22,15 , , 3,2,1,4,2 
+ 17,16,10,35,15 , , 10,17,8,15,15 
+ 16,18,10,25,15 , , 2,1,2,4,2 
+ 3,2,2,4,2 , , 23,20,10,28,15 
+ 28,17,11,26,15 , , 3,2,1,4,2 
+ 22,19,10,25,13 , ,null
+ 1,32,9,35,15 , ,null
+ 5,3,1,5,2 , ,null
+
+
+ Acc_rememberNodesUsedInCommonNeighbor_NL,,,,, , Acc_rememberNodesUsedInCommonNeighbor_MAT,,,,
+ Q1,Q2,Q3,Q4,Q5, , Q1,Q2,Q3,Q4,Q5
+ tomato;;cumin,shallot;;sesame_oil,carrot;;vegetable,citrus_peel;;kiwi,avocado;;mandarin, , cayenne,clam,vegetable;;bay,chayote;;citrus_peel,tuna;;chicory
+ cayenne;;oregano;;chip,crab;;lamb,scallop;;ginger,brandy;;peach,soy_sauce;;shallot, , cream_cheese,brandy,litchi,licorice,plum
+ scallion;;lime_juice,chive;;wasabi,coriander;;vegetable,citrus_peel;;palm,avocado;;mandarin, , chip;;oregano,tuna;;okra;;mustard,papaya;;raisin,holy_basil;;scallion,onion;;turkey
+ cayenne,caviar,lentil,tangerine,lettuce, , almond,plum,currant,litchi,angelica
+ tequila,sake,cognac,root,rice, , wasabi,bay;;shrimp,vegetable;;kale,liver;;chayote,cucumber;;tuna
+ sesame_oil,chive,vegetable,lemongrass,pimento, , rice,lovage;;mustard,beech;;asparagus;;cabernet,avocado;;cilantro;;coriander;;guava;;kiwi;;lime;;lime_juice;;mint;;palm;;papaya;;pineapple,cucumber;;tuna
+ chip;;sesame_oil,caviar;;vinegar,lentil;;red_wine,kiwi;;citrus_peel,lentil;;raw_beef, , cayenne,chive;;wasabi,tamarind;;cider,coriander;;leek,carrot;;bean
+ scallion;;onion,wasabi;;scallop,sweet_potato;;sour_cherry,citrus_peel;;liver,mandarin;;turkey, , tomato;;onion,garlic;;cayenne,lobster;;fish,cayenne;;lobster,olive;;cayenne
+ lime_juice,clam;;saffron,palm;;barley,black_tea;;mace,soy_sauce, , onion;;garlic,swiss_cheese;;tamarind,cabernet;;bay,palm;;papaya,cucumber;;turkey
+ lime_juice;;scallion,crab;;wasabi,lentil;;coriander;;vegetable,chayote;;papaya,mandarin;;chicory, , cod,vegetable,shrimp,sesame_oil,sesame_oil
+ oregano;;basil,crab;;wine,lentil,peach;;mango,rice;;lettuce, , cayenne,shrimp,vegetable,liver,cucumber;;tuna
+ lobster;;prawn;;tequila;;tangerine;;wasabi,clam;;shrimp,vegetable;;bay,avocado;;cilantro,feta_cheese;;olive, , endive,crab,lemongrass,melon,kelp
+ fish,wasabi;;chive,lentil;;vegetable;;coriander,lemongrass;;black_tea,mandarin;;cucumber, , cayenne,crab,lentil,guava,raw_beef;;saffron
+ fish;;lime_juice,wasabi;;tamarind,vegetable;;kale,lemongrass;;citrus_peel,cucumber;;lime, , sesame_oil,shrimp;;cod,cabbage;;caraway;;beet,black_tea,tuna
+ onion;;scallion,tamarind;;lovage,vegetable;;kale,citrus_peel;;liver,chicory;;raw_beef, , parsley;;cheese;;fennel;;garlic;;macaroni;;moazzarella;;olive;;olive_oil;;rosemary;;thyme;;tomato,sherry,palm,palm,radish
+ lime_juice,scallop,vegetable,lemongrass,feta_cheese, , onion,lovage;;scallop,kale,kiwi,beef;;radish
+ lime_juice;;bell_pepper,cucumber;;truffle,kale;;coriander,lemongrass;;fig,mandarin;;olive, , corn;;bell_pepper,bay;;lovage,carrot;;cabernet,black_tea;;fig,feta_cheese;;olive
+ cayenne,crab,turnip,tangerine,lettuce, , corn;;cilantro,shrimp;;tamarind,barley;;vegetable,black_tea;;citrus_peel,cucumber;;avocado
+ tomato;;cilantro,soy_sauce;;pork_sausage,carrot;;chickpea,liver;;palm,turkey;;feta_cheese, , cilantro;;lime_juice,shrimp;;lovage,cider;;wood,blueberry;;raspberry,turkey;;avocado
+ scallion;;cumin,wasabi;;shrimp,vegetable;;barley,kiwi;;citrus_peel,chicory;;turkey, , cumin,lovage,kale;;vegetable,citrus_peel;;kiwi,raw_beef;;chicory
+ onion;;scallion,lovage;;wasabi,vegetable;;kale,kiwi;;citrus_peel,raw_beef;;chicory, , onion;;scallion,wasabi;;lovage,vegetable;;kale,kiwi;;lemongrass,raw_beef;;tuna
+ cumin;;tomato,lovage;;shrimp,kale;;cumin,citrus_peel;;lemongrass,tuna;;mandarin, , celery;;broth,cod;;haddock,red_wine;;porcini,rum;;tequila,mackerel;;kelp
+ basil,scallop;;wasabi,lentil;;coriander;;kale;;carrot;;bay;;barley;;chickpea,tangerine;;kiwi;;citrus_peel;;mace;;fig;;black_tea;;liver;;palm;;chayote;;papaya,cucumber;;mandarin;;raw_beef;;tuna;;olive;;feta_cheese;;turkey;;chicory;;avocado, , onion;;garlic,clam;;shrimp,carrot;;cabernet,black_tea;;citrus_peel,avocado;;mandarin
+ sesame_oil;;oregano,crab;;scallop,coriander,guava;;coriander,raw_beef;;cucumber, , scallion;;cilantro,shrimp;;tamarind,vegetable;;cabernet,papaya;;fig,cucumber;;olive
+ scallion;;onion;;garlic;;bell_pepper;;corn;;cumin;;cilantro;;lime_juice,wasabi;;soy_sauce,chickpea;;cumin,kiwi;;lemongrass,radish;;raw_beef, , pimenta;;cabbage,carrot;;endive,dill;;mustard,tamarind;;pimenta,pork;;carrot
+ bell_pepper;;cilantro,bay;;clam,carrot;;coriander,citrus_peel;;kiwi,mandarin;;tuna, , feta_cheese;;garlic,scallop;;lovage,vegetable;;bay,ginger;;soybean,raw_beef;;radish
+ scallion;;sesame_oil,scallop;;shrimp,carrot;;coriander,chayote;;lemongrass,turkey;;olive, , rice;;lobster,vegetable;;pork,tangerine;;lettuce,rice;;cayenne,lentil;;crab
+ cilantro;;tomato,wasabi;;shrimp,vegetable;;kale,chayote;;liver,olive;;tuna, , feta_cheese;;romano_cheese,shallot;;chive,chive;;kale,chickpea;;apricot,pea;;coconut
+ rice;;sesame_oil,shallot;;sesame_oil,palm;;vegetable,kiwi;;pineapple,scallion;;raw_beef, , corn;;onion,bay,rye_flour,peach,cranberry
+ tuna;;chip,dill;;catfish,pumpkin;;vegetable,citrus;;plum,shellfish;;raw_beef, , basil,seaweed;;shellfish,chicory;;carrot;;balm,olive;;corn;;feta_cheese;;eel,avocado
+ corn;;tomato,lamb;;sherry,palm;;pumpkin;;cumin;;chickpea,kiwi;;pineapple;;lemongrass;;papaya;;chayote;;palm;;jasmine;;plum;;mace;;citrus_peel,radish;;scallion;;soy_sauce;;avocado;;mandarin;;lime, , sesame_oil,wasabi,cabernet,black_tea,feta_cheese
+ onion;;scallion,wasabi;;lovage,kale;;vegetable,kiwi;;citrus_peel,raw_beef;;chicory, , cheese;;fennel,lovage;;tamarind,carrot;;kale,palm;;orange_juice,cucumber;;radish
+ scallion;;garlic,clam;;sherry,coriander;;kale,kiwi;;fig,mandarin;;feta_cheese, , garlic,clam;;shrimp,soy_sauce;;nira,cilantro;;coriander,nira;;sake
+ mackerel,crab,lentil,tangerine,lettuce, , cayenne;;broth,beech,balm;;beet,lentil,mango
+ cayenne,crab,lentil,tangerine;;liver;;citrus_peel,lettuce;;lime;;scallion, , garlic;;tomato,scallop;;lovage,vegetable;;cabernet,citrus_peel;;kiwi,raw_beef;;tuna
+ lime_juice;;oregano,wasabi;;clam,vegetable;;barley,citrus_peel;;black_tea,vegetable;;feta_cheese, , scallion;;onion,wasabi;;lovage,vegetable;;chickpea,citrus_peel;;lemongrass,radish;;tuna
+ onion;;cilantro,clam;;scallop,coriander;;barley,citrus_peel;;fig,tuna;;cucumber, , feta_cheese,soybean,shrimp,lemon_juice,caraway
+ lime_juice;;cumin,chive;;scallop,vegetable;;cabernet,lemongrass;;liver,tuna;;cucumber, , bell_pepper;;chip;;garlic;;olive_oil,wasabi;;shrimp,swiss_cheese;;porcini,geranium;;clove,mandarin;;chicory
+ onion;;garlic,fish;;shrimp,bay;;carrot,kiwi;;chayote,radish;;tuna, , scallion;;onion,bay;;clam,bay;;veal,lemongrass;;scallop,turkey;;liver
+ scallion;;sesame_oil,shrimp;;lovage,cumin;;kale,citrus_peel;;liver,raw_beef;;lentil, , garlic;;onion,shrimp;;wasabi,cumin;;coriander,chayote;;citrus_peel,turkey;;avocado
+ garlic;;lime_juice,chive;;wasabi,cumin;;barley,citrus;;lemongrass,cucumber;;tuna, , scallion;;sesame_oil,shrimp;;wasabi,vegetable;;bay,liver;;citrus_peel,tuna;;raw_beef
+ onion;;lime_juice,clam;;bay,coriander;;barley,citrus_peel;;lemongrass,chicory;;cucumber, , chip;;lettuce;;octopus;;radish;;seaweed;;wasabi,clam;;shrimp;;wasabi;;bay;;lovage;;scallop;;sherry;;swiss_cheese;;tamarind,cabernet;;saffron;;truffle;;veal;;barley;;beet;;cabbage;;caraway;;carrot;;leaf;;leek;;parsnip;;root;;savory;;squash;;sweet_potato;;yam,liver;;chayote;;citrus_peel;;kiwi;;lemongrass;;palm;;papaya;;black_tea;;fig;;mace,feta_cheese;;olive;;turkey;;cucumber;;radish;;raw_beef;;tuna;;chicory;;avocado;;mandarin
+ lime_juice;;cilantro,lovage;;clam,carrot;;vegetable,kiwi;;citrus_peel,raw_beef;;turkey, , lavender;;tamarind;;leek,shallot,barley,tangerine,avocado
+ oregano;;moazzarella,clam;;tamarind,chickpea;;vegetable,black_tea;;kiwi,carrot;;sesame_oil, , sesame_oil;;tomato,clam;;bay,cabernet;;carrot,palm;;chayote,chicory;;raw_beef
+ lime_juice;;cilantro,lovage;;clam,cumin;;kale,kiwi;;citrus_peel,cucumber;;mandarin, , bell_pepper;;corn,shrimp;;scallop,tamarind;;cider,black_tea;;fig,olive;;turkey
+ cumin;;corn,lovage;;clam,cumin;;cabernet,liver;;black_tea,mandarin;;radish, , starch,crab,endive;;rye_bread;;cilantro,mate,sesame_oil
+ scallion;;cumin,soy_sauce;;shallot,vegetable;;cumin,kiwi;;lemongrass,turkey;;mandarin, , pumpkin,crab,cabernet;;bell_pepper,kiwi,mandarin
+ cilantro;;lime_juice,wasabi;;lovage,kale;;coriander,citrus_peel;;kiwi,olive;;feta_cheese, , kale,asparagus;;bay,vegetable;;bay;;cabernet;;palm,bergamot,avocado
+ garlic;;scallion,shrimp;;clam,chickpea;;cabernet,lime_juice;;cashew,raw_beef;;mandarin, , garlic;;tomato,lovage;;clam,soy_sauce;;nira,liver;;citrus_peel,tuna;;turkey
+ onion;;scallion,shrimp;;lovage,coriander;;carrot,citrus_peel;;fig,scallion;;carrot, , wasabi;;chip,chive;;scallop,vegetable;;cabernet,chayote;;citrus_peel,radish;;sesame_oil
+ lime_juice;;cilantro,chive;;wasabi,barley;;cabernet,citrus_peel;;liver,turkey;;mandarin, ,null
+ lime_juice,crab;;scallop,cumin;;chickpea,nectarine;;papaya,tuna;;chicory, ,null
+ onion;;corn;;tomato;;bell_pepper;;scallion;;lime_juice;;cilantro;;cumin,chive;;wasabi;;scallop,vegetable;;chickpea;;coriander;;barley;;cumin;;cabernet;;bay;;kale;;carrot,kiwi;;citrus_peel;;mace;;black_tea;;fig;;palm;;chayote;;papaya;;lemongrass;;liver,raw_beef;;cucumber;;olive;;turkey;;chicory;;tuna;;avocado;;mandarin, ,null
+
+
+Time_allCommonNeighborOf2NodesFromOptions_NL,,,, , ,Time_allCommonNeighborOf2NodesFromOptions_MAT,,,, 
+Q1,Q2,Q3,Q4,Q5 , ,Q1,Q2,Q3,Q4,Q5 
+21,60,18,8,30 , ,32,19,25,17,20 
+21,36,53,16,29 , ,2,1,1,1,1 
+23,47,58,17,25 , ,21,39,43,60,54 
+34,42,42,20,15 , ,4,3,1,1,0 
+38,34,27,31,12 , ,50,57,45,19,50 
+37,22,24,16,37 , ,43,40,35,16,29 
+33,33,33,33,33 , ,32,25,60,19,35 
+28,47,27,22,60 , ,19,20,20,17,13 
+17,60,60,20,31 , ,19,24,28,18,38 
+35,60,22,18,22 , ,11,7,15,10,11 
+4,15,12,12,16 , ,26,24,8,25,30 
+7,3,1,1,2 , ,60,46,33,51,60 
+17,60,24,12,22 , ,41,60,60,60,21 
+33,41,31,12,60 , ,60,22,20,40,30 
+42,35,20,13,14 , ,60,50,35,20,31 
+40,58,48,21,33 , ,47,40,60,53,55 
+39,38,21,13,29 , ,14,21,22,18,13 
+34,60,60,13,26 , ,57,29,33,19,30 
+29,25,13,12,27 , ,15,51,60,2,46 
+8,29,20,7,11 , ,51,34,33,19,58 
+39,45,22,10,38 , ,26,29,60,23,28 
+11,16,13,13,17 , ,51,18,57,16,56 
+60,55,39,26,25 , ,16,33,30,16,11 
+60,60,60,60,60 , ,13,30,20,13,31 
+27,60,34,23,56 , ,49,30,36,12,15 
+24,35,19,18,46 , ,33,57,58,22,52 
+22,60,21,13,36 , ,13,17,16,17,11 
+19,57,39,30,14 , ,4,60,60,24,44 
+22,51,48,31,42 , ,16,21,11,12,10 
+56,55,22,14,50 , ,60,47,47,51,60 
+30,14,19,12,22 , ,23,28,31,22,19 
+26,32,17,18,15 , ,60,36,45,27,43 
+43,39,49,13,33 , ,7,4,3,12,45 
+13,35,14,12,14 , ,24,14,21,10,13 
+13,21,23,13,22 , ,24,41,18,14,15 
+51,16,28,11,20 , ,60,37,23,26,28 
+29,60,34,14,57 , ,3,1,0,0,0 
+52,60,26,11,20 , ,19,9,7,10,24 
+11,23,17,18,41 , ,16,21,40,16,38 
+10,22,58,10,40 , ,60,60,42,25,42 
+13,60,13,16,24 , ,36,21,38,28,15 
+21,17,9,11,11 , ,19,60,46,23,41 
+15,25,52,14,31 , ,60,60,14,60,50 
+49,41,18,16,29 , ,39,15,29,16,16 
+25,60,26,18,36 , ,18,19,57,24,29 
+21,45,31,16,28 , ,14,19,13,12,35 
+16,60,13,7,18 , ,29,25,26,22,20 
+32,60,16,13,17 , ,4,3,14,3,1 
+25,39,57,7,40 , ,20,18,27,14,18 
+21,26,18,10,42 , ,60,60,41,38,60 
+29,39,17,12,46 , ,null
+25,57,25,13,22 , ,null
+49,60,24,27,54 , ,null
+
+
+ Time_howManyNodesAreWithin2LinkReach_NL,,,, , , Time_howManyNodesAreWithin2LinkReach_MAT,,,, 
+ Q1,Q2,Q3,Q4,Q5 , , Q1,Q2,Q3,Q4,Q5 
+ 60,35,28,58,38 , , 7,60,31,9,10 
+ 23,15,19,21,15 , , 3,1,1,0,0 
+ 20,24,16,10,9 , , 51,38,51,46,45 
+ 11,11,8,13,16 , , 4,0,0,1,0 
+ 7,10,6,9,18 , , 60,29,57,45,31 
+ 47,36,18,19,25 , , 17,7,10,17,16 
+ 33,33,33,33,33 , , 16,29,23,18,12 
+ 29,25,19,15,14 , , 40,18,25,20,23 
+ 47,23,35,18,35 , , 18,16,10,16,14 
+ 60,39,60,60,22 , , 12,9,13,8,15 
+ 33,21,18,36,34 , , 10,5,7,6,8 
+ 5,3,2,3,3 , , 40,30,27,55,24 
+ 48,20,29,29,25 , , 30,60,45,45,38 
+ 42,21,16,25,13 , , 48,7,6,12,16 
+ 43,40,22,57,45 , , 32,13,12,8,7 
+ 12,53,22,60,31 , , 60,42,27,53,18 
+ 32,60,32,22,60 , , 54,52,60,57,44 
+ 26,9,10,11,6 , , 60,51,31,58,40 
+ 40,43,29,38,40 , , 60,54,28,52,31 
+ 57,51,31,59,20 , , 60,55,59,52,50 
+ 31,49,31,35,29 , , 60,52,26,60,34 
+ 35,29,20,54,18 , , 57,46,47,30,37 
+ 9,32,60,45,34 , , 30,22,30,30,29 
+ 41,11,9,23,19 , , 57,3,2,3,1 
+ 56,48,11,21,8 , , 46,42,48,22,26 
+ 60,41,49,60,46 , , 3,56,26,25,16 
+ 60,60,45,60,60 , , 24,35,20,14,17 
+ 24,30,23,28,12 , , 17,28,35,32,45 
+ 24,25,9,11,12 , , 60,40,23,13,18 
+ 33,11,14,10,18 , , 35,36,15,13,21 
+ 42,12,7,18,11 , , 18,18,19,17,13 
+ 60,23,23,54,34 , , 40,10,42,48,50 
+ 60,36,41,60,43 , , 7,18,14,10,8 
+ 49,35,26,47,23 , , 34,41,18,8,10 
+ 60,26,24,42,27 , , 60,16,29,23,29 
+ 60,23,38,52,60 , , 53,21,12,25,26 
+ 50,34,23,60,31 , , 2,1,1,1,0 
+ 50,31,23,43,19 , , 14,30,47,59,34 
+ 48,37,23,55,22 , , 22,36,32,10,19 
+ 60,46,26,60,24 , , 59,36,41,31,37 
+ 60,33,19,48,18 , , 38,15,16,13,14 
+ 57,23,18,45,26 , , 32,8,5,8,6 
+ 46,27,23,45,29 , , 60,46,56,55,42 
+ 3,12,11,5,4 , , 30,16,28,23,26 
+ 60,46,28,60,40 , , 30,32,31,17,19 
+ 60,60,37,53,23 , , 26,10,11,11,10 
+ 60,60,27,60,33 , , 45,30,16,40,31 
+ 51,51,31,36,35 , , 9,3,1,1,1 
+ 14,4,6,8,7 , , 57,46,24,60,47 
+ 43,16,14,29,15 , , 37,30,38,32,33 
+ 51,42,44,60,41 , ,null
+ 60,52,20,53,42 , ,null
+ 60,27,19,24,13 , ,null
+
+
+ Time_rememberNodesUsedInCommonNeighbor_NL,,,,, , Time_rememberNodesUsedInCommonNeighbor_MAT,,,,
+ Q1,Q2,Q3,Q4,Q5, , Q1,Q2,Q3,Q4,Q5
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 33,33,33,33,33, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, , 0,0,0,0,0
+ 0,0,0,0,0, ,null
+ 0,0,0,0,0, ,null
+ 0,0,0,0,0, ,null
+
+

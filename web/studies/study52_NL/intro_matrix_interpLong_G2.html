@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Introduction</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <style>
+            body{
+                width:800px;
+            }
+            img{
+                margin: 5px;
+                margin-left: 10px;
+            }
+        </style>
+    </head>
+    <body>       
+        <h3>Introduction</h3>
+
+            
+       <p>
+        This is a research study. We want to understand how to best show network data (items with connections between them). 
+        We will use a matrix to show you how cooking ingredients (ex: salt, meat) are used in receipes together. 
+        All ingredients are listed once vertically and once horizontally. Two ingredients are connected (used in many receipes
+        together) if there is a black dot in the matrix at their intersection. The example below shows that beans are often used
+        with bacon, while cheddar is used on broccoli. 
+       </p>
+
+	<img src="matrix_legend_0.png"/> 
+
+	<br><br>
+        <p>
+        You can interact with the visualization. <b>Zoom</b> by using the mouse wheel. <b>Pan</b> by pressing the left mouse button down and
+        dragging (as in Google maps). 
+        <b>Select and deselect</b> ingredients as <b>answers</b> by double-clicking on them (either in the row or column headers).
+        <b>Select and deselect</b> ingredients as <b>highlights</b> by clicking once on them (either in the row or column headers). 
+              <b>Mouse-over</b> ingredients and links (the black dots) to highlight them.
+
+        Here is an example of a selected answer, a highlighted row, a hovered row and a hovered connection respectively.<br><br>
+         <img src="matrix-selected-answer.png" height="180"/>
+         <img src="matrix-selected-row.png" height="180"/>       
+        <img src="matrix-row-hover.png" height="180"/>
+        <img src="matrix-link-hover.png" height="180" />
+
+        
+
+	<br><br>
+	<p>We will ask you a few questions about this data. Please answer the questions as fast and accurate as possible by viewing
+         and interacting with the visualization. There will be a <b>countdown</b> for each question; once it expires, we will 
+         hide the visualization. We will give you a <b>turk-code</b> to use for payment once you finish the study.</p>
+
+	<p align="center">
+	<br>
+        <br>
+	<b>We will pay a $2 bonus to the user with the best overall accuracy/time.</b>
+	<br><br>
+        <b>The study includes two questions we consider to be easy enough that everyone can answer correctly. You need to answer both
+        correctly to receive payment.</b>   
+	<br>
+	<br>
+	</p>
+              
+       
+      <br><br>
+      
+          <b>Task1</b>: <b>"Given two highlighted ingredients, select all ingredients that they both connect to."</b><br><br>
+
+
+         Remember, you
+         can select and deselect nodes by clicking and double-clicking on them. Selecting a node will turn it blue. See a few examples below:<br><br>
+         <table align="center">
+             <tr><td align="center"><em>Questions</em></td><td align="center"><em>Answers</em></td></tr>
+           <tr><td><img src="matrix-commonNeighbor_example1_qn.png" height="300"></td><td><img src="matrix-commonNeighbor_example1_ans.png" height="300"></td></tr>
+           <tr><td><img src="matrix-commonNeighbor_example2_qn.png" height="300"></td><td><img src="matrix-commonNeighbor_example2_ans.png" height="300"></td></tr>
+         </table> 
+
+<br><Br><br><br>
+        
+             <b>Task2</b>: 
+             
+         <b>"Given two pairs of ingredients (red and blue), estimate which pair is linked by fewer other ingredients."</b><br><br>
+        
+         See the first example below for how you can link two ingredients with other ingredients.
+
+         <br><br>
+
+	HINT: This is an estimation task! You may not have time to find the exact match, just give your best guess (see example 2).
+       
+	<br><br>
+         <table align="center">
+             <tr><td align="center"><em>Questions</em></td><td align="center"><em>Answers</em></td></tr>
+             <tr><td><img src="radu_mat_path1.png" ></td><td><img src="answerOption_red.png" /><br/>
+            
+                    
+           
+           <tr><td><img src="radu_mat_path2.png"></td><td><img src="answerOption_red.png">
+                <u><b>Note</b> </u> 
+                Probably red, because the ingredients are in the same cluster 
+                  or closer together while the blues aren't.
+               </td></tr>
+         </table> 
+        
+        <!--
+       
+        <h3>Tasks</h3> 
+         <b>Task 1</b>: <b>"Given two highlighted ingredients, select the one with more connections."</b> <br><Br>
+ 	
+	Hint: an ingredient has as many connections as there are dots on its row or column. <br><br>
+
+         Remember, you
+         can select and deselect nodes as answers by double-clicking on them. A selected answer node has a black border around it. See a few examples below:<br><br>
+         <table align="center">
+	   <tr><td align="center">Questions</td><td align="center">Answers</td></tr>
+           <tr><td><img src="matrix-task1_qn.png" height=200></td><td><img src="matrix-task1_ans.png" height=200></td></tr>
+           <tr><td><img src="matrix-task1_2_qn.png" height=160></td><td><img src="matrix-task1_2_ans.png" height=160></td></tr>
+         </table>
+
+	<br><br>
+  
+        
+        <b>Task2</b>: <b>"Select all ingredients that the highlighted ingredient is connected to."</b><br><br>
+
+	Hint: find all dots on the selected row and trace them up to their column labels. <br><br>
+
+        Remember, you
+        can select and deselect nodes as answers by double-clicking on them. A selected answer node has a black border around it. See a few examples below:<br><br>
+       
+        <table align="center">
+	   <tr><td align="center">Questions</td><td align="center">Answers</td></tr>
+           <tr><td><img src="matrix-task2_qn.png" height=160></td><td><img src="matrix-task2_ans.png" height=160></td></tr>
+           <tr><td><img src="matrix-task2_2_qn.png" height=180></td><td><img src="matrix-task2_2_ans.png" height=180></td></tr>
+         </table>
+
+        
+        <br> <br>
+
+        <b>Task3</b>: <b>"Given two highlighted clusters of ingredients, select the cluster that 
+            has the most interconnections between its members."</b><br><br>
+
+	
+        See a few examples below:<br><br>
+         <table align="center">
+             <tr><td align="center"><em>Questions</em></td><td align="center"><em>Answers</em></td></tr>
+           <tr><td><img src="matrix-cluster_task1_1_qn.png"></td><td><img src="matrix-cluster_task1_1_ans.png" width="160" ></td></tr>
+           <tr><td><img src="matrix-cluster_task1_2_qn.png" height="500"></td><td><img src="matrix-cluster_task1_2_ans.png" width="160" ></td></tr>
+         </table>     
+        
+        
+        
+        -->
+
+    </body>
+</html>

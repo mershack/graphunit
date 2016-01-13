@@ -1,0 +1,9 @@
+Acc_selectMoreInterconnectedCluster2Clusters_MAT,Acc_selectNodeWithHighestDegree2_MAT,Acc_selectAllNeigbhorsOf1Node_MAT
+0.9,0.9,0.875
+0.8,0.1,0.0
+1.0,0.8,0.6722222222222223
+1.0,0.9,0.7833333333333333
+0.7,0.7,0.4149999999999999
+0.9,0.8,0.875
+1.0,0.7,0.8133333333333332
+1.0,0.8,0.5216666666666667

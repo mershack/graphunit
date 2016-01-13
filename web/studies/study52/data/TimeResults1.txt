@@ -1,0 +1,7 @@
+Time_selectLargerGroup_NL,Time_does2NodeBelongToSameCluster_NL,Time_howManyClustersAreThere_NL
+4.5,5.6,1.0
+7.6,7.7,1.0
+4.6,2.8,1.0
+3.7,3.5,0.8
+6.4,4.9,1.0
+5.4,4.1,1.0

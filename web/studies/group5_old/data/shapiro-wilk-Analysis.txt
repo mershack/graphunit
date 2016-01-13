@@ -1,0 +1,40 @@
+TaskName = Acc_allCommonNeighborOf2NodesFromOptions
+condition  ,  pvalue
+------------------------------------
+Acc_allCommonNeighborOf2NodesFromOptions_NL , 2.57779781685167e-07
+Acc_allCommonNeighborOf2NodesFromOptions_MAT , 2.14952766665179e-07
+**********************************************************
+
+
+TaskName = Acc_howManyNodesAreWithin2LinkReach
+condition  ,  pvalue
+------------------------------------
+Acc_howManyNodesAreWithin2LinkReach_NL , 1.48224207378052e-07
+Acc_howManyNodesAreWithin2LinkReach_MAT , 9.49725991044629e-13
+**********************************************************
+
+
+TaskName = Acc_rememberNodesUsedInCommonNeighbor
+condition  ,  pvalue
+------------------------------------
+Acc_rememberNodesUsedInCommonNeighbor_NL , 5.1297143908409e-15
+Acc_rememberNodesUsedInCommonNeighbor_MAT , 5.19870488831633e-15
+**********************************************************
+
+
+TaskName = Time_allCommonNeighborOf2NodesFromOptions
+condition  ,  pvalue
+------------------------------------
+Time_allCommonNeighborOf2NodesFromOptions_NL , 0.133697873003745
+Time_allCommonNeighborOf2NodesFromOptions_MAT , 0.282119910109771
+**********************************************************
+
+
+TaskName = Time_howManyNodesAreWithin2LinkReach
+condition  ,  pvalue
+------------------------------------
+Time_howManyNodesAreWithin2LinkReach_NL , 0.146135176154195
+Time_howManyNodesAreWithin2LinkReach_MAT , 0.261378266063438
+**********************************************************
+
+

@@ -1,0 +1,72 @@
+
+	Welch Two Sample t-test
+
+data:  Acc_selectNodeWithHighestDegree2_NL and Acc_selectNodeWithHighestDegree2_MAT
+t = 2.9025, df = 16.956, p-value = 0.009929
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ 0.05762729 0.36459493
+sample estimates:
+mean of x mean of y 
+0.9000000 0.6888889 
+
+
+	Welch Two Sample t-test
+
+data:  Acc_selectAllNeigbhorsOf1Node_NL and Acc_selectAllNeigbhorsOf1Node_MAT
+t = -0.0242, df = 16.449, p-value = 0.981
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -0.2704477  0.2643366
+sample estimates:
+mean of x mean of y 
+0.7413889 0.7444444 
+
+
+	Welch Two Sample t-test
+
+data:  Acc_selectMoreInterconnectedCluster2Clusters_NL and Acc_selectMoreInterconnectedCluster2Clusters_MAT
+t = -1.4304, df = 13, p-value = 0.1762
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -0.1813025  0.0368581
+sample estimates:
+mean of x mean of y 
+0.7500000 0.8222222 
+
+
+	Welch Two Sample t-test
+
+data:  Time_selectNodeWithHighestDegree2_NL and Time_selectNodeWithHighestDegree2_MAT
+t = -4.0396, df = 14.234, p-value = 0.00118
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -6.009957 -1.845599
+sample estimates:
+mean of x mean of y 
+  7.35000  11.27778 
+
+
+	Welch Two Sample t-test
+
+data:  Time_selectAllNeigbhorsOf1Node_NL and Time_selectAllNeigbhorsOf1Node_MAT
+t = -2.794, df = 11.677, p-value = 0.0166
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -8.764603 -1.070952
+sample estimates:
+mean of x mean of y 
+ 16.16000  21.07778 
+
+
+	Welch Two Sample t-test
+
+data:  Time_selectMoreInterconnectedCluster2Clusters_NL and Time_selectMoreInterconnectedCluster2Clusters_MAT
+t = 1.3717, df = 11.318, p-value = 0.1967
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -0.7296018  3.1651573
+sample estimates:
+mean of x mean of y 
+ 4.640000  3.422222 
+

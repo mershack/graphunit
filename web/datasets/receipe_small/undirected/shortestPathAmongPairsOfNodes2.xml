@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<taskFile>
+  <question>
+		<input>egg;;wheat</input>	
+		<input>coffee;;concord_grape</input>
+		<answer>red</answer>
+	</question>
+   <question>		
+		<input>kidney_bean;;pimento</input>
+		<input>haddock;;lovage</input>
+		<answer>blue</answer>
+	</question>	
+	<question>		
+		<input>shallot;;butter</input>
+		<input>balm;;white_wine</input>
+		<answer>blue</answer>
+	</question>		
+	<question>
+		<input>thyme;;fennel</input>	
+		<input>pumpkin;;cucumber</input>
+		<answer>red </answer>
+	</question>
+	<question>
+		<input>tangerine;;lemon_juice</input>
+		<input>berry;;gelatin</input>			
+		<answer>blue</answer>
+	</question>
+	 	<question>
+		<input>mandarin;;lentil</input>	
+		<input>almond;;rose</input>
+		<answer>blue</answer>
+	</question>
+	<question>
+		<input>seed;;melon</input>	
+		<input>scallion;;scallop</input>
+		<answer>blue</answer>
+	</question>
+	<question>
+		<input>shrimp;;scallop</input>	
+		<input>catfish;;truffle</input>
+		<answer>red </answer>
+	</question>	
+   <question>
+		<input>pecan;;pumpkin</input>	
+		<input>macaroni;;bannana</input>
+		<answer>red</answer>
+	</question>
+	
+   <question>
+		<input>beet;;kale</input>	
+		<input>lard;;lentil</input>
+		<answer>red</answer>
+	</question>
+	<question>
+	     <input>cashew;;kelp</input>
+		<input>geranium;;tea</input>		
+		<answer>blue </answer>
+	</question> 
+    <question>
+		<input>cabbage;;lavender</input>	
+		<input>pistachio;;grape</input>
+		<answer>blue</answer>
+	</question>   
+    <question>
+		<input>tomato_juice;;cream_cheese</input>	
+		<input>plum;;lime_juice</input>
+		<answer>blue</answer>
+	</question>
+    <question>
+		<input>citrus_peel;;lemon_juice</input>
+		<input>soy_sauce;;shallot</input>
+		<answer>blue </answer>
+	</question>
+
+	
+	<question>
+		<input>yogurt;;cashew</input>	
+		<input>apricot;;carrot</input>
+		<answer>red </answer>
+	</question>
+	<question>
+		<input>vanilla;;guava</input>
+		<input>hazelnut;;barley</input>	
+		<answer>blue</answer>
+	</question>	
+	<question>
+		<input>mandarin;;potato</input>
+		<input>soy_sauce;;shallot</input>			
+		<answer>blue </answer>
+	</question>
+	<question>
+		<input>licorice;;peanut</input>	
+		<input>cod;;onion</input>
+		<answer>red </answer>
+	</question>
+    <question>
+		<input>seaweed;;kelp</input>	
+		<input>lentil;;lemon_juice</input>
+		<answer>red </answer>
+	</question>
+	<question>
+		<input>coffee;;squash</input>
+		<input>cream_cheese;;mace</input>	
+		<answer>blue </answer>
+	</question>
+	<question>
+			<input>rye_flour;;jasmine</input>
+			<input>cocoa;;cacao</input>			
+		<answer>blue</answer>
+	</question>
+	<question>
+		<input>smoke;;beer</input>	
+		<input>macaroni;;raw_beef</input>
+		<answer>red </answer>
+	</question>
+</taskFile> 

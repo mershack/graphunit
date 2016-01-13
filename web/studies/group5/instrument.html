@@ -1,0 +1,309 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
+        <style>
+            .node {
+                stroke: #fff;
+                stroke-width: 1.5px;
+            }
+            .link {
+                stroke: #999;
+                stroke-opacity: .6;
+            }
+            *::selection {
+                background:transparent;
+            }
+
+        </style>
+
+        <title>Instrumented Graph</title>
+    </head>
+    <body onload="init()">
+
+        <!-- <script src="d3.v3.min.js"></script>  -->
+        <script src="http://d3js.org/d3.v2.min.js?2.8.1"></script>
+        <script>
+
+        //used to implement node drags
+        var pickedNode = null;
+
+        //transform: used to implement zooming and panning
+        var zoom = 1;
+        var transform = "translate(0,0)";
+
+        //use for draging nodes, and for panning
+        var drg = null;
+
+        //communicate with the eye-tracking instrumentation library via local ajax calls;
+        //c is an array of string commands that the instrumentation library will understand
+        function eyetrackCall(c) {
+            var s = "http://localhost:9999/apa/blah.txt?";
+            for (var i = 0; i < c.length; i++)
+                s += "command=" + c[i];
+            d3.xhr(s, function(error, data) {
+            });
+        }
+
+
+        //the position of the visualization window on the screen; gets set whenever a user moves the mouse (no better way)
+        var screenX = 0;
+        var screenY = 0;
+        window.onmousemove = function(e) {
+            var newscreenx = e.screenX - e.clientX + document.getElementById("mainsvg").getBoundingClientRect().left;
+            var newscreeny = e.screenY - e.clientY + document.getElementById("mainsvg").getBoundingClientRect().top;
+
+            if (newscreenx != screenX || newscreeny != screenY) {
+                screenX = newscreenx;
+                screenY = newscreeny;
+                windowReshaped();
+            }
+        }
+
+        //alert the instrumentation library that the visualization was reshaped (e.g., browser window was resized or moved on the screen)
+        function windowReshaped() {
+           // eyetrackCall(["window_" + screenX + "_" + screenY + "_" + Math.min(window.innerWidth, visWidth) + "_" + Math.min(window.innerHeight, visHeight)]);
+        }
+
+        //alert the instrumentation library if the browser window gained or lost focus;
+        //we don't process gazes if the window has lost focus (optional); ideally, we would be able to tell when a window
+        //is hidden under another window
+        window.onblur = function() {
+           // eyetrackCall(["lostfocus"]);
+        }
+        window.onfocus = function() {
+           // eyetrackCall(["gainedfocus"]);
+        }
+
+
+        //the size of the visualization
+        var visHeight = 500;
+        var visWidth = 1000;
+
+
+        //zooming: alert instrumentation library of it
+        function zoomIn() {
+            transform += " scale(1.2)";
+            zoom *= 1.2;
+            d3.select("#group").attr("transform", transform);
+          //  eyetrackCall([["transform_" + transform]]);
+        }
+        function zoomOut() {
+            transform += " scale(0.8)";
+            zoom *= 0.8;
+            d3.select("#group").attr("transform", transform);
+          //  eyetrackCall([["transform_" + transform]]);
+        }
+
+        function init() {
+
+            //create a visualization panel, and augment it with drag/pan/translate 
+            //and with node-drag capabilities
+            var svg = d3.select("body").append("svg")
+                    .attr("id", "mainsvg")
+                    .attr("width", visWidth)
+                    .attr("height", visHeight)
+                    .style("background-color", "#EEEEEE")
+                    .on("mousedown", function() {
+                        drg = d3.mouse(this);
+                    })  //dragging starts                    	
+                    .on("mouseup", function() {
+                        //dragging ended: set the final transform in the visualization, and alert the instrumentation library
+                        if (drg != null) {
+                            var x = d3.mouse(this)[0];
+                            var y = d3.mouse(this)[1];
+                            transform += " translate(" + ((x - drg[0]) / zoom) + "," + ((y - drg[1]) / zoom) + ")";
+                           // eyetrackCall(["transform_" + transform]);
+                        }
+                        drg = null;
+                        pickedNode = null;
+                    })
+                    .on("mousemove", function(d) {
+
+                        if (pickedNode == null && drg != null) { //the whole visualization is being panned
+                            var x = d3.mouse(this)[0];
+                            var y = d3.mouse(this)[1];
+                            var t = transform + " translate(" + ((x - drg[0]) / zoom) + "," + ((y - drg[1]) / zoom) + ")";
+                            d3.select("#group").attr("transform", t);
+                          //  eyetrackCall(["transform_" + t]);  //alert the instrumentation library of the drag;                    		 
+
+                        }
+                        else if (pickedNode != null) { //a node is being dragged; get the coordinates in model space (group)                    	 
+                            pickedNode.x = d3.mouse(d3.select("#group")[0][0])[0];
+                            pickedNode.y = d3.mouse(d3.select("#group")[0][0])[1];
+
+                            //move the node and update the edge endpoints
+                            d3.selectAll("#" + pickedNode.label)
+                                    .attr("transform", function(d) {
+                                        return "translate(" + pickedNode.x + "," + pickedNode.y + ")";
+                                    });
+
+                            var lnk = d3.selectAll(".link")
+                                    .attr("x1", function() {
+                                        return d3.select(this).property("start").x;
+                                    })
+                                    .attr("y1", function() {
+                                        return d3.select(this).property("start").y;
+                                    })
+                                    .attr("x2", function() {
+                                        return d3.select(this).property("end").x;
+                                    })
+                                    .attr("y2", function() {
+                                        return d3.select(this).property("end").y;
+                                    });
+
+                            //alert the instrumentation library that the node was moved by "reshaping" the node
+                            var labelWidth = pickedNode.label.length * 7;
+                           // eyetrackCall(["reshapeElem_" + pickedNode.label + "_" + (pickedNode.x - labelWidth / 2) + "_" + (pickedNode.y - 17) + "_" + labelWidth + "_25"]);
+                        }
+                    });
+
+            var g = svg.append("g").attr("id", "group");
+
+            //define transitions between highlighted nodes and unhighlighted nodes, and between
+            //pairs of highlighted nodes (note that all transitions not specified, such as highlighted to default,
+            //are considered to be 1 by default and don't need to be defined explicitly)
+           // eyetrackCall(["setTransition_default_highlighted_2",
+             //   "setTransition_highlighted_highlighted_2"]);
+
+            //load the data (first the nodes, then the edges)
+            d3.tsv("positions.txt", function(data) {
+              //  alert(data.toSource());
+                var nodes = []; //first the nodes
+                for (var i = 0; i < data.length; i++) {
+                    var node = new Object();
+                    node.label = data[i].label;
+                    node.x = parseFloat(data[i].x);
+                    node.y = parseFloat(data[i].y);
+                    nodes.push(node);
+                }
+
+                d3.csv("miserables_small.csv", function(edgedata) {
+                    var edges = []; //then the edges
+                    for (var i = 0; i < edgedata.length; i++) {
+                        var edge = new Object();
+                        for (var j = 0; j < nodes.length; j++) {
+                            if (nodes[j].label === edgedata[i].start)
+                                edge.start = nodes[j];
+                            else if (nodes[j].label === edgedata[i].end)
+                                edge.end = nodes[j];
+                        }
+                        edges.push(edge);
+                    }
+
+                    //create the (visual) edges
+                    var d3links = g.selectAll(".link")
+                            .data(edges)
+                            .enter().append("line")
+                            .attr("id", function(d) {
+                                //for each edge created, we create a transition between the endpoints of the edge; 
+                                //the transition is twice as likely as the base case
+                              //  eyetrackCall(["setTransition_" + d.start.label + "_" + d.end.label + "_2"]);
+                                return "link_" + d.start.label + d.end.label;
+                            })
+                            .attr("class", "link")
+                            .property("start", function(d) {
+                                return d.start
+                            })
+                            .property("end", function(d) {
+                                return d.end;
+                            })
+                            .attr("x1", function(d) {
+                                return d.start.x;
+                            })
+                            .attr("y1", function(d) {
+                                return d.start.y;
+                            })
+                            .attr("x2", function(d) {
+                                return d.end.x;
+                            })
+                            .attr("y2", function(d) {
+                                return d.end.y;
+                            });
+
+
+                    //create the (visual nodes)
+                    var d3nodes = g.selectAll(".node")
+                            .data(nodes)
+                            .enter().append("g")
+                            .attr("id", function(d) {
+                                //inform the instrumentation library that an 'object' with a certain position and size was created in the visualization;
+                                //set each object in a group defined by its own id, and in a group called "default" (i.e., the node is not highlighted)
+                                var labelWidth = d.label.length * 7;
+                             //   eyetrackCall(["addElem_" + d.label + "_" + (d.x - labelWidth / 2) + "_" + (d.y - 17) + "_" + labelWidth + "_25",
+                              //      "setGroup_" + d.label + "_" + d.label,
+                                //    "setGroup_" + d.label + "_default"]);
+                                return d.label;
+                            })
+                            .attr("class", "node")
+                            .attr("transform", function(d) {
+                                return "translate(" + d.x + "," + d.y + ")";
+                            });
+
+                    d3nodes.append("circle")
+                            .on("mouseover", function(dnode) {
+                                //if the node is mouseovered then
+                                //1. color its incident edges red
+                                //2. inform the instrumentation library that the nodes' incident edges are now red and thus transitions over them
+                                //   are now 4x more likely than the base (rather than 2x, as for normal edges)
+                                //3. mark all nodes with red incident edges (the node's neighbors) as 'highlighted'; the transitions between and
+                                //   within normal and highlighted nodes was defined before
+                                d3.select(this).style("fill", "red"); //color it red
+                                d3.selectAll(".link")
+                                        .style("stroke", function(dedge) {
+                                            if (dedge.start == dnode || dedge.end == dnode) {
+                                             //   eyetrackCall(["setTransition_" + dedge.start.label + "_" + dedge.end.label + "_" + 4,
+                                               //     "changeGroup_" + dedge.start.label + "_default_highlighted",
+                                                //    "changeGroup_" + dedge.end.label + "_default_highlighted"]);
+                                                return "red";
+                                            }
+                                            else
+                                                return "gray";
+                                        });
+                            })
+                            //if the node is no longer mouse-overed, revert the previous changes (and inform the instrumentation library)   
+                            .on("mouseout", function(dnode) {
+                                d3.select(this).style("fill", "gray");
+                                d3.selectAll(".link")
+                                        .style("stroke", function(dedge) {
+                                           // eyetrackCall(["setTransition_" + dedge.start.label + "_" + dedge.end.label + "_" + 2,
+                                            //    "changeGroup_" + dedge.start.label + "_highlighted_default",
+                                            //    "changeGroup_" + dedge.end.label + "_highlighted_default"]);
+                                            return "gray";
+                                        });
+                            })
+                            .on("mousedown", function(d) {
+                                pickedNode = d;
+                                d3.event.stopPropagation();
+                            })
+                            .attr("r", 10)
+                            .style("fill", "gray");
+
+                    d3nodes.append("text")
+                            .attr("dy", "-.5em")
+                            .style("text-anchor", "middle")
+                            .style("stroke", "black")
+                            .style("stroke-width", 0.2)
+                            .style("font-size", "14px")
+                            .text(function(d) {
+                                return d.label;
+                            });
+
+
+                }); //end load edges                
+            });//end load nodes
+        }//end init
+
+
+        </script>
+
+        <div id = "mainDiv"></div>
+        <input type="button" value="+" style="position : absolute; left: 20px; top: 20px" onclick="zoomIn()"></input>
+        <input type="button" value="- " style="position : absolute; left: 20px; top: 50px" onclick="zoomOut()"></input>
+    </body>
+</html>
+
+
+
+

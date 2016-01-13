@@ -1,0 +1,19 @@
+{
+    "nodes": [
+        {"name": "almond", "cluster": 1, "color": "#e6f5d0"},
+        {"name": "leek", "cluster": 4, "color": "#b6d1df"},
+        {"name": "blueberry", "cluster": 3, "color": "#fdd9a7"},
+        {"name": "wood", "cluster": 5, "color": "#f1b6da"},
+        {"name": "caviar", "cluster": 5, "color": "#f1b6da"},
+        {"name": "fish", "cluster": 6, "color": "#c5e2ce"}
+    ],
+    "links": [
+        {"source": 1, "target": 5, "value": 2},
+        {"source": 0, "target": 5, "value": 2},
+        {"source": 3, "target": 5, "value": 2},
+        {"source": 2, "target": 3, "value": 2},
+        {"source": 4, "target": 3, "value": 2},
+        {"source": 0, "target": 2, "value": 2},
+        {"source": 1, "target": 3, "value": 2}
+    ]
+}

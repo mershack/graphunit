@@ -1,0 +1,18 @@
+TaskName = Acc_selectLargerGroup
+Taskname , p-value
+----------------------------------------------------
+Acc_selectLargerGroup  ,  0.81634913497117 
+
+Acc_does2NodeBelongToSameCluster  ,  0.665833877709596 
+
+Acc_howManyClustersAreThere  ,  0.00456240251914016 
+
+
+
+Time_selectLargerGroup  ,  0.414028963394846 
+
+Time_does2NodeBelongToSameCluster  ,  0.135020284864126 
+
+Time_howManyClustersAreThere  ,  0.0478053810977136 
+
+

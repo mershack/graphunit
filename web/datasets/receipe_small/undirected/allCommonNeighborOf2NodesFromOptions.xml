@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<taskFile>
+	
+		<question>
+		<input>cucumber</input>
+		<input>tamarind</input>
+		<input>vinegar;;pork;;chive</input>
+		<answer>vinegar</answer>
+	</question>
+	<question>
+		<input>ginger</input>
+		<input>scallion</input>
+		<input>lovage;;fish;;cayenne</input>
+		<answer>fish</answer>
+	</question>
+	<question>
+		<input>scallion</input>
+		<input>onion</input>
+		<input>tuna;;basil;;cayenne</input>
+		<answer>cayenne</answer>
+	</question>	
+	<question>
+		<input>lovage</input>
+		<input>wasabi</input>
+		<input>crab;;caviar;;wine</input>
+		<answer>crab</answer>
+	</question>
+	<question>
+		<input>vegetable</input>
+		<input>kale</input>
+		<input>turnip;;pork;;lentil</input>
+		<answer>lentil</answer>
+	</question>
+	<question>
+		<input>citrus_peel</input>
+		<input>kiwi</input>
+		<input>tangerine;;mango;;peach</input>
+		<answer>tangerine</answer>
+	</question>
+	<question>
+		<input>raw_beef</input>
+		<input>chicory</input>
+		<input>rice;;lettuce;;vegetable</input>
+		<answer>lettuce</answer>
+	</question>	
+</taskFile>

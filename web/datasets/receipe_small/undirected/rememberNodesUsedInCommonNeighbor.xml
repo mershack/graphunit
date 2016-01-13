@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<taskFile>
+
+<question>
+	   <answer>cucumber;;tamarind</answer>
+	</question>
+	<question>
+	  <answer>ginger;;scallion</answer>
+	</question>
+	<question>
+		<answer>scallion;;onion</answer>
+	</question>	
+	<question>
+		<answer>lovage;;wasabi</answer>
+	</question>
+	<question>
+		<answer>vegetable;;lentil;;kale</answer>
+	</question>
+	<question>
+		<answer>citrus_peel;;kiwi</answer>
+	</question>
+	<question>
+	   <answer>raw_beef;;chicory</answer>
+	</question>	
+</taskFile>

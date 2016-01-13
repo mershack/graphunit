@@ -1,0 +1,42 @@
+TaskName = Acc_isANodeConnectedToANamedNode
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Acc_isANodeConnectedToANamedNode_NL , 0.854901960784314 , 0.179235850755585
+Acc_isANodeConnectedToANamedNode_MAT , 0.658823529411765 , 0.260135711188015
+******************************************************************
+
+TaskName = Acc_shortestPathBetween2Nodes
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Acc_shortestPathBetween2Nodes_NL , 0.317647058823529 , 0.223343576001587
+Acc_shortestPathBetween2Nodes_MAT , 0.172549019607843 , 0.20792155383466
+******************************************************************
+
+TaskName = Acc_areTwoNamedNodesConnected
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Acc_areTwoNamedNodesConnected_NL , 0.713725490196078 , 0.212621360961816
+Acc_areTwoNamedNodesConnected_MAT , 0.627450980392157 , 0.256186206789163
+******************************************************************
+
+TaskName = Time_isANodeConnectedToANamedNode
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Time_isANodeConnectedToANamedNode_NL , 15.2588235294118 , 3.81162309105128
+Time_isANodeConnectedToANamedNode_MAT , 13.7098039215686 , 5.61958200943667
+******************************************************************
+
+TaskName = Time_shortestPathBetween2Nodes
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Time_shortestPathBetween2Nodes_NL , 35.3294117647059 , 13.5018116431484
+Time_shortestPathBetween2Nodes_MAT , 25.0901960784314 , 16.3541952403897
+******************************************************************
+
+TaskName = Time_areTwoNamedNodesConnected
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Time_areTwoNamedNodesConnected_NL , 0 , 0
+Time_areTwoNamedNodesConnected_MAT , 0 , 0
+******************************************************************
+

@@ -322,6 +322,7 @@ function createQualMediumSizeStringInput(li, ind) {
 
 
 
+
 function createQualMultipleChoiceInput(li, ind, choices) {
     //createRadio button
     var input = document.createElement("input");
@@ -491,6 +492,7 @@ function checkAnswer() {
     {
         if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
         {
+            //  alert(xmlHttpRequest.responseText);
             //set the correctness of the answer label with the returned response
             document.getElementById("correctnessOfAnswer").innerHTML = xmlHttpRequest.responseText;
         }

@@ -1,0 +1,10 @@
+TaskName = Acc_allCommonNeighborOf2NodesFromOptions
+Taskname , p-value
+----------------------------------------------------
+Acc_allCommonNeighborOf2NodesFromOptions  ,  0.722661978181813 
+
+Acc_howManyNodesAreWithin2LinkReach  ,  0.000100931525748468 
+
+Acc_rememberNodesUsedInCommonNeighbor  ,  0.72300283912166 
+
+

@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<taskFile>
+    <question>
+		<input>egg</input>	
+		<input>pecan</input>
+		<answer>2</answer>
+	</question>
+   <question>		
+		<input>egg</input>
+		<input>coffee</input>
+		<answer>3</answer>
+	</question>	
+	<question>		
+		<input>tuna</input>
+		<input>liver</input>
+		<answer>2</answer>
+	</question>		
+	<question>
+		<input>tangerine</input>	
+		<input>currant</input>
+		<answer>2 </answer>
+	</question>
+	<question>
+		<input>garlic</input>
+		<input>pimenta</input>			
+		<answer>4</answer>
+	</question>
+	 	<question>
+		<input>cilantro</input>	
+		<input>spearmint</input>
+		<answer>3</answer>
+	</question>
+	<question>
+		<input>jasmine</input>	
+		<input>pear</input>
+		<answer>3</answer>
+	</question>
+	<question>
+		<input>cod</input>	
+		<input>salmon</input>
+		<answer>3</answer>
+	</question>	   
+</taskFile> 

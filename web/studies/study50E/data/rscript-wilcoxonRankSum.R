@@ -1,0 +1,7 @@
+setwd("/disk/vizlab/apps/apache-tomcat-7.0.52/webapps/graphunit/studies/study50D/data")
+sink("wilcoxon-rank-sum-analysis.txt")
+accuracy1 = read.csv("AccuracyResults1.txt")
+accuracy2 = read.csv("AccuracyResults2.txt")
+time1 = read.csv("TimeResults1.txt")
+time2 = read.csv("TimeResults2.txt")
+sink()

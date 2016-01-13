@@ -1,0 +1,40 @@
+TaskName = Acc_isANodeConnectedToANamedNode
+condition  ,  pvalue
+------------------------------------
+Acc_isANodeConnectedToANamedNode_NL , 9.78523611584812e-08
+Acc_isANodeConnectedToANamedNode_MAT , 0.000934597089293149
+**********************************************************
+
+
+TaskName = Acc_shortestPathBetween2Nodes
+condition  ,  pvalue
+------------------------------------
+Acc_shortestPathBetween2Nodes_NL , 0.000719811987278615
+Acc_shortestPathBetween2Nodes_MAT , 4.59505575897677e-07
+**********************************************************
+
+
+TaskName = Acc_areTwoNamedNodesConnected
+condition  ,  pvalue
+------------------------------------
+Acc_areTwoNamedNodesConnected_NL , 0.000312228318091678
+Acc_areTwoNamedNodesConnected_MAT , 0.00350363411533653
+**********************************************************
+
+
+TaskName = Time_isANodeConnectedToANamedNode
+condition  ,  pvalue
+------------------------------------
+Time_isANodeConnectedToANamedNode_NL , 0.000145700267030787
+Time_isANodeConnectedToANamedNode_MAT , 7.5958357381693e-05
+**********************************************************
+
+
+TaskName = Time_shortestPathBetween2Nodes
+condition  ,  pvalue
+------------------------------------
+Time_shortestPathBetween2Nodes_NL , 0.129399996551603
+Time_shortestPathBetween2Nodes_MAT , 0.0316527954983342
+**********************************************************
+
+

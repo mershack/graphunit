@@ -1,0 +1,42 @@
+TaskName = Acc_selectLargerGroup
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Acc_selectLargerGroup_NL , 0.867441860465116 , 0.0944178409103414
+Acc_selectLargerGroup_MAT , 0.862790697674419 , 0.11343816401134
+******************************************************************
+
+TaskName = Acc_does2NodeBelongToSameCluster
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Acc_does2NodeBelongToSameCluster_NL , 0.809302325581395 , 0.22447181760574
+Acc_does2NodeBelongToSameCluster_MAT , 0.813953488372093 , 0.19950103872368
+******************************************************************
+
+TaskName = Acc_howManyClustersAreThere
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Acc_howManyClustersAreThere_NL , 0.00930232558139535 , 0.0293902598732179
+Acc_howManyClustersAreThere_MAT , 0.0348837209302326 , 0.0482242822170412
+******************************************************************
+
+TaskName = Time_selectLargerGroup
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Time_selectLargerGroup_NL , 4.43720930232558 , 1.30858397765603
+Time_selectLargerGroup_MAT , 4.30232558139535 , 1.43236208046992
+******************************************************************
+
+TaskName = Time_does2NodeBelongToSameCluster
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Time_does2NodeBelongToSameCluster_NL , 5.82790697674419 , 2.25613719413507
+Time_does2NodeBelongToSameCluster_MAT , 5.1046511627907 , 2.37095053154517
+******************************************************************
+
+TaskName = Time_howManyClustersAreThere
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Time_howManyClustersAreThere_NL , 0.909302325581395 , 0.187482003566021
+Time_howManyClustersAreThere_MAT , 0.853488372093023 , 0.180408052308546
+******************************************************************
+

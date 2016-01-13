@@ -1,0 +1,72 @@
+
+	Welch Two Sample t-test
+
+data:  Acc_selectLargerGroup_NL and Acc_selectLargerGroup_MAT
+t = 0.4088, df = 59.692, p-value = 0.6842
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -0.03768556  0.05704040
+sample estimates:
+mean of x mean of y 
+0.8838710 0.8741935 
+
+
+	Welch Two Sample t-test
+
+data:  Acc_does2NodeBelongToSameCluster_NL and Acc_does2NodeBelongToSameCluster_MAT
+t = 0.1915, df = 59.17, p-value = 0.8488
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -0.09144664  0.11080148
+sample estimates:
+mean of x mean of y 
+0.8193548 0.8096774 
+
+
+	Welch Two Sample t-test
+
+data:  Acc_howManyClustersAreThere_NL and Acc_howManyClustersAreThere_MAT
+t = -2.3905, df = 53.213, p-value = 0.0204
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -0.047457690 -0.004155214
+sample estimates:
+ mean of x  mean of y 
+0.01290323 0.03870968 
+
+
+	Welch Two Sample t-test
+
+data:  Time_selectLargerGroup_NL and Time_selectLargerGroup_MAT
+t = -0.1063, df = 55.188, p-value = 0.9157
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -0.7044049  0.6334371
+sample estimates:
+mean of x mean of y 
+ 4.322581  4.358065 
+
+
+	Welch Two Sample t-test
+
+data:  Time_does2NodeBelongToSameCluster_NL and Time_does2NodeBelongToSameCluster_MAT
+t = 0.8385, df = 58.317, p-value = 0.4052
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -0.7114432  1.7372496
+sample estimates:
+mean of x mean of y 
+ 5.683871  5.170968 
+
+
+	Welch Two Sample t-test
+
+data:  Time_howManyClustersAreThere_NL and Time_howManyClustersAreThere_MAT
+t = 1.6603, df = 55.939, p-value = 0.1024
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -0.01199423  0.12812326
+sample estimates:
+mean of x mean of y 
+0.9419355 0.8838710 
+

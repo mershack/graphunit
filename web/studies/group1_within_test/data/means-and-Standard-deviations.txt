@@ -1,0 +1,42 @@
+TaskName = Acc_selectNodeWithHighestDegree2
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Acc_selectNodeWithHighestDegree2_NL , 0.926984126984127 , 0.149414285716734
+Acc_selectNodeWithHighestDegree2_MAT , 0.742950191568966 , 0.15142930346909
+******************************************************************
+
+TaskName = Acc_selectAllNeigbhorsOf1Node
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Acc_selectAllNeigbhorsOf1Node_NL , 0.803941798952381 , 0.165317288863044
+Acc_selectAllNeigbhorsOf1Node_MAT , 0.754300766241379 , 0.182854610352805
+******************************************************************
+
+TaskName = Acc_selectMoreInterconnectedCluster2Clusters
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Acc_selectMoreInterconnectedCluster2Clusters_NL , 0.771428571428571 , 0.083141099321054
+Acc_selectMoreInterconnectedCluster2Clusters_MAT , 0.775862068965517 , 0.0904382018870155
+******************************************************************
+
+TaskName = Time_selectNodeWithHighestDegree2
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Time_selectNodeWithHighestDegree2_NL , 8.5031746031746 , 2.73112101844812
+Time_selectNodeWithHighestDegree2_MAT , 12.8655172413793 , 5.96232474748184
+******************************************************************
+
+TaskName = Time_selectAllNeigbhorsOf1Node
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Time_selectAllNeigbhorsOf1Node_NL , 19.9444444444444 , 4.29101754147179
+Time_selectAllNeigbhorsOf1Node_MAT , 18.6758620689655 , 8.21302581899316
+******************************************************************
+
+TaskName = Time_selectMoreInterconnectedCluster2Clusters
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Time_selectMoreInterconnectedCluster2Clusters_NL , 4.54761904761905 , 2.07129826381809
+Time_selectMoreInterconnectedCluster2Clusters_MAT , 7.85862068965517 , 8.2514865111126
+******************************************************************
+

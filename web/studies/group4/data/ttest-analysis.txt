@@ -1,0 +1,72 @@
+
+	Welch Two Sample t-test
+
+data:  Acc_isANodeConnectedToANamedNode_NL and Acc_isANodeConnectedToANamedNode_MAT
+t = 3.4491, df = 56.667, p-value = 0.001068
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ 0.07796809 0.29387860
+sample estimates:
+mean of x mean of y 
+0.8487805 0.6628571 
+
+
+	Welch Two Sample t-test
+
+data:  Acc_shortestPathBetween2Nodes_NL and Acc_shortestPathBetween2Nodes_MAT
+t = 2.4055, df = 72.529, p-value = 0.0187
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ 0.02064078 0.22019545
+sample estimates:
+mean of x mean of y 
+0.2975610 0.1771429 
+
+
+	Welch Two Sample t-test
+
+data:  Acc_areTwoNamedNodesConnected_NL and Acc_areTwoNamedNodesConnected_MAT
+t = 1.9623, df = 56.641, p-value = 0.05465
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -0.002227681  0.218255556
+sample estimates:
+mean of x mean of y 
+0.7365854 0.6285714 
+
+
+	Welch Two Sample t-test
+
+data:  Time_isANodeConnectedToANamedNode_NL and Time_isANodeConnectedToANamedNode_MAT
+t = 1.8476, df = 57.466, p-value = 0.06981
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -0.1745961  4.3496484
+sample estimates:
+mean of x mean of y 
+ 15.55610  13.46857 
+
+
+	Welch Two Sample t-test
+
+data:  Time_shortestPathBetween2Nodes_NL and Time_shortestPathBetween2Nodes_MAT
+t = 2.6619, df = 63.812, p-value = 0.009821
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+  2.369245 16.625598
+sample estimates:
+mean of x mean of y 
+ 36.13171  26.63429 
+
+
+	Welch Two Sample t-test
+
+data:  Time_areTwoNamedNodesConnected_NL and Time_areTwoNamedNodesConnected_MAT
+t = NaN, df = NaN, p-value = NA
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ NaN NaN
+sample estimates:
+mean of x mean of y 
+        0         0 
+

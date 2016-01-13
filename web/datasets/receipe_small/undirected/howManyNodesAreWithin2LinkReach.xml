@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<taskFile>
+    <question>
+		<input>cream_cheese</input>	
+		<answer>5</answer>
+	</question>
+   <question>		
+		<input>berry</input>
+		<answer>22</answer>
+	</question>	
+	<question>		
+		<input>white_bread</input>
+		<answer>20</answer>
+	</question>		
+	<question>
+		<input>tomato_juice</input>	
+		<answer>21 </answer>
+	</question>
+	<question>
+		<input>carnation</input>
+		<answer>10</answer>
+	</question>
+	 	<question>
+		<input>beer</input>	
+		<answer>33</answer>
+	</question>
+	<question>
+		<input>citrus_peel</input>	
+		<answer>15</answer>
+	</question>	
+</taskFile> 

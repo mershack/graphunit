@@ -1,0 +1,42 @@
+TaskName = Acc_selectMoreInterconnectedCluster2Clusters
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Acc_selectMoreInterconnectedCluster2Clusters_NL , 0.858333333333333 , 0.156427928995103
+Acc_selectMoreInterconnectedCluster2Clusters_MAT , 0.9125 , 0.11259916264596
+******************************************************************
+
+TaskName = Acc_selectNodeWithHighestDegree2
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Acc_selectNodeWithHighestDegree2_NL , 0.816666666666667 , 0.38573031873043
+Acc_selectNodeWithHighestDegree2_MAT , 0.7125 , 0.258774584753383
+******************************************************************
+
+TaskName = Acc_selectAllNeigbhorsOf1Node
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Acc_selectAllNeigbhorsOf1Node_NL , 0.731666666666667 , 0.243922652456867
+Acc_selectAllNeigbhorsOf1Node_MAT , 0.619444444444444 , 0.300695548771754
+******************************************************************
+
+TaskName = Time_selectMoreInterconnectedCluster2Clusters
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Time_selectMoreInterconnectedCluster2Clusters_NL , 3.8 , 1.74772579501061
+Time_selectMoreInterconnectedCluster2Clusters_MAT , 4.675 , 1.88812075884992
+******************************************************************
+
+TaskName = Time_selectNodeWithHighestDegree2
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Time_selectNodeWithHighestDegree2_NL , 7.69166666666667 , 3.04077093494197
+Time_selectNodeWithHighestDegree2_MAT , 13.625 , 3.75642307065036
+******************************************************************
+
+TaskName = Time_selectAllNeigbhorsOf1Node
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Time_selectAllNeigbhorsOf1Node_NL , 19.0166666666667 , 5.4358796784686
+Time_selectAllNeigbhorsOf1Node_MAT , 24.4625 , 4.02631965944086
+******************************************************************
+

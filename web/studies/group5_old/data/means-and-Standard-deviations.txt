@@ -1,0 +1,42 @@
+TaskName = Acc_allCommonNeighborOf2NodesFromOptions
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Acc_allCommonNeighborOf2NodesFromOptions_NL , 0.841509433962264 , 0.181271112578487
+Acc_allCommonNeighborOf2NodesFromOptions_MAT , 0.792 , 0.261736742642258
+******************************************************************
+
+TaskName = Acc_howManyNodesAreWithin2LinkReach
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Acc_howManyNodesAreWithin2LinkReach_NL , 0.154716981132075 , 0.182468161327952
+Acc_howManyNodesAreWithin2LinkReach_MAT , 0.036 , 0.0963835873910457
+******************************************************************
+
+TaskName = Acc_rememberNodesUsedInCommonNeighbor
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Acc_rememberNodesUsedInCommonNeighbor_NL , 0.00377358490566038 , 0.0155530211956251
+Acc_rememberNodesUsedInCommonNeighbor_MAT , 0.00333333333333333 , 0.0168358757425368
+******************************************************************
+
+TaskName = Time_allCommonNeighborOf2NodesFromOptions
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Time_allCommonNeighborOf2NodesFromOptions_NL , 29.0981132075472 , 9.34703759252996
+Time_allCommonNeighborOf2NodesFromOptions_MAT , 28.8 , 14.0167247040302
+******************************************************************
+
+TaskName = Time_howManyNodesAreWithin2LinkReach
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Time_howManyNodesAreWithin2LinkReach_NL , 32.0339622641509 , 12.9341370530175
+Time_howManyNodesAreWithin2LinkReach_MAT , 27.488 , 14.7688674209622
+******************************************************************
+
+TaskName = Time_rememberNodesUsedInCommonNeighbor
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Time_rememberNodesUsedInCommonNeighbor_NL , 0.622641509433962 , 4.53289861030674
+Time_rememberNodesUsedInCommonNeighbor_MAT , 0 , 0
+******************************************************************
+

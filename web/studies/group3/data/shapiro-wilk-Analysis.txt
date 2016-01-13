@@ -1,0 +1,48 @@
+TaskName = Acc_selectLargerGroup
+condition  ,  pvalue
+------------------------------------
+Acc_selectLargerGroup_NL , 0.000393877637315386
+Acc_selectLargerGroup_MAT , 6.07458932725983e-07
+**********************************************************
+
+
+TaskName = Acc_does2NodeBelongToSameCluster
+condition  ,  pvalue
+------------------------------------
+Acc_does2NodeBelongToSameCluster_NL , 6.31760384697957e-06
+Acc_does2NodeBelongToSameCluster_MAT , 1.40702059006278e-05
+**********************************************************
+
+
+TaskName = Acc_howManyClustersAreThere
+condition  ,  pvalue
+------------------------------------
+Acc_howManyClustersAreThere_NL , 9.53483500206226e-13
+Acc_howManyClustersAreThere_MAT , 1.4499481136856e-09
+**********************************************************
+
+
+TaskName = Time_selectLargerGroup
+condition  ,  pvalue
+------------------------------------
+Time_selectLargerGroup_NL , 0.000458454837860471
+Time_selectLargerGroup_MAT , 0.0239880522297796
+**********************************************************
+
+
+TaskName = Time_does2NodeBelongToSameCluster
+condition  ,  pvalue
+------------------------------------
+Time_does2NodeBelongToSameCluster_NL , 0.085193094918591
+Time_does2NodeBelongToSameCluster_MAT , 0.002330399649188
+**********************************************************
+
+
+TaskName = Time_howManyClustersAreThere
+condition  ,  pvalue
+------------------------------------
+Time_howManyClustersAreThere_NL , 3.92031031537707e-10
+Time_howManyClustersAreThere_MAT , 2.87289592922986e-06
+**********************************************************
+
+

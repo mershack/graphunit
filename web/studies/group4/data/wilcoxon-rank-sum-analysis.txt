@@ -1,0 +1,18 @@
+TaskName = Acc_isANodeConnectedToANamedNode
+Taskname , p-value
+----------------------------------------------------
+Acc_isANodeConnectedToANamedNode  ,  3.57149500200955e-05 
+
+Acc_shortestPathBetween2Nodes  ,  0.000707560843553439 
+
+Acc_areTwoNamedNodesConnected  ,  0.0811803270087448 
+
+
+
+Time_isANodeConnectedToANamedNode  ,  0.564673829347243 
+
+Time_shortestPathBetween2Nodes  ,  0.000879733032028977 
+
+Time_areTwoNamedNodesConnected  ,  NaN 
+
+

@@ -1,0 +1,90 @@
+Acc_selectNodeWithHighestDegree2_NL,,,,,,,,, , ,Acc_selectNodeWithHighestDegree2_MAT,,,,,,,,, 
+Q1,Q2,Q3,Q4,Q5,Q6,Q7,Q8,Q9,Q10 , ,Q1,Q2,Q3,Q4,Q5,Q6,Q7,Q8,Q9,Q10 
+herring,chive,jasmine,orange,gelatin,lettuce,wasabi,cider,fennel,cabbage , ,chayote,chive,concord_grape,orange,gelatin,lettuce,wasabi,cider,fennel,beet 
+herring,chive,jasmine,orange,gelatin,lettuce,wasabi,cider,fennel,cabbage , ,chayote,chive,jasmine,avocado,gelatin,lettuce,wasabi,cider,fennel,cabbage 
+herring,chive,jasmine,orange,gelatin,lettuce,wasabi,cider,fennel,cabbage , ,timedout,chive,jasmine,orange,gelatin,lettuce,wasabi,cider,fennel,cabbage 
+herring,chive,jasmine,orange,gelatin,lettuce,wasabi,cider,fennel,cabbage , ,timedout,chive,jasmine,avocado,elderberry;;gelatin,lettuce,wasabi,cider,timedout,cabbage 
+herring,chive,jasmine,orange,gelatin,lettuce,wasabi,cider,fennel,cabbage , ,herring,chive,jasmine,avocado,gelatin,lettuce,wasabi,cider,fennel,hazelnut 
+herring,chive,jasmine,orange,gelatin,lettuce,wasabi,cider,fennel,cabbage , ,chayote,salmon,concord_grape,orange,peach,lettuce,wasabi,red_wine,fennel,cabbage 
+herring,chive,jasmine,orange,gelatin,lettuce,wasabi,cider,fennel,cabbage , ,herring,chive,concord_grape,avocado,gelatin,lettuce,wasabi,cider,fennel,cabbage 
+herring,chive,jasmine,orange,gelatin,lettuce,wasabi,cider,fennel,cabbage , ,herring,chive,jasmine,avocado,gelatin,lettuce,wasabi,cider,fennel,cabbage 
+herring,chive,jasmine,orange,gelatin,lettuce,wasabi,cider,fennel,cabbage , ,herring,salmon,jasmine,avocado,gelatin,lettuce,wasabi,cider,fennel,hazelnut 
+null,null,null,null,null,null,null,null,null,null , ,timedout,timedout,saffron,avocado,gelatin,raw_beef,wasabi,cider,fennel,hazelnut 
+herring,chive,jasmine,orange,gelatin,lettuce,wasabi,cider,fennel,cabbage , ,null
+
+
+ Acc_selectAllNeigbhorsOf1Node_NL,,,,,,,,, , , Acc_selectAllNeigbhorsOf1Node_MAT,,,,,,,,, 
+ Q1,Q2,Q3,Q4,Q5,Q6,Q7,Q8,Q9,Q10 , , Q1,Q2,Q3,Q4,Q5,Q6,Q7,Q8,Q9,Q10 
+ rice;;carrot;;saffron;;pimento,cognac;;malt;;fig;;brandy;;peppermint;;coffee,oyster;;soy_sauce;;sesame_oil;;meat,yam;;leek;;beet;;endive;;liver;;corn_grit,raspberry;;grape;;nectarine;;blueberry;;melon,butter;;vanilla;;milk;;lard;;yeast,cider;;veal;;lamb;;pear;;currant;;mace,peppermint;;yam;;brandy,rum,yam;;cider , , pimento;;rice;;saffron;;carrot,malt;;cognac,oyster;;sesame_oil;;soy_sauce;;meat,corn_grit;;beet;;leek;;pimenta;;yam;;lentil,blueberry;;grape;;melon;;raspberry;;nectarine,butter;;lard;;milk;;vanilla;;yeast,veal,timedout,mango;;rum,cider;;yam 
+ rice;;carrot;;pimento;;saffron,coffee;;peppermint;;brandy;;fig;;malt;;cognac,oyster;;soy_sauce;;sesame_oil;;meat,yam;;beet;;liver;;flower;;corn_grit;;lentil,raspberry;;grape;;blueberry;;nectarine;;melon,butter;;vanilla;;milk;;lard;;yeast,currant;;mace;;pear;;lamb;;veal;;cider,peppermint;;yam;;brandy,rum,yam;;cider , , pimento;;rice;;saffron;;carrot,cognac;;malt;;coffee;;brandy;;fig;;peppermint,oyster;;sesame_oil;;soy_sauce;;meat,liver;;corn_grit;;beet;;endive;;flower;;leek;;pimenta;;yam;;lentil,blueberry;;grape;;kiwi;;melon;;raspberry;;nectarine,butter;;lard;;milk;;vanilla;;yeast,pear;;cider;;lamb;;veal;;currant;;mace,yam;;brandy;;peppermint,mango,cider;;yam 
+ rice;;carrot;;pimento;;saffron,brandy;;coffee;;peppermint;;fig;;malt;;cognac,oyster;;soy_sauce;;sesame_oil;;meat,flower;;lentil;;corn_grit;;liver;;endive;;leek;;yam;;beet,grape;;blueberry;;kiwi;;melon;;raspberry;;nectarine,yeast;;milk;;vanilla;;butter,pear;;lamb;;veal;;cider;;currant;;mace,peppermint;;yam;;brandy,guava;;mango;;rum,yam;;cider , , pimento;;rice;;saffron;;carrot,cognac;;malt;;coffee;;brandy;;fig;;peppermint,oyster;;sesame_oil;;soy_sauce;;meat,liver;;corn_grit;;beet;;endive;;flower;;leek;;pimenta;;yam;;lentil,blueberry;;grape;;kiwi;;melon;;raspberry;;nectarine,butter;;lard;;milk;;vanilla;;yeast,pear;;cider;;lamb;;veal;;currant;;mace,yam;;brandy;;peppermint,mango;;rum,cider;;yam 
+ rice;;pimento;;saffron;;carrot,brandy;;fig;;malt;;peppermint;;cognac;;coffee,oyster;;soy_sauce;;sesame_oil;;catfish;;meat,lentil;;corn_grit;;pimenta;;flower;;liver;;endive;;beet;;yam,melon;;kiwi;;blueberry;;grape;;raspberry;;nectarine,milk;;lard;;yeast;;vanilla;;butter,pear;;lamb;;veal;;cider;;mace,peppermint;;brandy;;yam,rum,yam;;cider , , saffron;;carrot;;rice,cognac;;malt,oyster;;sesame_oil;;soy_sauce;;meat,liver;;corn_grit;;beet;;leek;;pimenta;;yam;;lentil,blueberry;;grape;;kiwi;;melon;;raspberry;;nectarine,butter;;lard;;milk;;vanilla;;yeast,cider;;pear;;mace;;veal,brandy;;peppermint,mango;;rum,cider;;yam 
+ rice;;pimento;;saffron;;carrot,peppermint;;coffee;;brandy;;cognac;;malt;;fig,oyster;;soy_sauce;;sesame_oil;;meat,yam;;endive;;beet;;leek;;liver;;lentil;;flower,melon;;raspberry;;kiwi;;grape;;nectarine;;blueberry,yeast;;lard;;milk;;vanilla;;butter,mace;;pear;;cider;;veal;;lamb;;currant,brandy;;peppermint;;yam,rum,yam;;cider , , carrot;;rice;;pimento,cognac;;malt;;coffee;;brandy;;peppermint,sesame_oil;;soy_sauce;;oyster;;meat,corn_grit;;leek;;pimenta;;flower;;endive;;cabbage;;yam;;lentil,blueberry;;grape;;melon;;kiwi;;raspberry;;nectarine,yeast;;vanilla;;lard;;butter;;milk,pear;;cider;;lamb;;veal;;currant,yam;;brandy;;peppermint,rum;;mango,yam;;cider 
+ rice;;pimento;;saffron;;carrot,coffee;;brandy;;peppermint;;fig;;malt;;cognac,oyster;;soy_sauce;;sesame_oil;;meat,flower;;lentil;;kale;;leek;;yam;;beet;;liver;;pimenta;;sea_algae,melon;;kiwi;;blueberry;;raspberry;;grape;;nectarine,milk;;vanilla;;butter;;lard;;yeast,pear;;mace;;currant;;cider;;veal;;lamb,brandy;;peppermint;;yam,rum,yam;;cider , , pimento;;rice;;saffron;;carrot,cognac;;malt;;coffee;;brandy;;peppermint;;fig,oyster;;sesame_oil;;soy_sauce;;meat,liver;;corn_grit;;beet;;flower;;endive;;leek;;pimenta;;yam;;lentil,blueberry;;grape;;kiwi;;melon;;raspberry;;nectarine,butter;;lard;;vanilla;;yeast,pear;;cider;;lamb;;veal;;currant;;mace,yam;;brandy;;peppermint,mango;;rum,cider;;yam 
+ rice;;pimento;;saffron;;carrot,brandy;;coffee;;peppermint;;fig;;malt;;cognac,oyster;;sesame_oil;;soy_sauce;;meat,lentil;;flower;;beet;;yam;;endive;;corn_grit;;liver,kiwi;;melon;;blueberry;;grape;;raspberry;;nectarine,milk;;vanilla;;butter;;lard;;yeast,pear;;currant;;mace;;lamb;;smoke;;cider,brandy;;peppermint;;yam,rum,yam;;cider , , pimento;;rice;;saffron;;carrot,fig;;peppermint;;brandy;;coffee;;cognac,oyster;;sesame_oil;;soy_sauce;;meat,pimenta;;yam;;lentil;;beet;;leek;;corn_grit,nectarine;;melon;;raspberry;;grape;;kiwi;;blueberry,butter;;lard;;milk;;vanilla;;yeast,timedout,brandy,mango;;rum,yam;;cider 
+ rice;;pimento;;saffron;;carrot,brandy;;malt;;peppermint;;fig;;coffee,oyster;;soy_sauce;;sesame_oil;;meat,leek;;yam;;beet;;endive;;corn_grit;;flower,grape;;raspberry;;blueberry;;melon;;kiwi;;nectarine,butter;;vanilla;;milk;;yeast;;lard,mace;;currant;;pear;;lamb;;veal;;cider,peppermint;;brandy;;yam,mango;;rum;;gelatin,yam;;cider , , pimento;;rice;;saffron;;carrot,cognac;;malt;;coffee;;fig;;peppermint;;brandy,oyster;;sesame_oil;;soy_sauce;;meat,liver;;corn_grit;;beet;;flower;;endive;;leek;;pimenta;;yam;;lentil,blueberry;;grape;;melon;;raspberry;;nectarine,lard;;milk;;vanilla;;yeast,pear;;cider;;lamb;;veal;;currant;;mace,yam;;peppermint;;brandy,mango;;rum,yam;;cider 
+ rice;;carrot;;saffron;;pea;;pimento,brandy;;cognac;;fig;;malt;;peppermint;;cacao;;coffee,starch;;soy_sauce;;oyster;;sesame_oil;;meat,yam;;beet;;endive;;liver;;corn_grit;;kale;;flower;;pimenta;;lentil,kiwi;;melon;;peach;;raspberry;;nectarine,wheat;;butter;;vanilla;;milk;;lard;;yeast,quince;;mace;;currant,peppermint;;yam;;brandy,guava;;mango;;rum,maple_syrup;;yam;;cider , , pimento;;rice;;saffron;;carrot,cognac;;malt;;coffee;;brandy;;fig,oyster;;sesame_oil;;soy_sauce;;meat,corn_grit;;beet;;endive;;flower,blueberry;;grape;;kiwi;;melon;;raspberry;;nectarine,butter;;lard;;milk;;vanilla;;yeast,pear;;cider;;lamb;;veal,timedout,mango;;rum,cider;;yam 
+ null,null,null,null,null,null,null,null,null,null , , kelp;;sesame_oil,malt;;brandy,oyster;;sesame_oil;;soy_sauce;;meat,beet;;endive;;flower;;leek,blueberry;;grape;;kiwi;;melon;;raspberry,milk;;butter;;lard,timedout,lamb,rum;;mango,yam;;cider 
+ rice;;pimento;;saffron;;carrot,coffee;;brandy;;peppermint;;malt;;fig,oyster;;soy_sauce;;sesame_oil;;meat,beet;;yam;;flower;;lentil;;liver,grape;;raspberry;;melon,milk;;vanilla;;butter;;lard;;yeast,currant;;mace;;pear;;cider;;veal;;lamb,peppermint;;yam;;brandy,mango;;gelatin;;rum,yam;;cider , ,null
+
+
+ Acc_selectMoreInterconnectedCluster2Clusters_NL,,,,,,,,,, , Acc_selectMoreInterconnectedCluster2Clusters_MAT,,,,,,,,,
+ Q1,Q2,Q3,Q4,Q5,Q6,Q7,Q8,Q9,Q10, , Q1,Q2,Q3,Q4,Q5,Q6,Q7,Q8,Q9,Q10
+ 1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0, , 1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0
+ 1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0, , 1.0,0.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0
+ 1.0,1.0,0.0,0.0,1.0,1.0,1.0,1.0,1.0,0.0, , 1.0,0.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0
+ 1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0, , 1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0
+ 1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0, , 1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0
+ 1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0, , 1.0,0.0,1.0,0.0,1.0,1.0,1.0,1.0,1.0,0.0
+ 1.0,0.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0, , 1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0
+ 1.0,0.0,0.0,0.0,0.0,0.0,1.0,1.0,1.0,0.0, , 1.0,1.0,0.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0
+ 1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0, , 1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0
+ 0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0, , 0.0,0.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0
+ 1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0, ,null
+
+
+Time_selectNodeWithHighestDegree2_NL,,,,,,,,, , ,Time_selectNodeWithHighestDegree2_MAT,,,,,,,,, 
+Q1,Q2,Q3,Q4,Q5,Q6,Q7,Q8,Q9,Q10 , ,Q1,Q2,Q3,Q4,Q5,Q6,Q7,Q8,Q9,Q10 
+8,10,9,11,12,5,7,17,6,6 , ,20,14,20,18,9,18,10,15,8,20 
+10,6,6,8,6,6,6,6,7,5 , ,13,7,13,8,12,6,5,4,4,11 
+7,5,5,3,3,4,4,3,4,3 , ,20,11,12,10,8,14,9,8,12,17 
+12,8,5,6,7,4,5,5,7,5 , ,20,20,19,15,20,16,13,16,20,15 
+15,11,5,6,7,6,5,4,7,5 , ,6,8,13,6,7,4,5,6,4,5 
+10,7,6,6,7,6,5,6,6,5 , ,20,5,8,6,5,4,7,6,10,10 
+7,6,6,5,7,6,5,5,5,5 , ,18,16,8,10,12,12,8,5,11,14 
+14,8,9,6,8,9,10,7,11,7 , ,13,9,8,7,12,4,6,5,3,14 
+20,10,9,9,7,8,6,7,8,9 , ,19,13,20,10,20,6,12,6,6,11 
+0,0,0,0,0,0,0,0,0,0 , ,20,20,9,12,12,16,6,9,12,11 
+13,9,9,8,7,6,9,6,9,7 , ,null
+
+
+ Time_selectAllNeigbhorsOf1Node_NL,,,,,,,,, , , Time_selectAllNeigbhorsOf1Node_MAT,,,,,,,,, 
+ Q1,Q2,Q3,Q4,Q5,Q6,Q7,Q8,Q9,Q10 , , Q1,Q2,Q3,Q4,Q5,Q6,Q7,Q8,Q9,Q10 
+ 22,25,13,30,30,20,25,10,8,7 , , 30,30,22,25,30,23,30,30,19,28 
+ 21,18,12,30,15,13,16,11,6,8 , , 11,17,11,21,19,18,18,11,8,9 
+ 13,15,8,22,17,8,27,10,7,6 , , 19,20,13,28,22,18,24,20,14,15 
+ 30,17,21,25,17,8,11,8,7,6 , , 30,30,20,30,30,30,30,30,30,25 
+ 14,18,13,30,21,9,19,11,7,7 , , 9,21,14,22,19,20,13,7,9,10 
+ 19,19,15,27,23,15,18,9,6,7 , , 19,26,14,25,30,11,22,17,14,10 
+ 11,21,10,17,11,30,16,15,6,19 , , 30,26,20,29,27,18,30,30,15,9 
+ 28,30,20,30,30,15,19,15,22,13 , , 19,30,16,23,22,16,30,18,12,12 
+ 28,26,15,24,18,12,30,14,8,19 , , 23,30,27,30,30,25,30,30,23,17 
+ 0,0,0,0,0,0,0,0,0,0 , , 30,30,18,24,30,20,30,17,14,12 
+ 27,30,18,24,18,16,23,18,14,9 , ,null
+
+
+ Time_selectMoreInterconnectedCluster2Clusters_NL,,,,,,,,,, , Time_selectMoreInterconnectedCluster2Clusters_MAT,,,,,,,,,
+ Q1,Q2,Q3,Q4,Q5,Q6,Q7,Q8,Q9,Q10, , Q1,Q2,Q3,Q4,Q5,Q6,Q7,Q8,Q9,Q10
+ 6,7,5,2,6,3,3,3,2,3, , 4,6,4,3,4,3,4,4,4,7
+ 16,16,17,9,20,4,19,6,10,9, , 6,3,4,3,2,3,2,1,3,3
+ 2,3,3,2,2,2,2,2,2,2, , 5,4,4,2,4,2,3,2,3,4
+ 5,3,3,2,2,3,2,2,2,2, , 4,16,4,3,5,4,3,2,3,3
+ 3,3,4,2,2,3,2,2,3,2, , 2,2,4,2,2,2,2,1,2,2
+ 6,12,11,6,8,6,3,4,6,5, , 3,4,4,4,2,2,2,1,2,2
+ 2,2,4,2,2,2,2,2,2,2, , 3,4,4,7,3,2,3,4,3,3
+ 3,2,3,4,6,3,2,3,3,2, , 2,4,14,3,4,4,4,2,2,2
+ 18,19,13,18,12,14,16,12,7,8, , 3,3,2,4,3,3,4,2,6,2
+ 0,0,0,0,0,0,0,0,0,0, , 9,9,3,3,3,2,4,2,6,9
+ 4,4,4,6,3,3,3,2,3,6, ,null
+
+

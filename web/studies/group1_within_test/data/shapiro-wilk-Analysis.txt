@@ -1,0 +1,48 @@
+TaskName = Acc_selectNodeWithHighestDegree2
+condition  ,  pvalue
+------------------------------------
+Acc_selectNodeWithHighestDegree2_NL , 3.15257725319413e-13
+Acc_selectNodeWithHighestDegree2_MAT , 0.00686415106933184
+**********************************************************
+
+
+TaskName = Acc_selectAllNeigbhorsOf1Node
+condition  ,  pvalue
+------------------------------------
+Acc_selectAllNeigbhorsOf1Node_NL , 3.11527214428154e-08
+Acc_selectAllNeigbhorsOf1Node_MAT , 0.000259576394666684
+**********************************************************
+
+
+TaskName = Acc_selectMoreInterconnectedCluster2Clusters
+condition  ,  pvalue
+------------------------------------
+Acc_selectMoreInterconnectedCluster2Clusters_NL , 1.01565749928735e-08
+Acc_selectMoreInterconnectedCluster2Clusters_MAT , 1.50870974905322e-06
+**********************************************************
+
+
+TaskName = Time_selectNodeWithHighestDegree2
+condition  ,  pvalue
+------------------------------------
+Time_selectNodeWithHighestDegree2_NL , 0.104262913043348
+Time_selectNodeWithHighestDegree2_MAT , 0.0618555245071503
+**********************************************************
+
+
+TaskName = Time_selectAllNeigbhorsOf1Node
+condition  ,  pvalue
+------------------------------------
+Time_selectAllNeigbhorsOf1Node_NL , 0.00283939835137939
+Time_selectAllNeigbhorsOf1Node_MAT , 0.000458848436056556
+**********************************************************
+
+
+TaskName = Time_selectMoreInterconnectedCluster2Clusters
+condition  ,  pvalue
+------------------------------------
+Time_selectMoreInterconnectedCluster2Clusters_NL , 8.83518957334142e-05
+Time_selectMoreInterconnectedCluster2Clusters_MAT , 1.43542205103354e-10
+**********************************************************
+
+

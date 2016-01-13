@@ -1,0 +1,16 @@
+TaskName = Acc_selectNodeWithHighestDegree2
+Taskname , p-value
+----------------------------------------------------
+Acc_selectNodeWithHighestDegree2  ,  1.54768647595495e-12 
+
+Acc_selectAllNeigbhorsOf1Node  ,  0.0677809215839372 
+
+Acc_selectMoreInterconnectedCluster2Clusters  ,  0.791077873572705 
+
+
+
+Time_selectAllNeigbhorsOf1Node  ,  0.657304435043321 
+
+
+Time_selectMoreInterconnectedCluster2Clusters  ,  0.377566526567675 
+

@@ -1,0 +1,72 @@
+
+	Welch Two Sample t-test
+
+data:  Acc_allCommonNeighborOf2NodesFromOptions_NL and Acc_allCommonNeighborOf2NodesFromOptions_MAT
+t = 1.1098, df = 86.658, p-value = 0.2701
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -0.03916394  0.13818281
+sample estimates:
+mean of x mean of y 
+0.8415094 0.7920000 
+
+
+	Welch Two Sample t-test
+
+data:  Acc_howManyNodesAreWithin2LinkReach_NL and Acc_howManyNodesAreWithin2LinkReach_MAT
+t = 4.161, df = 79.891, p-value = 7.928e-05
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ 0.06193805 0.17549592
+sample estimates:
+mean of x mean of y 
+ 0.154717  0.036000 
+
+
+	Welch Two Sample t-test
+
+data:  Acc_rememberNodesUsedInCommonNeighbor_NL and Acc_rememberNodesUsedInCommonNeighbor_MAT
+t = 0.1376, df = 99.12, p-value = 0.8908
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -0.005906983  0.006787486
+sample estimates:
+  mean of x   mean of y 
+0.003773585 0.003333333 
+
+
+	Welch Two Sample t-test
+
+data:  Time_allCommonNeighborOf2NodesFromOptions_NL and Time_allCommonNeighborOf2NodesFromOptions_MAT
+t = 0.1262, df = 84.691, p-value = 0.8999
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -4.397902  4.994129
+sample estimates:
+mean of x mean of y 
+ 29.09811  28.80000 
+
+
+	Welch Two Sample t-test
+
+data:  Time_howManyNodesAreWithin2LinkReach_NL and Time_howManyNodesAreWithin2LinkReach_MAT
+t = 1.6579, df = 97.475, p-value = 0.1006
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -0.8959139  9.9878384
+sample estimates:
+mean of x mean of y 
+ 32.03396  27.48800 
+
+
+	Welch Two Sample t-test
+
+data:  Time_rememberNodesUsedInCommonNeighbor_NL and Time_rememberNodesUsedInCommonNeighbor_MAT
+t = 1, df = 52, p-value = 0.3219
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -0.6267801  1.8720631
+sample estimates:
+mean of x mean of y 
+0.6226415 0.0000000 
+

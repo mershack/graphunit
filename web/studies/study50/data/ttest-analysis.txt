@@ -1,0 +1,72 @@
+
+	Welch Two Sample t-test
+
+data:  Acc_selectAllNeigbhorsOf1Node_NL and Acc_selectAllNeigbhorsOf1Node_MAT
+t = 2.4721, df = 2.31, p-value = 0.1152
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -0.06514165  0.30884536
+sample estimates:
+mean of x mean of y 
+0.9000000 0.7781481 
+
+
+	Welch Two Sample t-test
+
+data:  Acc_selectMoreInterconnectedCluster2Clusters_NL and Acc_selectMoreInterconnectedCluster2Clusters_MAT
+t = -1.7411, df = 9.908, p-value = 0.1126
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -0.32952878  0.04063989
+sample estimates:
+mean of x mean of y 
+0.7222222 0.8666667 
+
+
+	Welch Two Sample t-test
+
+data:  Acc_selectNodeWithHighestDegree2_NL and Acc_selectNodeWithHighestDegree2_MAT
+t = 3.4151, df = 2.642, p-value = 0.05085
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -0.001824345  0.490713234
+sample estimates:
+mean of x mean of y 
+0.9111111 0.6666667 
+
+
+	Welch Two Sample t-test
+
+data:  Time_selectAllNeigbhorsOf1Node_NL and Time_selectAllNeigbhorsOf1Node_MAT
+t = -17.5766, df = 9.999, p-value = 7.569e-09
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -9.114312 -7.063466
+sample estimates:
+mean of x mean of y 
+ 18.81111  26.90000 
+
+
+	Welch Two Sample t-test
+
+data:  Time_selectMoreInterconnectedCluster2Clusters_NL and Time_selectMoreInterconnectedCluster2Clusters_MAT
+t = 1.0814, df = 8.642, p-value = 0.3088
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -0.5280681  1.4836236
+sample estimates:
+mean of x mean of y 
+ 3.377778  2.900000 
+
+
+	Welch Two Sample t-test
+
+data:  Time_selectNodeWithHighestDegree2_NL and Time_selectNodeWithHighestDegree2_MAT
+t = -6.3752, df = 9.328, p-value = 0.0001102
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -4.149017 -1.984316
+sample estimates:
+mean of x mean of y 
+ 5.766667  8.833333 
+

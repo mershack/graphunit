@@ -1,0 +1,1940 @@
+
+<!DOCTYPE html>
+<html class="ocks-org do-not-copy">
+    <meta charset="utf-8">
+    <title>Les Misérables Co-occurrence</title>
+    <style>
+        @import url(http://bost.ocks.org/mike/style.css?aea6f0a);
+
+        .background {
+            fill: #eee;
+        }
+
+        line {
+            stroke: #fff;
+        }
+
+        .cell{
+            fill: black;
+        }
+        .selectedRow{
+            fill: red;
+        }
+        .clickActive{
+            //fill:brown; //!important;
+            stroke-width: 1px;
+            stroke: rgb(88, 0, 179) !important;
+            fill: rgba(88, 0, 179,0.6) !important;
+
+            //stroke: brown  !important;
+            //opacity: 0.4;
+            // stroke: red;
+        }
+
+        .doubleClickActive{
+            //doublefill:brown; //!important;
+            stroke-width: 6px;
+            stroke: black !important;
+            fill: none;
+
+            //stroke: brown  !important;
+            // opacity: 1;
+            // stroke: red;
+        }
+
+
+
+        .clickActiveBackground{
+            fill: rgba(88, 0, 179, 0.4);
+            //opacity: 0.4;
+        }
+        .doubleClickActiveBackground{
+            // fill: rgba(255, 0,0, 0.4);         
+            fill: black;
+            opacity: 0.4;
+
+        }
+
+
+        .clickActiveLinkBackground{
+            fill: rgba(88, 0, 179, 0.4);
+        }
+
+
+        text.active {
+            fill:red;
+            stroke: red;
+        }
+        text.inactive{
+            fill: black;
+        }
+        text.selectedLabel{
+            fill: red;
+        }
+        .hoveredLabel{
+            fill:  rgba(138, 230, 92, 0.6) !important;
+            stroke:  rgb(138, 230, 92);
+        }
+        .normalLabel{
+            fill: black;
+            stroke: none;
+        }
+        body{
+            margin: 5px !important;
+            width: 800px !important;
+        }
+        html{
+            min-width: 100%;
+        }
+        .hoveredBackground{
+            fill: rgb(138, 230, 92);
+            opacity:0.5;
+        }
+        .selectedActive{
+            stroke:red;
+            stroke-width: 2px;
+            fill: red !important;
+            // opacity: 0.6;
+        }
+        .selectedBackground{
+            fill: red;
+            opacity:0.6;
+        }    
+        .hoveredSelectedBackground{
+            fill: rgb(138, 230, 92);
+        }
+        .labelrect{
+            pointer-events: all;
+        }  
+        .overlay{
+            fill: none;
+            //  overflow: hidden;
+            pointer-events: all;
+        }
+        .row{
+            //pointer-events: none;
+            //overflow: hidden;
+        }
+        .column{
+            pointer-events: none;
+            //overflow: hidden;
+        }
+        rect{
+            pointer-events: none;
+            //overflow: hidden;
+        }
+        rect.cell{
+            pointer-events: all;
+        }
+        .rowlabel{
+            // pointer-events: none;
+            //overflow: hidden;
+        }
+        .columnlabel{
+            //  pointer-events: none;
+        }
+        .zoomBtn{
+            position: absolute;
+            width:40px;
+        }  
+
+        .selectedActive1{
+            stroke:red;
+            stroke-width: 2px;
+            fill: red !important;
+            opacity: 0.6;
+        }
+        .selectedActive2{
+            stroke:blue;
+            stroke-width: 2px;
+            fill: blue !important;
+            opacity: 0.6;
+        }
+        .selectedBackground1{
+            fill: red;
+            opacity:0.4;
+        }   
+        .selectedBackground2{
+            fill: blue;
+            opacity:0.4;
+        }  
+
+
+
+        #zoom_in, #zoom_out{
+            //margin-top: 2px;
+            padding: 0px;
+            font-size: 13px;
+            border: 1.5px solid grey;
+            width:30px;
+            height:30px;
+        }
+        /*  #majorContainer{
+              float:right;
+          } */
+        #colHeaderSvg{
+            border: 2px solid black;    
+        }
+        #matImage{
+            padding: 0px;
+            margin: 0px;
+
+            pointer-events: none;
+        }
+        #rowHeader{
+            float: left;   
+        }
+
+    </style>
+    <!--<script src="http://d3js.org/d3.v2.min.js?2.8.1"></script>  -->
+
+    <script src="d3.js"></script>
+    <body>     
+
+        <span class="zoomBtn" >            
+            <!--<input type="button" id="zoom_in" style="background: url(plusImage.png)" onclick="zoomClick(this);" />
+            <input type="button" id="zoom_out" style="background: url(minusImage.png)" onclick="zoomClick(this);" />
+            -->
+        </span> 
+
+        <script>
+
+
+            var selectedElements = []; //this an array that will be used to store selected elements
+            var highlightedElements = [];
+
+
+            var nodes = [];
+            var sortedIndices = [];
+
+            var intv;
+
+            var container;
+            var colHeaderContainer;
+            var rowHeaderContainer;
+            var matrixImage;
+
+            var margin = {top: 0, right: 0, bottom: 0, left: 0},
+            width = 680,
+                    height = 640;
+
+
+            var zoom = d3.behavior.zoom()
+                    .translate([0, 0])
+                    .scaleExtent([0.15, 1.6])
+
+                    .on("zoom", zoomed);
+
+
+            var generalTranslationX = 0;
+            var generalTranslationY = 0;
+
+            var myRangeBands = [];
+            var startingX = 0;
+            var startingY = 0;
+
+            var cells = [];
+            // createVisualization("miserables.json");
+            // createVisualization("recipes_small1.json");
+           // createVisualization("receipe_small3.json");
+
+            //zoomoout
+
+            var zoom_out_button = document.getElementById("zoom_out");
+
+            var x = d3.scale.ordinal().rangeBands([0, 3600]),
+                    z = d3.scale.linear().domain([0, 4]).clamp(true),
+                    c = d3.scale.category10().domain(d3.range(10));
+
+            function createVisualization(dataseturl) {
+
+
+
+
+
+
+
+                // alert(x);
+
+                //This is the column header svg
+                var colHeaderSvg = d3.select("body").append("svg")
+                        .attr("width", width)
+                        .attr("height", 120)
+                        .style("margin-left", +120 + "px")
+                        .style("margin-top", +0 + "px")
+                        .append("g")
+                        .attr("transform", "translate(" + 0 + "," + 120 + ")");
+
+
+                //This is the row header
+                var rowHeaderSvg = d3.select("body").append("svg")
+                        .attr("width", 115)
+                        .attr("height", height)
+                        .style("margin-left", 0 + "px")
+                        .style("margin-right", 5 + "px")
+                        .style("margin-top", +0 + "px")
+                        .append("g")
+                        .attr("transform", "translate(" + 0 + "," + 0 + ")");
+
+
+
+
+                //This is the main container svg
+                var majorContainer = d3.select("body").append("svg")
+                        .attr("width", width)
+                        .attr("height", height + margin.top + margin.bottom)
+                        .attr("id", "majorContainer")
+                        .style("margin-left", +0 + "px")
+                        .style("margin-top", +0 + "px")
+                        .append("g")
+                        .attr("transform", "translate(" + 0 + "," + margin.top + ")");
+
+
+                /* var rowHeaderSvg = majorContainer.append("svg")
+                 .attr("width", 100)
+                 .attr("height", height + margin.top + margin.bottom)
+                 .style("margin-left", +0 + "px")
+                 .style("margin-top", +0 + "px")
+                 .append("g");
+                 //  .attr("transform", "translate(" + 0 + "," + 0 + ")");*/
+
+                var svg = majorContainer.append("svg")
+                        .attr("width", 3600 + margin.left + margin.right)
+                        .attr("height", 3600 + margin.bottom + margin.top)
+                        .style("margin-left", 0 + "px")
+                        .style("margin-top", +0 + "px")
+                        .append("g")
+                        .attr("transform", "translate(" + 0 + "," + 0 + ")");
+
+                svg.append("rect")
+                        .attr("x", 0)
+                        .attr("y", 0)
+                        .attr("class", "overlay")
+                        .call(zoom)
+                        .attr("width", width)
+                        .attr("height", width);
+
+                svg.on("mousemove", function() {
+
+                    //first get the current x and y location of container
+                    var translateX = 0;
+                    var translateY = 0;
+
+                    if (container.attr("transform")) {
+                        var containerCoords = d3.transform(container.attr("transform")).translate;
+
+                        translateX = Math.abs(containerCoords[0]);
+                        translateY = Math.abs(containerCoords[1]);
+
+                    }
+
+
+
+                    var x1 = d3.mouse(this)[0];
+                    var y1 = d3.mouse(this)[1];
+
+                    var xVal = Math.ceil((x1 + translateX) / (x.rangeBand()) / zoom.scale());
+
+                    d3.selectAll(".labelrect").classed("hoveredLabel", false);
+
+                    var yVal = Math.ceil((y1 + translateY) / x.rangeBand() / zoom.scale());
+
+                    //         d3.select("#rowlabel" + (yVal - 1)).classed("hoveredLabel", true);
+
+                    //alert("xVal is "+ xVal + " and yVal is "+ yVal);
+                    //p.innerHTML = (xVal - 1) + " --- " + (yVal - 1);
+                    var cText = d3.select("#columnlabel" + (xVal - 1)).attr("value");
+                    var rText = d3.select("#rowlabel" + (yVal - 1)).attr("value");
+
+
+                    var cStart = false;
+                    var rStart = false;
+
+
+                    if (cells[cText + "--" + rText]) {
+                        cStart = true;
+                    }
+                    if (cells[rText.trim() + "--" + cText.trim()]) {
+                        rStart = true;
+                    }
+
+                    d3.selectAll(".hoveredBackground").remove();
+
+                    if (cStart || rStart) {
+
+                        d3.select("#colLabelRect" + (xVal - 1)).classed("hoveredLabel", true);
+                        d3.select("#rowLabelRect" + (yVal - 1)).classed("hoveredLabel", true);
+                        //highlight the rows and columns
+                        container.append("rect")
+                                .attr("class", "hoveredBackground")
+                                .attr("width", Math.round(x.rangeBand()))
+                                .attr("height", 3600)
+                                // .attr("fill", "yellow")
+                                .attr("x", Math.round((xVal - 1) * x.rangeBand()))
+                                .attr("y", 0);
+
+                        container.append("rect")
+                                .attr("class", "hoveredBackground")
+                                .attr("width", 3600)
+                                .attr("height", Math.round(x.rangeBand()))
+                                // .attr("fill", "yellow")
+                                .attr("x", 0)
+                                .attr("y", Math.round((yVal - 1) * x.rangeBand()));
+
+                    }
+
+
+                    //alert(str);
+
+                })
+                        .on("mouseup", function() {
+                            //first get the current x and y location of container
+                            var translateX = 0;
+                            var translateY = 0;
+
+                            if (container.attr("transform")) {
+                                var containerCoords = d3.transform(container.attr("transform")).translate;
+
+                                translateX = Math.abs(containerCoords[0]);
+                                translateY = Math.abs(containerCoords[1]);
+
+                            }
+
+                            var x1 = d3.mouse(this)[0];
+                            var y1 = d3.mouse(this)[1];
+
+                            var xVal = Math.ceil((x1 + translateX) / (x.rangeBand()) / zoom.scale());
+
+                            d3.selectAll(".labelrect").classed("hoveredLabel", false);
+
+                            d3.selectAll(".clickActiveLinkBackground").remove();
+                            d3.selectAll(".hoveredBackground").remove();
+
+
+                            d3.selectAll(".labelrect").classed("hoveredLabel", false);
+
+
+                            var yVal = Math.ceil((y1 + translateY) / x.rangeBand() / zoom.scale());
+
+                            var cText = d3.select("#columnlabel" + (xVal - 1)).attr("value");
+                            var rText = d3.select("#rowlabel" + (yVal - 1)).attr("value");
+
+                            var cStart = false;
+                            var rStart = false;
+
+
+                            if (cells[cText + "--" + rText]) {
+                                cStart = true;
+                            }
+                            if (cells[rText.trim() + "--" + cText.trim()]) {
+                                rStart = true;
+                            }
+
+                            d3.selectAll(".hoveredBackground").remove();
+
+                            if (cStart || rStart) {
+
+                                container.append("rect")
+                                        .attr("class", "clickActiveLinkBackground")
+                                        .attr("width", Math.round(x.rangeBand()))
+                                        .attr("height", 3600)
+                                        .attr("x", Math.round((xVal - 1) * x.rangeBand()))
+                                        .attr("y", 0);
+
+                                container.append("rect")
+                                        .attr("class", "clickActiveLinkBackground")
+                                        .attr("width", 3600)
+                                        .attr("height", Math.round(x.rangeBand()))
+                                        .attr("x", 0)
+                                        .attr("y", Math.round((yVal - 1) * x.rangeBand()));
+
+
+                            }
+
+                        });
+
+
+
+                container = svg.append("g");
+                var matrix = [];
+
+                d3.json(dataseturl, function(miserables) {
+
+                    nodes = miserables.nodes;
+
+
+                    var n = nodes.length;
+
+                    // Compute index per node.
+                    nodes.forEach(function(node, i) {
+                        node.index = i;
+                        node.count = 0;
+                        node.sortedIndex = -1;
+                        //alert(node.cluster);
+                        matrix[i] = d3.range(n).map(function(j) {
+                            return {x: j, y: i, z: 0, name: node.name, color: node.color, cluster: node.cluster};
+                        });
+                    });
+
+                    //alert(matrix.toSource());
+
+                    // Convert links to matrix; count character occurrences.
+                    miserables.links.forEach(function(link) {
+                        //   alert(link.source + " -- " + link.target);
+
+                        //alert( );
+                        // alert(matrix[link.source][link.target]);
+
+
+                        var sname = (nodes[link.source].name).trim();
+                        var tname = (nodes[link.target].name).trim();
+
+
+                        //    alert(sname + "--"+tname);
+                        var name = sname + "--" + tname;
+
+                        cells[name] = link.source;
+
+
+                        ///matrix[link.source][link.target].z += link.value;
+                        //matrix[link.target][link.source].z += link.value;
+                        nodes[link.source].count += link.value;
+                        nodes[link.target].count += link.value;
+                    });
+
+
+                    //alert(d3.values(cells));
+                    // Precompute the orders.
+                    var orders = {
+                        name: d3.range(n).sort(function(a, b) {
+                            return d3.ascending(nodes[a].name, nodes[b].name);
+                        }),
+                        count: d3.range(n).sort(function(a, b) {
+                            if (nodes[b].count < nodes[a].count)
+                                return -1;
+                            else if (nodes[b].count > nodes[a].count)
+                                return 1;
+                            else
+                                return d3.ascending(nodes[a].name, nodes[b].name);
+                            //nodes[b].count - nodes[a].count;
+                            //return 
+                        }),
+                        group: d3.range(n).sort(function(a, b) {
+                            // return nodes[b].cluster - nodes[a].cluster;
+                            if (nodes[b].cluster < nodes[a].cluster)
+                                return -1;
+                            else if (nodes[b].cluster > nodes[a].cluster)
+                                return 1;
+                            else
+                                return d3.ascending(nodes[a].name, nodes[b].name);
+                        })
+                    };
+
+                    // The default sort order.
+
+                    x.domain(orders.group);
+
+                    sortedIndices = d3.range(n).sort(function(a, b) {
+
+                        // return nodes[b].cluster - nodes[a].cluster;
+
+                        if (nodes[b].cluster < nodes[a].cluster)
+                            return -1;
+                        else if (nodes[b].cluster > nodes[a].cluster)
+                            return 1;
+                        else
+                            return d3.ascending(nodes[a].name, nodes[b].name);
+                        //return nodes[b].count - nodes[a].count;
+                    });
+
+                    container.append("rect")
+                            .attr("class", "background")
+                            .attr("width", 3600)
+                            .attr("height", 3600)
+                            .append("g");
+
+
+
+
+                    /** now add the image */
+                    matrixImage = container.append("image")
+                            .attr("xlink:href", function(d) {
+                                var imgUrl = "bigMatImage_4.png";
+                                return imgUrl;
+                            })
+                            .attr("id", "matImage")
+                            .attr("width", "3600px")
+                            .attr("height", "3600px")
+                            .attr("x", "0")
+                            .attr("y", "0");
+
+
+
+
+
+                    /** Column headers settings */
+                    /*var column = container.selectAll(".column")
+                     .data(matrix)
+                     .enter().append("g")
+                     .attr("class", "column")
+                     .attr("transform", function(d, i) {
+                     return "translate(" + x(i) + ")rotate(-90)";
+                     });
+                     
+                     column.append("line")
+                     .attr("x1", -width);*/
+
+
+
+
+                    colHeaderSvg.append("rect")
+                            .attr("x", -100)
+                            .attr("y", -100)
+                            .attr("class", "overlay")
+                            .call(zoom)
+                            .attr("width", "100%")
+                            .attr("height", "100%");
+
+                    colHeaderContainer = colHeaderSvg.append("g");
+
+
+
+                    /* colHeaderContainer.append("rect")
+                     .attr("class", "background")
+                     .attr("width", width)
+                     .attr("height", 100)
+                     .append("g");  */
+
+
+                    var colHeader = colHeaderContainer.selectAll(".columnh")
+                            .data(matrix)
+                            .enter().append("g")
+                            .attr("class", "columnh")
+                            .attr("id", function(d, i) {
+                                //make sure we can refer to this values later.
+                                // myRangeBands.push(Math.round(x(i)/x.rangeBand()));
+                                return "columnh" + Math.round(x(i) / x.rangeBand());
+                            })
+                            .attr("transform", function(d, i) {
+                                return "translate(" + Math.round(x(i)) + ")rotate(-90)";
+                            });
+
+                    colHeader.append("rect")
+                            .attr("x",
+                                    function(d, i) {
+                                        if (getSortedIndex(i) % 2 === 1) {
+                                            return -6;
+                                        }
+                                        else {
+                                            //return 24;
+                                            return -6;
+                                        }
+                                    })
+                            .attr("class", "labelrect")
+                            .attr("id", function(d, i) {
+                                return "colLabelRect" + Math.round(x(i) / x.rangeBand());
+                            })
+
+
+
+                            .on("mouseover", function(d, i) {
+                                d3.select(this).classed("hoveredLabel", true);
+                                /* Draw a rectangle to represent the highlight */
+                                container.append("rect")
+                                        .attr("class", "hoveredBackground")
+                                        .attr("width", Math.round(x.rangeBand()))
+                                        .attr("height", 3600)
+                                        .attr("x", x(i))
+                                        .attr("y", 0);
+                            })
+                            .on("mouseout", function() {
+                                d3.selectAll(".labelrect").classed("hoveredLabel", false);
+                                //  d3.select(this).classed("hoveredLabel", false);
+                                d3.selectAll(".hoveredBackground").remove();
+                            })
+                            .on("mousedown", function(d, i) {
+                                mouseDownOnColumnNode(i);
+                                //first unselect any clicked element and column.
+                                /*d3.selectAll(".clickActiveBackground").remove();
+                                 d3.selectAll(".hoveredBackground").remove();
+                                 
+                                 d3.selectAll(".labelrect").classed("hoveredLabel", false);
+                                 d3.selectAll(".labelrect").classed("clickActive", false);
+                                 
+                                 
+                                 d3.select(this).classed("clickActive", true);
+                                 
+                                 /* Draw a rectangle on the column to represent the clicked highlight */
+                                /*container.append("rect")
+                                 .attr("class", "clickActiveBackground")
+                                 .attr("width", Math.round(x.rangeBand()))
+                                 .attr("height", 3600)
+                                 // .attr("fill", "yellow")
+                                 .attr("x", x(i))
+                                 .attr("y", 0); */
+                            })
+                            .on("dblclick", function(d, i) {
+                                //this will be used to unselect elements
+                                doubleClickedOnColumnNode(i);
+                            })
+                            .attr("width", x.rangeBand() + 100)
+                            .attr("height", x.rangeBand())
+                            .style("fill", function(d, i) {
+                                // alert(d[i].name + " -- " + d[i].z + " -- " +d[i].color);
+                                return d[i].color;
+                                /*if (getSortedIndex(i) % 2 === 1) {
+                                 // return "rgb(255,255, 229)";
+                                 return "rgb(178, 178, 178)";
+                                 }
+                                 else {
+                                 return "lightGray";
+                                 // return "rgb(140, 140, )";
+                                 } */
+                            });
+
+
+
+                    colHeader.append("title")
+                            .text(function(d, i) {
+                                return nodes[i].name;
+                            });
+                    colHeader.append("text")
+                            .attr("x",
+                                    function(d, i) {
+                                        if (getSortedIndex(i) % 2 === 1) {
+                                            return 2;
+                                        }
+                                        else {
+                                            return 8;
+                                        }
+                                    })
+                            .attr("y", x.rangeBand() / 2)
+                            .attr("dy", ".32em")
+                            .attr("text-anchor", "start")
+                            .style("font-size", "12px")
+                            .style("font-family", "serif")
+                            .attr("id", function(d, i) {
+                                return "columnlabel" + Math.round(x(i) / x.rangeBand());
+                            })
+
+                            .attr("class", "columnlabel")
+                            .text(function(d, i) {
+                                return nodes[i].name;                                // return "A "+i;
+                            })
+                            .attr("value", function(d, i) {
+                                return nodes[i].name;
+                            })
+                            .on("mouseover", function(d, i) {
+                                d3.select("#colLabelRect" + Math.round(x(i) / x.rangeBand())).classed("hoveredLabel", true);
+                                // d3.select(this).classed("hoveredLabel", true);
+                                /* Draw a rectangle to represent the highlight */
+                                container.append("rect")
+                                        .attr("class", "hoveredBackground")
+                                        .attr("width", Math.round(x.rangeBand()))
+                                        .attr("height", 3600)
+                                        .attr("x", x(i))
+                                        .attr("y", 0);
+                            })
+                            .on("mouseout", function() {
+                                d3.selectAll(".labelrect").classed("hoveredLabel", false);
+                                //  d3.select(this).classed("hoveredLabel", false);
+                                d3.selectAll(".hoveredBackground").remove();
+                            })
+                            .on("mousedown", function(d, i) {
+                                mouseDownOnColumnNode(i);
+                                //first unselect any clicked element and column.
+                                /*d3.selectAll(".clickActiveBackground").remove();
+                                 d3.selectAll(".hoveredBackground").remove();
+                                 
+                                 d3.selectAll(".labelrect").classed("hoveredLabel", false);
+                                 d3.selectAll(".labelrect").classed("clickActive", false);
+                                 
+                                 
+                                 d3.select("#colLabelRect" + Math.round(x(i) / x.rangeBand())).classed("clickActive", true);
+                                 
+                                 
+                                 /* Draw a rectangle on the column to represent the clicked highlight */
+                                /*container.append("rect")
+                                 .attr("class", "clickActiveBackground")
+                                 .attr("width", Math.round(x.rangeBand()))
+                                 .attr("height", 3600)
+                                 // .attr("fill", "yellow")
+                                 .attr("x", x(i))
+                                 .attr("y", 0); */
+                            })
+                            .on("dblclick", function(d, i) {
+                                //this will be used to unselect elements
+                                doubleClickedOnColumnNode(i);
+                            });
+
+
+                    rowHeaderSvg.append("rect")
+                            .attr("x", 0)
+                            .attr("y", 0)
+                            .attr("class", "overlay")
+                            .call(zoom)
+                            .attr("width", "100%")
+                            .attr("height", "100%");
+
+                    rowHeaderContainer = rowHeaderSvg.append("g")
+                            .attr("id", "rowHeader");
+
+
+
+                    var rowHeader = rowHeaderContainer.selectAll(".rowh")
+                            .data(matrix)
+                            .enter().append("g")
+                            .attr("class", "rowh")
+                            .attr("transform", function(d, i) {
+                                //alert(x(i));
+                                return "translate(0," + x(i) + ")";
+                            });
+                    //.each(background);
+                    //.each(row);
+
+
+
+                    rowHeader.append("rect")
+                            .attr("x", function(d, i) {
+                                if (getSortedIndex(i) % 2 === 1) {
+                                    return 2;
+                                }
+                                else {
+                                    return 2;
+                                }
+                            })
+                            .attr("class", "labelrect")
+                            .attr("id", function(d, i) {
+                                return "rowLabelRect" + Math.round(x(i) / x.rangeBand());
+                            })
+
+
+
+
+
+                            .on("mouseover", function(d, i) {
+                                d3.select(this).classed("hoveredLabel", true);
+
+
+
+                                var newRect = document.getElementById("hoveredLabelDrawn" + Math.round(x(i) / x.rangeBand()));
+
+                                //alert("hey");
+                                if (!newRect) {
+                                    rowHeaderContainer.append("rect")
+                                            .attr("class", "hoveredLabel")
+                                            .attr("id", "hoveredLabelDrawn" + Math.round(x(i) / x.rangeBand()))
+                                            .attr("width", x.rangeBand() + 100)
+                                            .attr("height", x.rangeBand())
+                                            // .attr("fill", "yellow")
+                                            .attr("x", 0)
+                                            .attr("y", x(i));
+                                }
+
+
+
+
+
+                                container.append("rect")
+                                        .attr("class", "hoveredBackground")
+                                        .attr("width", 3600)
+                                        .attr("height", x.rangeBand())
+                                        // .attr("fill", "yellow")
+                                        .attr("x", 0)
+                                        .attr("y", x(i));
+
+                            })
+                            .on("mouseout", function(d, i) {
+
+                                d3.select("#hoveredLabelDrawn" + Math.round(x(i) / x.rangeBand())).remove();
+
+                                d3.selectAll(".labelrect").classed("hoveredLabel", false);
+                                d3.selectAll(".hoveredBackground").remove();
+                            })
+                            .on("click", function(d, i) {
+                                mouseDownOnRowNode(i);
+                            })
+                            .on("dblclick", function(d, i) {
+                                //this will be used to unselect elements
+                                doubleClickedOnRowNode(i);
+                            })
+
+                            .attr("width", x.rangeBand() + 100)
+                            .attr("height", x.rangeBand())
+                            .style("fill", function(d, i) {
+                                return d[i].color;
+                            });
+
+
+
+                    rowHeader.append("title")
+                            .text(function(d, i) {
+                                return nodes[i].name;
+                            });
+
+
+
+                    rowHeader.append("text")
+                            .attr("x", function(d, i) {
+                                if (getSortedIndex(i) % 2 === 1) {
+                                    return 10;
+                                }
+                                else {
+                                    return 5;
+                                }
+                            })
+                            .attr("y", x.rangeBand() / 2)
+                            .attr("dy", ".32em")
+                            .attr("text-anchor", "start")
+                            .attr("id", function(d, i) {
+                                return "rowlabel" + Math.round(x(i) / x.rangeBand());
+                            })
+                            .attr("class", "rowlabel")
+                            /* .attr("id", function(d,i){
+                             return Math.round(x(i)/x.rangeBand());
+                             })*/
+                            .style("font-size", "12px")
+                            .style("font-family", "serif")
+                            .text(function(d, i) {
+                                return nodes[i].name;
+                            })
+                            .attr("value", function(d, i) {
+                                return nodes[i].name;
+                            })
+                            .on("mouseover", function(d, i) {
+                                //    d3.select(this).classed("hoveredLabel", true);
+
+                                d3.select("#rowLabelRect" + Math.round(x(i) / x.rangeBand())).classed("hoveredLabel", true);
+                                //d3.select(this).classed("hoveredLabel", true);
+                                var newRect = document.getElementById("hoveredLabelDrawn" + Math.round(x(i) / x.rangeBand()));
+
+                                //alert("hey");
+                                if (!newRect) {
+                                    rowHeaderContainer.append("rect")
+                                            .attr("class", "hoveredLabel")
+                                            .attr("id", "hoveredLabelDrawn" + Math.round(x(i) / x.rangeBand()))
+                                            .attr("width", x.rangeBand() + 100)
+                                            .attr("height", x.rangeBand())
+                                            // .attr("fill", "yellow")
+                                            .attr("x", 0)
+                                            .attr("y", x(i));
+                                }
+                                container.append("rect")
+                                        .attr("class", "hoveredBackground")
+                                        .attr("width", 3600)
+                                        .attr("height", x.rangeBand())
+                                        // .attr("fill", "yellow")
+                                        .attr("x", 0)
+                                        .attr("y", x(i));
+
+                            })
+                            .on("mouseout", function(d, i) {
+
+
+                                d3.select("#hoveredLabelDrawn" + Math.round(x(i) / x.rangeBand())).remove();
+
+                                d3.selectAll(".labelrect").classed("hoveredLabel", false);
+
+                                //d3.select(this).style("fill", "black");
+                                //d3.select(this).style("stroke", "none");
+
+                                //d3.select(this).classed("hoveredLabel", false);
+                                d3.selectAll(".hoveredBackground").remove();
+
+
+
+                            })
+                            .on("click", function(d, i) {
+                                mouseDownOnRowNode(i);
+                            })
+                            .on("dblclick", function(d, i) {
+                                //this will be used to unselect elements
+                                doubleClickedOnRowNode(i);
+                            });
+
+
+                    function getSortedIndex(indx) {
+                        for (var i = 0; i < sortedIndices.length; i++) {
+                            if (sortedIndices[i] === indx) {
+                                return i;
+                            }
+                        }
+                    }
+
+                    function row(row) {
+                        //alert("here");
+                        alert(row.toSource());
+                        var cell = d3.select(this).selectAll(".cell")
+                                .data(row.filter(function(d) {
+                                    return d.z;
+                                }))
+                                .enter().append("rect")
+                                .attr("class", "cell")
+                                .attr("x", function(d) {
+                                    return x(d.x);
+                                })
+                                .attr("width", x.rangeBand())
+                                .attr("height", x.rangeBand());
+                        //.on("mouseover", mouseover)
+                        // .on("mouseout", mouseout);
+                    }
+
+                    function background(row) {
+                        var cell = d3.select(this).selectAll(".cell")
+                                .data(row)
+                                .enter().append("rect")
+                                .attr("class", "background")
+                                .attr("x", function(d) {
+                                    return x(d.x);
+                                })
+                                .attr("width", x.rangeBand())
+                                .attr("height", x.rangeBand());
+                    }
+
+                    function mouseover(p) {
+
+                        d3.select("#rowlabel" + p.y)
+                                .classed("hoveredLabel", true);
+
+                        //for the column label
+
+                        d3.select("#columnlabel" + p.x)
+                                .classed("hoveredLabel", true);
+
+                        //this are for the cells on that column and row
+                        d3.selectAll(".row").selectAll(".background")
+                                .attr("class", function(d) {
+                                    if (d.y === p.y || d.x === p.x) {
+                                        return "hoveredBackground";
+                                    }
+                                    else
+                                        return "background";
+
+                                });
+
+
+
+                        d3.selectAll(".row").selectAll(".selectedRow")
+                                .classed("hoveredSelectedBackground",
+                                        function(d) {
+                                            if (d.y === p.y || d.x === p.x) {
+                                                return true;
+                                            }
+                                            else {
+                                                return false;
+                                            }
+                                        });
+                    }
+
+                    function mouseout(p) {
+                        /*  d3.selectAll(".row text")
+                         .style("fill", "black"); */
+
+                        d3.select("#rowlabel" + p.y)
+                                .classed("hoveredLabel", false);
+
+                        /*d3.select("#rowlabel" + p.y)
+                         .style("fill", "black");
+                         
+                         d3.select("#rowlabel" + p.y)
+                         .style("stroke", "none");*/
+
+                        d3.select("#columnlabel" + p.x)
+                                .classed("hoveredLabel", false);
+                        /*d3.select("#columnlabel" + p.x)
+                         .style("fill", "black");
+                         
+                         d3.select("#columnlabel" + p.x)
+                         .style("stroke", "none");*/
+
+                        /*d3.selectAll(".column text")
+                         .style("fill", "black"); */
+
+                        d3.selectAll(".row").selectAll(".hoveredBackground")
+                                .attr("class", "background");
+                        d3.selectAll(".row").selectAll(".selectedRow")
+                                .classed("hoveredSelectedBackground", false);
+
+                    }
+
+
+                    function order(value) {
+                        x.domain(orders[value]);
+
+                        var t = container.transition().duration(2500);
+
+                        t.selectAll(".row")
+                                .delay(function(d, i) {
+                                    return x(i) * 4;
+                                })
+                                .attr("transform", function(d, i) {
+                                    return "translate(0," + x(i) + ")";
+                                })
+                                .selectAll(".cell")
+                                .delay(function(d) {
+                                    return x(d.x) * 4;
+                                })
+                                .attr("x", function(d) {
+                                    return x(d.x);
+                                });
+
+                        t.selectAll(".column")
+                                .delay(function(d, i) {
+                                    return x(i) * 4;
+                                })
+                                .attr("transform", function(d, i) {
+                                    return "translate(" + x(i) + ")rotate(-90)";
+                                });
+                    }
+                    zoomOut();
+
+
+                   /* ;
+                    arr.push("barley");
+                 //   arr.push("chicory");
+                    selectNode(arr);  */
+
+                 /*   var arr = []
+                     arr.push("2"); //6
+                     arr.push("6");
+                     
+                     var inpTypes = [];
+                     inpTypes.push("clusterSelection");
+                     inpTypes.push("clusterSelection");
+                     
+                     selectNode(arr, inpTypes); */
+
+
+                    //manually doing selections
+                    // alert("here");
+                    /* var arr = [];
+                     arr.push("6");
+                     arr.push("2");
+                     
+                     var inpTypes = [];
+                     inpTypes.push("clusterSelection");
+                     inpTypes.push("clusterSelection");
+                     
+                     selectNode(arr, inpTypes);*/
+
+
+
+
+                });
+            }
+
+            /*var intvCnt = 0;
+             function zoomOutInterval() {
+             intv = setInterval(function() {
+             zoomOut();
+             }, 5);
+             }*/
+
+            function zoomOut() {
+
+                // alert(intvCnt);
+                //document.getElementById("zoom_out").click();
+
+
+                var direction = 1,
+                        //      factor = 0.5,
+                        target_zoom = 0.16,
+                        center = [width / 2, height / 2],
+                        extent = zoom.scaleExtent(),
+                        translate = zoom.translate(),
+                        translate0 = [],
+                        l = [],
+                        view = {x: translate[0], y: translate[1], k: zoom.scale()};
+
+
+                //direction = (btn.id === 'zoom_in') ? 1 : -1;
+                target_zoom = 0.16;
+
+                if (target_zoom < extent[0] || target_zoom > extent[1]) {
+                    return false;
+                }
+
+                translate0 = [(center[0] - view.x) / view.k, (center[1] - view.y) / view.k];
+                view.k = target_zoom;
+                l = [translate0[0] * view.k + view.x, translate0[1] * view.k + view.y];
+
+                view.x += center[0] - l[0];
+                view.y += center[1] - l[1];
+
+                interpolateZoom([view.x, view.y], view.k);
+
+
+
+
+            }
+
+            function mouseDownOnColumnNode(index) {
+                //this will be used for highlighting and unhighlighting normal selections.
+                d3.selectAll(".clickActiveLinkBackground").remove();
+
+                //add it to the selectedElements if it does not already exist
+                var elementExists = false;
+                for (var i = 0; i < highlightedElements.length; i++) {
+                    if (highlightedElements[i] === nodes[index].name) {
+                        //alert("exists");
+                        elementExists = true;
+                        break;
+                    }
+                }
+
+                if (elementExists === false) {
+                    highlightedElements.push(nodes[index].name);
+
+                    d3.selectAll(".labelrect").classed("hoveredLabel", false);
+
+                    colHeaderContainer.append("rect")
+                            .attr("class", "clickActive")
+                            .attr("id", "clickActiveDrawnCol" + Math.round(x(index) / x.rangeBand()))
+                            .attr("width", x.rangeBand())
+                            .attr("height", 120)
+                            // .attr("fill", "yellow")
+                            .attr("x", x(index))
+                            .attr("y", -108);
+
+
+                    /*Drawing the rect to signify the selection */
+                    container.append("rect")
+                            .attr("class", "clickActiveBackground")
+                            .attr("id", "clickActiveBackgroundCol" + Math.round(x(index) / x.rangeBand()))
+                            .attr("width", Math.round(x.rangeBand()))
+                            .attr("height", 3600)
+                            .attr("x", x(index))
+                            .attr("y", 0);
+                }
+                else {
+
+                    //unselect 
+                    var tempSelectedElements = highlightedElements;
+                    //alert("double-clicked");
+                    highlightedElements = [];
+                    for (var i = 0; i < tempSelectedElements.length; i++) {
+                        if (tempSelectedElements[i] !== nodes[index].name) {
+                            highlightedElements.push(tempSelectedElements[i]);
+                        }
+                    }
+
+                    // d3.select("#colLabelRect" + Math.round(x(index) / x.rangeBand())).classed("clickActive", false);
+                    d3.select("#clickActiveDrawnCol" + Math.round(x(index) / x.rangeBand())).remove();
+                    //now remove the click active background drawn too.
+                    d3.select("#clickActiveBackgroundCol" + Math.round(x(index) / x.rangeBand())).remove();
+                }
+            }
+
+            function mouseDownOnRowNode(index) {
+                //this will be used for highlighting and unlighting normal selections
+                d3.selectAll(".clickActiveLinkBackground").remove();
+
+                //add it to the highlightedElements if it does not already exist
+                var elementExists = false;
+                for (var i = 0; i < highlightedElements.length; i++) {
+                    if (highlightedElements[i] === nodes[index].name) {
+                        //alert("exists");
+                        elementExists = true;
+                        break;
+                    }
+                }
+
+                if (elementExists === false) {
+                    highlightedElements.push(nodes[index].name);
+
+                    d3.selectAll(".labelrect").classed("hoveredLabel", false);
+
+                    rowHeaderContainer.append("rect")
+                            .attr("class", "clickActive")
+                            .attr("id", "clickActiveDrawn" + Math.round(x(index) / x.rangeBand()))
+                            .attr("width", x.rangeBand() + 100)
+                            .attr("height", x.rangeBand())
+                            // .attr("fill", "yellow")
+                            .attr("x", 0)
+                            .attr("y", x(index));
+
+
+                    /*Drawing the rect to signify the selection */
+                    container.append("rect")
+                            .attr("class", "clickActiveBackground")
+                            .attr("id", "clickActiveBackground" + Math.round(x(index) / x.rangeBand()))
+                            .attr("width", 3600)
+                            .attr("height", Math.round(x.rangeBand()))
+                            .attr("x", 0)
+                            .attr("y", x(index));
+
+                }
+                else {
+
+                    //unselect the double-clicked node
+                    var tempSelectedElements = highlightedElements;
+                    //alert("double-clicked");
+                    highlightedElements = [];
+                    for (var i = 0; i < tempSelectedElements.length; i++) {
+                        if (tempSelectedElements[i] !== nodes[index].name) {
+                            highlightedElements.push(tempSelectedElements[i]);
+                        }
+                    }
+
+                    //d3.select("#colLabelRect" + Math.round(x(index) / x.rangeBand())).classed("clickActive", false);
+                    d3.select("#clickActiveDrawn" + Math.round(x(index) / x.rangeBand())).remove();
+                    //now remove the click active background drawn too.
+                    d3.select("#clickActiveBackground" + Math.round(x(index) / x.rangeBand())).remove();
+                }
+            }
+
+
+            function doubleClickedOnRowNode(index) {
+
+                //we will use this to signify a selected answer
+
+                //if the node has already been selected unselect it
+                //otherwise select it.
+                // I will try to draw something around it or draw it with a different color
+                //alert("I'm here");
+
+                d3.selectAll(".clickActiveLinkBackground").remove(); //remove any link selection
+
+                //unselect a normal click selection
+                d3.select("#clickActiveDrawn" + Math.round(x(index) / x.rangeBand())).remove();
+                //now remove the click active background drawn too.
+                d3.select("#clickActiveBackground" + Math.round(x(index) / x.rangeBand())).remove();
+
+
+
+
+                //add it to the selectedElements if it does not already exist
+                var elementExists = false;
+                for (var i = 0; i < selectedElements.length; i++) {
+                    if (selectedElements[i] === nodes[index].name) {
+                        //alert("exists");
+                        elementExists = true;
+                        break;
+                    }
+                }
+
+                if (elementExists === false) {
+                    selectedElements.push(nodes[index].name);
+
+                    d3.selectAll(".labelrect").classed("hoveredLabel", false);
+
+                    rowHeaderContainer.append("rect")
+                            .attr("class", "doubleClickActive")
+                            .attr("id", "doubleClickActiveDrawn" + Math.round(x(index) / x.rangeBand()))
+                            .attr("width", x.rangeBand() + 120)
+                            .attr("height", x.rangeBand())
+                            // .attr("fill", "yellow")
+                            .attr("x", 0)
+                            .attr("y", x(index));
+
+
+                    /*Drawing the rect to signify the selection */
+                    /*   container.append("rect")
+                     .attr("class", "doubleClickActiveBackground")
+                     .attr("id", "doubleClickActiveBackground" + Math.round(x(index) / x.rangeBand()))
+                     .attr("width", 3600)
+                     .attr("height", Math.round(x.rangeBand()))
+                     .attr("x", 0)
+                     .attr("y", x(index));  */
+
+
+
+
+
+
+
+                }
+                else {
+
+                    //unselect the double-clicked node
+                    var tempSelectedElements = selectedElements;
+                    //alert("double-clicked");
+                    selectedElements = [];
+                    for (var i = 0; i < tempSelectedElements.length; i++) {
+                        if (tempSelectedElements[i] !== nodes[index].name) {
+                            selectedElements.push(tempSelectedElements[i]);
+                        }
+                    }
+
+                    //d3.select("#colLabelRect" + Math.round(x(index) / x.rangeBand())).classed("doubleClickActive", false);
+                    d3.select("#doubleClickActiveDrawn" + Math.round(x(index) / x.rangeBand())).remove();
+                    //now remove the click active background drawn too.
+                    d3.select("#doubleClickActiveBackground" + Math.round(x(index) / x.rangeBand())).remove();
+
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                /*  var tempSelectedElements = selectedElements;
+                 //alert("double-clicked");
+                 selectedElements = [];
+                 for (var i = 0; i < tempSelectedElements.length; i++) {
+                 if (tempSelectedElements[i] !== nodes[index].name) {
+                 selectedElements.push(tempSelectedElements[i]);
+                 }
+                 }
+                 // alert(tempSelectedElements.length + " -- " + selectedElements.length);
+                 //now do the actual unselection.
+                 
+                 d3.select("#colLabelRect" + Math.round(x(index) / x.rangeBand())).classed("clickActive", false);
+                 
+                 //alert("#clickActiveDrawn" + Math.round(x(index) / x.rangeBand()));
+                 
+                 d3.select("#clickActiveDrawn" + Math.round(x(index) / x.rangeBand())).remove();
+                 
+                 
+                 
+                 d3.selectAll(".clickActiveBackground").remove();
+                 d3.selectAll(".labelrect").classed("clickActiveEdge", false);  */
+            }
+
+            function doubleClickedOnColumnNode(index) {
+                // to do
+                d3.selectAll(".clickActiveLinkBackground").remove(); //remove any link selection
+
+                //unselect a normal click selection
+                d3.select("#clickActiveDrawnCol" + Math.round(x(index) / x.rangeBand())).remove();
+                //now remove the click active background drawn too.
+                d3.select("#clickActiveBackgroundCol" + Math.round(x(index) / x.rangeBand())).remove();
+
+
+                //add it to the selectedElements if it does not already exist
+                var elementExists = false;
+                for (var i = 0; i < selectedElements.length; i++) {
+                    if (selectedElements[i] === nodes[index].name) {
+                        //alert("exists");
+                        elementExists = true;
+                        break;
+                    }
+                }
+
+                if (elementExists === false) {
+                    selectedElements.push(nodes[index].name);
+
+                    d3.selectAll(".labelrect").classed("hoveredLabel", false);
+
+                    colHeaderContainer.append("rect")
+                            .attr("class", "doubleClickActive")
+                            .attr("id", "doubleClickActiveDrawnCol" + Math.round(x(index) / x.rangeBand()))
+                            .attr("width", x.rangeBand())
+                            .attr("height", 120)
+                            // .attr("fill", "yellow")
+                            .attr("x", x(index))
+                            .attr("y", -108);
+
+
+                    /*Drawing the rect to signify the selection */
+                    /*  container.append("rect")
+                     .attr("class", "clickActiveBackground")
+                     .attr("id", "clickActiveBackgroundCol" + Math.round(x(index) / x.rangeBand()))
+                     .attr("width", Math.round(x.rangeBand()))
+                     .attr("height", 3600)
+                     .attr("x", x(index))
+                     .attr("y", 0);   */
+                }
+                else {
+
+                    //unselect 
+                    var tempSelectedElements = selectedElements;
+                    //alert("double-clicked");
+                    selectedElements = [];
+                    for (var i = 0; i < tempSelectedElements.length; i++) {
+                        if (tempSelectedElements[i] !== nodes[index].name) {
+                            selectedElements.push(tempSelectedElements[i]);
+                        }
+                    }
+
+                    // d3.select("#colLabelRect" + Math.round(x(index) / x.rangeBand())).classed("clickActive", false);
+                    d3.select("#doubleClickActiveDrawnCol" + Math.round(x(index) / x.rangeBand())).remove();
+                    //now remove the click active background drawn too.
+                    //d3.select("#clickActiveBackgroundCol" + Math.round(x(index) / x.rangeBand())).remove();
+
+
+                }
+
+
+            }
+
+
+
+
+
+            /****************************************************** GRAPHUNIT METHOD STARTS ********************/
+
+            /**
+             * This method returns the type of edges in the graph "directed" / "undirected" 
+             */
+            function getGraphType() {
+                //directed/undirected            
+                return "undirected";
+            }
+
+            /** 
+             * This method accepts an array of node names, and highlights 
+             * the nodes in the graph
+             */
+            function selectNode(nodenames, inputtypes) {
+                //alert(nodenames);
+
+                /* d3.selectAll("text")
+                 .style("fill", "black")
+                 .style("stroke", "none"); */
+                //d3.selectAll("text").classed("normalLabel", true);
+
+                //first unselect all selected if any             
+                //  d3.selectAll(".row").selectAll(".selectedRow").classed("background", true);
+
+                //    d3.selectAll("text").classed("active", false);
+
+
+                unSelectSelectedElements();
+
+                d3.selectAll(".clickActiveBackground").remove();
+                d3.selectAll(".hoveredBackground").remove();
+
+                d3.selectAll(".labelrect").classed("hoveredLabel", false);
+                d3.selectAll(".labelrect").classed("clickActive", false);
+
+
+
+                d3.selectAll(".selectedBackground").remove( );
+                d3.selectAll(".selectedBackground1").remove( );
+               d3.selectAll(".selectedBackground2").remove( );
+                d3.selectAll(".labelrect").classed("selectedActive", false);
+                d3.selectAll(".labelrect").classed("selectedActive1", false);
+                d3.selectAll(".labelrect").classed("selectedActive2", false);
+
+
+                zoomOut();
+
+                //do the selection
+                for (var j = 0; j < nodenames.length; j++) {
+                    var nameIndex = "";
+                    var nodeName = nodenames[j];
+                    for (var i = 0; i < nodes.length; i++) {
+                        if (nodes[i].name === nodeName) {
+                            nameIndex = i;
+                            break;
+                        }
+                    }
+
+                    if (nameIndex !== "") {
+                        d3.select("#rowLabelRect" + Math.round(x(nameIndex) / x.rangeBand())).classed("selectedActive", true);
+                        container.append("rect")
+                                .attr("class", "selectedBackground")
+                                .attr("width", 3600)
+                                .attr("height", x.rangeBand())
+                                // .attr("fill", "yellow")
+                                .attr("x", 0)
+                                .attr("y", x(nameIndex));
+
+
+
+                    }
+                }
+
+
+
+                if (inputtypes && inputtypes.length >= 2)
+                    //first cluster selection
+                    if (inputtypes[0].trim() === "clusterSelection") {
+                        nodeName = nodenames[0];
+                        for (var i = 0; i < nodes.length; i++) {
+                            if (Number(nodes[i].cluster) === Number(nodeName)) {
+                                //row
+                                d3.select("#rowLabelRect" + Math.round(x(i) / x.rangeBand())).classed("selectedActive1", true);
+                                container.append("rect")
+                                 .attr("class", "selectedBackground1")
+                                 .attr("width", 3600)
+                                 .attr("height", x.rangeBand())
+                                 // .attr("fill", "yellow")
+                                 .attr("x", 0)
+                                 .attr("y", x(i));
+                                 
+
+                                //col
+                                d3.select("#colLabelRect" + Math.round(x(i) / x.rangeBand())).classed("selectedActive1", true);
+                                   container.append("rect")
+                                 .attr("class", "selectedBackground1")
+                                 .attr("width", x.rangeBand())
+                                 .attr("height", 3600)
+                                 // .attr("fill", "yellow")
+                                 .attr("x", x(i))
+                                 .attr("y", 0);
+                                 
+
+                            }
+                        }
+
+
+                    }
+
+                //second cluster selection
+                if (inputtypes[1].trim() === "clusterSelection") {
+                    nodeName = nodenames[1];
+                    for (var i = 0; i < nodes.length; i++) {
+                        //   alert("here1");
+                        if (Number(nodes[i].cluster) === Number(nodeName)) {
+                            //row
+                            d3.select("#rowLabelRect" + Math.round(x(i) / x.rangeBand())).classed("selectedActive2", true);
+                             container.append("rect")
+                             .attr("class", "selectedBackground2")
+                             .attr("width", 3600)
+                             .attr("height", x.rangeBand())
+                             // .attr("fill", "yellow")
+                             .attr("x", 0)
+                             .attr("y", x(i));
+                             
+
+                            //col
+                            d3.select("#colLabelRect" + Math.round(x(i) / x.rangeBand())).classed("selectedActive2", true);
+
+                            container.append("rect")
+                             .attr("class", "selectedBackground2")
+                             .attr("width", x.rangeBand())
+                             .attr("height", 3600)
+                             // .attr("fill", "yellow")
+                             .attr("x", x(i))
+                             .attr("y", 0);
+                             
+                        }
+                    }
+
+                }
+
+
+
+
+            }
+
+            function zoomed() {
+                //first get the current x and y location of container
+                var translateX = 0;
+                var translateY = 0;
+
+                if (container.attr("transform")) {
+                    var containerCoords = d3.transform(container.attr("transform")).translate;
+                    translateX = containerCoords[0];
+                    translateY = containerCoords[1];
+                }
+                /*main container*/
+                var t = d3.event.translate;
+                s = d3.event.scale;
+
+                //  t[0] = Math.min(width / 2 * (s - 1), Math.max(width / 2 * (1 - s), t[0]));
+                //  t[1] = Math.min(height / 2 * (s - 1) + 230 * s, Math.max(height / 2 * (1 - s) - 230 * s, t[1]));
+
+
+
+
+
+
+                //    t[0] = Math.max(Math.min(0, t[0]), Math.min(0, (-3600+width) * (s)));
+                //  t[1] = Math.max(Math.min(0, t[1]), Math.min(0, (-3600+width) * (s)));
+
+                var newx = 0, newy = 0;
+
+
+                t[0] = Math.min(0, Math.max(t[0], (-3600) * s + width));
+
+                t[1] = Math.min(0, Math.max(t[1], (-3600) * s + height));
+
+
+                zoom.translate(t);
+
+                var t0 = zoom.translate()[0];
+                var t1 = zoom.translate()[1];
+
+
+                newx = (translateX + t0) / s;
+                newy = (translateY + t1) / s;
+
+
+
+
+                // var p = document.getElementById("mousePoints2");
+                ///  var p2 = document.getElementById("mousePoints3");
+
+                // p.innerHTML = translateX / (s) + "  ---  " + translateY / (s);
+                //  p2.innerHTML = t[0] + "  ---  " + t[1];
+
+
+
+
+
+
+
+
+
+                var scale = d3.event.scale;
+                container.attr("transform", "translate(" + t + ")" +
+                        "scale(" + scale + ")");
+
+
+                /*matrixImage.attr("transform", "translate(" +
+                 d3.event.translate[0] + "," +
+                 (0, d3.event.translate[1]) + ")" +
+                 "scale(" + d3.event.scale + ")");  */
+
+
+
+                /* the column header container */
+                colHeaderContainer.attr("transform",
+                        "translate(" + Math.min(0, t0) + "," + 0 + ")" +
+                        "scale(" + d3.event.scale + ")");
+
+
+
+                rowHeaderContainer.attr("transform", "translate(" +
+                        0 + "," +
+                        Math.min(0, t1) + ")" +
+                        "scale(" + d3.event.scale + ")");
+
+
+                /*the rowheader container */
+                var rh = document.getElementById("rowHeader");
+                var rhWidth = rh.getBoundingClientRect().width;
+                rowHeaderContainer.attr("transform", "translate(" +
+                        Math.max(0, 125 - rhWidth) + "," +
+                        Math.min(0, t1) + ")" +
+                        "scale(" + d3.event.scale + ")");
+            }
+
+
+
+            function zoomed2usingBtn(t, s) {
+
+                t[0] = Math.min(0, Math.max(t[0], (-3600) * s + width));
+                t[1] = Math.min(0, Math.max(t[1], (-3600) * s + width));
+
+                zoom.translate(t);
+
+                var t0 = zoom.translate()[0];
+                var t1 = zoom.translate()[1];
+
+                // var newrc =  rowHeaderContainer;
+                rowHeaderContainer.attr("transform", "translate(" +
+                        0 + "," +
+                        Math.min(0, t1) + ")" +
+                        "scale(" + s + ")");
+
+                //newrc.attr
+                //  newrc.attr("id", "newrc");
+
+
+
+
+
+
+
+
+                //  var scale = d3.event.scale;
+                container.attr("transform", "translate(" + t + ")" +
+                        "scale(" + s + ")");
+
+
+                /*matrixImage.attr("transform", "translate(" +
+                 d3.event.translate[0] + "," +
+                 (0, d3.event.translate[1]) + ")" +
+                 "scale(" + d3.event.scale + ")");  */
+
+
+
+                /* the column header container */
+                colHeaderContainer.attr("transform",
+                        "translate(" + Math.min(0, t0) + "," + 0 + ")" +
+                        "scale(" + s + ")");
+
+                /*the rowheader container */
+                var rh = document.getElementById("rowHeader");
+                var rhWidth = rh.getBoundingClientRect().width;
+                rowHeaderContainer.attr("transform", "translate(" +
+                        Math.max(0, 125 - rhWidth) + "," +
+                        Math.min(0, t1) + ")" +
+                        "scale(" + s + ")");
+
+
+            }
+
+            function unSelectSelectedElements() {
+                selectedElements = [];
+                //   d3.selectAll("circle").classed("selectedNode", false);
+
+                d3.selectAll(".clickActive").remove();
+                d3.selectAll(".doubleClickActive").remove();
+
+            }
+
+            function getOutput() {
+                var output = selectedElements;
+                //unSelectSelectedElements();
+                return output;
+            }
+
+
+
+
+            /**
+             * This function will be called to set the value of a JSON dataset variable
+             * 
+             */
+            function setJSONdataset(dataseturl) {
+                createVisualization(dataseturl);
+            }
+            /**
+             * a question will be passed to this method, and if the developer wants to change the question, he will do it
+             * in here. He will return the appropriate replacement to the question.
+             * @param {type} question : a string question.
+             * @returns {undefined} : it returns a string which is the replacement question
+             */
+            function changeQuestion(question) {   /**** OPTIONAL FUNCTION ******/
+                //Task1: Is there a a common neighbor between the two highlighted nodes?
+                //Task2: How many links does the highlighted node has?
+
+                var newquestion = "";
+                if (question === "Select the most connected node") {
+                    //newquestion = "How many black boxes  are on the row highlighted red?";
+                    newquestion = "Given the two highlighted ingredients, select the one with more connections.";
+                }
+                else if (question === "Select all the neighbors of the highlighted node") {
+                    newquestion = "Select all ingredients that the highlighted ingredient is connected to.";
+                }
+                else if (question === "Select all of the common neighbors of the two highlighted nodes") {
+                    newquestion = "Given two highlighted ingredients, select all ingredients that they both connect to.";
+                }
+                return newquestion;
+            }
+
+            function setIntroduction() {    /**** OPTIONAL FUNCTION ******/
+                var introPageName = "intro_matrix_interpLong.html";
+                return introPageName;
+            }
+            /*
+             * This function will be given a question and based on the question,
+             * it will return the name of an image to be used as the legend 
+             */
+            function getQuestionLegend(question) {   /**** OPTIONAL FUNCTION ******/
+
+                if (question === "How many nodes can be reached in one step from the highlighted node?") {
+                    return "matrix_legend.png";
+                }
+                else {
+                    return "";
+                }
+            }
+            //this function will be used to display a note for the visualization.
+            function getVisualizationNote() {
+                var html_note = "<ul>"
+                
+                     + "<li> Zoom with mouse wheel, pan by dragging. </li>"
+                    + "<li> Double click to select answers, double-click to unselect answers"
+                    + "<li> Single click to highlight, single click to unhighlight."
+                    + "<li> Grab and move a node if unsure where its links go. </li>"
+                    + "<li> Hover on a node or link to see its connections.</li>"
+                    + "</ul>";
+                
+                
+                
+                
+
+                        + "<li> Zoom with mouse wheel, pan by dragging. </li>"
+                         + "<li> Double click to select answers, double-click to unselect answers"
+                        + "<li>Single click to highlight, single click to unhighlight."
+                        + "<li>Hover on a row/column header to highlight the row/column.  </li>"
+                        + "<li>Hover on a connection (i.e. a black box) to highlight its row and column.</li>"
+
+                        + "</ul>";
+                return html_note;
+            }
+            function getVisualizationHint() {
+                return "(<strong>Hint</strong>: interaction might help to make sure - hover over connections or labels, zoom-in/zoom-out, pan)";
+            }
+            function getVisualizationNoteImages() {
+                //return the image names separated by a colon.
+                return "row-label-hover.png:column-label-hover.png:matrix-hover.png";
+            }
+            /**
+             * This method may be used to set static node positions.
+             */
+            var nodePositions = {};
+            function setNodePositions(positions) {
+                nodePositions = positions;
+            }
+            /***************************************************GRAPHUNIT METHOD ENDS ******************************/
+
+            function zoomClick(btn) {
+                //    alert('hey');
+                var direction = 1,
+                        factor = 0.1,
+                        target_zoom = 1,
+                        center = [width / 2, height / 2],
+                        extent = zoom.scaleExtent(),
+                        translate = zoom.translate(),
+                        translate0 = [],
+                        l = [],
+                        view = {x: translate[0], y: translate[1], k: zoom.scale()};
+
+
+                direction = (btn.id === 'zoom_in') ? 1 : -1;
+                target_zoom = zoom.scale() * (1 + factor * direction);
+
+                if (target_zoom < extent[0] || target_zoom > extent[1]) {
+                    return false;
+                }
+
+                translate0 = [(center[0] - view.x) / view.k, (center[1] - view.y) / view.k];
+                view.k = target_zoom;
+                l = [translate0[0] * view.k + view.x, translate0[1] * view.k + view.y];
+
+                view.x += center[0] - l[0];
+                view.y += center[1] - l[1];
+
+                interpolateZoom([view.x, view.y], view.k);
+            }
+
+            function interpolateZoom(translate, scale) {
+                return d3.transition().duration(350).tween("zoom", function() {
+                    return function(t) {
+                        zoom
+                                .scale(scale)
+                                .translate(translate);
+                        zoomed2usingBtn(translate, scale);
+                    };
+                });
+            }
+        </script>
+
+        <!--  <p id="mousePoints">
+ 
+         </p>
+         <p id="mousePoints2">
+ 
+         </p>
+ 
+         <p id="mousePoints3">
+ 
+         </p>    -->
+
+    </body>
+
+
+

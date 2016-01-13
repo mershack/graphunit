@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Introduction</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <style>
+            body{
+                width:800px;
+            }
+            img{
+                margin: 10px;
+                margin-left: 50px;
+            }
+        </style>
+    </head>
+    <body>       
+        <h3>Introduction</h3>
+
+
+        <p>
+            This is a research study. We want to understand how to best show network data (items with connections between them). 
+            We will show you a visualization of cooking ingredients (ex: salt, meat) with links between ingredients that are
+            often used in recipes together. 
+        </p>
+
+        <img src="nl_legend_0.png" height="150" /> 
+
+        <br><br>
+        <p>
+            You can interact with the visualization. <b>Zoom</b> by using the mouse wheel. <b>Pan</b> by pressing the left mouse button down and
+            dragging (as in Google maps). 
+            <b>Select and deselect</b> ingredients as <b>answers</b> by double-clicking on them.
+            <b>Select and deselect</b> ingredients as <b>highlights</b> by clicking on them once. <b>Move</b> ingredients by 
+            dragging them (sometimes this can be useful to tell where its links go). <b>Mouse-over</b> ingredients and links to highlight them.
+
+            Here is an example of a selected answer, a highlighted node, a hovered node and a hovered edge respectively.<br>
+            <img src="node-selected-answer.png" height="100"/><img src="node-clicked.png" height="100"/><img src="node-hover2.png" height="100"/><img src="edge-hover2.png" height="100" />
+
+
+            <br><br>
+        <p>We will ask you a few questions about this data. Please answer the questions as fast and accurate as possible by viewing
+            and interacting with the visualization. There will be a <b>countdown</b> for each question; once it expires, we will 
+            hide the visualization. We will give you a <b>turk-code</b> to use for payment once you finish the study.</p>
+
+        <p align="center">
+            <br>
+            <br>
+            <b>We will pay a $2 bonus to the user with the best overall accuracy/time.</b>
+            <br><br>
+            <b>The study includes two questions we consider to be easy enough that everyone can answer correctly. You need to answer both
+                correctly to receive payment.</b>   
+            <br>
+            <br>
+        </p>
+
+        
+        <br><br>
+        <h3>Tasks</h3> 
+
+        <b>Task1</b>: <b>"Given two highlighted ingredients, select all ingredients that they both connect to."</b><br><br>
+        Remember, you
+        can select and deselect nodes as answers by double-clicking on them. 
+        A Selected answer will have a black circle around the node.
+        See a few examples below:<br><br>
+         <table align="center">
+             <tr><td align="center"><em>Questions</em></td><td align="center"><em>Answers</em></td></tr>
+           <tr><td><img src="commonNeighbor_example1_qn.png"></td><td><img src="commonNeighbor_example1_ans.png" ></td></tr>
+           <tr><td><img src="commonNeighbor_example2_qn.png" height="200"></td><td><img src="commonNeighbor_example2_ans.png" height="200"></td></tr>
+         </table> 
+         
+           <b>Task2</b>: 
+             
+         <b>"Given two pairs of ingredients (red and blue), estimate which pair is linked by fewer other ingredients."</b><br><br>
+        
+         See the first example below for how you can link two ingredients with other ingredients.
+
+         <br><br>
+
+	HINT: This is an estimation task! You may not have time to find the exact match, just give your best guess (see example 2).
+       
+	<br><br>
+         <table align="center">
+             <tr><td align="center"><em>Questions</em></td><td align="center"><em>Answers</em></td></tr>
+             <tr><td><img src="radu_nl_path1.png" ></td><td><img src="answerOption_red.png" /><br/>
+            
+                    
+           
+           <tr><td><img src="radu_nl_path2.png"></td><td><img src="answerOption_red.png">
+                <u><b>Note</b> </u> Probably red, because the ingredients are in the same cluster 
+                  or closer together while the blues aren't.
+                 </td></tr>
+         </table> 
+        
+         
+         <!--
+         
+         <b>Task 1</b>: <b>"Given two highlighted ingredients, select the one with more connections."</b> <br><Br>
+
+        Remember, you
+        can select and deselect nodes as answers by double-clicking on them. 
+        A Selected answer will have a black circle around the node.
+        See a few examples below:<br><br>
+        <table align="center">
+            <tr><td align="center"><em>Questions</em></td><td align="center"><em>Answers</em></td></tr>
+            <tr><td><img src="task1_qn.png" height="200"></td><td><img src="task1_ans.png" height="200"></td></tr>
+            <tr><td><img src="task1_2_qn.png" height="170"></td><td><img src="task1_2_ans.png" height="170"></td></tr>
+        </table>
+
+
+
+        <b>Task2</b>: <b>"Select all ingredients that the highlighted ingredients is connected to."</b><br><br>
+        Remember, you
+        can select and deselect nodes as answers by double-clicking on them. 
+        A Selected answer will have a black circle around the node. See a few examples below:<br><br>
+        <table align="center">
+            <tr><td align="center"><em>Questions</em></td><td align="center"><em>Answers</em></td></tr>
+            <tr><td><img src="task2_qn.png" height="170"></td><td><img src="task2_ans.png" height="170"></td></tr>
+            <tr><td><img src="task2_2_qn.png"  height="170"></td><td><img src="task2_2_ans.png" height="170"></td></tr>
+        </table>
+
+
+        <br> <br>
+
+        <b>Task3</b>: <b>"Given two highlighted clusters of ingredients, select the cluster that 
+            has the most interconnections between its members."</b><br><br>
+
+        See a few examples below:<br><br>
+        <table align="center">
+            <tr><td align="center"><em>Questions</em></td><td align="center"><em>Answers</em></td></tr>
+            <tr><td><img src="cluster_task1_1_qn.png"></td><td><img src="cluster_task1_1_ans.png" width="160" ></td></tr>
+            <tr><td><img src="cluster_task1_2_qn.png"></td><td><img src="cluster_task1_2_ans.png" width="160" ></td></tr>
+        </table>     
+
+         
+         -->
+       
+    </body>
+</html>

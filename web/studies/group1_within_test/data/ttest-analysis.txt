@@ -1,0 +1,72 @@
+
+	Welch Two Sample t-test
+
+data:  Acc_selectNodeWithHighestDegree2_NL and Acc_selectNodeWithHighestDegree2_MAT
+t = 6.7212, df = 117.896, p-value = 6.77e-10
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ 0.1298116 0.2382562
+sample estimates:
+mean of x mean of y 
+0.9269841 0.7429502 
+
+
+	Welch Two Sample t-test
+
+data:  Acc_selectAllNeigbhorsOf1Node_NL and Acc_selectAllNeigbhorsOf1Node_MAT
+t = 1.5618, df = 115.128, p-value = 0.1211
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -0.01331818  0.11260025
+sample estimates:
+mean of x mean of y 
+0.8039418 0.7543008 
+
+
+	Welch Two Sample t-test
+
+data:  Acc_selectMoreInterconnectedCluster2Clusters_NL and Acc_selectMoreInterconnectedCluster2Clusters_MAT
+t = -0.28, df = 115.772, p-value = 0.78
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -0.03579689  0.02692990
+sample estimates:
+mean of x mean of y 
+0.7714286 0.7758621 
+
+
+	Welch Two Sample t-test
+
+data:  Time_selectNodeWithHighestDegree2_NL and Time_selectNodeWithHighestDegree2_MAT
+t = -5.1011, df = 78.457, p-value = 2.292e-06
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -6.064700 -2.659985
+sample estimates:
+mean of x mean of y 
+ 8.503175 12.865517 
+
+
+	Welch Two Sample t-test
+
+data:  Time_selectAllNeigbhorsOf1Node_NL and Time_selectAllNeigbhorsOf1Node_MAT
+t = 1.0516, df = 84.351, p-value = 0.296
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -1.130217  3.667382
+sample estimates:
+mean of x mean of y 
+ 19.94444  18.67586 
+
+
+	Welch Two Sample t-test
+
+data:  Time_selectMoreInterconnectedCluster2Clusters_NL and Time_selectMoreInterconnectedCluster2Clusters_MAT
+t = -2.971, df = 63.608, p-value = 0.004186
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -5.537649 -1.084354
+sample estimates:
+mean of x mean of y 
+ 4.547619  7.858621 
+
