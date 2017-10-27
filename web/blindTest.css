@@ -1,0 +1,54 @@
+.blindTestImg{
+    float:right;
+}            
+.btAnswer{
+    padding-top:60px;
+    padding-bottom:60px;
+}
+.btAnswerbox{
+    margin-left: 10px;
+}
+.btQnblock{
+    width: 250px;
+    float:left;
+    padding-left:40px;
+    padding-left:20px;
+    padding-right:20px;
+    border: 2px solid gray;
+    margin-left: 30px
+}
+#btQnblock2, #btQnblock3{
+    width: 250px;
+    margin-left: 30px;
+    padding-left:20px;
+    padding-right:20px;
+    border: 2px solid gray;
+    margin-bottom: 30px;
+
+}
+.btAnswerbox[type="number"] {
+    width:80px;
+}
+#btWholeBlock{
+    padding-bottom: 10px;
+    /* border: solid 2px black;
+   width: 1000px;*/
+   height: 800px;
+}
+.bt-qn-and-ans{
+    // border-bottom: solid 2px gray;
+    padding-top: 10px;
+}
+#btButton{
+    margin-left: 10px
+}
+#btFeedback{
+    display:none;
+    color:red
+}
+#colorBlindessTestDiv{
+    min-width:500px;
+    height: 800px;
+    margin: 20px 50px;
+    padding: 20px 50px;
+}

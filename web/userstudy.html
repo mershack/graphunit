@@ -13,6 +13,9 @@ and open the template in the editor.
         <script src="http://d3js.org/d3.v3.js"></script> 
         <script src="jquery-1.10.2.js"></script>
         <script type="text/javascript" src="utils.js"></script>
+        <script type="text/javascript" src="blindTest.js"></script>
+        <link rel="stylesheet" type="text/css" href="blindTest.css">
+        <!-- <script type="text/javascript" src="manageOffFocus.js"></script> -->
         <style type="text/css" >
             #viewers{
                 border:2px solid;
@@ -48,6 +51,14 @@ and open the template in the editor.
                 padding: 10px;
                 font-size: 120%;
             }
+            #questionChangedNotification{
+                float: right;
+                width: 350px;
+                height: 780px;
+                border: solid #000;
+                padding: 10px;
+                font-size: 120%; 
+            }
             #checkAnswer{
                 display:none;
             }
@@ -65,11 +76,16 @@ and open the template in the editor.
                 display: none;
             }
             #blankViewer{
-                border: 1px solid;
+                border: 2px solid;
                 height: 840px;
                 width: 850px;
                 float: left;
                 display: none;
+                position: absolute;
+                left: 8px;
+                top: 8px;
+                background: white;
+                z-index: 1000;
             }
             #durationCountDown{
                 margin-left: 50px;
@@ -125,6 +141,7 @@ and open the template in the editor.
             var currQuestionTime = 0;
             var gettingTurkID = "false";
             var durationRecorded = false;
+            var timedout = false;
             var nodePosInterval;
             var datasetInterval;
             var questionsPrepared = false;
@@ -132,9 +149,27 @@ and open the template in the editor.
             var visNoteShown = false;
             var inputInterfaceInterval;
             var inputValues;
+            var windowWidth, windowHeight;
+            var previousQuestion = "";
+            var colorBlindnessTestAnswers = "";
+
+            /**For a color blindness test that we will be doing **/
+            var checkColorBlindess = true;
+            var colorBlindnessChecked = false;
+            var some_answers = [];
+            var some_answersArrCnt = 0;
+            var two_hours_default_time_limit = 7200;   //default time for questions which are unlimited time
+
+
+
+            //var blankViewer;
+            //var viewersFrame;
             window.onload = function() {
 
                 if (checkBrowserSupport() === true) {
+
+                    //   viewersFrame = document.getElementById("viewers");
+                    // blankViewer = document.getElementById("blankViewer");
 
                     getInstruction();
                 }
@@ -148,18 +183,20 @@ and open the template in the editor.
 
             window.onkeyup = function(event) {
 
-                event = event || window.event; // IE-ism
-
-                var keyCode = event.keyCode;
-                // alert(studystarted);
-                //alert(keyCode);
-
-                if (keyCode == 13 && (studystarted == true || trainingstarted == true)) { //click the next                     
-                    advanceButtonClicked();
-                }
-                else if (keyCode == 13 && (gettingTurkId == true)) {
-                    startStudy();  //call the start study method, which the button would have called anyway.
-                }
+                /*  event = event || window.event; // IE-ism
+                 
+                 var keyCode = event.keyCode;
+                 // alert(studystarted);
+                 //alert(keyCode);
+                 // if(study)
+                 if (keyCode == 13 && (studystarted == true || trainingstarted == true)) { //click the next                     
+                 advanceButtonClicked();
+                 }
+                 else if (keyCode == 13 && (gettingTurkId == true)) {
+                 startStudy();  //call the start study method, which the button would have called anyway.
+                 }
+                 
+                 */
 
 
             };
@@ -168,6 +205,10 @@ and open the template in the editor.
                 trainingstarted = true;
                 getQuestion();
             }
+
+
+
+
 
 
             /*If you want to change the default introduction, you need to have a method set introduction in your viewers*/
@@ -329,9 +370,13 @@ and open the template in the editor.
 
 
                         //get the window width
-                        var windowWidth = window.innerWidth
+                        windowWidth = window.innerWidth
                                 || document.documentElement.clientWidth
                                 || document.body.clientWidth;
+
+                        windowHeight = window.innerHeight
+                                || document.documentElement.clientHeight
+                                || document.body.clientHeight;
 
                         var totalWidth = width + propControlWidth + 50;
 
@@ -400,17 +445,18 @@ and open the template in the editor.
                     document.getElementById("nextButton").style.display = "block";
                     stage++;
                 }
+                //get the question
+                //get the nodes involved in the question
+                var previousAnswer = document.getElementById("selectedAnswer").value; //get the value of the previous Answer
 
                 if (isTutorial === "true") {
                     document.getElementById("correctnessOfAnswer").innerHTML = "";
                     checkIsTutorial();
                 }
-
-                //get the question
-                //get the nodes involved in the question
-                var previousAnswer = document.getElementById("selectedAnswer").value; //get the value of the previous Answer
-
-
+                else {
+                    some_answers.push(previousAnswer);
+                    // alert(some_answers);
+                }
                 //reset the selected answer for subsequent questions
                 document.getElementById("selectedAnswer").value = "";
                 var studyid = document.getElementById("studyid").value;
@@ -418,13 +464,16 @@ and open the template in the editor.
                 var command = "getQuestion";
                 var url = "StudyManager?command=" + command + "&previousAnswer="
                         + previousAnswer + "&previousTime=" + currQuestionTime + "&studyid=" + studyid;
+
                 var xmlHttpRequest = getXMLHttpRequest();
 
                 xmlHttpRequest.onreadystatechange = function()
                 {
                     if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
                     {
+                        console.log('______ '+ xmlHttpRequest.responseText);
                         var split = (xmlHttpRequest.responseText).split("::");
+
                         if (split[0] === "ChangeViewers") {
                             //TODO: //change the url of the viewer Frame to the new viewer
                             var newViewerUrl = split[1].trim();
@@ -435,22 +484,33 @@ and open the template in the editor.
                             // getAndSetDataset();
                             //wait a couple of seconds and call the getQuestion method again
                             setTimeout(getQuestion, 1000);
-                        }
-                        else if (split[0] === "Finished") {
-                            //alert("Finished Study");
+                        } else if (split[0] === "EndOfQuantitative") {
+                            //this is our cue to save the miscellanous information before the actual completion.
+                            saveMiscellaneousInfo();
+                        } else if (split[0] === "Finished") {
                             var turkcode = split[1];
                             endOfQuantitative(turkcode);
-                        }
-                        else if (split[0] === "Feedback") {
+                        } else if (split[0] === "Feedback") {
                             //call the qualitative function
                             showQualitativeQuestions(xmlHttpRequest.responseText);
-                        }
-
-
-                        else {
+                        } else {
                             var qnheader = split[0];
                             var question = split[1];
-                            //check if the method of the viewer needs the question to be changed. And change it accordingly.
+                            
+                            console.log(split[0]);
+                            console.log(split[1]);
+                            
+                            console.log('RESPONSE TEXT: ' + xmlHttpRequest.responseText);
+
+                            var originalqn = question.trim();
+
+                            // alert(question);
+                            if (question.trim() === "Remember answers found for previously answered connectivity questions") {
+                                //we will hide the viewer for this task. //this is a hack.
+                                showBlankViewer();
+                            } 
+                            
+                            //change the question now
                             var iframe = document.getElementById("viewerFrame");
                             if (typeof iframe.contentWindow.changeQuestion == "function") {
                                 var newquestion = iframe.contentWindow.changeQuestion(question.trim());
@@ -459,49 +519,96 @@ and open the template in the editor.
                                 }
                             }
 
-                            //get the legend of the question if there is some 
-                            if (typeof iframe.contentWindow.getQuestionLegend == "function") {
-                                var imgname = "";
-                                imgname = iframe.contentWindow.getQuestionLegend(question.trim());
-                                showTaskLegend(imgname);
-                            }
-                            //get the note for the visualization if there is some.
-                            if (typeof iframe.contentWindow.getVisualizationNote == "function" && !visNoteShown) {
-                                var note = "";
-                                note = iframe.contentWindow.getVisualizationNote();
-                                showVisualizationNote(note);
-                                visNoteShown = true;
-                            }
+                            //alert(qnheader);
 
-                            if (typeof iframe.contentWindow.getVisualizationHint == "function") {
-                                var hint = "";
-                                hint = iframe.contentWindow.getVisualizationHint();
-                                showVisualizationHint(hint);
-                            }
+                            //Notify the user about the question group they will be working on.
+                            if (previousQuestion !== "" && previousQuestion !== question
 
+                                    && ((qnheader.indexOf("Training Question") > -1)
+                                            ||
+                                            qnheader.indexOf("Study Question") > -1)
+                                    && (qnheader.indexOf("(1/") < 0)
 
+                                    ) {
+                                //alert("The current question you will be working on is " + question);
 
-                            maxQuestionDuration = parseInt(split[2]);  // the maximum time for this task
-                            document.getElementById("noteHeader").innerHTML = qnheader;
-                            document.getElementById("note").innerHTML = question;
+                                var qnChgdNotify = document.getElementById("questionChangedNotification");
 
-                            document.getElementById("selectedAnswer").value = "";
+                                document.getElementById("propControl").style.display = "none";
+                                qnChgdNotify.style.display = "block";
 
-                            getAnswerControllers();
-
-                            //do not show the nodes if the study has not been started, 
-                            // in that case,they will be shown when the start study button is clicked.
-                            if (!(isTutorial === "false" && studystarted === false)) {
-                                getNodes();
+                                document.getElementById("questionChangedNotificationQuestion").innerHTML = question;
+                                document.getElementById("currentQuestion").value = question;
+                                document.getElementById("currentQnHeader").value = qnheader;
+                                document.getElementById("currentMaxTime").value = split[2];
+                                previousQuestion = question; 
                             }
                             else {
-                                //deselect the previous nodes 
-                                deselectPrevNodes();
-                            }
+                                document.getElementById("currentQuestion").value = question;
+                                document.getElementById("currentQnHeader").value = qnheader;
+                                document.getElementById("currentMaxTime").value = split[2];
 
-                            revealViewer();
-                            if (studystarted == true) {
-                                startQuestionDurationCountDown();
+                                //check if the method of the viewer needs the question to be changed. And change it accordingly.
+                                /*    var iframe = document.getElementById("viewerFrame");
+                                 if (typeof iframe.contentWindow.changeQuestion == "function") {
+                                 var newquestion = iframe.contentWindow.changeQuestion(question.trim());
+                                 if (newquestion !== "") { //if a newquestion was returned that set the question with  the new question
+                                 question = newquestion;
+                                 }
+                                 }
+                                 */
+
+
+                                previousQuestion = question; 
+
+                                //get the legend of the question if there is some 
+                                if (typeof iframe.contentWindow.getQuestionLegend == "function") {
+                                    var imgname = "";
+                                    imgname = iframe.contentWindow.getQuestionLegend(question.trim());
+                                    showTaskLegend(imgname);
+                                }
+                                //get the note for the visualization if there is some.
+                                if (typeof iframe.contentWindow.getVisualizationNote == "function" && !visNoteShown) {
+                                    var note = "";
+                                    note = iframe.contentWindow.getVisualizationNote();
+                                    showVisualizationNote(note);
+                                    visNoteShown = true;
+                                }
+
+                                if (typeof iframe.contentWindow.getVisualizationHint == "function") {
+                                    var hint = "";
+                                    hint = iframe.contentWindow.getVisualizationHint();
+                                    showVisualizationHint(hint);
+                                }
+
+                                maxQuestionDuration = parseInt(split[2]);  // the maximum time for this task
+                                document.getElementById("noteHeader").innerHTML = qnheader;
+                                document.getElementById("note").innerHTML = question;
+
+                                document.getElementById("selectedAnswer").value = "";
+
+                                getAnswerControllers();
+
+                                //do not show the nodes if the study has not been started, 
+                                // in that case,they will be shown when the start study button is clicked.
+                                if (!(isTutorial === "false" && studystarted === false)) {
+                                    getNodes();
+                                } else {
+                                    //deselect the previous nodes 
+                                    deselectPrevNodes();
+                                }
+
+                                // alert(question);
+                                if (originalqn === "Remember answers found for previously answered connectivity questions") {
+                                    //we will hide the viewer for this task. //this is a hack.
+                                    showBlankViewer();
+                                }  else {
+                                    revealViewer();
+                                }
+
+                                if (studystarted == true) {
+                                    startQuestionDurationCountDown();
+                                }
                             }
                             /*  else {
                              gettingTurkID = "false";
@@ -609,13 +716,99 @@ and open the template in the editor.
              *  
              **/
             function displayNodes(nodesStr) {
-                //alert(getInputInterface());
-                var nodesArr = nodesStr.split(",");
-                //get the inputInterface name                
-                var inpInterfaceName = getInputInterface();
-                var iframeContentWindow = document.getElementById("viewerFrame").contentWindow;
-                //call the method 
-                iframeContentWindow.window[inpInterfaceName](nodesArr);
+                //alert("displaying nodes");
+
+                //alert(nodesStr);
+                if (nodesStr !== "") {
+                    var split = nodesStr.split("::");
+
+                    //var nodesArr = nodesStr.split(",");
+                    var nodesArr = split[0].split(",");
+
+                    var typesArr = split[1].split(",");
+
+                    var nodesArr2 = nodesArr;
+                    var typesArr2 = typesArr;
+
+                    nodesArr = [];
+                    typesArr = [];
+                    var inputAnswerOptionsArr = [];
+
+                    (some_answers);
+
+                    //this is a hack for a specific task
+                    // alert(question);
+
+                    var question = document.getElementById("currentQuestion").value;
+
+                    // alert(typesArr2);
+                    //make sure you do not pass nodes that are part of a question as an input
+                    for (var i = 0; i < typesArr2.length; i++) {
+                        if (typesArr2[i].trim() === "partOfAnswer") {
+                            inputAnswerOptionsArr.push(nodesArr2[i]);
+                        }
+                        else if (!(typesArr2[i].trim() === "partOfQuestion")) {
+                            nodesArr.push(nodesArr2[i]);
+                            typesArr.push(typesArr2[i]);
+                        }
+                    }
+
+
+                    var iframe = document.getElementById("viewerFrame");
+                    if (typeof iframe.contentWindow.changeQuestion == "function") {
+                        var newquestion = iframe.contentWindow.changeQuestion(question.trim(), nodesArr2, typesArr2);
+                        if (newquestion !== "") { //if a newquestion was returned that set the question with  the new question
+                            question = newquestion;
+                        }
+                        if (newquestion !== "") {
+                            document.getElementById("note").innerHTML = question;
+                        }
+
+                    }
+                    if (question.trim() === "Remember the nodes used in previous common neigbhbor task") {
+                        // alert("okay");
+                        // In the first task you identified that bread, now highlighted, was connected to two ingredients. Can you select them?"
+                        if (some_answers.length > 0) {
+                            // alert("here");
+                            question = "In the first task you identified that " + some_answers[some_answersArrCnt]
+                                    + ", now highlighted, was connected to two ingredients. Can you select them?";
+
+                            nodesArr.push(some_answers[some_answersArrCnt]);
+                            some_answersArrCnt++;
+                            document.getElementById("note").innerHTML = question;
+
+                        }
+
+                    }
+
+                    setInputAnswerOptions("");
+                    // alert(inputAnswerOptionsArr[0]);
+                    // alert("ansOptions "+inputAnswerOptionsArr);
+                    if (inputAnswerOptionsArr.length > 0) {
+
+                        if (inputAnswerOptionsArr[0]) {
+                            setInputAnswerOptions(inputAnswerOptionsArr[0]);
+                            // alert("not null");
+                        }
+                        //set it in case answer controllers have already been done
+                        if (getInputAnswersControllersAlreadySet() === true) {
+                            setUpInputOptionsAnswerControllerWithArg(inputAnswerOptionsArr[0]);
+                        }
+
+
+                    }
+                    //get the inputInterface name                
+                    var inpInterfaceName = getInputInterface();
+                    var iframeContentWindow = document.getElementById("viewerFrame").contentWindow;
+                    //call the method 
+                    iframeContentWindow.window[inpInterfaceName](nodesArr, typesArr);
+                }
+                else {
+                    var inpInterfaceName = getInputInterface();
+                    var iframeContentWindow = document.getElementById("viewerFrame").contentWindow;
+                    //call the method 
+                    iframeContentWindow.window[inpInterfaceName]([], []); //send empty arrays
+                }
             }
 
 
@@ -677,8 +870,20 @@ and open the template in the editor.
 
             function startQuestionDurationCountDown() {
                 currDuration = maxQuestionDuration;
+
+                if (maxQuestionDuration <= 0) {
+                    currDuration = two_hours_default_time_limit;
+                }
+
                 durationRecorded = false;
+                timedout = false;
+                //  if (maxQuestionDuration > 0) {
                 questionDurationIntv = setInterval("questionDurationCountDown()", 1000);
+                //}
+
+                if (!(maxQuestionDuration > 0)) { //hide the countdown
+                    document.getElementById("durationCountDown").innerHTML = " ";
+                }
             }
 
             /**
@@ -688,10 +893,17 @@ and open the template in the editor.
             function questionDurationCountDown() {
                 currDuration--;
 
-                document.getElementById("durationCountDown").innerHTML = "Duration:  " + currDuration;
+
+                if (maxQuestionDuration > 0) { //only show the timer if the max-duration is greater than 0
+                    document.getElementById("durationCountDown").innerHTML = "Duration:  " + currDuration;
+                }
+                else {
+                    document.getElementById("durationCountDown").innerHTML = " ";
+                }
 
                 if (currDuration === 0) {
                     //show blank screen for the viewer
+                    timedout = true;
                     continueAfterQuestionDurationOver();
                     showBlankViewer();
                 }
@@ -700,32 +912,48 @@ and open the template in the editor.
              * function to hide the viewer 
              */
             function showBlankViewer() {
-                document.getElementById("viewers").style.display = "none";
+                //document.getElementById("viewers").style.display = "none";
+                //document.getElementById("blankViewer").style.display = "block";
+
+                //   document.getElementById("viewers").style.display = "none";
                 document.getElementById("blankViewer").style.display = "block";
             }
             /**
              *  function to reveal the viewer
              */
             function revealViewer() {
-                document.getElementById("blankViewer").style.display = "none";
-                document.getElementById("viewers").style.display = "block";
+                $("#blankViewer").hide();
+                // $("#viewers").show();
+
+                //document.getElementById("blankViewer").style.display = "none";
+                //document.getElementById("viewers").style.display = "block";
+                //document.getElementById("blankViewer").style.display = "none";
+                //document.getElementById("viewers").style.display = "block";
+                //alert("hey2");
             }
             /**
              * function that records the duration of the current question and continues to the next question.
              */
             function continueAfterQuestionDurationOver() {
-                currQuestionTime = maxQuestionDuration - currDuration;//record the time.
+
+
+                //check if the time was unlimited
+                if (maxQuestionDuration > 0) {
+                    currQuestionTime = maxQuestionDuration - currDuration;//record the time
+                }
+                else {
+                    currQuestionTime = two_hours_default_time_limit - currDuration;//record the time
+                }
+
+
                 clearInterval(questionDurationIntv);  //clear the interval variable                
                 durationRecorded = true;
+                //  alert("here");
             }
             /*
              * function that is executed when the next button is clicked.   
              */
             function advanceButtonClicked() {
-                if (durationRecorded === false) {
-                    continueAfterQuestionDurationOver();
-                }
-
                 //for widgets we will get the answer from the answer widget
                 if (getAnswerGroup() === "widget") {
                     var answer = document.getElementById("selectedAnswer").value;
@@ -733,54 +961,47 @@ and open the template in the editor.
                         alert("Please provide a valid answer before continuing");
                         return false;
                     }
-                }
-                //for interface we will get the answer from the interface method of the visualization
-                else if (getAnswerGroup() === "interface") {
+                } else if (getAnswerGroup() === "interface") {
+                    console.log('interface***');
+                    //for interface we will get the answer from the interface method of the visualization                
                     //we will get the output by calling the interface method to get the output
                     var iframe = document.getElementById("viewerFrame");
-
                     var outInterfaceName = getOutputInterface();
-
-
+                    
                     if (typeof iframe.contentWindow.window[outInterfaceName] == "function") {
-
                         var output = iframe.contentWindow.window[outInterfaceName]();
-
                         var outputStr = "";
-
-                       
+                        
                         for (var i = 0; i < output.length; i++) {
                             if (i === 0) {
                                 outputStr = output[i];
-                            }
-                            else {
+                            } else {
                                 outputStr += ";;" + output[i];
                             }
                         }
+                        
+                        //if user was timedout before they could select an answer.
+                        if (outputStr === "" && timedout === true) {
+                            outputStr = "timedout";
 
-                        //alert(outputStr);
-
-
-                        if (output === "") {
+                        }
+                        if (outputStr === "") {
                             alert("Please provide a valid answer before continuing");
                             return false;
                         }
-
+                                                
                         document.getElementById("selectedAnswer").value = outputStr;
-
-
-                        //alert(document.getElementById("selectedAnswer").value);
-                    }
-                    else {
+                    } else {
                         alert("The output method that returns the output is not implemented.");
                     }
                 }
 
+                if (durationRecorded === false) {
+                    continueAfterQuestionDurationOver();
+                }
 
                 //now call the question get again.
                 getQuestion();
-
-
             }
 
             /**
@@ -919,33 +1140,62 @@ and open the template in the editor.
                 document.getElementById("study").style.display = "block";
             }
 
+            function showColorBlindnessTest() {
+                //show the color blindess Test
+                document.getElementById("colorBlindessTestDiv").style.display = "block";
+            }
+            function   hideColorBlindnessTest() {
+
+                // alert("I'm here");
+
+
+                colorBlindnessTestAnswers = getColorBlindTestAnswers();
+
+                // alert(colorBlindnessTestAnswers);
+                document.getElementById("colorBlindessTestDiv").style.display = "none";
+
+                colorBlindnessChecked = true;
+                getPreQualitativeQuestions();
+            }
+
+
             function getPreQualitativeQuestions() {
 
-                var studyid = document.getElementById("studyid").value;
+                if (checkColorBlindess === true && colorBlindnessChecked === false) { //hide the introduction div and show the study div.
+                    document.getElementById("introduction").style.display = "none";
+                    showColorBlindnessTest();
+                }
+                else {//do 
+                    //for this current study (i.e. Nov-Dec 2015, I will like to check for color blindness test before the qualitative questions
+
+                    var studyid = document.getElementById("studyid").value;
 
 
-                var command = "getPreQualitativeQuestions";
-                var url = "StudyManager?command=" + command + "&studyid=" + studyid;
+                    var command = "getPreQualitativeQuestions";
+                    var url = "StudyManager?command=" + command + "&studyid=" + studyid;
 
-                var xmlHttpRequest = getXMLHttpRequest();
+                    var xmlHttpRequest = getXMLHttpRequest();
 
-                xmlHttpRequest.onreadystatechange = function()
-                {
-                    if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
+                    xmlHttpRequest.onreadystatechange = function()
                     {
-                        // alert(xmlHttpRequest.responseText);
+                        if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
+                        {
+                            // alert(xmlHttpRequest.responseText);
 
-                        if (xmlHttpRequest.responseText === "") {
-                            showTheStudy();
+                            if (xmlHttpRequest.responseText === "") {
+                                showTheStudy();
+                            }
+                            else {
+                                showTheStudy();
+                                showPreQualitativeQuestions(xmlHttpRequest.responseText);
+                            }
                         }
-                        else {
-                            showTheStudy();
-                            showPreQualitativeQuestions(xmlHttpRequest.responseText);
-                        }
-                    }
-                };
-                xmlHttpRequest.open("GET", url, true);
-                xmlHttpRequest.send();
+                    };
+                    xmlHttpRequest.open("GET", url, true);
+                    xmlHttpRequest.send();
+                }
+
+
             }
 
 
@@ -986,6 +1236,158 @@ and open the template in the editor.
                 }
                 return false;
             }
+
+            function saveMiscellaneousInfo() {
+                //I will save the offFocusTime
+                //I will save the window width and the window height
+
+                // alert("here2");
+                //var offFocusTime = getTotalOffFocusTime();
+
+                var offFocusTime = "notRecorded";
+
+                if (colorBlindnessTestAnswers === "") {
+                    colorBlindnessTestAnswers = "no color-blind-test";
+                }
+
+                //get the window width
+                windowWidth = window.innerWidth
+                        || document.documentElement.clientWidth
+                        || document.body.clientWidth;
+
+                windowHeight = window.innerHeight
+                        || document.documentElement.clientHeight
+                        || document.body.clientHeight;
+
+
+
+
+
+                //  alert(offFocusTime + " is the offFocus time ");
+
+                var dateAndTime = Date();
+
+                //alert("about to start saving miscellaneous info");
+
+                //alert(dateAndTime);
+                var command = "saveMiscellaneousInfo";
+                var studyid = document.getElementById("studyid").value;
+
+
+
+
+
+                var url = "StudyManager?command=" + command
+                        + "&offFocusTime=" + offFocusTime
+                        + "&windowWidth=" + windowWidth
+                        + "&windowHeight=" + windowHeight
+                        + "&dateAndTime=" + dateAndTime
+                        + "&colorBlindnessTestAnswers=" + colorBlindnessTestAnswers
+                        + "&studyid=" + studyid;
+
+                //   alert(url);
+
+                // alert(url);
+
+                var xmlHttpRequest = getXMLHttpRequest();
+
+                xmlHttpRequest.onreadystatechange = function()
+                {
+                    if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
+                    {
+                        //now get the question method again after saving the miscellaneous information
+                        getQuestion();
+                    }
+                };
+
+                xmlHttpRequest.open("GET", url, true);
+                xmlHttpRequest.send();
+
+
+
+
+
+            }
+
+
+            function afterQuestionChangedNotification() {
+
+                var qnheader = document.getElementById("currentQnHeader").value;
+                var question = document.getElementById("currentQuestion").value;
+                var maxtime = document.getElementById("currentMaxTime").value;
+
+
+                document.getElementById("questionChangedNotification").style.display = "none";
+                document.getElementById("propControl").style.display = "block";
+
+                // previousQuestion = question;
+                //check if the method of the viewer needs the question to be changed. And change it accordingly.
+                var iframe = document.getElementById("viewerFrame");
+                if (typeof iframe.contentWindow.changeQuestion == "function") {
+                    var newquestion = iframe.contentWindow.changeQuestion(question.trim());
+                    if (newquestion !== "") { //if a newquestion was returned that set the question with  the new question
+                        question = newquestion;
+                    }
+                }
+
+                //get the legend of the question if there is some 
+                if (typeof iframe.contentWindow.getQuestionLegend == "function") {
+                    var imgname = "";
+                    imgname = iframe.contentWindow.getQuestionLegend(question.trim());
+                    showTaskLegend(imgname);
+                }
+                //get the note for the visualization if there is some.
+                if (typeof iframe.contentWindow.getVisualizationNote == "function" && !visNoteShown) {
+                    var note = "";
+                    note = iframe.contentWindow.getVisualizationNote();
+                    showVisualizationNote(note);
+                    visNoteShown = true;
+                }
+
+                if (typeof iframe.contentWindow.getVisualizationHint == "function") {
+                    var hint = "";
+                    hint = iframe.contentWindow.getVisualizationHint();
+                    showVisualizationHint(hint);
+                }
+
+                maxQuestionDuration = parseInt(maxtime);  // the maximum time for this task
+                document.getElementById("noteHeader").innerHTML = qnheader;
+                document.getElementById("note").innerHTML = question;
+
+                document.getElementById("selectedAnswer").value = "";
+
+                getAnswerControllers();
+
+                //do not show the nodes if the study has not been started, 
+                // in that case,they will be shown when the start study button is clicked.
+                if (!(isTutorial === "false" && studystarted === false)) {
+                    getNodes();
+                }
+                else {
+                    //deselect the previous nodes 
+                    deselectPrevNodes();
+                }
+                //this is also a hack
+                // alert(question);
+                if (question.trim() === "Remember answers found for previously answered connectivity questions") {
+                    //  alert("okay got it");
+                    //we will hide the viewer for this task. //this is a hack.
+                    showBlankViewer();
+                }
+                else {
+                    revealViewer();
+                }
+
+
+
+
+                if (studystarted == true) {
+                    startQuestionDurationCountDown();
+                }
+
+            }
+
+
         </script>
 
 
@@ -997,9 +1399,16 @@ and open the template in the editor.
                 browsers. Sorry for the inconvenience.</h3>
         </div>
 
-
         <div id="introduction">
-            <u>(Please only use either Chrome or Firefox for this study. And please don't use the back button on the browser)</u><br>
+
+
+            <!-- <u>(Please only use either Chrome or Firefox for this study. And please don't use the back button on the browser)</u><br> -->
+
+
+
+            <u>(Please only use Chrome or Firefox. Don't use the browser's back button.
+                Don't use tablets; the tasks can only be completed using an external mouse)</u><br>
+
             <br>
             <input class="center" type="button"  value="Got it! Take me to the study" onclick="getPreQualitativeQuestions();">
             <br><br>
@@ -1023,7 +1432,7 @@ and open the template in the editor.
             </div>
 
             <br /> <br/>
-            <input type="button" class="center" value="Got it! Take me to the study" onclick="showTheStudy();">
+            <input type="button" class="center" value="Got it! Take me to the study" onclick="getPreQualitativeQuestions();">
         </div>
 
         <div id="study" style="display:none;">
@@ -1043,7 +1452,12 @@ and open the template in the editor.
 
 
 
-            <div id="propControl">  
+
+
+
+
+
+            <div id="propControl">                
 
                 <div id="studyControls">
 
@@ -1057,18 +1471,18 @@ and open the template in the editor.
                     <input type="hidden" id="selectedAnswer" value=""/>
                     <input type="hidden" id="questionDuration" value="" />
 
-                    <br>
+
 
                     <input id="beginTutorial" type="button" value="Begin Training" onclick="startTraining();" />
 
                     <p id="checkAnswer"><input type="button" value="Check Answer" onclick="checkAnswer();"/> &nbsp;&nbsp;
                         <label id="correctnessOfAnswer"></label>
                     </p>
-                    <br>
+                    <!-- <br> -->
                     <input id="nextButton" type="button" value="Next" onclick="advanceButtonClicked()" style="display:none;"/>
 
 
-                    <br /><br /> 
+                    <br /> <!--<br />  -->  
 
                     <div id="durationCountDown">
 
@@ -1105,16 +1519,195 @@ and open the template in the editor.
                     <h4>Before you start</h4>
                     <p>Please answer the following question(s) before starting the tasks for this study</p>
                 </div>
-
-
                 <div id="endOfQuantitative">
                     <h4>End of Study</h4>
                     <p> This is your completion code <span id="turkcode"></span></p>
                     <p></p>
                 </div>
-
             </div>
 
+            <div id="questionChangedNotification" style="display:none">
+                <p>Please note that the question group is changing...                   
+                </p>
+
+                <p>
+                    The following    question group is: <br /> <br/>
+                    <strong>
+                        <span id="questionChangedNotificationQuestion"> </span>
+                    </strong>
+                </p>
+                <br /><br/>
+
+
+                <input type="button" value="Got it" onclick="afterQuestionChangedNotification();"/>
+
+                <input type="hidden" id="currentQuestion" value="" />
+                <input type="hidden" id="currentQnHeader" value=""/>
+                <input type="hidden" id="currentMaxTime" value="" />
+            </div>
+
+        </div>
+
+        <div id="colorBlindessTestDiv" style="display:none;">
+            <h3>
+                Please take a few moment to complete the following color-blindness test before starting the study.
+                This information will only be used for research purposes and will not affect your performance on this study.
+                We may use this information as a Mechanical Turk qualification for future studies.
+
+            </h3>
+
+            <p>   Please enter in the text boxes the number you see in the image next to it.
+                Click the finished button when done
+                <button id="btButton" onclick="checkAllColorBlindTestAnswers();">Finished Color Blindness Test</button>
+            </p>
+
+            <p id="btFeedback"> Please you have not answered all questions, 
+                Please check for empty boxes or correct answers that are not numbers.</p>
+            <br/>
+            <div id="btWholeBlock">
+                <div class="btQnblock" id="btQnblock1" >       
+                    <div class="bt-qn-and-ans">
+                        <img class="blindTestImg" src="color-blindness-test-images/img1.gif" width="120" height="120"/>
+                        <div class="btAnswer">
+                            1.   <input type="number" min="0"  id="btAnswer1" class="btAnswerbox" />    
+                        </div>   
+                        <hr/>
+                    </div>
+
+                    <!--
+                    <div class="bt-qn-and-ans">
+                        <img class="blindTestImg" src="color-blindness-test-images/img2.gif" width="120" height="120"/>
+                        <div class="btAnswer">
+                            2.   <input type="number" min="0"  id="btAnswer2" class="btAnswerbox" />    
+                        </div>   
+                        <hr/>
+                    </div>
+                    -->
+
+                    <div class="bt-qn-and-ans">
+                        <img class="blindTestImg" src="color-blindness-test-images/img3.gif" width="120" height="120"/>
+                        <div class="btAnswer">
+                            2.   <input type="number" min="0"  id="btAnswer2" class="btAnswerbox" />    
+                        </div>   
+                        <hr/>
+                    </div>
+
+                    <!--
+                                        <div class="bt-qn-and-ans">
+                                            <img class="blindTestImg" src="color-blindness-test-images/img4.gif" width="120" height="120"/>
+                                            <div class="btAnswer">
+                                                4.   <input type="number" min="0"  id="btAnswer4" class="btAnswerbox" />    
+                                            </div>   
+                                            <hr/>
+                                        </div> 
+                    -->
+
+                    <div class="bt-qn-and-ans">
+                        <img class="blindTestImg" src="color-blindness-test-images/img5.gif" width="120" height="120"/>
+                        <div class="btAnswer">
+                            3.   <input type="number" min="0"  id="btAnswer3" class="btAnswerbox" />    
+                        </div>   
+
+                    </div>
+
+                </div>
+
+
+                <div class="btQnblock" id="btQnblock2" >       
+
+                    <!--
+                  <div class="bt-qn-and-ans">
+                      <img class="blindTestImg" src="color-blindness-test-images/img6.gif" width="120" height="120"/>
+                      <div class="btAnswer">
+                          6.   <input type="number" min="0"  id="btAnswer6" class="btAnswerbox" />    
+                      </div>   
+                      <hr/>
+                  </div>
+                    -->
+                    <div class="bt-qn-and-ans">
+                        <img class="blindTestImg" src="color-blindness-test-images/img7.gif" width="120" height="120"/>
+                        <div class="btAnswer">
+                            4.   <input type="number" min="0"  id="btAnswer4" class="btAnswerbox" />    
+                        </div>   
+                        <hr/>
+                    </div>
+                    <!--
+    
+                   <div class="bt-qn-and-ans">
+                       <img class="blindTestImg" src="color-blindness-test-images/img8.gif" width="120" height="120"/>
+                       <div class="btAnswer">
+                           8.   <input type="number" min="0"  id="btAnswer8" class="btAnswerbox" />    
+                       </div>   
+                       <hr/>
+                   </div>
+                    -->
+
+                    <div class="bt-qn-and-ans">
+                        <img class="blindTestImg" src="color-blindness-test-images/img9.gif" width="120" height="120"/>
+                        <div class="btAnswer">
+                            5.   <input type="number" min="0"  id="btAnswer5" class="btAnswerbox" />    
+                        </div>   
+                        <hr/>
+                    </div>
+
+                    <!--
+                   <div class="bt-qn-and-ans">
+                       <img class="blindTestImg" src="color-blindness-test-images/img10.gif" width="120" height="120"/>
+                       <div class="btAnswer">
+                           10.   <input type="number" min="0"  id="btAnswer10" class="btAnswerbox" />    
+                       </div>   
+                 
+                </div>
+                    -->
+
+                    <div class="bt-qn-and-ans">
+                        <img class="blindTestImg" src="color-blindness-test-images/img11.gif" width="120" height="120"/>
+                        <div class="btAnswer">
+                            6.   <input type="number" min="0"  id="btAnswer6" class="btAnswerbox" />    
+                        </div>   
+
+                    </div>
+
+                </div>
+
+                <div class="btQnblock" id="btQnblock3" >       
+
+                    <!--
+                                        <div class="bt-qn-and-ans">
+                                            <img class="blindTestImg" src="color-blindness-test-images/img12.gif" width="120" height="120"/>
+                                            <div class="btAnswer">
+                                                12.   <input type="number" min="0"  id="btAnswer12" class="btAnswerbox" />    
+                                            </div>   
+                                            <hr/>
+                                        </div>
+                    -->
+                    <div class="bt-qn-and-ans">
+                        <img class="blindTestImg" src="color-blindness-test-images/img13.gif" width="120" height="120"/>
+                        <div class="btAnswer">
+                            7.   <input type="number" min="0"  id="btAnswer7" class="btAnswerbox" />    
+                        </div>   
+                        <hr/>
+                    </div>
+                    <!--
+                                        <div class="bt-qn-and-ans">
+                                            <img class="blindTestImg" src="color-blindness-test-images/img16.gif" width="120" height="120"/>
+                                            <div class="btAnswer">
+                                                14.   <input type="number" min="0"  id="btAnswer14" class="btAnswerbox" />    
+                                            </div>   
+                                            <hr/>
+                                        </div>
+                    -->
+                    <div class="bt-qn-and-ans">
+                        <img class="blindTestImg" src="color-blindness-test-images/img17.gif" width="120" height="120"/>
+                        <div class="btAnswer">
+                            8.   <input type="number" min="0"  id="btAnswer8" class="btAnswerbox" />    
+                        </div>   
+
+                    </div>
+                </div>
+
+
+            </div>   
 
         </div>
 

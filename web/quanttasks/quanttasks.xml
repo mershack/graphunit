@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<quanttasks>	
+<?xml version="1.0" encoding="UTF-8"?><quanttasks>	
 	<task>
 		<taskname>neighborTwoStep</taskname>
 		<inputinterface>selectNodes</inputinterface>
@@ -13,6 +12,14 @@
 	</task>
 	<task>
 	   <taskname>neighborOneStep</taskname>
+	   <inputinterface>selectNode</inputinterface>
+	   <outputinterface>getOutput</outputinterface>
+	   <answertype>widget:::options:::yes::no</answertype>
+	   <taskquestion>Are the two highlighted nodes directly connected?</taskquestion>
+	   <inputsize>2</inputsize>
+	</task>	
+	<task>
+	   <taskname>neighborOneStepOneNode</taskname>
 	   <inputinterface>selectNode</inputinterface>
 	   <outputinterface>getOutput</outputinterface>
 	   <answertype>widget:::options:::yes::no</answertype>
@@ -43,11 +50,29 @@
 	    <taskname>neighborTwoNodesMaxcount</taskname>
 		<inputinterface>selectNode</inputinterface>
 	    <outputinterface>getOutput</outputinterface>
-		<answertype>integer</answertype>
+		<answertype>widget:::integer</answertype>		
 		<taskquestion>
 			What is the maximum number of nodes connected to one of the two highlighted nodes?
 		</taskquestion>
 		<inputsize>2</inputsize>
+		<input>		
+			<inputtype>singleSelection</inputtype>
+			<inputdescription>Single Selection</inputdescription>
+		</input>
+		<input>		
+			<inputtype>singleSelection</inputtype>
+			<inputdescription>Single Selection</inputdescription>
+		</input>				
+	</task>		
+	<task>
+	    <taskname>howManyClustersAreThere</taskname>
+		<inputinterface>selectNode</inputinterface>
+	    <outputinterface>getOutput</outputinterface>
+		<answertype>widget:::integer</answertype>		
+		<taskquestion>
+			How many groups are there in the visualization?
+		</taskquestion>
+		<inputsize>0</inputsize>
 	</task>		
     <task>
 	  <taskname>mostConnectedNode</taskname>
@@ -67,10 +92,204 @@
 	   <taskquestion>
 			Select the most connected node
 		</taskquestion>
-		<inputsize>0</inputsize>
+		<inputsize>2</inputsize>
+		<input>
+			<inputtype>singleSelection</inputtype>
+			<inputdescription>Single Selection</inputdescription>
+		</input>
+		<input>
+			<inputtype>singleSelection</inputtype>
+			<inputdescription>Single Selection</inputdescription>
+		</input>
+	</task>	
+	<task>
+		<taskname>selectAllNeigbhorsOf1Node</taskname>
+		<inputinterface>selectNode</inputinterface>
+		<outputinterface>getOutput</outputinterface>
+		<answertype>interface:::Selection:::</answertype>
+		<taskquestion>Select all the neighbors of the highlighted node</taskquestion>
+		<inputsize>1</inputsize>
+		<input>
+			<inputtype>singleSelection</inputtype>
+			<inputdescription>Single Selection</inputdescription>
+		</input>
 	</task>
-
+    <task>
+		<taskname>selectAllCommonNeighborsOf2Nodes</taskname>
+		<inputinterface>selectNode</inputinterface>
+		<outputinterface>getOutput</outputinterface>
+		<answertype>interface:::Selection:::</answertype>
+		<taskquestion>Select all of the common neighbors of the two highlighted nodes</taskquestion>
+		<inputsize>2</inputsize>
+		<input>
+			<inputtype>singleSelection</inputtype>
+			<inputdescription>Single Selection</inputdescription>
+		</input>
+		<input>
+			<inputtype>singleSelection</inputtype>
+			<inputdescription>Single Selection</inputdescription>
+		</input>
+	</task>
+	<task>
+		<taskname>selectMoreInterconnectedCluster2Clusters</taskname>
+		<inputinterface>selectNode</inputinterface>
+		<outputinterface>getOutput</outputinterface>
+		<answertype>widget:::colors:::red::blue</answertype>
+		<taskquestion>Given the two highlighted clusters (red and blue), select the one that is more interconnected</taskquestion>
+		<inputsize>2</inputsize>
+		<input>
+			<inputtype>clusterSelection</inputtype>
+			<inputdescription>Single Selection</inputdescription>
+		</input>
+		<input>
+			<inputtype>clusterSelection</inputtype>
+			<inputdescription>Single Selection</inputdescription>
+		</input>
+	</task>
+	<task>
+	    <taskname>shortestPathAmongPairsOfNodes2</taskname>
+		<inputinterface>selectNode</inputinterface>
+		<outputinterface>getOutput</outputinterface>
+		<answertype>widget:::colors:::red::blue</answertype>
+		<taskquestion>Given the two highlighted pairs of ingredients (red and blue), can you estimate which pair has a shorter "ingredient path" between them?</taskquestion>
+		<inputsize>2</inputsize>
+		<input>
+			<inputtype>groupSelection</inputtype>
+			<inputdescription>This type is for group selection. Each input will be groups of nodes</inputdescription>
+		</input>
+		<input>
+			<inputtype>groupSelection</inputtype>
+			<inputdescription>This type is for group selection. Each input will be groups of nodes</inputdescription>
+		</input>
+	</task>
+	<task>
+	    <taskname>selectLargerGroup</taskname>
+		<inputinterface>selectNode</inputinterface>
+		<outputinterface>getOutput</outputinterface>
+		<answertype>widget:::colors:::red::blue</answertype>
+		<taskquestion>Given the two highlighted groups (red and blue), estimate which group is larger.</taskquestion>
+		<inputsize>2</inputsize>
+		<input>
+			<inputtype>clusterSelection</inputtype>
+			<inputdescription>This type is for group selection. Each input will be groups of nodes</inputdescription>
+		</input>
+		<input>
+			<inputtype>clusterSelection</inputtype>
+			<inputdescription>This type is for group selection. Each input will be groups of nodes</inputdescription>
+		</input>
+	</task>
+	<task>
+		<taskname>does2NodeBelongToSameCluster</taskname>
+		<inputinterface>selectNode</inputinterface>
+		<outputinterface>getOutput</outputinterface>
+		<answertype>widget:::options:::yes::no</answertype>
+		<taskquestion>
+				Does the two highlighted ingredients belong to the same group?
+		</taskquestion>				
+		<inputsize>2</inputsize>
+		<input>
+			<inputtype>singleSelection</inputtype>
+			<inputdescription>Single Selection</inputdescription>
+		</input>
+		<input>
+			<inputtype>singleSelection</inputtype>
+			<inputdescription>Single Selection</inputdescription>
+		</input>
+	</task>
+	<task>
+	    <taskname>shortestPathBetween2Nodes</taskname>
+		<inputinterface>selectNode</inputinterface>
+		<outputinterface>getOutput</outputinterface>
+		<answertype>widget:::integer</answertype>
+		<taskquestion>Given the two highlighted ingredients, what is the shortest number of links between them?</taskquestion>
+		<inputsize>2</inputsize>
+		<input>
+			<inputtype>singleSelection</inputtype>
+			<inputdescription>This type is for single selection.</inputdescription>
+		</input>
+		<input>
+			<inputtype>singleSelection</inputtype>
+			<inputdescription>This type is for group selection.</inputdescription>
+		</input>
+	</task>
 	
+	<task>
+	    <taskname>isANodeConnectedToANamedNode</taskname>
+		<inputinterface>selectNode</inputinterface>
+		<outputinterface>getOutput</outputinterface>
+		<answertype>widget:::options:::yes::no</answertype>
+		<taskquestion>Is the highlighted ingredient connected to a named ingredient?</taskquestion>
+		<inputsize>2</inputsize>
+		<input>
+			<inputtype>highlighted-and-partOfQuestion</inputtype>
+			<inputdescription>This type is for single selection.</inputdescription>
+		</input>
+		<input>
+			<inputtype>partOfQuestion</inputtype>
+			<inputdescription>This type is for group selection.</inputdescription>
+		</input>
+	</task>
+	<task>
+	    <taskname>areTwoNamedNodesConnected</taskname>
+		<inputinterface>selectNode</inputinterface>
+		<outputinterface>getOutput</outputinterface>
+		<answertype>widget:::options:::yes::no</answertype>
+		<taskquestion>Remember answers found for previously answered connectivity questions</taskquestion>
+		<inputsize>2</inputsize>
+		<input>
+			<inputtype>partOfQuestion</inputtype>
+			<inputdescription>This type is for single selection.</inputdescription>
+		</input>
+		<input>
+			<inputtype>partOfQuestion</inputtype>
+			<inputdescription>This type is for group selection.</inputdescription>
+		</input>
+	</task>
+	<task>
+	    <taskname>howManyNodesAreWithin2LinkReach</taskname>
+		<inputinterface>selectNode</inputinterface>
+	    <outputinterface>getOutput</outputinterface>
+		<answertype>widget:::integer</answertype>		
+		<taskquestion>
+		    How many ingredients are within two connections from the highlighted ingredient?
+		</taskquestion>
+		<inputsize>1</inputsize>
+		<input>
+			<inputtype>singleSelection</inputtype>
+			<inputdescription>Single Selection</inputdescription>
+		</input>
+	</task>		
 	
-	
-</quanttasks>	
+	<task>
+		<taskname>allCommonNeighborOf2NodesFromOptions</taskname>
+		<inputinterface>selectNode</inputinterface>
+		<outputinterface>getOutput</outputinterface>
+		<answertype>widget:::inputOptions:::</answertype>
+		<taskquestion>
+		     Which of the following ingredients is connected to both highlighted ingredients?
+		</taskquestion>
+		<inputsize>3</inputsize>
+		<input>
+			<inputtype>singleSelection</inputtype>
+			<inputdescription>Single Selection</inputdescription>
+		</input>
+		<input>
+			<inputtype>singleSelection</inputtype>
+			<inputdescription>Single Selection</inputdescription>
+		</input>
+		<input>
+			<inputtype>partOfAnswer</inputtype>
+			<inputdescription>This is part of a multiple choice answer option</inputdescription>
+		</input>		
+	</task>	
+	<task>
+		<taskname>rememberNodesUsedInCommonNeighbor</taskname>
+		<inputinterface>selectNode</inputinterface>
+		<outputinterface>getOutput</outputinterface>
+		<answertype>interface:::interface-type:::none</answertype>
+		<taskquestion>
+		     Remember the nodes used in previous common neigbhbor task
+		</taskquestion>
+		<inputsize>0</inputsize>		
+	</task>	
+</quanttasks>

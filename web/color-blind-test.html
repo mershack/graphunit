@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Color-BlindTest</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <script type="text/javascript" src="taskinstances.js"></script>
+        <script type="text/javascript" src="question-properties.js"></script>
+        <script src="http://d3js.org/d3.v3.js"></script> 
+        <script src="jquery-1.10.2.js"></script>
+        <script type="text/javascript" src="utils.js"></script>
+        <style type="text/css" >
+            .blindTestImg{
+                float:right;
+            }            
+            .btAnswer{
+                padding-top:60px;
+                padding-bottom:60px;
+            }
+            .btAnswerbox{
+                margin-left: 10px;
+            }
+            .btQnblock{
+                width: 250px;
+                float:left;
+                padding-left:40px;
+                 padding-left:20px;
+                padding-right:20px;
+                 border: 2px solid gray;
+            }
+            #btQnblock2, #btQnblock3{
+                   width: 250px;
+                margin-left: 40px;
+                padding-left:20px;
+                padding-right:20px;
+                border: 2px solid gray;
+                
+            }
+           .btAnswerbox[type="number"] {
+                width:80px;
+            }
+            #btWholeBlock{
+              padding-bottom: 10px;
+                 /* border: solid 2px black;
+                width: 1000px;
+                height: 800px;*/
+            }
+            .bt-qn-and-ans{
+               // border-bottom: solid 2px gray;
+                  padding-top: 10px;
+            }
+            #btButton{
+                margin-left: 10px
+            }
+            #btFeedback{
+                display:none;
+                color:red
+            }
+
+        </style>
+        <script type="text/javascript">
+
+            var allBlindTestAnswers = "";
+            function checkGivenBlindTestAnswers(){
+                var answer="";
+                for(var i=1; i<=15; i++){
+                    answer = document.getElementById("btAnswer"+i).value;
+                
+                //alert(answer);
+                    if(answer===""){
+                      document.getElementById("btFeedback").style.display="block";
+                      return false;
+                    }
+                    
+                   if(i===1){
+                       allBlindTestAnswers=answer;
+                   }
+                   else{
+                      allBlindTestAnswers +=","+answer;
+                   }
+                }
+                
+                alert(allBlindTestAnswers);
+            }
+            
+            function getBlindTestAnswers(){
+                return allBlindTestAnswers;
+            }
+
+
+
+        </script>
+    </head>
+    <body>   
+        <h3>
+           Please take a few moment to complete the following color-blindness test before starting the study.
+            This is a simple color-blindness test for research purposes, 
+            which will not affect the your performance on this and will not be related to you in any way.
+        </h3>
+
+        <p>   Please enter in the text boxes the number you see in the image next to it.
+           Click the finished button when done
+        <button id="btButton" onclick="checkGivenBlindTestAnswers();">Finished Color Blindness Test</button>
+        </p>
+        <p id="btFeedback"> Please you have not answered all questions, 
+            Please check for empty boxes or correct answers that are not numbers.</p>
+        <div id="btWholeBlock">
+            <div class="btQnblock" id="btQnblock1" >       
+            <div class="bt-qn-and-ans">
+                <img class="blindTestImg" src="color-blindness-test-images/img1.gif" width="120" height="120"/>
+                <div class="btAnswer">
+                    1.   <input type="number" min="0"  id="btAnswer1" class="btAnswerbox" />    
+                </div>   
+                  <hr/>
+            </div>
+
+           <div class="bt-qn-and-ans">
+                <img class="blindTestImg" src="color-blindness-test-images/img2.gif" width="120" height="120"/>
+                <div class="btAnswer">
+                    2.   <input type="number" min="0"  id="btAnswer2" class="btAnswerbox" />    
+                </div>   
+                  <hr/>
+            </div>
+
+            <div class="bt-qn-and-ans">
+                <img class="blindTestImg" src="color-blindness-test-images/img3.gif" width="120" height="120"/>
+                <div class="btAnswer">
+                    3.   <input type="number" min="0"  id="btAnswer3" class="btAnswerbox" />    
+                </div>   
+                  <hr/>
+            </div>
+                
+                
+            <div class="bt-qn-and-ans">
+                <img class="blindTestImg" src="color-blindness-test-images/img4.gif" width="120" height="120"/>
+                <div class="btAnswer">
+                    4.   <input type="number" min="0"  id="btAnswer4" class="btAnswerbox" />    
+                </div>   
+                  <hr/>
+            </div>
+                
+             <div class="bt-qn-and-ans">
+                <img class="blindTestImg" src="color-blindness-test-images/img5.gif" width="120" height="120"/>
+                <div class="btAnswer">
+                    5.   <input type="number" min="0"  id="btAnswer5" class="btAnswerbox" />    
+                </div>   
+                 
+            </div>
+
+        </div>
+
+        <div class="btQnblock" id="btQnblock2" >       
+            <div class="bt-qn-and-ans">
+                <img class="blindTestImg" src="color-blindness-test-images/img6.gif" width="120" height="120"/>
+                <div class="btAnswer">
+                    6.   <input type="number" min="0"  id="btAnswer6" class="btAnswerbox" />    
+                </div>   
+                  <hr/>
+            </div>
+
+             <div class="bt-qn-and-ans">
+                <img class="blindTestImg" src="color-blindness-test-images/img7.gif" width="120" height="120"/>
+                <div class="btAnswer">
+                    7.   <input type="number" min="0"  id="btAnswer7" class="btAnswerbox" />    
+                </div>   
+                  <hr/>
+            </div>
+
+            <div class="bt-qn-and-ans">
+                <img class="blindTestImg" src="color-blindness-test-images/img8.gif" width="120" height="120"/>
+                <div class="btAnswer">
+                    8.   <input type="number" min="0"  id="btAnswer8" class="btAnswerbox" />    
+                </div>   
+                  <hr/>
+            </div>
+            
+             <div class="bt-qn-and-ans">
+                <img class="blindTestImg" src="color-blindness-test-images/img9.gif" width="120" height="120"/>
+                <div class="btAnswer">
+                    9.   <input type="number" min="0"  id="btAnswer9" class="btAnswerbox" />    
+                </div>   
+                  <hr/>
+            </div>
+            
+           <div class="bt-qn-and-ans">
+                <img class="blindTestImg" src="color-blindness-test-images/img10.gif" width="120" height="120"/>
+                <div class="btAnswer">
+                    10.   <input type="number" min="0"  id="btAnswer10" class="btAnswerbox" />    
+                </div>   
+                  
+            </div>
+        </div>
+
+        <div class="btQnblock" id="btQnblock3" >       
+            <div class="bt-qn-and-ans">
+                <img class="blindTestImg" src="color-blindness-test-images/img11.gif" width="120" height="120"/>
+                <div class="btAnswer">
+                    11.   <input type="number" min="0"  id="btAnswer11" class="btAnswerbox" />    
+                </div>   
+                  <hr/>
+            </div>
+
+            <div class="bt-qn-and-ans">
+                <img class="blindTestImg" src="color-blindness-test-images/img12.gif" width="120" height="120"/>
+                <div class="btAnswer">
+                    12.   <input type="number" min="0"  id="btAnswer12" class="btAnswerbox" />    
+                </div>   
+                  <hr/>
+            </div>
+
+           <div class="bt-qn-and-ans">
+                <img class="blindTestImg" src="color-blindness-test-images/img13.gif" width="120" height="120"/>
+                <div class="btAnswer">
+                    13.   <input type="number" min="0"  id="btAnswer13" class="btAnswerbox" />    
+                </div>   
+                  <hr/>
+            </div>
+            <div class="bt-qn-and-ans">
+                <img class="blindTestImg" src="color-blindness-test-images/img16.gif" width="120" height="120"/>
+                <div class="btAnswer">
+                    14.   <input type="number" min="0"  id="btAnswer14" class="btAnswerbox" />    
+                </div>   
+                  <hr/>
+            </div>
+           <div class="bt-qn-and-ans">
+                <img class="blindTestImg" src="color-blindness-test-images/img17.gif" width="120" height="120"/>
+                <div class="btAnswer">
+                    15.   <input type="number" min="0"  id="btAnswer15" class="btAnswerbox" />    
+                </div>   
+                
+            </div>
+        </div>
+            
+            
+        </div>   
+
+
+
+    </body>
+</html>
