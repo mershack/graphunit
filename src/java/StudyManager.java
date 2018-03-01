@@ -499,14 +499,19 @@ public class StudyManager extends HttpServlet {
             upmts.studyType = ((Element) experimentTypeNode.item(0)).getTextContent();
             //get the training size
             if (trainingSizeNode != null && trainingSizeNode.item(0) != null) {
+//                System.out.println("***********Yay!!" + ((Element) trainingSizeNode.item(0)).getTextContent());
                 upmts.trainingSize = Integer.parseInt(((Element) trainingSizeNode.item(0)).getTextContent());
+            } else {
+                System.out.println("The training size is null");
             }
 
             //NB: We do not want training size to be less than 2.
-            if (upmts.trainingSize < 2) {
-                upmts.trainingSize = 2;
-            }
+            //NB:-- I'm temporarily disabling this line to allow some studies without training
+//            if (upmts.trainingSize < 2) {
+//                upmts.trainingSize = 2;
+//            }
 
+            System.out.println("The training size is: "+ upmts.trainingSize);
             //get the condition urls and shortnames
             for (int i = 0; i < conditionNode.getLength(); i++) {
                 Node nNode = conditionNode.item(i);
@@ -769,6 +774,8 @@ public class StudyManager extends HttpServlet {
                 NodeList questionNode = doc2.getElementsByTagName("question");
                 int questionCount = 0;
                 int tutorialCount = 0;
+                
+                System.out.println("size of QuestionNode is: " + questionNode.getLength());
                 for (int temp = 0; temp < questionNode.getLength(); temp++) {
                     Node nNode = questionNode.item(temp);
                     if (nNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -822,11 +829,14 @@ public class StudyManager extends HttpServlet {
                         }
 
                         if (questionCount == questionsize) {
+                            System.out.println("Question size is: " + questionsize);
                             break;
                         }
                     }
                 }
             }
+            
+            System.out.println("The size of evalQuestions****" + upmts.evalQuestions.size());
 
             /**
              * adjust the tasks if it is a within user study
