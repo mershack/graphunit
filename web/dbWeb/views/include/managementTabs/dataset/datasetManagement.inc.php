@@ -17,7 +17,8 @@ $result = $dataset->datasetManagerView();
             </div>
             <div class="col-md-3">
             </div>
-            <button  class="btn btn-primary text-right" data-toggle="modal" data-target="#modalAddDataset">Add Dataset</button>
+            <button id="addDatasetButton" onclick="getDataset(); setDatasetid(<?php echo isset($result[0]) ? ($result[0]['id'] + 1) : 1 ; ?>);" class="btn btn-primary text-right" data-toggle="modal" 
+                    data-target="#modalAddDataset" >Add Dataset</button>
         </div>
     </div>
 
@@ -46,9 +47,10 @@ $result = $dataset->datasetManagerView();
                         ?>
                     </td>
                     <td class="text-right">
+                        <button type="button" onclick="setDatasetid(<?php echo $value['id']; ?>)" class="btn btn-default btn-xs" id="createTaskFor_<?php echo $value['id']; ?>" data-toggle="modal" 
+                                data-target="#modalViewAddTask">Add Task</button>
                         <button type="button" class="btn btn-default btn-xs" onclick="copyDataset('<?php echo $value['name']; ?>', '<?php echo $value['path']; ?>', '<?php echo $value['description']; ?>')">Copy</button>
-                        <button type="button" class="btn btn-default btn-xs" id="editDatasetOpen" data-toggle="modal" 
-                                data-dataset-id="<?php echo $value['id']; ?>" 
+                        <button type="button" onclick="setDatasetid(<?php echo $value['id']; ?>); getDataset();" class="btn btn-default btn-xs" id="editDatasetOpen_<?php echo $value['id']; ?>" data-toggle="modal" 
                                 data-target="#editDataset">Edit</button>
                         <button type="button" class="btn btn-danger btn-xs" onclick="delDataset(<?php echo $value['id']; ?>)">Delete</button>
                     </td>
@@ -61,7 +63,12 @@ $result = $dataset->datasetManagerView();
 </div>
 
 <script type="text/javascript">
+
+    var datasetId;
     var userId = <?php echo $userId; ?>;
+    function setDatasetid(id){
+        datasetId = id;
+    }
     function copyDataset(name, path, description) {
         $.ajax({
             type: "POST",

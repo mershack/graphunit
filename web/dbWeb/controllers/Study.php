@@ -1,8 +1,8 @@
 <?php
 
-require_once '/DatabaseManager.php';
+require_once  (dirname(__FILE__) . '/DatabaseManager.php');
 
-require_once '/Session.php';
+require_once  (dirname(__FILE__) . '/Session.php');
 
 class Study extends DatabaseManager {
     

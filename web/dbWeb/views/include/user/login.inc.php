@@ -15,7 +15,7 @@
         </div>
         <a href="#" id="forgotPassword" onclick="forgotPassword()">Forgot Password?</a>
         <div class="form-group col-sm-offset-5">
-            <button id="submitButtonLogin" disabled="disabled" type="submit" class="btn btn-primary">Login</button>
+            <button id="submitButtonLogin" disabled="disabled" class="btn btn-primary">Login</button>
         </div>
     </form>
 </div>
