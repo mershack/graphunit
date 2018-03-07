@@ -19,6 +19,7 @@ public class StudyParameters {
 
     public ArrayList<String> questions = new ArrayList<String>();
     public ArrayList<Integer> questionSizes = new ArrayList<Integer>();
+    public ArrayList<String> inputTypeList = new ArrayList<String>();
     public ArrayList<String> questionCodes = new ArrayList<String>();
     public ArrayList<Integer> questionMaxTimes = new ArrayList<Integer>();
     public ArrayList<String> viewerConditionUrls = new ArrayList<String>();
@@ -70,5 +71,17 @@ public class StudyParameters {
     public String viewerHeight = "";
     
     public int totalNumOfQuestions = 0;
+    
+    public String userViewerWidth ="";
+    public String userViewerHeight="";
+    public String offFocusTime = "";           
+    public String dateAndTime = "";
+    public String colorBlindnessTestAnswers = "";
+    
+    public String accuracyInfo = "";
+    public String timeInfo = "";
+    public boolean miscellaneousInfoSaved = false;
+    public boolean quantitativeAnswersSaved = false;
+    public boolean qualitativeQnsSent = false;
 
 }

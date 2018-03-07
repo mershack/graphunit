@@ -12,21 +12,25 @@ import java.util.ArrayList;
  * @author Mershack
  */
 public class EvaluationQuestion {
+
     private String question;
     ArrayList<String> nodes;
     private String correctAns;
     private String ansType;
     private ArrayList<String> ansOptions;
-    private boolean isGivenAnsCorrect;
+    private double averageCorrect;
     private String givenAnswer;
     private int timeInSeconds;
     private int maxTimeInSeconds;
     private String answerGroup;
     private String inputInterface;
     private String outputInterface;
+    private int numberMissed;
+    private int numberOfErrors;
+    private String inputTypeStr;
 
-    public EvaluationQuestion(String question, String correctAns, ArrayList<String> nodes, 
-            ArrayList<String> ansOptions, String ansType, String ansGroup, int maxTime, String inputInterface, String outputInterface) {
+    public EvaluationQuestion(String question, String correctAns, ArrayList<String> nodes,
+            ArrayList<String> ansOptions, String ansType, String ansGroup, int maxTime, String inputInterface, String outputInterface, String inputTypeString) {
         this.question = question;
         this.correctAns = correctAns;
         this.nodes = nodes;
@@ -35,8 +39,13 @@ public class EvaluationQuestion {
         this.answerGroup = ansGroup;
         this.inputInterface = inputInterface;
         this.outputInterface = outputInterface;
-        this.isGivenAnsCorrect = false;
+        this.averageCorrect = 0;
         this.maxTimeInSeconds = maxTime;
+        numberMissed = 0;
+        numberOfErrors = 0;
+        inputTypeStr = inputTypeString; //by default
+        
+        //System.out.println("----"+inputTypeStr);
     }
 
     public String getQuestion() {
@@ -103,58 +112,99 @@ public class EvaluationQuestion {
         this.outputInterface = outputInterface;
     }
 
-    
-    
     public String getNodesAsString() {
         String nodesString = "";
         if (nodes.size() > 0) {
             nodesString = nodes.get(0);
             for (int i = 1; i < nodes.size(); i++) {
-                nodesString += "," +nodes.get(i);
+                nodesString += "," + nodes.get(i);
             }
         }
         return nodesString;
     }
-    
-    public String getAnsOptionsAsString(){
-        String ansOptionsString = answerGroup + ":::" +ansType +":::";
+
+    public String getAnsOptionsAsString() {
+        String ansOptionsString = answerGroup + ":::" + ansType + ":::";
         //include the answer options
-        if(ansOptions.size()>0){
+        if (ansOptions.size() > 0) {
             ansOptionsString += ansOptions.get(0);
-            for(int i=1; i<ansOptions.size(); i++){
-                ansOptionsString += "::" +ansOptions.get(i);
-            }            
-        }
-        else{
+            for (int i = 1; i < ansOptions.size(); i++) {
+                ansOptionsString += "::" + ansOptions.get(i);
+            }
+        } else {
             ansOptionsString += "none";
         }
         //now include the names the inputinterface and output interface names.
-        ansOptionsString += ":::"+inputInterface + ":::"+outputInterface;
-        
-        return ansOptionsString;        
+        ansOptionsString += ":::" + inputInterface + ":::" + outputInterface;
+
+        return ansOptionsString;
     }
-    
-    public void setIsGivenAnsCorrect(String ans){
-        if(ans.equalsIgnoreCase(correctAns)){
-            isGivenAnsCorrect = true;
+
+    public void setAverageCorrect(String ans) {
+
+        String correctAnsArr[] = correctAns.split(";;");
+        String givenAnsArr[] = ans.split(";;");
+       
+        if (correctAnsArr.length < 2) {
+            if (ans.equalsIgnoreCase(correctAns)) {
+                averageCorrect = 1;
+            } else {
+                averageCorrect = 0;
+            }
         }
         else{
-            isGivenAnsCorrect = false;
+            //check the percentage correct.
+            int cnt = 0, numOfErrors=0;
+            boolean exists =false;
+            for(int i=0; i<givenAnsArr.length; i++){
+                exists = false;
+                for(int j=0; j<correctAnsArr.length; j++){
+                    if(givenAnsArr[i].trim().equalsIgnoreCase(correctAnsArr[j].trim())){
+                        cnt++;
+                        exists = true;
+                        break;
+                    }
+                }
+                //if it doesn't exist, then it is an erroneous selection
+                if(!exists){
+                    numOfErrors++;
+                }
+                
+                
+            }
+            
+            averageCorrect = (double)cnt/correctAnsArr.length;
+            
+           // System.out.println("AverageCorrect is "+ averageCorrect);
+            //calculate the number of missed items 
+            //and the number of erroneous selections
+            
+            numberMissed = correctAnsArr.length - cnt;
+            numberOfErrors = numOfErrors;
+            
+            //System.out.println("Given answer is :: "+ ans);
+            //System.out.println("Correct answer is :: "+ correctAns);
+            
+         //   System.out.println("# of erroneous selection is "+ numberOfErrors);
+           // System.out.println("# selections missed is "+ numberMissed);
+            
+           // System.out.println("#correct is "+ cnt);
         }
-    }
-    
-    public boolean getIsGivenAnsCorrect(){
-        return isGivenAnsCorrect;
+
     }
 
-    public boolean isIsGivenAnsCorrect() {
-        return isGivenAnsCorrect;
+    public double getIsGivenAnsCorrect() {
+        return averageCorrect;
     }
 
-    public void setIsGivenAnsCorrect(boolean isGivenAnsCorrect) {
-        this.isGivenAnsCorrect = isGivenAnsCorrect;
-    }
-  
+    public double isIsGivenAnsCorrect() {
+        return averageCorrect;
+    } 
+
+    /*public void setAverageCorrect(double isGivenAnsCorrect) {
+        this.averageCorrect = isGivenAnsCorrect;
+    } */
+
     public int getTimeInSeconds() {
         return timeInSeconds;
     }
@@ -179,6 +229,29 @@ public class EvaluationQuestion {
         this.givenAnswer = givenAnswer;
     }
 
+   public int getNumberMissed(){
+       return numberMissed;
+   }
+   public int getNumberOfErrors(){
+       return numberOfErrors;
+   }
+
+    public String getInputTypeStr() {
+        return inputTypeStr;
+    }
+
+    public void setInputTypeStr(String inputTypeStr) {
+        this.inputTypeStr = inputTypeStr;
+    }
     
     
+    public String getNodesAndInputTypesAsString(){
+        
+        //System.out.println(inputTypeStr);
+        
+        //System.out.println ("^^^^___^^^^"+ getNodesAsString() + "::"+inputTypeStr);
+        
+        return   getNodesAsString() + "::"+inputTypeStr;
+    }
+   
 }

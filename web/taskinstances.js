@@ -87,6 +87,11 @@ function getSelectedElements() {
 
     if (typeof iframe.contentWindow.window[outInterfaceName] == "function") {
         var selectedElements = iframe.contentWindow.window[outInterfaceName]();
+        
+        //now give command to unselect the selected items.
+        //Ideally, we will use a user-given interface name, but for now we are assuming
+        //the name of that method is unselectSelectedElements
+        iframe.contentWindow.unSelectSelectedElements();
 
         for (var i = 0; i < selectedElements.length; i++) {
             if (i === 0) {
@@ -142,6 +147,7 @@ function saveInstance() {
     }
     //reset the inputs
     inputs = [];
+    //alert(inputStr);
     //push the inputs
     taskInstances.push(inputStr);
 

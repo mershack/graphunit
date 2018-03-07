@@ -17,4 +17,7 @@
 	<answertype>
 		<type>String</type>
 	</answertype>
+	<answertype>
+		<type>StringMediumSize</type>
+	</answertype>
 </QualitativeAnswerTypes>	

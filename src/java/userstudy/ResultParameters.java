@@ -18,6 +18,12 @@ public class ResultParameters {
     public  final String DATA_DIR = "data";
     public ArrayList<String[][]> accuracyResults = new ArrayList<String[][]>();
     public ArrayList<String[][]> accuracyResultsBasic = new ArrayList<String[][]>();
+    
+    
+    public ArrayList<String[][]> errorResultsBasic = new ArrayList<String[][]>();
+    public ArrayList<String[][]> missedResultsBasic = new ArrayList<String[][]>();
+    
+    
 
     public ArrayList<String[][]> timeResults = new ArrayList<String[][]>();
     public ArrayList<String[][]> timeResultsBasic = new ArrayList<String[][]>();

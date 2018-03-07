@@ -9,7 +9,16 @@ var answergroup = "";  //this can be widget or interface.
 var answerDataType; //if answer group is widget, this will be a primary data type such as integer, double etc. If answer group is interface, this will be a name of a method. 
 var inputInterface = "";
 var outputInterface = "";
+var checkAnswerClicked = true;
+var inputAnswerOptions = "";
+var inputAnswersOptionsAlreadySet = false;
 
+function setInputAnswerOptions(optionStr) {
+    inputAnswerOptions = optionStr;
+}
+function getInputAnswersControllersAlreadySet() {
+    return inputAnswersOptionsAlreadySet;
+}
 function getAnswerGroup() {
     return answergroup;
 }
@@ -29,6 +38,8 @@ function getAnswerControllers() {
     var studyid = document.getElementById("studyid").value;
     //  +"&studyid="+studyid;
     //alert("here");
+    inputAnswersOptionsAlreadySet = false;
+    inputAnswerOptions = ""
     var url = "StudyManager?command=getAnswerControllers" + "&studyid=" + studyid;
     var xmlHttpRequest = getXMLHttpRequest();
     xmlHttpRequest.onreadystatechange = function()
@@ -46,19 +57,16 @@ function getAnswerControllers() {
 
 function setUpAnswerControllers(controllersString) {
     //NB: the controllersString will be of the format:   answerGroup:::dataType:::option1::option2:::inputInterface:::outputInterface
-
+//alert("okay");
+//alert(controllersString);
     var split = controllersString.split(":::");
     answergroup = split[0];
     var dataType = split[1];
     inputInterface = split[3];
     outputInterface = split[4];
-
-     //alert(controllersString);
-
-    //alert("answer-group: "+answergroup + " datatype: "+ dataType);    
-
     //remove the previous answer controllers
     removeDivChildren(document.getElementById("answersDiv"));
+    //alert("oh okay");
 
     if (dataType === "options") {
         //get the options
@@ -78,21 +86,104 @@ function setUpAnswerControllers(controllersString) {
     else if (dataType === "string") {
         createStringInput();
     }
+    else if (dataType === "colors") {
+        var split2 = split[2].split("::");
+
+        for (var i = 0; i < split2.length; i++)
+            createColorOption(split2[i], i);
+    }
+    else if (dataType === "inputOptions") {
+        //the inputOptions should already be set by now.
+        setUpInputOptionsAnswerController();
+    }
+    //  answerControllersAlreadySet = true;
+
+
+
+    /*else{
+     alert(split[2]);
+     }*/
+    /*else{
+     alert("*"+dataType + "*")
+     }*/
 
     //show the answer div
     document.getElementById("answersDiv").style.display = "block";
 }
 
-function createAnswerOption(option) {
+
+function setUpInputOptionsAnswerController() {
+//    //note: inputAnswerOptions has already been set by now
+
+    var optionsArr = inputAnswerOptions.split(";;");
+    //alert("somewhere");
+   // alert("okay"  + inputAnswerOptions + "***");
+   // alert(inputAnswersOptionsAlreadySet);
+   // if (inputAnswersOptionsAlreadySet === true) {
+
+    //alert(optionsArr.length);
+        if (optionsArr.length > 0 && optionsArr[0] !== "") {
+            inputAnswersOptionsAlreadySet = true;
+
+            // removeDivChildren(document.getElementById("answersDiv"));
+            for (var i = 0; i < optionsArr.length; i++) {
+
+                createAnswerOption(optionsArr[i]);
+            }
+          
+            //inputAnswerOptions = ""; //empty
+//alert("999 of okay");
+        }
+          inputAnswersOptionsAlreadySet = true;
+        //   alert("here too " + inputAnswerOptions);
+
+//alert("^^ of okay");
+
+
+   // }
+   // alert("end of okay");
+}
+
+function setUpInputOptionsAnswerControllerWithArg(optionStr) {
+
+//alert("okay2");
+    //if (inputAnswersOptionsAlreadySet === false) {
+        removeDivChildren(document.getElementById("answersDiv"));
+        if (optionStr && optionStr.split(";;").length > 0 &&optionStr.split(";;")[0] !== "") {
+            var optionsArr = optionStr.split(";;");
+            for (var i = 0; i < optionsArr.length; i++) {
+                createAnswerOption(optionsArr[i]);
+            }
+            //inputAnswerOptions = ""; //empty
+           
+    //        alert("*** okay2");
+        }
+    //     alert("--- okay2");
+   // }
+   // alert("end of okay2");
+}
+
+function createColorOption(option, i) {
+    var color = "";
+    if (i === 0) {
+        color = "red";
+    }
+    else {
+        color = "blue";
+    }
+    // alert("here")
+
     //createRadio button
     var radio = document.createElement("input");
     radio.setAttribute("type", "radio");
     radio.setAttribute("name", "answer");
-    radio.setAttribute("value", option);
+    radio.setAttribute("value", color);
     radio.setAttribute("onclick", "setSelectedAnswer(this)");
     //create label
     var label = document.createElement("label");
-    label.innerHTML = option;
+    label.setAttribute("style", "background:" + color + "; color:" + color + ";");
+
+    label.innerHTML = "color";
 
     //create a paragraph
     var paragraph = document.createElement("p");
@@ -105,6 +196,33 @@ function createAnswerOption(option) {
     var answerDiv = document.getElementById("answersDiv");
     answerDiv.appendChild(paragraph);
     //answerDiv.appendChild(label);
+}
+
+function createAnswerOption(option) {
+   // alert(option);
+    if (option !== "") { //not empty
+        //createRadio button
+        var radio = document.createElement("input");
+        radio.setAttribute("type", "radio");
+        radio.setAttribute("name", "answer");
+        radio.setAttribute("value", option);
+        radio.setAttribute("onclick", "setSelectedAnswer(this)");
+        //create label
+        var label = document.createElement("label");
+        label.innerHTML = option;
+
+        //create a paragraph
+        var paragraph = document.createElement("p");
+
+        //append the radio and label to the paragraph
+
+        paragraph.appendChild(radio);
+        paragraph.appendChild(label);
+
+        var answerDiv = document.getElementById("answersDiv");
+        answerDiv.appendChild(paragraph);
+        //answerDiv.appendChild(label);   
+    }
 }
 
 function createIntegerInput() {
@@ -140,7 +258,7 @@ function createIntegerInput() {
 
 function createQualRangeInput(li, ind, min, max) {
     var select = document.createElement("select");
-    select.setAttribute("id", "qualAnswer" + ind);
+    select.setAttribute("id", "qualAnsWidget" + ind);
     var opt = document.createElement("option");
     opt.setAttribute("value", "");
     opt.innerHTML = "Select One";
@@ -166,6 +284,28 @@ function createQualStringInput(li, ind) {
 
     input1.setAttribute("type", "text");
     input1.setAttribute("value", "");
+    input1.setAttribute("id", "qualAnsWidget" + ind);
+    input1.setAttribute("onKeyUp", "setQualSelectedAnswer(this," + ind + ")");
+
+    var input2 = document.createElement("input");
+    input2.setAttribute("type", "hidden");
+    input2.setAttribute("id", "qualAnswer" + ind);
+    //var form = document.createElement("form");
+    //  form.setAttribute("onsubmit", "return false;");
+    //form.appendChild(input);
+
+    li.appendChild(input1);
+    li.appendChild(input2);
+}
+
+function createQualMediumSizeStringInput(li, ind) {
+
+    // alert("here");
+    var input1 = document.createElement("textarea");
+
+    input1.setAttribute("rows", "4");
+    input1.setAttribute("cols", "30");
+    input1.setAttribute("id", "qualAnsWidget" + ind);
     input1.setAttribute("onKeyUp", "setQualSelectedAnswer(this," + ind + ")");
 
     var input2 = document.createElement("input");
@@ -181,12 +321,13 @@ function createQualStringInput(li, ind) {
 
 
 
+
 function createQualMultipleChoiceInput(li, ind, choices) {
     //createRadio button
     var input = document.createElement("input");
     input.setAttribute("type", "hidden");
     input.setAttribute("value", "");
-    input.setAttribute("id", "qualAnswer" + ind);
+    input.setAttribute("id", "qualAnsWidget" + ind);
 
     var choicediv = document.createElement("div");
     var split = choices.split("::");
@@ -291,17 +432,22 @@ function showAfterTrialControls() {
     //first hide the studyControls and show the afterTrial controls
     trainingstarted = false;
     gettingTurkId = true;
+
     document.getElementById("studyControls").style.display = "none";
 
     document.getElementById("afterTrialControls").style.display = "block";
     //   document.getElementById("turkId").focus();  
+
 }
 
 function checkAnswer() {
 
-    var givenAnswer = document.getElementById("selectedAnswer").value;
+    checkAnswerClicked = true;
 
+    var givenAnswer = "";
     if (getAnswerGroup() === "widget") {
+        givenAnswer = document.getElementById("selectedAnswer").value;
+
         if (givenAnswer === "") {
             alert("Please provide a valid answer to check its correctness");
             return false;
@@ -311,13 +457,15 @@ function checkAnswer() {
         var iframe = document.getElementById("viewerFrame");
         var outInterfaceName = getOutputInterface();
 
+        //alert(outInterfaceName);
+
         if (typeof iframe.contentWindow.window[outInterfaceName] == "function") {
             var output = iframe.contentWindow.window[outInterfaceName]();
             if (output === "") {
                 alert("Please provide a valid answer to check its correctness");
                 return false;
             }
-            
+
             var outputStr = "";
             for (var i = 0; i < output.length; i++) {
                 if (i === 0) {
@@ -327,9 +475,9 @@ function checkAnswer() {
                     outputStr += ";;" + output[i];
                 }
             }
-
+            //alert(outputStr);
             document.getElementById("selectedAnswer").value = outputStr;
-
+            givenAnswer = document.getElementById("selectedAnswer").value;
         }
         else {
             alert("The output method that returns the output is not implemented.");
@@ -337,7 +485,6 @@ function checkAnswer() {
     }
 
     var studyid = document.getElementById("studyid").value;
-    //  +"&studyid="+studyid;
     var url = "StudyManager?command=checkAnswer&givenAnswer=" + givenAnswer + "&studyid=" + studyid;
     var xmlHttpRequest = getXMLHttpRequest();
     xmlHttpRequest.onreadystatechange = function()
@@ -353,7 +500,10 @@ function checkAnswer() {
 }
 
 function setSelectedAnswer(element) {
+    //alert(element.value);
     document.getElementById("selectedAnswer").value = element.value;
+
+    //   alert(document.getElementById("selectedAnswer").value);
 }
 
 function setQualSelectedAnswer(element, ind) {
@@ -381,6 +531,7 @@ function endOfQuantitative(turkcode) {
 }
 
 function showQualitativeQuestions(qnString) {
+    //alert("omg" + qnString);
     document.getElementById("studyControls").style.display = "none";
     document.getElementById("qualitativeQuestions").style.display = "block";
     var qualqnDiv = document.getElementById("qualitativeQuestions");
@@ -406,6 +557,7 @@ function showQualitativeQuestions(qnString) {
         p1.innerHTML = split2[0];
         li.appendChild(p1);
 
+
         if (split2[1] === "Range") {
             //create a rating input
             var split3 = split2[2].split("::");
@@ -414,12 +566,19 @@ function showQualitativeQuestions(qnString) {
         else if (split2[1] === "String") {
             createQualStringInput(li, i);
         }
+        else if (split2[1] === "StringMediumSize") {
+            //alert("medium-size-string");
+            createQualMediumSizeStringInput(li, i);
+        }
         else if (split2[1] === "MultipleChoice") {
             createQualMultipleChoiceInput(li, i, split2[2]);
         }
         ol.appendChild(li);
     }
     qualqnDiv.appendChild(ol);
+
+
+
 
     //now append a submit button to  the form.
     var button = document.createElement("button");
@@ -428,7 +587,56 @@ function showQualitativeQuestions(qnString) {
 
     qualqnDiv.appendChild(document.createElement("br"));
     qualqnDiv.appendChild(button);
+
+    qualqnDiv.appendChild(document.createElement("br"));
+    qualqnDiv.appendChild(document.createElement("br"));
+
+    /*
+     var note = document.createElement("p");
+     note.innerHTML = "<b>Please Note:</b> "
+     +" In case you submit and you did not get the turk-code, click on this button";
+     var button2 = document.createElement("button");
+     button2.setAttribute("onclick", "resolveTurkCodeIssue()");
+     button2.innerHTML = "Resolve Turk Code issue";
+     qualqnDiv.appendChild(note);
+     qualqnDiv.appendChild(button2);
+     */
 }
+
+function resolveTurkCodeIssue() {
+    var studyid = document.getElementById("studyid").value;
+
+    var qualqnDiv = document.getElementById("qualitativeQuestions");
+    var p = document.createElement("p");
+
+
+    var dt = new Date();
+
+    var n = dt.getTime();
+
+
+    if (studyid && n)
+        p.innerHTML = "Please use the following turk Code: <b> 4ST-" + studyid + "-" + n + "</b>";
+    else if (n) {
+        p.innerHTML = "Please use the following turk Code: <b>1STUCODYD7E" + "</b>";
+    }
+    else if (studyid) {
+        p.innerHTML = "Please use the following turk Code: <b>1STUCODY" + studyid + "</b>";
+    }
+    else {
+        p.innerHTML = "Please use the following turk Code:<b> 1STUCODYD7E" + "</b>";
+    }
+    qualqnDiv.appendChild(p);
+
+
+    var p2 = document.createElement("p");
+    p2.innerHTML = "Please send a quick email with the text answers you provided above"
+            + " to meshhome16@gmail.com.  Thank you and Sorry for the incovenience!"
+
+    qualqnDiv.appendChild(p2);
+
+}
+
 
 function submitQualitativeAnswers() {
     //get all the qualitative answers, send them to the servlet, and then display the turkcode
@@ -436,9 +644,9 @@ function submitQualitativeAnswers() {
 
     var allQualitativeAnswers = "";
 
-    //check if all qualitative questions has been answered before coninuing
+    //check if all qualitative questions has been answered before continuing
     for (var i = 1; i <= numOfQualQns; i++) {
-        var answer = document.getElementById("qualAnswer" + i).value;
+        var answer = document.getElementById("qualAnsWidget" + i).value;
 
         if (answer === "") {//if no answer, return false;
             alert("Please provide answers to all the questions before you continue");
@@ -452,10 +660,14 @@ function submitQualitativeAnswers() {
             allQualitativeAnswers += "::::" + answer;
         }
     }
+
+    //alert("here now");
     //now send the answers to the server 
     var studyid = document.getElementById("studyid").value;
     var url = "StudyManager?command=setQualitativeAnswers" + "&qualitativeAnswers=" + allQualitativeAnswers
             + "&studyid=" + studyid;
+    //alert(url);
+
     var xmlHttpRequest = getXMLHttpRequest();
     xmlHttpRequest.onreadystatechange = function()
     {

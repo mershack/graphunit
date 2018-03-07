@@ -85,7 +85,7 @@ public class StudyManager extends HttpServlet {
                 String nameofstudy;
                 String studyId;
 
-                // System.out.println("__the command is " + command);
+                System.out.println("__the command is " + command);
                 if (command.equalsIgnoreCase("instruction")) {
                     //for the first time, get the name of the study from the session otherwise expect it to be passed
                     nameofstudy = session.getAttribute("studyname").toString();
@@ -100,9 +100,7 @@ public class StudyManager extends HttpServlet {
                 StudyParameters upmts = (StudyParameters) usersStudyParameters.get(studyId); // get the user's specific parameters
 
                 if (upmts == null) {//first time, initialize the variable
-                    upmts = new StudyParameters();
-                    // System.out.println("**NEW**");
-
+                    upmts = new StudyParameters();                   
                 }
                 //System.out.println("---The command is " + command);
 
@@ -117,6 +115,10 @@ public class StudyManager extends HttpServlet {
                     upmts.testCounter = 0;
                     upmts.tutorialCounter = 0;
                     upmts.viewerConditionCounter = 0;
+                    upmts.miscellaneousInfoSaved = false;
+                    upmts.quantitativeAnswersSaved = false;
+                    upmts.qualitativeQnsSent = false;
+
                     msg = getInstruction(upmts); //get the instruction
                     //now append the study name to the study so that it can be returned later.
                     msg += "::" + nameofstudy;
@@ -124,7 +126,7 @@ public class StudyManager extends HttpServlet {
                 } else if (command.equalsIgnoreCase("getPreQualitativeQuestions")) {
                     //send the qualitative questions if there is some, otherwise send an empty string
                     String allqualQuestions = "";
-
+                    
                     //System.out.println("The size of preQual is " + upmts.qualEvalQuestionBefore.size());
                     for (int i = 0; i < upmts.qualEvalQuestionBefore.size(); i++) {
                         if (i == 0) {
@@ -164,6 +166,7 @@ public class StudyManager extends HttpServlet {
                         upmts.viewerConditionCounter++;
                         upmts.viewersChanged = true;
                     } else if (upmts.testCounter < upmts.evalQuestions.size()) {
+
                         if (upmts.testCounter > 0) {//get the previousAnswer
 
                             if (upmts.testCounter == 1) { //let's label this as an ongoing study                                    
@@ -179,9 +182,13 @@ public class StudyManager extends HttpServlet {
                             String prevTime = request.getParameter("previousTime");
                             //System.out.println("Previous Time is ::: " + prevTime);
                             int previousTime = Integer.parseInt(prevTime);
-                            upmts.evalQuestions.get(upmts.testCounter - 1).setIsGivenAnsCorrect(prevAnswer.trim());
+                            upmts.evalQuestions.get(upmts.testCounter - 1).setAverageCorrect(prevAnswer.trim());
+
+                            System.out.println("Given-answer is -" + prevAnswer);
                             upmts.evalQuestions.get(upmts.testCounter - 1).setGivenAnswer(prevAnswer.trim());
                             upmts.evalQuestions.get(upmts.testCounter - 1).setTimeInSeconds(previousTime);
+
+                            System.out.println("question size is" + upmts.evalQuestions.size());
                         }
                         upmts.isTutorial = false;
                         upmts.testCounter++;
@@ -189,6 +196,9 @@ public class StudyManager extends HttpServlet {
                         msg = "Study Question (" + upmts.testCounter + "/" + upmts.evalQuestions.size() + ")";
                         msg += "::  " + upmts.evalQuestions.get(upmts.testCounter - 1).getQuestion(); //the question
                         msg += "::" + upmts.evalQuestions.get(upmts.testCounter - 1).getMaxTimeInSeconds();  //add the time also
+
+                        System.out.println("Testcounter is " + upmts.testCounter);
+                        System.out.println("MSG***: " + msg);
                     } else {
                         String prevAnswer = request.getParameter("previousAnswer");
                         String prevTime = request.getParameter("previousTime");
@@ -196,35 +206,77 @@ public class StudyManager extends HttpServlet {
                         //  System.out.println("Previous Time is ::: " + prevTime);
                         int previousTime = Integer.parseInt(prevTime);
 
-                        upmts.evalQuestions.get(upmts.testCounter - 1).setIsGivenAnsCorrect(prevAnswer.trim());
-                        upmts.evalQuestions.get(upmts.testCounter - 1).setGivenAnswer(prevAnswer.trim());
-                        upmts.evalQuestions.get(upmts.testCounter - 1).setTimeInSeconds(previousTime);
+                        if (upmts.testCounter - 1 < upmts.evalQuestions.size()) {//save it only now
+                            System.out.println("**Given-answer is - " + prevAnswer);
+                            System.out.println("**Testcounter is " + upmts.testCounter);
+                            upmts.evalQuestions.get(upmts.testCounter - 1).setAverageCorrect(prevAnswer.trim());
+                            upmts.evalQuestions.get(upmts.testCounter - 1).setGivenAnswer(prevAnswer.trim());
+                            upmts.evalQuestions.get(upmts.testCounter - 1).setTimeInSeconds(previousTime);
+
+                            upmts.testCounter++;
+                        }
 
                         // writeAnswersToFile(upmts);
                         //find the qualitative questions and send them out, if there are none then send the finished msg
-                        if (upmts.qualEvalQuestionAfter.size() == 0) {
-                            writeAnswersToFile(upmts);
-                            String studyNameReverse = new StringBuffer(upmts.studyname.toUpperCase()).reverse().toString();
-
-                            //System.out.println("Name Reversed is:: "+studyNameReverse);
-                            msg = "Finished::" + upmts.turkCode + studyNameReverse;
+                        //check if the miscellaneous information have been saved                        
+                        if (!upmts.miscellaneousInfoSaved) {
+                            msg = "EndOfQuantitative:: ";
+                            upmts.miscellaneousInfoSaved = true;
                         } else {
+                            // check if there are no more qualitative questions
+                            // and then write answers to file
+
+                            //write answers to file:
+                            if (!upmts.quantitativeAnswersSaved) {
+                                writeQuantitativeAnswersToFile(upmts);
+                                upmts.quantitativeAnswersSaved = true;
+                            }
+
+                            if (upmts.qualEvalQuestionAfter.size() == 0) {
+                                //writeAnswersToFile(upmts);
+                                String studyNameReverse = new StringBuffer(upmts.studyname.toUpperCase()).reverse().toString();
+
+                                //System.out.println("Name Reversed is:: "+studyNameReverse);
+                                msg = "Finished::" + upmts.turkCode + studyNameReverse;
+                            } else if (!upmts.qualitativeQnsSent) {
                                 //send the qualitative questions                          
 
-                            //get the qualitative questions
-                            String allqualQuestions = "";
-                            for (int i = 0; i < upmts.qualEvalQuestionAfter.size(); i++) {
+                                //get the qualitative questions
+                                String allqualQuestions = "";
+                                for (int i = 0; i < upmts.qualEvalQuestionAfter.size(); i++) {
 
-                                if (i == 0) {
-                                    allqualQuestions = upmts.qualQuestionsAfter.get(i) + ":::" + upmts.qualEvalQuestionAfter.get(i).getAnsDetailsAsString();
-                                } else {
-                                    allqualQuestions += "::::" + upmts.qualQuestionsAfter.get(i) + ":::" + upmts.qualEvalQuestionAfter.get(i).getAnsDetailsAsString();
+                                    if (i == 0) {
+                                        allqualQuestions = upmts.qualQuestionsAfter.get(i) + ":::" + upmts.qualEvalQuestionAfter.get(i).getAnsDetailsAsString();
+                                    } else {
+                                        allqualQuestions += "::::" + upmts.qualQuestionsAfter.get(i) + ":::" + upmts.qualEvalQuestionAfter.get(i).getAnsDetailsAsString();
+                                    }
+
                                 }
-
+                                upmts.qualitativeQnsSent = true;
+                                msg = "Feedback::::" + allqualQuestions;
+                            } else {
+                                String studyNameReverse = new StringBuffer(upmts.studyname.toUpperCase()).reverse().toString();
+                                msg = "Finished::" + upmts.turkCode + studyNameReverse;
                             }
-                            msg = "Feedback::::" + allqualQuestions;
+
                         }
+
                     }
+                } else if (command.equalsIgnoreCase("saveMiscellaneousInfo")) {
+                    //System.out.println("We are about to store the Miscellaneous information");
+                    //first get the miscellaneous info and then do the following
+                    String windowWidth = request.getParameter("windowWidth");
+                    String windowHeight = request.getParameter("windowHeight");
+                    String dateAndTime = request.getParameter("dateAndTime");
+                    String offFocusTime = request.getParameter("offFocusTime");
+                    String colorBlindTestAnswers = request.getParameter("colorBlindnessTestAnswers");
+                    //set these values in the upmts so that we can access them later.
+                    upmts.userViewerWidth = windowWidth;
+                    upmts.userViewerHeight = windowHeight;
+                    upmts.offFocusTime = offFocusTime;
+                    upmts.dateAndTime = dateAndTime;
+                    upmts.colorBlindnessTestAnswers = colorBlindTestAnswers;
+
                 } else if (command.equalsIgnoreCase("setPreQualitativeAnswers")) {
                     String qualAnswers = request.getParameter("preQualitativeAnswers");
                     String split[] = qualAnswers.split("::::");
@@ -246,16 +298,19 @@ public class StudyManager extends HttpServlet {
                         upmts.qualEvalQuestionAfter.get(i).setAnswer(split[i]);
                         //  System.out.println(upmts.qualEvalQuestionAfter.get(i).getAnswer() + "****");
                     }
-                    writeAnswersToFile(upmts);
-                    msg = "Finished::" + upmts.turkCode;
+                    String studyNameReverse = new StringBuffer(upmts.studyname.toUpperCase()).reverse().toString();
+                    writeQualitativeAnswersToFile(upmts);
+                    msg = "Finished::" + upmts.turkCode + studyNameReverse;
 
                 } else if (command.equalsIgnoreCase("getNodes")) {
                     //get the nodes for that question as string.      
                     if (upmts.isTutorial) {
                         //System.out.println("**** "+ (tutorialCounter - 1));
-                        msg = upmts.tutorialQuestions.get(upmts.tutorialCounter - 1).getNodesAsString();
+                        //msg = upmts.tutorialQuestions.get(upmts.tutorialCounter - 1).getNodesAsString();
+                        msg = upmts.tutorialQuestions.get(upmts.tutorialCounter - 1).getNodesAndInputTypesAsString();
                     } else {
-                        msg = upmts.evalQuestions.get(upmts.testCounter - 1).getNodesAsString();
+                        //msg = upmts.evalQuestions.get(upmts.testCounter - 1).getNodesAsString();
+                        msg = upmts.evalQuestions.get(upmts.testCounter - 1).getNodesAndInputTypesAsString();
                     }
                 } else if (command.equalsIgnoreCase("getAnswerControllers")) {
                     if (upmts.isTutorial) {
@@ -273,14 +328,33 @@ public class StudyManager extends HttpServlet {
                 } else if (command.equalsIgnoreCase("checkAnswer")) {
                     //check if the given answer is right, return "Correct" if right or "Wrong" if wrong
                     String givenAns = request.getParameter("givenAnswer").trim();
+
+                    upmts.tutorialQuestions.get(upmts.tutorialCounter - 1).setAverageCorrect(givenAns);
+
                     String correctAns = upmts.tutorialQuestions.get(upmts.tutorialCounter - 1).getCorrectAns(); //NB: check answer is only for tutorials
 
-                    if (givenAns.equalsIgnoreCase(correctAns)) {
+                    double averageCorrect = upmts.tutorialQuestions.get(upmts.tutorialCounter - 1).getIsGivenAnsCorrect();
+
+                    int numOfErrors = upmts.tutorialQuestions.get(upmts.tutorialCounter - 1).getNumberOfErrors();
+                    int numberMissed = upmts.tutorialQuestions.get(upmts.tutorialCounter - 1).getNumberMissed();
+
+                    //  System.out.println("here");
+                    if (numOfErrors > 0 && numberMissed > 0) {
+                        msg = "You missed " + numberMissed + " element(s)  and you made " + numOfErrors + " erroneous selection(s).";
+                    } else if (numOfErrors > 0) {
+                        msg = "You made " + numOfErrors + " erroneous selection(s). ";
+                    } else if (numberMissed > 0) {
+
+                        msg = "You missed " + numberMissed + " element(s).";
+                    } else if (averageCorrect == 1.0) {
+                        //it is correct.
                         msg = "Correct!";
                     } else {
+                        //it is plain wrong
                         msg = "Wrong";
                     }
 
+                    //  System.out.println("GivenAnswer is: " + givenAns + "  and correctAns is: " + correctAns);
                     // System.out.println("The correctness message is ::: "+ msg);
                 } else if (command.equalsIgnoreCase("getNodePositions")) {
                 //read the node positions file as a string and send it to the vie
@@ -288,6 +362,9 @@ public class StudyManager extends HttpServlet {
                     //String posFilename = "positions2.txt";
                     //String posFilename = nodePosi;
                     File posFile = new File(getServletContext().getRealPath(upmts.nodePositions));
+
+                    System.out.println("The positions file can be found here :: " + getServletContext().getRealPath(upmts.nodePositions));
+
                     BufferedReader br = new BufferedReader(new FileReader(posFile));
                     String line = "";
                     //ArrayList<String> taskAccuracy = new ArrayList<String>();
@@ -313,6 +390,9 @@ public class StudyManager extends HttpServlet {
                 //put the user study paramters object into the hashtable
                 usersStudyParameters.put(studyId, upmts);
 
+                System.out.println("++++++ "  + msg);
+                
+                
                 out = response.getWriter();
                 out.write(msg);
                 out.flush();
@@ -379,10 +459,6 @@ public class StudyManager extends HttpServlet {
         try {
             //read the xml file that contains the details about the quantitative questions  
 
-            //get the studyname of the request
-            //String url2 = request.getServletPath();
-            //url2 = request.getRequestURL().toString();
-            // System.out.println("********** URL :: "+ url2);
             //get the studydata url
             String studydataurl = "studies" + File.separator + upmts.studyname + File.separator + "data";
 
@@ -423,14 +499,19 @@ public class StudyManager extends HttpServlet {
             upmts.studyType = ((Element) experimentTypeNode.item(0)).getTextContent();
             //get the training size
             if (trainingSizeNode != null && trainingSizeNode.item(0) != null) {
+//                System.out.println("***********Yay!!" + ((Element) trainingSizeNode.item(0)).getTextContent());
                 upmts.trainingSize = Integer.parseInt(((Element) trainingSizeNode.item(0)).getTextContent());
+            } else {
+                System.out.println("The training size is null");
             }
 
             //NB: We do not want training size to be less than 2.
-            if (upmts.trainingSize < 2) {
-                upmts.trainingSize = 2;
-            }
+            //NB:-- I'm temporarily disabling this line to allow some studies without training
+//            if (upmts.trainingSize < 2) {
+//                upmts.trainingSize = 2;
+//            }
 
+            System.out.println("The training size is: "+ upmts.trainingSize);
             //get the condition urls and shortnames
             for (int i = 0; i < conditionNode.getLength(); i++) {
                 Node nNode = conditionNode.item(i);
@@ -626,13 +707,41 @@ public class StudyManager extends HttpServlet {
                 /**
                  * *****************************************
                  */
-                System.out.println(upmts.questionCodes.get(i) + "----->");
+                // System.out.println(upmts.questionCodes.get(i) + "----->");
                 Node tasknode = getTaskNodeFromTaskFile(request, upmts.questionCodes.get(i));
                 String anstypestr = ((Element) tasknode).getElementsByTagName("answertype").item(0).getTextContent();
 
                 //String taskquestion = ((Element) tasknode).getElementsByTagName("taskquestion").item(0).getTextContent();
                 String inInterface = ((Element) tasknode).getElementsByTagName("inputinterface").item(0).getTextContent();
                 String outInterface = ((Element) tasknode).getElementsByTagName("outputinterface").item(0).getTextContent();
+
+                //now get the input type and the input description which are part of the input node
+                NodeList inputNodesList = ((Element) tasknode).getElementsByTagName("input");
+
+                //  ArrayList<String> inputTypeList = new ArrayList<String>();
+                // ArrayList<String> inputDescList = new ArrayList<String>();
+                System.out.println("NodeList length:: " + inputNodesList.getLength());
+
+                String inptStr = "";
+                int cnt = 0;
+                for (int temp = 0; temp < inputNodesList.getLength(); temp++) {
+                    Node nNode = inputNodesList.item(temp);
+
+                    if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                        Element eElement = (Element) nNode;
+
+                        if (cnt == 0) {
+                            inptStr = eElement.getElementsByTagName("inputtype").item(0).getTextContent();
+                        } else {
+                            inptStr += "," + eElement.getElementsByTagName("inputtype").item(0).getTextContent();
+                        }
+                        cnt++;
+                    }
+                }
+                if (cnt == 1) {
+                    inptStr += ",";
+                }
+                upmts.inputTypeList.add(inptStr);
 
                 //NB: answertype format:  answergroup ::: answertype ::: options_if_answertype_is options separated by ::.
                 String split[] = anstypestr.split(":::");
@@ -654,6 +763,7 @@ public class StudyManager extends HttpServlet {
                 int questionsize = upmts.questionSizes.get(i);               //questionSize
                 String question = upmts.questions.get(i);
                 int maxTime = upmts.questionMaxTimes.get(i);
+                String inputTypeStr = upmts.inputTypeList.get(i);
 
                 File xmlFile = new File(taskFilenameUrl);
                 DocumentBuilderFactory dbFactory2 = DocumentBuilderFactory.newInstance();
@@ -664,6 +774,8 @@ public class StudyManager extends HttpServlet {
                 NodeList questionNode = doc2.getElementsByTagName("question");
                 int questionCount = 0;
                 int tutorialCount = 0;
+                
+                System.out.println("size of QuestionNode is: " + questionNode.getLength());
                 for (int temp = 0; temp < questionNode.getLength(); temp++) {
                     Node nNode = questionNode.item(temp);
                     if (nNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -696,9 +808,19 @@ public class StudyManager extends HttpServlet {
                         }
 
                         EvaluationQuestion evalQn = new EvaluationQuestion(newquestion, answer, nodes, options,
-                                answerType, answerGroup, maxTime, inInterface, outInterface);
+                                answerType, answerGroup, maxTime, inInterface, outInterface, inputTypeStr);
                         //add the question to either the tutorial list or the test list
-                        if (tutorialCount < upmts.trainingSize) {
+
+                        System.out.println("--QuestionCode is -- " + upmts.questionCodes.get(i));
+                        System.out.println("helloworld");
+
+                        if (tutorialCount < upmts.trainingSize
+                                && !upmts.questionCodes.get(i)
+                                        .trim().equalsIgnoreCase("howManyClustersAreThere")  //this is a hack
+                                && !upmts.questionCodes.get(i).trim().equalsIgnoreCase("areTwoNamedNodesConnected")
+                                && !upmts.questionCodes.get(i).trim().equalsIgnoreCase("rememberNodesUsedInCommonNeighbor")
+                                
+                                ) {
                             upmts.tutorialQuestions.add(evalQn);
                             tutorialCount++;
                         } else {
@@ -707,11 +829,14 @@ public class StudyManager extends HttpServlet {
                         }
 
                         if (questionCount == questionsize) {
+                            System.out.println("Question size is: " + questionsize);
                             break;
                         }
                     }
                 }
             }
+            
+            System.out.println("The size of evalQuestions****" + upmts.evalQuestions.size());
 
             /**
              * adjust the tasks if it is a within user study
@@ -899,7 +1024,7 @@ public class StudyManager extends HttpServlet {
                 EvaluationQuestion evq = upmts.evalQuestions.get(i);
                 EvaluationQuestion evalQ = new EvaluationQuestion(evq.getQuestion(), evq.getCorrectAns(), evq.getNodes(),
                         evq.getAnsOptions(), evq.getAnsType(), evq.getAnswerGroup(), evq.getMaxTimeInSeconds(),
-                        evq.getInputInterface(), evq.getOutputInterface());
+                        evq.getInputInterface(), evq.getOutputInterface(), evq.getInputTypeStr());
 
                 upmts.evalQuestions.add(evalQ);
             }
@@ -955,7 +1080,7 @@ public class StudyManager extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    public void writeAnswersToFile(StudyParameters upmts) {
+    public void writeQuantitativeAnswersToFile(StudyParameters upmts) {
         try {
             //String cond1_resultsFile = "condition1_results.txt";
             //String cond2_resultsFile = "condition2_results.txt";
@@ -986,14 +1111,17 @@ public class StudyManager extends HttpServlet {
 
             onGoingStudyCounts.put(upmts.studyname, ongoing_studyCounts);
 
-            writeQualitativeAnswersToFile(upmts);
+            //writeQualitativeAnswersToFile(upmts);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
+    //public void 
     public void writeQualitativeAnswersToFile(StudyParameters upmts) {
         //write the pre-qualitative questions and the postqualitative questions to file
+        System.out.println("*** About to write Qualitative answers to file ");
+
         try {
             String filename;// = "QualitativeAnswers.txt";
             String firstcondition;
@@ -1006,6 +1134,14 @@ public class StudyManager extends HttpServlet {
             } else {
                 firstcondition = upmts.orderOfConditionShortNames.get(0);
                 filename = upmts.utils.getConditionQualitativeQnFileName(firstcondition);
+            }
+
+            filename = "QualitativeQns-and-Misc-info.txt";
+
+            String orderOfConditions = "";
+            //set the order of conditions
+            for (int i = 0; i < upmts.orderOfConditionShortNames.size(); i++) {
+                orderOfConditions += " : " + upmts.orderOfConditionShortNames.get(i);
             }
 
             String studydataurl = "studies" + File.separator + upmts.studyname + File.separator + "data";
@@ -1023,7 +1159,8 @@ public class StudyManager extends HttpServlet {
 
             //first write the questions as headers
             String question, answer;
-            if (newFile) { //print the header
+            if (newFile) {
+                //print the header
                 for (int i = 0; i < upmts.qualEvalQuestionBefore.size(); i++) {
                     question = upmts.qualEvalQuestionBefore.get(i).getQuestion() + "_" + firstcondition;
                     if (i == 0) {
@@ -1041,6 +1178,17 @@ public class StudyManager extends HttpServlet {
                         pw.print("\t\t" + question);
                     }
                 }
+                //now write the headers of the miscellaneous info
+                pw.print("\t\tOrderOfConditions");
+                pw.print("\t\tWindowWidth");
+                pw.print("\t\tWindowHeight");
+                pw.print("\t\tOffFocusTime");
+                pw.print("\t\tUserAccuracyInfo");
+                pw.print("\t\tUserTimeInfo");
+                pw.print("\t\tColorBlindessTestAnswers");
+                pw.print("\t\tDateAndTime");
+
+                //window-width, window-height, offFocusTime
                 pw.println();
             }
 
@@ -1065,6 +1213,17 @@ public class StudyManager extends HttpServlet {
                     pw.print("\t\t" + answer);
                 }
             }
+
+            //save the miscellaneous information.
+            pw.print("\t\t" + orderOfConditions);
+            pw.print("\t\t" + upmts.userViewerWidth);
+            pw.print("\t\t" + upmts.userViewerHeight);
+            pw.print("\t\t" + upmts.offFocusTime);
+            pw.print("\t\t" + upmts.accuracyInfo);
+            pw.print("\t\t" + upmts.timeInfo);
+            pw.print("\t\t" + upmts.colorBlindnessTestAnswers);
+            pw.print("\t\t" + upmts.dateAndTime);
+
             pw.println();
 
             pw.close();
@@ -1105,7 +1264,7 @@ public class StudyManager extends HttpServlet {
             int j = 0;
             int taskSize = upmts.questionSizes.get(j);
             int cnt = 0;
-            int numCorrect = 0;
+            double numCorrect = 0;
 
             for (int i = 0; i < upmts.evalQuestions.size(); i++) {
 
@@ -1114,8 +1273,10 @@ public class StudyManager extends HttpServlet {
                 if (!(cnt <= taskSize)) {
                     // taskCorrectness.add(cnt);
                     if (j == 0) {
+                        upmts.accuracyInfo = "" + (double) numCorrect / taskSize;
                         pw1.print((double) numCorrect / taskSize);
                     } else {
+                        upmts.accuracyInfo += "," + (double) numCorrect / taskSize;
                         pw1.print("," + (double) numCorrect / taskSize);
                     }
 
@@ -1125,16 +1286,19 @@ public class StudyManager extends HttpServlet {
                     cnt = 1;
                     numCorrect = 0;
                 }
-                if (upmts.evalQuestions.get(i).getIsGivenAnsCorrect()) {
-                    numCorrect++;
-                }
+                //numCorrect is a number now
+                numCorrect += upmts.evalQuestions.get(i).getIsGivenAnsCorrect();
+                /*   if (upmts.evalQuestions.get(i).getIsGivenAnsCorrect()) {
+                 numCorrect++;
+                 }  */
             }
             //pw1.print("," + (double) numCorrect / taskSize);
 
             if (j == 0) { //only one question
-
+                upmts.accuracyInfo = "" + (double) numCorrect / taskSize;
                 pw1.print((double) numCorrect / taskSize);
             } else {
+                upmts.accuracyInfo += "," + (double) numCorrect / taskSize;
                 pw1.print("," + (double) numCorrect / taskSize);
             }
 
@@ -1177,12 +1341,14 @@ public class StudyManager extends HttpServlet {
                 cnt2++;
                 if (!(cnt2 <= taskSize_time)) {
                     if (k == 0) {
+                        upmts.timeInfo = "" + (double) totalTime / taskSize_time;
                         pw2.print((double) totalTime / taskSize_time);
 
-                        System.out.print((double) totalTime / taskSize_time);
+                        //System.out.print((double) totalTime / taskSize_time);
                     } else {
+                        upmts.timeInfo += "," + (double) totalTime / taskSize_time;
                         pw2.print("," + (double) totalTime / taskSize_time);
-                        System.out.print("," + (double) totalTime / taskSize_time);
+                        //System.out.print("," + (double) totalTime / taskSize_time);
                     }
                     taskSize_time = (Integer) upmts.questionSizes.get(k);
                     k++;
@@ -1194,8 +1360,10 @@ public class StudyManager extends HttpServlet {
             }
 
             if (j == 0) { //only one question
+                upmts.timeInfo = "" + (double) totalTime / taskSize_time;
                 pw2.print((double) totalTime / taskSize_time);
             } else {
+                upmts.timeInfo += "," + (double) totalTime / taskSize_time;
                 pw2.print("," + (double) totalTime / taskSize_time);
             }
             //System.out.print("," + (double) totalTime / taskSize_time);
@@ -1288,7 +1456,7 @@ public class StudyManager extends HttpServlet {
             for (int m = 0; m < upmts.evalQuestions.size(); m++) {
                 cnt++;
                 if (upmts.evalQuestions.get(m).getAnswerGroup().equalsIgnoreCase("widget")) {
-                    boolean ans = upmts.evalQuestions.get(m).getIsGivenAnsCorrect();
+                    String ans = upmts.evalQuestions.get(m).getGivenAnswer();
                     if (j == 0 && cnt == 1) {
                         pw_bacc.print(ans);
                     } else if (cnt == 1) {
@@ -1419,6 +1587,218 @@ public class StudyManager extends HttpServlet {
             //close the printWriter
             pw_btime.close();
 
+            /**
+             * * Write the basic raw Error data also to file
+             *
+             */
+            start = 0;
+            taskSize = 0;
+            /**
+             * First write the file headers *
+             */
+            filename_bacc = upmts.utils.getConditionErrorBasicFileName(upmts.currentCondition);
+//            /  String studydataurl = "studies" + File.separator + upmts.studyname + File.separator + "data";
+            file_bacc = new File(getServletContext().getRealPath(studydataurl + File.separator + filename_bacc));
+
+            newFile = false;
+
+            if (!file_bacc.exists()) {
+                file_bacc.createNewFile();
+                newFile = true;
+                //print the headers
+            }
+
+            bw_bacc = new BufferedWriter(new FileWriter(file_bacc, true));
+            pw_bacc = new PrintWriter(bw_bacc);
+
+            if (newFile) {
+                start = 0;
+                taskSize = 0;
+                for (int m = 0; m < upmts.questionCodes.size(); m++) {
+                    start = taskSize;
+                    taskSize = upmts.questionSizes.get(m);
+                    int limit = start + taskSize;
+                    cnt = 0;
+
+                    for (int n = start; n < limit; n++) {
+
+                        String name = "Error_" + upmts.questionCodes.get(m) + "_" + upmts.currentCondition;
+
+                        if (n == 0 && start == 0) {
+                            pw_bacc.print(name);
+                        } else if (cnt == 0) {
+                            pw_bacc.print(" :: " + name);
+                        } else {
+                            pw_bacc.print(",");
+                        }
+                        cnt++;
+                    }
+                }
+                pw_bacc.println();
+
+                /**
+                 * *************************************************
+                 */
+                //The question headers i.e. Q1, Q2, etc.
+                start = 0;
+                taskSize = 0;
+                for (int m = 0; m < upmts.questionCodes.size(); m++) {
+                    start = taskSize;
+                    taskSize = upmts.questionSizes.get(m);
+                    int limit = start + taskSize;
+                    cnt = 0;
+                    for (int n = start; n < limit; n++) {
+                        String name = "Q" + (cnt + 1);
+                        if (n == 0 && start == 0) {
+                            pw_bacc.print(name);
+                        } else if (cnt == 0) {
+                            pw_bacc.print(" :: " + name);
+                        } else {
+                            pw_bacc.print("," + name);
+                        }
+                        cnt++;
+                    }
+                }
+                pw_bacc.println();
+            }
+
+            /**
+             * Now write the answers given for each question *
+             */
+            j = 0;
+            cnt = 0;
+            taskSize = upmts.questionSizes.get(j);
+
+            for (int m = 0; m < upmts.evalQuestions.size(); m++) {
+                cnt++;
+
+                double numOfErrors = upmts.evalQuestions.get(m).getNumberOfErrors();
+                if (j == 0 && cnt == 1) {
+                    pw_bacc.print(numOfErrors);
+                } else if (cnt == 1) {
+                    pw_bacc.print(" :: " + numOfErrors);
+                } else {
+                    pw_bacc.print("," + numOfErrors);
+                }
+
+                if (cnt == taskSize) {
+                    taskSize = (Integer) upmts.questionSizes.get(j);
+                    j++;
+                    cnt = 0;
+                }
+
+            }
+            pw_bacc.println();
+
+            //close the printWriters
+            pw_bacc.close();
+
+            /**
+             * * Write the basic raw Missed data also to file
+             *
+             */
+            start = 0;
+            taskSize = 0;
+            /**
+             * First write the file headers *
+             */
+            filename_bacc = upmts.utils.getConditionMissedBasicFileName(upmts.currentCondition);
+//            /  String studydataurl = "studies" + File.separator + upmts.studyname + File.separator + "data";
+            file_bacc = new File(getServletContext().getRealPath(studydataurl + File.separator + filename_bacc));
+
+            newFile = false;
+
+            if (!file_bacc.exists()) {
+                file_bacc.createNewFile();
+                newFile = true;
+                //print the headers
+            }
+
+            bw_bacc = new BufferedWriter(new FileWriter(file_bacc, true));
+            pw_bacc = new PrintWriter(bw_bacc);
+
+            if (newFile) {
+                start = 0;
+                taskSize = 0;
+                for (int m = 0; m < upmts.questionCodes.size(); m++) {
+                    start = taskSize;
+                    taskSize = upmts.questionSizes.get(m);
+                    int limit = start + taskSize;
+                    cnt = 0;
+
+                    for (int n = start; n < limit; n++) {
+
+                        String name = "Missed_" + upmts.questionCodes.get(m) + "_" + upmts.currentCondition;
+
+                        if (n == 0 && start == 0) {
+                            pw_bacc.print(name);
+                        } else if (cnt == 0) {
+                            pw_bacc.print(" :: " + name);
+                        } else {
+                            pw_bacc.print(",");
+                        }
+                        cnt++;
+                    }
+                }
+                pw_bacc.println();
+
+                /**
+                 * *************************************************
+                 */
+                //The question headers i.e. Q1, Q2, etc.
+                start = 0;
+                taskSize = 0;
+                for (int m = 0; m < upmts.questionCodes.size(); m++) {
+                    start = taskSize;
+                    taskSize = upmts.questionSizes.get(m);
+                    int limit = start + taskSize;
+                    cnt = 0;
+                    for (int n = start; n < limit; n++) {
+                        String name = "Q" + (cnt + 1);
+                        if (n == 0 && start == 0) {
+                            pw_bacc.print(name);
+                        } else if (cnt == 0) {
+                            pw_bacc.print(" :: " + name);
+                        } else {
+                            pw_bacc.print("," + name);
+                        }
+                        cnt++;
+                    }
+                }
+                pw_bacc.println();
+            }
+
+            /**
+             * Now write the answers given for each question *
+             */
+            j = 0;
+            cnt = 0;
+            taskSize = upmts.questionSizes.get(j);
+
+            for (int m = 0; m < upmts.evalQuestions.size(); m++) {
+                cnt++;
+
+                double numberMissed = upmts.evalQuestions.get(m).getNumberMissed();
+                if (j == 0 && cnt == 1) {
+                    pw_bacc.print(numberMissed);
+                } else if (cnt == 1) {
+                    pw_bacc.print(" :: " + numberMissed);
+                } else {
+                    pw_bacc.print("," + numberMissed);
+                }
+
+                if (cnt == taskSize) {
+                    taskSize = (Integer) upmts.questionSizes.get(j);
+                    j++;
+                    cnt = 0;
+                }
+
+            }
+            pw_bacc.println();
+
+            //close the printWriters
+            pw_bacc.close();
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -1472,16 +1852,21 @@ public class StudyManager extends HttpServlet {
                 int j = 0;
                 int taskSize = upmts.questionSizes.get(j);
                 int cnt = 0;
-                int numCorrect = 0;
+                double numCorrect = 0;
 
                 for (int k = start; k < limit; k++) {
                     //  System.out.println("THE VALUEOF J IS;: " + j);
                     cnt++;
                     if (!(cnt <= taskSize)) {
                         // System.out.println("THE VALUEOF J IS;: " + j);
+
                         if (j == 0) {
+
+                            upmts.accuracyInfo = "" + (double) numCorrect / taskSize;
                             pws[i].print((double) numCorrect / taskSize);
                         } else {
+
+                            upmts.accuracyInfo += "," + (double) numCorrect / taskSize;
                             pws[i].print("," + (double) numCorrect / taskSize);
                         }
                         taskSize = (Integer) upmts.questionSizes.get(j);
@@ -1489,13 +1874,17 @@ public class StudyManager extends HttpServlet {
                         cnt = 1;
                         numCorrect = 0;
                     }
-                    if (upmts.evalQuestions.get(k).getIsGivenAnsCorrect()) {
-                        numCorrect++;
-                    }
+
+                    numCorrect += upmts.evalQuestions.get(k).getIsGivenAnsCorrect();
+                    //if (upmts.evalQuestions.get(k).getIsGivenAnsCorrect()) {
+                    //  numCorrect++;
+                    //}
                 }
                 if (j == 0) { //only one question
+                    upmts.accuracyInfo = "" + (double) numCorrect / taskSize;
                     pws[i].print((double) numCorrect / taskSize);
                 } else {
+                    upmts.accuracyInfo += "," + (double) numCorrect / taskSize;
                     pws[i].print("," + (double) numCorrect / taskSize);
                 }
                 pws[i].println();
@@ -1555,8 +1944,10 @@ public class StudyManager extends HttpServlet {
                     cnt++;
                     if (!(cnt <= taskSize)) {
                         if (j == 0) {
+                            upmts.timeInfo = "" + (double) totalTime / taskSize;
                             pws[i].print((double) totalTime / taskSize);
                         } else {
+                            upmts.timeInfo += "," + (double) totalTime / taskSize;
                             pws[i].print("," + (double) totalTime / taskSize);
                         }
                         taskSize = (Integer) upmts.questionSizes.get(j);
@@ -1569,8 +1960,10 @@ public class StudyManager extends HttpServlet {
                 }
 
                 if (j == 0) { //only one question type
+                    upmts.timeInfo = "" + (double) totalTime / taskSize;
                     pws[i].print((double) totalTime / taskSize);
                 } else {
+                    upmts.timeInfo += "," + (double) totalTime / taskSize;
                     pws[i].print("," + (double) totalTime / taskSize);
                 }
                 pws[i].println();
@@ -1691,7 +2084,7 @@ public class StudyManager extends HttpServlet {
                     cnt++;
 
                     if (upmts.evalQuestions.get(k).getAnswerGroup().equalsIgnoreCase("widget")) {
-                        boolean ans = upmts.evalQuestions.get(k).getIsGivenAnsCorrect();
+                        String ans = upmts.evalQuestions.get(k).getGivenAnswer();
 
                         if (j == 0 && cnt == 1) {
                             pws[i].print(ans);
@@ -1834,6 +2227,276 @@ public class StudyManager extends HttpServlet {
                 }
                 pws[i].println();
             }
+            //close the printWriters
+            for (int i = 0; i < pws.length; i++) {
+                pws[i].close();
+            }
+
+            /**
+             * **************************************
+             * **************************************
+             * *write the basic raw error data also to file
+             * *****************************************
+             * *****************************************
+             * ********************************************
+             */
+            start = 0;
+            taskSize = 0;
+            cnt = 0;
+            /**
+             * First write the file headers *
+             */
+            for (int i = 0; i < numOfConditions; i++) {
+
+                filename = upmts.utils.getConditionErrorBasicFileName(upmts.orderOfConditionShortNames.get(i));
+                String studydataurl = "studies" + File.separator + upmts.studyname + File.separator + "data";
+                files[i] = new File(getServletContext().getRealPath(studydataurl + File.separator + filename));
+
+                boolean newFile = false;
+
+                if (!files[i].exists()) {
+                    files[i].createNewFile();
+                    newFile = true;
+                    //print the headers
+                }
+
+                bws[i] = new BufferedWriter(new FileWriter(files[i], true));
+                pws[i] = new PrintWriter(bws[i]);
+
+                if (newFile) {
+                    //write the headers
+                    //first line will be the actual name and the second line will be the question numbers
+                    upmts.currentCondition = upmts.orderOfConditionShortNames.get(i);
+
+                    start = 0;
+                    taskSize = 0;
+                    cnt = 0;
+
+                    for (int j = 0; j < upmts.questionSizes.size(); j++) {
+                        start = taskSize;
+                        taskSize = upmts.questionSizes.get(j);
+                        String ttype = upmts.questionCodes.get(j);
+                        limit = start + taskSize;
+                        cnt = 0;
+
+                        for (int k = start; k < limit; k++) {
+                            //ttype = taskTypes.get(m);
+                            String name = "Error_" + ttype + "_" + upmts.currentCondition;
+                            if (k == 0 && start == 0) {
+                                pws[i].print(name);
+                            } else if (cnt == 0) {
+                                pws[i].print(" :: " + name);
+                            } else {
+                                pws[i].print(",");
+                            }
+
+                            cnt++;
+                        }
+                    }
+
+                    pws[i].println();
+
+                    //print the question headers
+                    start = 0;
+                    taskSize = 0;
+                    cnt = 0;
+                    for (int j = 0; j < upmts.questionSizes.size(); j++) {
+                        start = taskSize;
+                        taskSize = upmts.questionSizes.get(j);
+                        limit = start + taskSize;
+                        cnt = 0;
+                        for (int k = start; k < limit; k++) {
+                            String name = "Q" + (cnt + 1);
+                            if (k == 0 && start == 0) {
+                                pws[i].print(name);
+                            } else if (cnt == 0) {
+                                pws[i].print(" :: " + name);
+                            } else {
+                                pws[i].print("," + name);
+                            }
+                            cnt++;
+                        }
+                    }
+                    pws[i].println();
+
+                }
+            }
+
+            /**
+             * Now write the answers given for each question *
+             */
+            start = 0;
+            limit = 0;
+            //   System.out.println("*** Size of a condition::: " + upmts.sizeOfACondition);
+            for (int i = 0; i < numOfConditions; i++) {
+                start = i * upmts.sizeOfACondition;
+                limit = start + upmts.sizeOfACondition;
+
+                int j = 0;
+                taskSize = upmts.questionSizes.get(j);
+                cnt = 0;
+
+                //   System.out.println("The Start is:: " + start +"  The LIMIT IS :: " +limit);
+                for (int k = start; k < limit; k++) {
+                    cnt++;
+
+                    {
+                        double numOfErrors = upmts.evalQuestions.get(k).getNumberOfErrors();
+
+                        if (j == 0 && cnt == 1) {
+                            pws[i].print(numOfErrors);
+                        } else if (cnt == 1) {
+                            pws[i].print(" :: " + numOfErrors);
+                        } else {
+                            pws[i].print("," + numOfErrors);
+                        }
+                    }
+
+                    if (cnt == taskSize) {
+                        taskSize = (Integer) upmts.questionSizes.get(j);
+                        j++;
+                        cnt = 0;
+                    }
+
+                }
+                pws[i].println();
+            }
+
+            //close the printWriters
+            for (int i = 0; i < pws.length; i++) {
+                pws[i].close();
+            }
+
+            /**
+             * **************************************
+             * **************************************
+             * *write the basic raw missed data also to file
+             * *****************************************
+             * *****************************************
+             * ********************************************
+             */
+            start = 0;
+            taskSize = 0;
+            cnt = 0;
+            /**
+             * First write the file headers *
+             */
+            for (int i = 0; i < numOfConditions; i++) {
+
+                filename = upmts.utils.getConditionMissedBasicFileName(upmts.orderOfConditionShortNames.get(i));
+                String studydataurl = "studies" + File.separator + upmts.studyname + File.separator + "data";
+                files[i] = new File(getServletContext().getRealPath(studydataurl + File.separator + filename));
+
+                boolean newFile = false;
+
+                if (!files[i].exists()) {
+                    files[i].createNewFile();
+                    newFile = true;
+                    //print the headers
+                }
+
+                bws[i] = new BufferedWriter(new FileWriter(files[i], true));
+                pws[i] = new PrintWriter(bws[i]);
+
+                if (newFile) {
+                    //write the headers
+                    //first line will be the actual name and the second line will be the question numbers
+                    upmts.currentCondition = upmts.orderOfConditionShortNames.get(i);
+
+                    start = 0;
+                    taskSize = 0;
+                    cnt = 0;
+
+                    for (int j = 0; j < upmts.questionSizes.size(); j++) {
+                        start = taskSize;
+                        taskSize = upmts.questionSizes.get(j);
+                        String ttype = upmts.questionCodes.get(j);
+                        limit = start + taskSize;
+                        cnt = 0;
+
+                        for (int k = start; k < limit; k++) {
+                            //ttype = taskTypes.get(m);
+                            String name = "Missed_" + ttype + "_" + upmts.currentCondition;
+                            if (k == 0 && start == 0) {
+                                pws[i].print(name);
+                            } else if (cnt == 0) {
+                                pws[i].print(" :: " + name);
+                            } else {
+                                pws[i].print(",");
+                            }
+
+                            cnt++;
+                        }
+                    }
+
+                    pws[i].println();
+
+                    //print the question headers
+                    start = 0;
+                    taskSize = 0;
+                    cnt = 0;
+                    for (int j = 0; j < upmts.questionSizes.size(); j++) {
+                        start = taskSize;
+                        taskSize = upmts.questionSizes.get(j);
+                        limit = start + taskSize;
+                        cnt = 0;
+                        for (int k = start; k < limit; k++) {
+                            String name = "Q" + (cnt + 1);
+                            if (k == 0 && start == 0) {
+                                pws[i].print(name);
+                            } else if (cnt == 0) {
+                                pws[i].print(" :: " + name);
+                            } else {
+                                pws[i].print("," + name);
+                            }
+                            cnt++;
+                        }
+                    }
+                    pws[i].println();
+
+                }
+            }
+
+            /**
+             * Now write the answers given for each question *
+             */
+            start = 0;
+            limit = 0;
+            //   System.out.println("*** Size of a condition::: " + upmts.sizeOfACondition);
+            for (int i = 0; i < numOfConditions; i++) {
+                start = i * upmts.sizeOfACondition;
+                limit = start + upmts.sizeOfACondition;
+
+                int j = 0;
+                taskSize = upmts.questionSizes.get(j);
+                cnt = 0;
+
+                //   System.out.println("The Start is:: " + start +"  The LIMIT IS :: " +limit);
+                for (int k = start; k < limit; k++) {
+                    cnt++;
+
+                    {
+                        double numberMissed = upmts.evalQuestions.get(k).getNumberMissed();
+
+                        if (j == 0 && cnt == 1) {
+                            pws[i].print(numberMissed);
+                        } else if (cnt == 1) {
+                            pws[i].print(" :: " + numberMissed);
+                        } else {
+                            pws[i].print("," + numberMissed);
+                        }
+                    }
+
+                    if (cnt == taskSize) {
+                        taskSize = (Integer) upmts.questionSizes.get(j);
+                        j++;
+                        cnt = 0;
+                    }
+
+                }
+                pws[i].println();
+            }
+
             //close the printWriters
             for (int i = 0; i < pws.length; i++) {
                 pws[i].close();

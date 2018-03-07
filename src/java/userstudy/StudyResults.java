@@ -127,6 +127,9 @@ public class StudyResults extends HttpServlet {
                         ArrayList<String> nonNormalTasks = new ArrayList<String>();
 
                         msg += generateShapiroWilk(normalTasks, nonNormalTasks, rpmts);
+                        
+                        System.out.println("^^^^ The number of normal taks is: " + normalTasks.size());
+                        System.out.println("**** The number of nonnormal Tasks is :"+ nonNormalTasks.size());
 
                         msg += "::" + generateMeanAndStandardDeviation(rpmts);
 
@@ -229,17 +232,41 @@ public class StudyResults extends HttpServlet {
     }
 
     public String getTypeOfAnalysis(ArrayList<String> normalTasks, ArrayList<String> nonNormalTasks, ResultParameters rpmts) {
-        String analysis = "";
+        String analysis = "";  //for the type of analysis that will be done
 
-        String posthoc = "";
-        // System.out.println("****HERE");
-        // System.out.println("NORMAL TASKS SIZE:  " + normalTasks.size());
-        //System.out.println("NON-NORMAL TASKS SIZE: " + nonNormalTasks.size());
+        String posthoc = ""; // for the posthoc of the analysis, if there is any.
+        String effectSize = "";
+
+        //TODO: Find the specific effect-size calculator depending on the analsyis
+        //cohen's d for a between study 
+        //Formula using tstats:
+        //         1. Cohen's d = 2*t / sqrt(df)  i.e. if the sample sizes are equal
+        //         2. Cohen's d = t(n1+n2)/sqrt((n1+n2 -2)*(n1*n2))    i.e If sample sizes are not equal
+        //Formula that does not use tstats
+        //              d = M1 - M2 / SD_pooled
+        //      where:
+        //              SD_pooled = sqrt((SD_1^2  + SD_2^2)/2) 
+        //              SD_pooled = sqrt(((n1- 1)*SD_1^2 + (n2-1)*SD_2^2)/(n1+n2-2)
+        // I will include the effect size in the calculation of them
+        //http://www.polyu.edu.hk/mm/effectsizefaqs/effect_size_equations2.html
+        //-------(http://www.lifesci.sussex.ac.uk/home/Zoltan_Dienes/inference/Neyman%20Pearson.html)
+        //cohen's dz for a within study  Formula(1. Cohen's  dz=t/sqrt(n)
+        ///      or 2. = M_diff/(sqrt(sum(X_diff-M_diff)^2)/N-1)) ----(http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3840331/)
+        //For non-parametric analysis Effect sizes:
+        //     Wilcox rank sum or Mann-Whitney:   r = z/sqrt(N) : where N is the total number of participants n1+n2
+        //For Wilcox signed-rank:   r /sqrt(N) : where N is the total number of observations (N*2).
+        //For kruskal-Wallis find the effect for pairs:  r/sqrt(N) : where N is the  total number of the pairs.
+        //Friedman is similar to kruskal wallis.
+        //t-test to get the t use results$statistic, then get 
+        
+        System.out.println("****Normal Tasks: " + normalTasks.size());
+        System.out.println("----Abnormal Tasks: " + nonNormalTasks);
+        
         if (normalTasks.size() > 0) {
-            // System.out.println("***-normal***" + normalTasks.get(0));
+             System.out.println("***-normal***" + normalTasks.get(0));
             //there are some normal data so we will use a normalized            
             if (rpmts.numOfConditions == 2) { //we can use a ttest(it requires comparison between the two) or anova
-                analysis += generateTTest(rpmts.studyType, rpmts);
+                analysis += generateTTest(rpmts.studyType, rpmts, normalTasks);
             } else {
                 //do an anova
                 analysis += generateANOVA(rpmts.studyType, rpmts, normalTasks);
@@ -257,10 +284,7 @@ public class StudyResults extends HttpServlet {
             }
 
             //We will use a non parametric analysis here. Kruskal Wallis for a between-group and Friedman for a within-group
-            ///  System.out.println("****** There are non- normal Tasks");
-            // System.out.println("****non-normal");
             if (rpmts.studyType.equalsIgnoreCase("Within")) {
-
                 if (rpmts.numOfConditions == 2) {
                     //Wilcoxon-signed-rank test.
                     analysis += generateWilcoxonSignedRank(rpmts, nonNormalTasks);
@@ -270,7 +294,6 @@ public class StudyResults extends HttpServlet {
                     //change this too.
                     //posthoc += "::";
                     posthoc += generateFriedmanTestPosttHoc(rpmts, nonNormalTasks);
-
                 }
 
             } else {
@@ -279,10 +302,8 @@ public class StudyResults extends HttpServlet {
                     // Wilcoxon-rank-sum-test
                     analysis += generateWilcoxonRankSum(rpmts, nonNormalTasks);
                 } else {
-                    // analysis +="::";
                     //kruskal wallis
                     analysis += generateKruskalWallis(rpmts);
-
                     //posthoc for kruskal wallis
                     posthoc += "::" + generateKruskalWallisPostHoc(rpmts);
                 }
@@ -374,62 +395,126 @@ public class StudyResults extends HttpServlet {
                 pw.println("time" + (i + 1) + " = read.csv(\"" + rpmts.timeFilenames.get(i) + "\")");
             }
 
-            for (int i = 0; i < rpmts.numOfTasks; i++) {
-                String dataName1 = "accuracy" + (i + 1);
-                String dataName2 = "accuracy" + (i + 2);
-                //print the taskname so that we can know which anova this belongs to 
-                String taskname = accColumnNames[0][i].substring(0, accColumnNames[0][i].lastIndexOf("_")); //first name without the condition name
-                pw.println("taskname=\"TaskName = " + taskname + "\"");
-                pw.println("taskname");
+            boolean nonNormalAccuracy = false;
+            /**
+             * ** For Accuracy ****
+             */
 
-                for (int j = 0; j < accColumnNames[i].length; j++) {
-                    pw.println("" + accColumnNames[i][j] + "= c(" + dataName1 + "[," + (j + 1) + "])");
-                    pw.println("" + accColumnNames[i + 1][j] + "= c(" + dataName2 + "[," + (j + 1) + "])");
+            /**
+             * first print the header
+             */
+            //  pw.println("cat(\"\\n--------------------------------------------------------------\")");
+            pw.println("cat(paste(\"\\n" + "Accuracy-Taskname" + " ,\" ,\"" + "p-value" + ",\" , \"" + "Effect-Size(r=z/sqrt(n))\"))");
+            pw.println("cat(\"\\n--------------------------------------------------------------\")");
 
-                    String cbindData = "combineddata =data.frame(" + accColumnNames[i][j] + ", " + accColumnNames[i + 1][j] + ")";
+            for (int i = 0; i < accColumnNames[0].length; i++) {
+                //check if task is part of the non-normal tasks
+                String tname = accColumnNames[0][i].substring(0,
+                        accColumnNames[0][i].lastIndexOf("_")); //first name without the condition name
+
+                for (String task : nonNormalTasks) {
+                    System.out.println(task + "::" + tname);
+                    if (task.trim().equalsIgnoreCase(tname.trim())) {
+                        nonNormalAccuracy = true;
+                        break;
+                    }
+                }
+
+                //if(nonNormalAccuracy)
+//
+                if (nonNormalAccuracy) {
+
+                    String dataName1 = "accuracy1";
+                    String dataName2 = "accuracy2";
+
+                    //get the task name 
+                    String taskname = accColumnNames[0][i].substring(0, accColumnNames[0][i].lastIndexOf("_")); //first name without the condition name
+                   /* pw.println("taskname=\"TaskName = " + taskname + "\"");
+                     pw.println("cat(taskname)");  */
+
+                    //       for (int j = 0; j < accColumnNames[i].length; j++) {
+                    pw.println("" + accColumnNames[0][i] + "= c(" + dataName1 + "[," + (i + 1) + "])");
+                    pw.println("" + accColumnNames[1][i] + "= c(" + dataName2 + "[," + (i + 1) + "])");
+
+                    String cbindData = "combineddata =data.frame(" + accColumnNames[0][i] + ", " + accColumnNames[1][i] + ")";
                     pw.println(cbindData);
                     pw.println("combineddata = stack(combineddata)");
-                    // pw.println("combineddata");
                     pw.println("result = wilcox.test(values~ind, combineddata, paired=TRUE)");
 
-                    pw.println("cat(paste(\"" + taskname + "\", " + "\" , \"" + " , result$p.value, " + "\"\\n\" ))");
+                    //calculate the effect size
+                    //     Wilcox rank sum or Mann-Whitney:  
+                    //     r = z/sqrt(N) : where N is the total number of participants n1+n2
+                    pw.println("size1 = length(c(" + dataName1 + "[," + (i + 1) + "]))");
+                    pw.println("size2 = length(c(" + dataName2 + "[," + (i + 1) + "]))");
+                    //now calculating the z first: formula: z = (W - (n1*n2)/2 )/sqrt(n1*n2(n1+n2+n1)/12) 
+                    pw.println("num = result$statistic - (size1*size2)/2");
+                    pw.println("num = num/sqrt(((size1*size2) * (size1+size2+1))/12)");
+                    pw.println("denom = sqrt(size1 + size2)");                    
+                    pw.println("es = num/denom");
+
+                    pw.println("cat(paste(\"\\n" + taskname + "\", " + "\" , \"" + " , result$p.value, "
+                            + "\" , " + "\"" + ", abs(es) , " + "\"\\n\" ))");
+                    //pw.println("cat(paste(\"\\n" + taskname + "\", " + "\" , \"" + " , result$p.value, " + "\"\\n\" ))");
                 }
             }
 
-            //time
-            /*for (int i = 0; i < rpmts.numOfConditions - 1; i++) {
-             String dataName1 = "time" + (i + 1);
-             //  String dataName2 = "time" + (i + 2);
+            /**
+             * Now lets work on the time data too
+             */
+            /*First print the  header */
+            pw.println("cat(paste(\"\\n\\n\\n" + "Time-Taskname" + " ,\" ,\"" + "p-value\"))");//get mean and standard deviation
+            pw.println("cat(\"\\n--------------------------------------------------------------\")");
 
-             for (int k = i; k < rpmts.numOfConditions - 1; k++) {
-             String dataName2 = "time" + (k + 2);
-             pw.println("tasknames = NULL");
-             pw.println("pvalues = NULL");
+            for (int i = 0; i < timeColumnNames[0].length; i++) {
+                //check if task is part of the non-normal tasks
+                String tname = timeColumnNames[0][i].substring(0,
+                        timeColumnNames[0][i].lastIndexOf("_")); //first name without the condition name
 
-             for (int j = 0; j < timeColumnNames[i].length; j++) {
-             String taskname = timeColumnNames[i][j] + "-" + timeColumnNames[k + 1][j];
-             pw.println("" + timeColumnNames[i][j] + "= c(" + dataName1 + "[," + (j + 1) + "])");
-             pw.println("" + timeColumnNames[k + 1][j] + "= c(" + dataName2 + "[," + (j + 1) + "])");
-             String cbindData = "combineddata =data.frame(" + timeColumnNames[i][j] + ", " + timeColumnNames[k + 1][j] + ")";
-             pw.println(cbindData);
-             pw.println("combineddata = stack(combineddata)");
-             // pw.println("combineddata");
-             pw.println("results = wilcox.test(values~ind, combineddata, paired=TRUE)");
+                boolean nonNormalTime = false;
+                for (String task : nonNormalTasks) {
+                    if (task.trim().equalsIgnoreCase(tname.trim())) {
+                        nonNormalTime = true;
+                        break;
+                    }
+                }
 
-             pw.println("tasknames[" + (j + 1) + "] = \"" + taskname + "\"");
-             pw.println("pvalues[" + (j + 1) + "] = " + "results$p.value");
-             }
-             // pw.println("pvalues");
-             //adjust the pvalues{
-             pw.println("pvalues_adj = p.adjust(pvalues, \"bonferroni\")");
-             //now print the name and the adjusted pvalues to file
-             for (int j = 0; j < timeColumnNames[i].length; j++) {
-             pw.println("paste(tasknames[" + (j + 1) + "] , " + "\",\" , pvalues_adj[" + (j + 1) + "])");//get the pvalue for each column name
-             }
+                if (nonNormalTime) {
 
-             }
+                    String dataName1 = "time1"; // + (i + 1);
+                    String dataName2 = "time2";// + (i + 2);
+                    //print the taskname so that we can know which anova this belongs to 
+                    String taskname = timeColumnNames[0][i].substring(0, timeColumnNames[0][i].lastIndexOf("_")); //first name without the condition name
+                    //remember there are only 2 conditions so the indexes will be zero and 1.
+                    //   for (int j = 0; j < timeColumnNames[0].length; j++) {
+                    pw.println("" + timeColumnNames[0][i] + "= c(" + dataName1 + "[," + (i + 1) + "])");
+                    pw.println("" + timeColumnNames[1][i] + "= c(" + dataName2 + "[," + (i + 1) + "])");
 
-             }*/
+                    taskname = timeColumnNames[0][i].substring(0, timeColumnNames[0][i].lastIndexOf("_")); //first name without the condition name
+
+                    String cbindData = "combineddata =data.frame(" + timeColumnNames[0][i] + ", " + timeColumnNames[1][i] + ")";
+                    pw.println(cbindData);
+                    pw.println("combineddata = stack(combineddata)");
+                    pw.println("result = wilcox.test(values~ind, combineddata, paired=TRUE)");
+
+                    //calculate the effect size
+                    //Wilcox rank sum or Mann-Whitney:  
+                    //r = z/sqrt(N) : where N is the total number of participants n1+n2
+                    pw.println("size1 = length(c(" + dataName1 + "[," + (i + 1) + "]))");
+                    pw.println("size2 = length(c(" + dataName2 + "[," + (i + 1) + "]))");
+                    //now calculating the z first: formula: z = (W - (n1*n2)/2 )/sqrt(n1*n2(n1+n2+n1)/12) 
+                    pw.println("num = result$statistic - (size1*size2)/2");
+                    pw.println("num = num/sqrt(((size1*size2) * (size1+size2+1))/12)");
+                    pw.println("denom = sqrt(size1 + size2)");
+                    //pw.println("denom = sqrt(((size1*size2) * (size1+size2+1))/12)");
+                    pw.println("es = num/denom");
+
+                    pw.println("cat(paste(\"\\n" + taskname + "\", " + "\" , \"" + " , result$p.value, "
+                            + "\" , " + "\"" + ", abs(es) , " + "\"\\n\" ))");
+
+                    //  pw.println("cat(paste(\"\\n" + taskname + "\", " + "\" , \"" + " , result$p.value, " + "\"\\n\" ))");
+                }
+
+            }
             pw.println("sink()");
             //close the printwriter
             pw.close();
@@ -494,7 +579,6 @@ public class StudyResults extends HttpServlet {
                 br.close();
             }
             numOfRows = cnt - 1;
-            //System.out.println("The number of lines is ::  "+ numOfRows);
 
             for (int i = 0; i < rpmts.numOfConditions; i++) {
                 File timeFile = new File(getServletContext().getRealPath(rpmts.studydataurl + File.separator + rpmts.timeFilenames.get(i)));
@@ -530,16 +614,26 @@ public class StudyResults extends HttpServlet {
             }
             //read the time files
             for (int i = 0; i < rpmts.numOfConditions; i++) {
-                pw.println("time" + (i + 1) + " = read.csv(\"" + rpmts.timeFilenames.get(i) + "\")");
+                pw.println("time" + (i + 1) + " = read.csv(\""
+                        + rpmts.timeFilenames.get(i) + "\")");
             }
 
             boolean nonNormalAccuracy = false;
             /**
              * ** For Accuracy ****
              */
-           for (int i = 0; i < rpmts.numOfConditions - 1; i++) {
+
+            /**
+             * first print the header
+             */
+            //  pw.println("cat(\"\\n--------------------------------------------------------------\")");
+            pw.println("cat(paste(\"\\n" + "Accuracy-Taskname" + " ,\" ,\"" + "p-value" + ",\" , \"" + "Effect-Size (r=z/sqrt(n))\"))");//get mean and standard deviation//get mean and standard deviation
+            pw.println("cat(\"\\n--------------------------------------------------------------\")");
+
+            for (int i = 0; i < accColumnNames[0].length; i++) {
                 //check if task is part of the non-normal tasks
-                String tname = accColumnNames[0][i].substring(0, accColumnNames[0][i].lastIndexOf("_")); //first name without the condition name
+                String tname = accColumnNames[0][i].substring(0,
+                        accColumnNames[0][i].lastIndexOf("_")); //first name without the condition name
 
                 for (String task : nonNormalTasks) {
                     System.out.println(task + "::" + tname);
@@ -553,45 +647,126 @@ public class StudyResults extends HttpServlet {
                 //if(nonNormalAccuracy)
 //
                 if (nonNormalAccuracy) {
-                    String dataName1 = "accuracy" + (i + 1);
-                    String dataName2 = "accuracy" + (i + 2);
+
+                    //   System.out.println("-----*****8----- " + tname);
+                    String dataName1 = "accuracy1";
+                    String dataName2 = "accuracy2";
                     //print the taskname so that we can know which anova this belongs to 
                     String taskname = accColumnNames[0][i].substring(0, accColumnNames[0][i].lastIndexOf("_")); //first name without the condition name
-                    pw.println("taskname=\"TaskName = " + taskname + "\"");
-                     pw.println("cat(taskname)");
+                   /* pw.println("taskname=\"TaskName = " + taskname + "\"");
+                     pw.println("cat(taskname)");  */
 
-                    pw.println("cat(paste(\"\\n" + "Taskname" + " ,\" ,\"" + "p-value\"))");//get mean and standard deviation
-                    pw.println("cat(\"\\n----------------------------------------------------\")");
+                    //       for (int j = 0; j < accColumnNames[i].length; j++) {
+                    pw.println("" + accColumnNames[0][i] + "= c(" + dataName1 + "[," + (i + 1) + "])");
+                    pw.println("" + accColumnNames[1][i] + "= c(" + dataName2 + "[," + (i + 1) + "])");
 
-                    for (int j = 0; j < accColumnNames[i].length; j++) {
-                        pw.println("" + accColumnNames[i][j] + "= c(" + dataName1 + "[," + (j + 1) + "])");
-                        pw.println("" + accColumnNames[i + 1][j] + "= c(" + dataName2 + "[," + (j + 1) + "])");
-
-                        taskname = accColumnNames[0][j].substring(0, accColumnNames[0][j].lastIndexOf("_")); //first name without the condition name
+                   // taskname = accColumnNames[0][i].substring(0, accColumnNames[0][i].lastIndexOf("_")); //first name without the condition name
                         /* String cbindData = "combineddata =data.frame(cbind(" + accColumnNames[i][j] + ", " + accColumnNames[i + 1][j] + "))";
-                         pw.println(cbindData);
-                         pw.println("combineddata = stack(combineddata)"); */
-                        // pw.println("combineddata");
-                        pw.println("result = wilcox.test(" + accColumnNames[i][j] + "," + accColumnNames[i + 1][j] + ")");
+                     pw.println(cbindData);
+                     pw.println("combineddata = stack(combineddata)"); */
+                    // pw.println("combineddata");
+                    pw.println("result = wilcox.test(" + accColumnNames[0][i] + "," + accColumnNames[1][i] + ")");
 
-                        pw.println("cat(paste(\"\\n" + taskname + "\", " + "\" , \"" + " , result$p.value, " + "\"\\n\" ))");
-                    }
-                    // pw.println("cat(\"\\n**********************************************************\")");
-                    pw.println("cat(\"\\n\\n\")");
+                    //calculate the effect size
+                    //     Wilcox rank sum or Mann-Whitney:  
+                    //     r = z/sqrt(N) : where N is the total number of participants n1+n2
+                    pw.println("size1 = length(c(" + dataName1 + "[," + (i + 1) + "]))");
+                    pw.println("size2 = length(c(" + dataName2 + "[," + (i + 1) + "]))");
+                    //now calculating the z first: formula: z = (W - (n1*n2)/2 )/sqrt(n1*n2(n1+n2+1)/12) 
+                    pw.println("num = result$statistic - (size1*size2)/2");
+                    pw.println("num = num/sqrt(((size1*size2) * (size1+size2+1))/12)");
+                    pw.println("denom = sqrt(size1 + size2)");
+                    pw.println("es = num/denom");
+                    
+                    System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^");
+
+                    pw.println("cat(paste(\"\\n" + taskname + "\", " + "\" , \"" + " , result$p.value, "
+                            + "\" , " + "\"" + ", abs(es) , " + "\"\\n\" ))");
                 }
 
             }
 
             /**
+             * * Testing what the loop does
+             */
+            //write the accuracy analysis
+         /*   for (int i = 0; i < rpmts.numOfConditions - 1; i++) {
+
+             String dataName1 = "accuracy" + (i + 1);
+             //String dataName2 = "accuracy" + (i + 2);
+
+             for (int k = i; k < rpmts.numOfConditions - 1; k++) {
+             String dataName2 = "accuracy" + (k + 2);
+             pw.println("tasknames = NULL");
+             pw.println("pvalues = NULL");
+
+             int numberOfTasksDone = 0;
+             for (int j = 0; j < accColumnNames[i].length; j++) {
+
+             //check if the task is part of the non-normal before you do this
+             String tname = accColumnNames[i][j].substring(0, accColumnNames[i][j].lastIndexOf("_")); //first name without the condition name
+
+             boolean nonNormalAccuracy = false;
+
+             for (String task : nonNormalTasks) {
+             if (task.trim().equalsIgnoreCase(tname.trim())) {
+             nonNormalAccuracy = true;
+             break;
+             }
+             }
+             //do this for the normal tasks
+             if (nonNormalAccuracy) {
+             numberOfTasksDone++;
+             String taskname = accColumnNames[i][j] + "-" + accColumnNames[k + 1][j];
+             pw.println("" + accColumnNames[i][j] + "= c(" + dataName1 + "[," + (j + 1) + "])");
+             pw.println("" + accColumnNames[k + 1][j] + "= c(" + dataName2 + "[," + (j + 1) + "])");
+
+             String cbindData = "combineddata =data.frame(" + accColumnNames[i][j] + ", " + accColumnNames[k + 1][j] + ")";
+             pw.println(cbindData);
+             pw.println("combineddata = stack(combineddata)");
+             // pw.println("combineddata");
+             pw.println("results = wilcox.test(values~ind, combineddata, paired=TRUE)");
+
+             pw.println("tasknames[" + numberOfTasksDone + "] = \"" + taskname + "\"");
+             pw.println("pvalues[" + numberOfTasksDone + "] = " + "results$p.value");
+             }
+             }
+
+             if (numberOfTasksDone > 0) {
+             //adjust the pvalues{
+             pw.println("pvalues_adj = p.adjust(pvalues, \"bonferroni\")");
+             //  pw.println("pvalues_adj");
+             //now print the name and the adjusted pvalues to file
+             for (int j = 1; j <= numberOfTasksDone; j++) {
+             pw.println("paste(tasknames[" + j + "] , " + "\",\" , pvalues_adj[" + j + "])");//get the pvalue for each column name
+             }
+             }
+
+             }
+
+             }
+                
+             */
+            /**
              * ** For Time **
              */
-           for (int i = 0; i < rpmts.numOfConditions - 1; i++) {
-                //check if task is part of the non-normal tasks
-                String tname = timeColumnNames[0][i].substring(0, timeColumnNames[0][i].lastIndexOf("_")); //first name without the condition name
+            /*First print the  header */
+            //  pw.println("cat(\"\\n\\n\\n--------------------------------------------------------------\")");
+            pw.println("cat(paste(\"\\n\\n\\n" + "Time-Taskname" + " ,\" ,\"" + "p-value" + ",\" , \"" + "Effect-Size (r=z/sqrt(n))\"))");//get mean and standard deviation
+            pw.println("cat(\"\\n--------------------------------------------------------------\")");
 
+            for (int i = 0; i < timeColumnNames[0].length; i++) {
+                //check if task is part of the non-normal tasks
+                String tname = timeColumnNames[0][i].substring(0,
+                        timeColumnNames[0][i].lastIndexOf("_")); //first name without the condition name
+
+                // System.out.println("I'm ---- here");
+                //   System.out.println("---- # of conditions --- " + rpmts.numOfConditions);
                 boolean nonNormalTime = false;
                 for (String task : nonNormalTasks) {
                     if (task.trim().equalsIgnoreCase(tname.trim())) {
+                        //   System.out.println("^^^___^^^ " + tname);
+
                         nonNormalTime = true;
                         break;
                     }
@@ -599,30 +774,35 @@ public class StudyResults extends HttpServlet {
 
                 if (nonNormalTime) {
 
-                    if (!nonNormalAccuracy) {
-                        pw.println("cat(paste(\"\\n" + "Taskname" + " ,\" ,\"" + "p-value\"))");//get mean and standard deviation
-                        pw.println("cat(\"\\n----------------------------------------------------\")");
-                    }
-
-                    String dataName1 = "time" + (i + 1);
-                    String dataName2 = "time" + (i + 2);
+                    String dataName1 = "time1"; // + (i + 1);
+                    String dataName2 = "time2";// + (i + 2);
                     //print the taskname so that we can know which anova this belongs to 
                     String taskname = timeColumnNames[0][i].substring(0, timeColumnNames[0][i].lastIndexOf("_")); //first name without the condition name
                     pw.println("taskname=\"TaskName = " + taskname + "\"");
                     // pw.println("cat(taskname)");
 
-                    for (int j = 0; j < timeColumnNames[i].length; j++) {
-                        pw.println("" + timeColumnNames[i][j] + "= c(" + dataName1 + "[," + (j + 1) + "])");
-                        pw.println("" + timeColumnNames[i + 1][j] + "= c(" + dataName2 + "[," + (j + 1) + "])");
+                    //remember there are only 2 conditions so the indexes will be zero and 1.
+                    //   for (int j = 0; j < timeColumnNames[0].length; j++) {
+                    pw.println("" + timeColumnNames[0][i] + "= c(" + dataName1 + "[," + (i + 1) + "])");
+                    pw.println("" + timeColumnNames[1][i] + "= c(" + dataName2 + "[," + (i + 1) + "])");
 
-                        taskname = timeColumnNames[0][j].substring(0, timeColumnNames[0][j].lastIndexOf("_")); //first name without the condition name
-                        
-                        pw.println("result = wilcox.test(" + timeColumnNames[i][j] + "," + timeColumnNames[i + 1][j] + ")");
+                    taskname = timeColumnNames[0][i].substring(0, timeColumnNames[0][i].lastIndexOf("_")); //first name without the condition name
 
-                        pw.println("cat(paste(\"\\n" + taskname + "\", " + "\" , \"" + " , result$p.value, " + "\"\\n\" ))");
-                    }
-                    //  pw.println("cat(\"\\n**********************************************************\")");
-                    pw.println("cat(\"\\n\\n\")");
+                    pw.println("result = wilcox.test(" + timeColumnNames[0][i] + "," + timeColumnNames[1][i] + ")");
+
+                    //calculate the effect size
+                    //     Wilcox rank sum or Mann-Whitney:  
+                    //     r = z/sqrt(N) : where N is the total number of participants n1+n2
+                    pw.println("size1 = length(c(" + dataName1 + "[," + (i + 1) + "]))");
+                    pw.println("size2 = length(c(" + dataName2 + "[," + (i + 1) + "]))");
+                    //now calculating the z first: formula: z = (W - (n1*n2)/2 )/sqrt(n1*n2(n1+n2+n1)/12) 
+                    pw.println("num = result$statistic - (size1*size2)/2");
+                    pw.println("num = num/sqrt(((size1*size2) * (size1+size2+1))/12)");
+                    pw.println("denom = sqrt(size1 + size2)");           
+                    pw.println("es = num/denom");
+
+                    pw.println("cat(paste(\"\\n" + taskname + "\", " + "\" , \"" + " , result$p.value, "
+                            + "\" , " + "\"" + ", abs(es) , " + "\"\\n\" ))");
                 }
 
             }
@@ -921,6 +1101,7 @@ public class StudyResults extends HttpServlet {
                     String dataName2 = "accuracy" + (k + 2);
                     pw.println("tasknames = NULL");
                     pw.println("pvalues = NULL");
+                    pw.println("ess = NULL");
 
                     for (int j = 0; j < accColumnNames[i].length; j++) {
 
@@ -928,9 +1109,22 @@ public class StudyResults extends HttpServlet {
                         pw.println("" + accColumnNames[i][j] + "= c(" + dataName1 + "[," + (j + 1) + "])");
                         pw.println("" + accColumnNames[k + 1][j] + "= c(" + dataName2 + "[," + (j + 1) + "])");
 
-                        // pw.println("combineddata");
+                        //calculate the effect sizes.. r = z/sqrt(n) -- where n is the number of 
                         pw.println("results = wilcox.test(" + accColumnNames[i][j] + "," + accColumnNames[k + 1][j] + ")");
 
+                        //calculate the effect size
+                        //     Wilcox effect size  
+                        //     r = z/sqrt(N) : where N is the total number of participants n1+n2
+                        pw.println("size1 = length(c(" + dataName1 + "[," + (i + 1) + "]))");
+                        pw.println("size2 = length(c(" + dataName2 + "[," + (i + 1) + "]))");
+                        //now calculating the z first: formula: z = (W - (n1*n2)/2 )/sqrt(n1*n2(n1+n2+n1)/12) 
+                        pw.println("num = results$statistic - (size1*size2)/2");
+                        pw.println("num = num/sqrt(((size1*size2) * (size1+size2+1))/12)");
+                        pw.println("denom = sqrt(size1 + size2)");                      
+                        pw.println("ess[" + (j + 1) + "] = abs(num/denom)");
+
+                        // pw.println("tasknames[" + numberOfTasksDone + "] = \"" + taskname + "\"");
+                        //  pw.println("pvalues[" + numberOfTasksDone + "] = " + "results$p.value");
                         pw.println("tasknames[" + (j + 1) + "] = \"" + taskname + "\"");
                         pw.println("pvalues[" + (j + 1) + "] = " + "results$p.value");//                        
                     }
@@ -938,7 +1132,13 @@ public class StudyResults extends HttpServlet {
                     pw.println("pvalues_adj = p.adjust(pvalues, \"bonferroni\")");
                     //now print the name and the adjusted pvalues to file
                     for (int j = 0; j < accColumnNames[i].length; j++) {
-                        pw.println("paste(tasknames[" + (j + 1) + "] , " + "\",\" , pvalues_adj[" + (j + 1) + "])");//get the pvalue for each column name
+
+                        pw.println("cat(\"\\n\")");
+                        //pw.println("cat(paste(tasknames[" + j + "] , " + "\",\" , pvalues_adj[" + j + "]))");//get the pvalue for each column name
+                        pw.println("cat(paste(tasknames[" + (j + 1) + "] , " + "\",\" , pvalues_adj[" + (j + 1) + "], "
+                                + "\",\" , ess[" + (j + 1) + "]))");//get the pvalue for each column name
+
+                                //pw.println("paste(tasknames[" + (j + 1) + "] , " + "\",\" , pvalues_adj[" + (j + 1) + "])");//get the pvalue for each column name
                     }
 
                 }
@@ -954,6 +1154,7 @@ public class StudyResults extends HttpServlet {
                     String dataName2 = "time" + (k + 2);
                     pw.println("tasknames = NULL");
                     pw.println("pvalues = NULL");
+                    pw.println("ess = NULL");
 
                     for (int j = 0; j < timeColumnNames[i].length; j++) {
                         String taskname = timeColumnNames[i][j] + "-" + timeColumnNames[k + 1][j];
@@ -963,6 +1164,18 @@ public class StudyResults extends HttpServlet {
                         pw.println(cbindData);
                         pw.println("combineddata = stack(combineddata)");
                         pw.println("results = wilcox.test(values~ind, combineddata)");
+
+                        //calculate the effect size
+                        //     Wilcox effect size  
+                        //     r = z/sqrt(N) : where N is the total number of participants n1+n2
+                        pw.println("size1 = length(c(" + dataName1 + "[," + (i + 1) + "]))");
+                        pw.println("size2 = length(c(" + dataName2 + "[," + (i + 1) + "]))");
+                        //now calculating the z first: formula: z = (W - (n1*n2)/2 )/sqrt(n1*n2(n1+n2+n1)/12) 
+                        pw.println("num = results$statistic - (size1*size2)/2");
+                        pw.println("num = num/sqrt(((size1*size2) * (size1+size2+1))/12)");
+                        pw.println("denom = sqrt(size1 + size2)");
+                        pw.println("ess[" + (j + 1) + "] = abs(num/denom)");
+
                         pw.println("tasknames[" + (j + 1) + "] = \"" + taskname + "\"");
                         pw.println("pvalues[" + (j + 1) + "] = " + "results$p.value");
                     }
@@ -970,12 +1183,17 @@ public class StudyResults extends HttpServlet {
                     pw.println("pvalues_adj = p.adjust(pvalues, \"bonferroni\")");
                     //now print the name and the adjusted pvalues to file
                     for (int j = 0; j < timeColumnNames[i].length; j++) {
-                        pw.println("paste(tasknames[" + (j + 1) + "] , " + "\",\" , pvalues_adj[" + (j + 1) + "])");//get the pvalue for each column name
+                          pw.println("cat(\"\\n\")");
+                        //pw.println("cat(paste(tasknames[" + j + "] , " + "\",\" , pvalues_adj[" + j + "]))");//get the pvalue for each column name
+                        pw.println("cat(paste(tasknames[" + (j + 1) + "] , " + "\",\" , pvalues_adj[" + (j + 1) + "], "
+                                + "\",\" , ess[" + (j + 1) + "]))");//get the pvalue for each column name                      
+                        
+                        //pw.println("paste(tasknames[" + (j + 1) + "] , " + "\",\" , pvalues_adj[" + (j + 1) + "])");//get the pvalue for each column name
                     }
 
                 }
 
-            }            
+            }
             pw.println("sink()");
             //close the printwriter
             pw.close();
@@ -1112,8 +1330,11 @@ public class StudyResults extends HttpServlet {
              System.out.println("********************************************************");
 
              */
-            pw.println("\"task-name ,  pvalue\"");//get the pvalue for each column name
-            pw.println("\"------------------------------------\"");
+            pw.println("cat(paste(\"\\n" + "Accuracy-Taskname" + " ,\" ,\"" + "p-value" + ",\" , \"" + "Effect-Size (r = z/sqrt(n))\"))");//get mean and standard deviation
+            pw.println("cat(\"\\n--------------------------------------------------------------\")");
+
+            // pw.println("\"task-name ,  pvalue\"");//get the pvalue for each column name
+            //pw.println("\"------------------------------------\"");
             //do the wilcoxon rank-sum tests
             //write the accuracy analysis
             for (int i = 0; i < rpmts.numOfConditions - 1; i++) {
@@ -1125,6 +1346,7 @@ public class StudyResults extends HttpServlet {
                     String dataName2 = "accuracy" + (k + 2);
                     pw.println("tasknames = NULL");
                     pw.println("pvalues = NULL");
+                    pw.println("ess = NULL");
 
                     int numberOfTasksDone = 0;
                     for (int j = 0; j < accColumnNames[i].length; j++) {
@@ -1153,6 +1375,17 @@ public class StudyResults extends HttpServlet {
                             // pw.println("combineddata");
                             pw.println("results = wilcox.test(values~ind, combineddata, paired=TRUE)");
 
+                            //calculate the effect size
+                            //     Wilcox effect size  
+                            //     r = z/sqrt(N) : where N is the total number of participants n1+n2
+                            pw.println("size1 = length(c(" + dataName1 + "[," + (i + 1) + "]))");
+                            pw.println("size2 = length(c(" + dataName2 + "[," + (i + 1) + "]))");
+                            //now calculating the z first: formula: z = (W - (n1*n2)/2 )/sqrt(n1*n2(n1+n2+n1)/12) 
+                            pw.println("num = results$statistic - (size1*size2)/2");
+                            pw.println("num = num/sqrt(((size1*size2) * (size1+size2+1))/12)");
+                            pw.println("denom = sqrt(size1 + size2)");
+                            pw.println("ess[" + numberOfTasksDone + "] = abs(num/denom)");
+
                             pw.println("tasknames[" + numberOfTasksDone + "] = \"" + taskname + "\"");
                             pw.println("pvalues[" + numberOfTasksDone + "] = " + "results$p.value");
                         }
@@ -1164,7 +1397,11 @@ public class StudyResults extends HttpServlet {
                         //  pw.println("pvalues_adj");
                         //now print the name and the adjusted pvalues to file
                         for (int j = 1; j <= numberOfTasksDone; j++) {
-                            pw.println("paste(tasknames[" + j + "] , " + "\",\" , pvalues_adj[" + j + "])");//get the pvalue for each column name
+                            pw.println("cat(\"\\n\")");
+                            //pw.println("cat(paste(tasknames[" + j + "] , " + "\",\" , pvalues_adj[" + j + "]))");//get the pvalue for each column name
+
+                            pw.println("cat(paste(tasknames[" + j + "] , " + "\",\" , pvalues_adj[" + j + "], "
+                                    + "\",\" , ess[" + j + "]))");//get the pvalue for each column name
                         }
                     }
 
@@ -1173,6 +1410,9 @@ public class StudyResults extends HttpServlet {
             }
 
             //time
+            pw.println("cat(paste(\"\\n\\n\\n" + "Time-Taskname" + " ,\" ,\"" + "p-value" + ",\" , \"" + "Effect-Size (r = z/sqrt(n))\"))");//get mean and standard deviation
+            pw.println("cat(\"\\n--------------------------------------------------------------\")");
+
             for (int i = 0; i < rpmts.numOfConditions - 1; i++) {
                 String dataName1 = "time" + (i + 1);
                 //  String dataName2 = "time" + (i + 2);
@@ -1181,6 +1421,7 @@ public class StudyResults extends HttpServlet {
                     String dataName2 = "time" + (k + 2);
                     pw.println("tasknames = NULL");
                     pw.println("pvalues = NULL");
+                    pw.println("ess = NULL");
 
                     int numberOfTasksDone = 0;
                     for (int j = 0; j < timeColumnNames[i].length; j++) {
@@ -1209,6 +1450,18 @@ public class StudyResults extends HttpServlet {
                             // pw.println("combineddata");
                             pw.println("results = wilcox.test(values~ind, combineddata, paired=TRUE)");
 
+                            //calculate the effect size
+                            //     Wilcox effect size  
+                            //     r = z/sqrt(N) : where N is the total number of participants n1+n2
+                            pw.println("size1 = length(c(" + dataName1 + "[," + (i + 1) + "]))");
+                            pw.println("size2 = length(c(" + dataName2 + "[," + (i + 1) + "]))");
+                            //now calculating the z first: formula: z = (W - (n1*n2)/2 )/sqrt(n1*n2(n1+n2+n1)/12) 
+                            pw.println("num = results$statistic - (size1*size2)/2");
+                            pw.println("num = num/sqrt(((size1*size2) * (size1+size2+1))/12)");
+                            pw.println("denom = sqrt(size1 + size2)");
+                            //pw.println("denom = sqrt(((size1*size2) * (size1+size2+1))/12)");
+                            pw.println("ess[" + numberOfTasksDone + "] = abs(num/denom)");
+
                             pw.println("tasknames[" + numberOfTasksDone + "] = \"" + taskname + "\"");
                             pw.println("pvalues[" + numberOfTasksDone + "] = " + "results$p.value");
 
@@ -1219,7 +1472,9 @@ public class StudyResults extends HttpServlet {
                         pw.println("pvalues_adj = p.adjust(pvalues, \"bonferroni\")");
                         //now print the name and the adjusted pvalues to file
                         for (int j = 1; j <= numberOfTasksDone; j++) {
-                            pw.println("paste(tasknames[" + j + "] , " + "\",\" , pvalues_adj[" + j + "])");//get the pvalue for each column name
+                            pw.println("cat(\"\\n\")");
+                            pw.println("cat(paste(tasknames[" + j + "] , " + "\",\" , pvalues_adj[" + j + "], "
+                                    + "\",\" , ess[" + j + "]))");//get the pvalue for each column name
                         }
                     }
 
@@ -2149,6 +2404,7 @@ public class StudyResults extends HttpServlet {
                 // System.out.println("Line::: " + line);
 
                 if (line.indexOf("******") >= 0) {
+                    System.out.println("......... "+curtask + "........................ normal: "+normal);
                     //write the previous task
                     if (normal) {
                         //System.out.println("*** this task:: "+ curtask + "  is normal");
@@ -2189,6 +2445,9 @@ public class StudyResults extends HttpServlet {
                     /*NB: if at one point one of the p_values is less than 0.05, then the data for the task is not normal*/
                     if (pvalue < 0.05) {
                         normal = false;
+                    }
+                    else {
+                        System.out.println("### " + pvalue);
                     }
                     //System.out.println("***pvalue :: " + pvalue);
                 }
@@ -2763,7 +3022,7 @@ public class StudyResults extends HttpServlet {
 
     }
 
-    public String generateTTest(String studyType, ResultParameters rpmts) {
+    public String generateTTest(String studyType, ResultParameters rpmts, ArrayList<String> normalTasks) {
         //Write the R-Script
         String scriptFilename = "rscript-ttest.R";
         String scriptOutputFilename = "rscript-ttest.Rout"; //this is for standard output
@@ -2825,51 +3084,205 @@ public class StudyResults extends HttpServlet {
             for (int i = 0; i < rpmts.numOfConditions; i++) {
                 pw.println("accuracy" + (i + 1) + " = read.csv(\"" + rpmts.accuracyFilenames.get(i) + "\")");
             }
+
+            //TODO: print the phrase of paired t-test as part of the header
+            //if it is a within group study,
+            //otherwise print the phrase the independent t-test as part of the header
+            /**
+             * First print the header
+             */
+            if (studyType.equalsIgnoreCase("Within")) {
+                //print the header that includes the paired t-test phrase.
+                pw.println("cat(paste(\"\\n" + "Paired T-Test Accuracy-Taskname" + " ,\" ,\"" + "p-value" + ",\" , \"" + "Effect-Size (Cohen's d_z)\"))");//get mean and standard deviation
+                pw.println("cat(\"\\n--------------------------------------------------------------\")");
+
+            } else {
+                //Formula for finding effect sizes using tstats:
+                //1. Cohen's d = 2*t / sqrt(df)  i.e. if the sample sizes are equal
+                //2. Cohen's d = t(n1+n2)/sqrt((n1+n2 -2)*(n1*n2))    i.e If sample sizes are not equal
+
+                //print the header that includes the independent t-test phrase.
+                pw.println("cat(paste(\"\\n" + "Independent T-Test Accuracy-Taskname" + " ,\" ,\"" + "p-value" + ",\" , \"" + "Effect-Size (Cohen's d)\"))");//get mean and standard deviation
+                pw.println("cat(\"\\n--------------------------------------------------------------\")");
+
+            }
+
             //write the accuracy analysis
-            for (int i = 0; i < rpmts.numOfConditions - 1; i++) {
+            for (int i = 0; i < rpmts.numOfTasks; i++) {
 
-                String dataName1 = "accuracy" + (i + 1);
-                String dataName2 = "accuracy" + (i + 2);
+                //check if the task name is part of the normal tasks                
+                String tname = accColumnNames[0][i].substring(0, accColumnNames[0][i].lastIndexOf("_")); //first name without the condition name
+                // System.out.println("^^^^^ "+tname);
 
-                for (int j = 0; j < accColumnNames[i].length; j++) {
-                    pw.println("" + accColumnNames[i][j] + "= c(" + dataName1 + "[," + (j + 1) + "])");
-                    pw.println("" + accColumnNames[i + 1][j] + "= c(" + dataName2 + "[," + (j + 1) + "])");
+                //tname = tname.trim();
+                boolean normalAccuracy = false;
+                for (String task : normalTasks) {
+                    //  System.out.println("^^--"+task);
+                    if (task.trim().equalsIgnoreCase(tname.trim())) {
+                        normalAccuracy = true;
+                        break;
+                    }
+                }
+
+                if (normalAccuracy) {
+                    //do the analysis for only this task
+
+                    //   System.out.println("-----*****8----- " + tname);
+                    String dataName1 = "accuracy1";
+                    String dataName2 = "accuracy2";
+                    //print the taskname so that we can know which anova this belongs to 
+                    String taskname = accColumnNames[0][i].substring(0, accColumnNames[0][i].lastIndexOf("_")); //first name without the condition name
+
+                    //remember we only have two condiotions so we can use the indexes 0 and 1.
+                    pw.println("" + accColumnNames[0][i] + "= c(" + dataName1 + "[," + (i + 1) + "])");
+                    pw.println("" + accColumnNames[1][i] + "= c(" + dataName2 + "[," + (i + 1) + "])");
+
                     if (studyType.equalsIgnoreCase("Within")) {
-                        pw.println("results<-capture.output(t.test(" + accColumnNames[i][j] + "," + accColumnNames[i + 1][j] + ", paired=TRUE))");
+                        pw.println("results<-(t.test(" + accColumnNames[0][i] + "," + accColumnNames[1][i] + ", paired=TRUE))");
+                        //calculate the cohen's dz for this one
+                        //Cohen's  dz=t/sqrt(n) formula
+
+                        //get the size (n) of one of the vectors                       
+                        pw.println("size = length(c(" + dataName1 + "[," + (i + 1) + "]))");
+                        pw.println("es = (results$statistic)/sqrt(size)");
+                        pw.println("cat(paste(\"\\n" + taskname + "\", " + "\" , \"" + " , results$p.value, "
+                                + "\" , " + "\"" + ", abs(es) , " + "\"\\n\" ))");
+
                     } else {
-                        pw.println("results<-capture.output(t.test(" + accColumnNames[i][j] + "," + accColumnNames[i + 1][j] + "))");
+                        pw.println("results<-(t.test(" + accColumnNames[0][i] + "," + accColumnNames[1][i] + "))");
+
+                        //get the sizes of the 2 vectors.                        
+                        pw.println("size1 = length(c(" + dataName1 + "[," + (i + 1) + "]))");
+                        pw.println("size2 = length(c(" + dataName2 + "[," + (i + 1) + "]))");
+                        pw.println("es = (results$statistic * (size1+size2))/sqrt((results$parameter)  * (size1*size2))");
+
+                        pw.println("cat(paste(\"\\n" + taskname + "\", " + "\" , \"" + " , results$p.value, "
+                                + "\" , " + "\"" + ", abs(es) , " + "\"\\n\" ))");
+
                     }
 
-                    pw.println("cat(results, sep=\"\\n\")");
-                    //pw.println("results");
+                    // pw.println("cat(results, sep=\"\\n\")");
                 }
             }
 
+            /**
+             * Now let's do this for the time also
+             */
+            //write the accuracy analysis
+         /*   for (int i = 0; i < rpmts.numOfConditions - 1; i++) {
+
+             String dataName1 = "accuracy" + (i + 1);
+             String dataName2 = "accuracy" + (i + 2);
+
+             for (int j = 0; j < accColumnNames[i].length; j++) {
+             pw.println("" + accColumnNames[i][j] + "= c(" + dataName1 + "[," + (j + 1) + "])");
+             pw.println("" + accColumnNames[i + 1][j] + "= c(" + dataName2 + "[," + (j + 1) + "])");
+             if (studyType.equalsIgnoreCase("Within")) {
+             pw.println("results<-capture.output(t.test(" + accColumnNames[i][j] + "," + accColumnNames[i + 1][j] + ", paired=TRUE))");
+             } else {
+             pw.println("results<-capture.output(t.test(" + accColumnNames[i][j] + "," + accColumnNames[i + 1][j] + "))");
+             }
+
+             pw.println("cat(results, sep=\"\\n\")");
+             //pw.println("results");
+             }
+             }  */
             //do the same for time
-            //read the accuracy files
             for (int i = 0; i < rpmts.numOfConditions; i++) {
                 pw.println("time" + (i + 1) + " = read.csv(\"" + rpmts.timeFilenames.get(i) + "\")");
             }
-            //write the accuracy analysis
-            for (int i = 0; i < rpmts.numOfConditions - 1; i++) {
 
-                String dataName1 = "time" + (i + 1);
-                String dataName2 = "time" + (i + 2);
+            if (studyType.equalsIgnoreCase("Within")) {
+                //print the header that includes the paired t-test phrase.
+                pw.println("cat(paste(\"\\n\\n\\n\\n" + "Paired T-Test Time-Taskname" + " ,\" ,\"" + "p-value" + "  ,\" , \"" + "Effect-Size (Cohen's d_z)\"))");//get mean and standard deviation
+                pw.println("cat(\"\\n--------------------------------------------------------------\")");
 
-                for (int j = 0; j < timeColumnNames[i].length; j++) {
-                    pw.println("" + timeColumnNames[i][j] + "= c(" + dataName1 + "[," + (j + 1) + "])");
-                    pw.println("" + timeColumnNames[i + 1][j] + "= c(" + dataName2 + "[," + (j + 1) + "])");
+            } else {
+                //print the header that includes the independent t-test phrase.
+                pw.println("cat(paste(\"\\n\\n\\n\\n" + "Independent T-Test Time-Taskname" + " ,\" ,\"" + "p-value" + " ,\" , \"" + "Effect-Size (Cohen's d)\"))");//get mean and standard deviation
+                pw.println("cat(\"\\n--------------------------------------------------------------\\n\")");
+
+            }
+
+            //write the time analysis now.
+            for (int i = 0; i < rpmts.numOfTasks; i++) {
+
+                //check if the task name is part of the normal tasks                
+                String tname = timeColumnNames[0][i].substring(0, timeColumnNames[0][i].lastIndexOf("_")); //first name without the condition name
+                // System.out.println("^^^^^ "+tname);
+
+                //tname = tname.trim();
+                boolean normalTime = false;
+                for (String task : normalTasks) {
+                    //  System.out.println("^^--"+task);
+                    if (task.trim().equalsIgnoreCase(tname.trim())) {
+                        normalTime = true;
+                        break;
+                    }
+                }
+
+                if (normalTime) {
+                    //do the analysis for only this task
+                    String dataName1 = "time1";
+                    String dataName2 = "time2";
+                    //print the taskname so that we can know which anova this belongs to 
+                    String taskname = timeColumnNames[0][i].substring(0, timeColumnNames[0][i].lastIndexOf("_")); //first name without the condition name
+
+                    //remember we only have two condiotions so we can use the indexes 0 and 1.
+                    pw.println("" + timeColumnNames[0][i] + "= c(" + dataName1 + "[," + (i + 1) + "])");
+                    pw.println("" + timeColumnNames[1][i] + "= c(" + dataName2 + "[," + (i + 1) + "])");
+
                     if (studyType.equalsIgnoreCase("Within")) {
-                        pw.println("results<-capture.output(t.test(" + timeColumnNames[i][j] + "," + timeColumnNames[i + 1][j] + ", paired=TRUE))");
+                        pw.println("results<-(t.test(" + timeColumnNames[0][i] + "," + timeColumnNames[1][i] + ", paired=TRUE))");
+
+                        //calculate the cohen's dz for this one
+                        //Cohen's  dz=t/sqrt(n) formula                        
+                        //get the size (n) of one of the vectors                       
+                        pw.println("size = length(c(" + dataName1 + "[," + (i + 1) + "]))");
+                        pw.println("es = (results$statistic)/sqrt(size)");
+                        pw.println("cat(paste(\"\\n" + taskname + "\", " + "\" , \"" + " , results$p.value, "
+                                + "\" , " + "\"" + ", abs(es) , " + "\"\\n\" ))");
+
+                        // pw.println("cat(paste(\"\\n" + taskname + "\", " + "\" , \"" + " , results$p.value, " + "\"\\n\" ))");
                     } else {
-                        pw.println("results<-capture.output(t.test(" + timeColumnNames[i][j] + "," + timeColumnNames[i + 1][j] + "))");
+
+                        //Formula for finding effect sizes using tstats:
+                        //1. Cohen's d = 2*t / sqrt(df)  i.e. if the sample sizes are equal
+                        //2. Cohen's d = t(n1+n2)/sqrt((df)*(n1*n2))    i.e If sample sizes are not equal
+                        pw.println("results<-(t.test(" + timeColumnNames[0][i] + "," + timeColumnNames[1][i] + "))");
+
+                        //get the sizes of the 2 vectors.                        
+                        pw.println("size1 = length(c(" + dataName1 + "[," + (i + 1) + "]))");
+                        pw.println("size2 = length(c(" + dataName2 + "[," + (i + 1) + "]))");
+                        pw.println("es = (results$statistic * (size1+size2))/sqrt((results$parameter)  * (size1*size2))");
+
+                        pw.println("cat(paste(\"\\n" + taskname + "\", " + "\" , \"" + " , results$p.value, "
+                                + "\" , " + "\"" + ", abs(es) , " + "\"\\n\" ))");
                     }
 
-                    pw.println("cat(results, sep=\"\\n\")");
-                    //pw.println("results");
+                    //pw.println("cat(results, sep=\"\\n\")");
                 }
             }
 
+            //write the accuracy analysis
+           /* for (int i = 0; i < rpmts.numOfConditions - 1; i++) {
+
+             String dataName1 = "time" + (i + 1);
+             String dataName2 = "time" + (i + 2);
+
+             for (int j = 0; j < timeColumnNames[i].length; j++) {
+             pw.println("" + timeColumnNames[i][j] + "= c(" + dataName1 + "[," + (j + 1) + "])");
+             pw.println("" + timeColumnNames[i + 1][j] + "= c(" + dataName2 + "[," + (j + 1) + "])");
+             if (studyType.equalsIgnoreCase("Within")) {
+             pw.println("results<-capture.output(t.test(" + timeColumnNames[i][j] + "," + timeColumnNames[i + 1][j] + ", paired=TRUE))");
+             } else {
+             pw.println("results<-capture.output(t.test(" + timeColumnNames[i][j] + "," + timeColumnNames[i + 1][j] + "))");
+             }
+
+             pw.println("cat(results, sep=\"\\n\")");
+             //pw.println("results");
+             }
+             }*/
             pw.println("sink()");
             //close the printwriter
             pw.close();
@@ -3015,6 +3428,8 @@ public class StudyResults extends HttpServlet {
                     if (!studyType.equalsIgnoreCase("Within")) {
                         pw.println("anovaresult = aov(lm(values ~ ind, combineddata))");
                     } else {//do this if it is a within study. //i.e. a repeated measure anova
+                        //TODO: Effect-size  for anova 
+                        
                         pw.println("numcases = " + numOfRows);  //the number of cases goes here
                         pw.println("numvariables =" + rpmts.numOfConditions);
                         pw.println("recall.df = data.frame(recall = combineddata,");

@@ -260,6 +260,7 @@ public class StudySetup extends HttpServlet {
     }
 
     public void writeTasksToFile(StudySetupParameters spmts) {
+        System.out.println("##over here");
         String quantTaskFilename = "quantitativeQuestions.txt";
         try {
             //////////////////////////////////////////////////////////////////////////////////
@@ -352,7 +353,9 @@ public class StudySetup extends HttpServlet {
     }
 
     public String getTaskCode(String task) {
-        String taskCode = "";
+               
+        
+        /*String taskCode = "";
 
         //System.out.println("::::::::"+task+"::::::::::::");
         if (task.equalsIgnoreCase("Are the two highlighted nodes directly connected?")) {
@@ -368,9 +371,51 @@ public class StudySetup extends HttpServlet {
         }
         else if(task.equalsIgnoreCase("Given the two highlighted nodes, select the one with the highest degree")){
             taskCode = "selectNodeWithHighestDegree2";
+        }*/
+
+        
+        
+        String shortname = "";
+
+        try {
+            //read the quant-task-files.
+            String filename = getServletContext().getRealPath("quanttasks" + File.separator + "quanttasks.xml");
+            File fXmlFile = new File(filename);
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(fXmlFile);
+            doc.getDocumentElement().normalize();
+
+            //System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+            NodeList taskNode = doc.getElementsByTagName("task");
+            //get the condition urls and shortnames
+            for (int i = 0; i < taskNode.getLength(); i++) {
+                Node nNode = taskNode.item(i);
+
+                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element eElement = (Element) nNode;
+                    String sn = eElement.getElementsByTagName("taskname").item(0).getTextContent();
+                    String qn = eElement.getElementsByTagName("taskquestion").item(0).getTextContent();
+                    //check if the question is similar                        
+                    if (task.trim().equalsIgnoreCase(qn.trim())) {
+                        shortname = sn;
+                        break;
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
-        return taskCode;
+        
+        System.out.println("The short name is: "+ shortname);
+        
+        return shortname;
+        
+        
+        
+        
+        //return taskCode;
     }
 
     public String getQualitativeTaskCode(String task) {
@@ -383,6 +428,9 @@ public class StudySetup extends HttpServlet {
             taskCode = "rate_vis_familiarity";
         } else if (task.equalsIgnoreCase("Please enter your Mechanical Turk ID")) {
             taskCode = "enter_turk_id";
+        }
+        else if(task.equalsIgnoreCase("Do you have any feedback,comment or what issue did you had in this study?")){
+            taskCode="feedback_comment_issues";
         }
 
         return taskCode;
