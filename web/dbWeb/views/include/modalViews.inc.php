@@ -54,3 +54,17 @@
         ?>
     </div>
 </div>
+<div id = "modalViewSettings" class = "modal fade" role = "dialog" style = "padding-top: 100px;">
+    <div class = "jumbotron col-sm-offset-5 col-md-3" style = "border-radius: 6px;">
+        <?php
+        include (dirname(__FILE__) . '/user/settings.inc.php');
+        ?>
+    </div>
+</div>
+<div id = "modalViewAddTask" class = "modal fade" role = "dialog" style = "padding-top: 100px;">
+    <div class = "jumbotron col-sm-offset-5 col-md-3" style = "border-radius: 6px;">
+        <?php
+        include (dirname(__FILE__) . '/managementTabs/task/addTask.html');
+        ?>
+    </div>
+</div>

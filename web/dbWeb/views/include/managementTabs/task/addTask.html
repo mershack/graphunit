@@ -1,0 +1,115 @@
+<div id="controlBox">
+    <div class="well">
+        <div class="row">
+            <h2> <b>Create a New Task </b></h2>
+            <hr>
+            <h4> <b>Task Question </b></h4>
+            <div class="innerBox">
+                <p> <b>Type the task question</b> &nbsp; &nbsp;
+                    <textarea rows="2" cols="35" id="taskQuestion" class="right"></textarea>
+                </p>
+                <br /><br/>
+            </div>  
+
+            <hr />
+            <h4><b> Task Shortname </b></h4>
+            <div class="innerBox">
+                <p> Specify a short name for this task &nbsp; &nbsp; &nbsp;
+                    <input  type="text" size="30" id="taskshortname" value="" class="right"
+
+                            onblur="checkShortNameAvailability();" />
+
+                </p>
+
+                <div id="nameAvailabilityChecking" style="display:none;">
+                    <p> <span id="nameAvailable" style="display:none;" class="center"> (Name is Available)</span>
+                        <span id="nameUnavailable" style="display:none;" class="center"> (Name is not Available, try another)</span>
+                    </p>
+                </div>
+
+            </div>  
+
+            <form method="GET" action="TaskCreator"  id="setupForm">
+                <hr>
+                <h4><b> Answer type </b></h4>
+                <div class="innerBox">                    
+                    <div class="condgitionNumberOdd">
+                        <p><b> Select the answer type </b>
+                            <select id="answertype" name="answertype" 
+                                    class="right" style="min-width:50%;" onchange="answerOptionChanged(this);">
+                                <option value="">Select One</option>
+                                <option value="Number">Number</option>
+                                <option value="Options">Options</option>
+                                <option value="Text">Text</option>                                    
+                                <option value="Selection">Selection</option>
+                            </select>
+                        </p>
+
+                        <div id="ansOptionsDiv" style="display:none;">
+                            <div id="optionsBlock">
+                                <p>Specify Option1 <input type="text" id ="ansOptions1" name="ansOptions1" value="" class="right"/></p>
+                                <p>Specify Option2 <input type="text" id = "ansOptions2" name="ansOptions2" value="" class="right"/></p>
+                            </div>
+                            <input type="button" value="Add more answer options" onclick="addMoreAnsOptions();" class="center" />
+                        </div>
+
+
+                    </div>
+                    <br />
+                </div> 
+                <hr/>
+                <h4><b> Custom function names for passing input and getting output</b> </h4>
+                <div class="innerBox">
+                    <p>Name of function for passing task inputs to the visualization &nbsp; &nbsp;
+                        <input type="text" id ="inputInterface" name="inputInterface" value="setInput" class="right"/>
+                    </p>
+
+                    <p>Name of function for getting task outputs from the visualization &nbsp; &nbsp;
+                        <input type="text" id ="outputInterface" name="outputInterface" value="getOutput" class="right"/>
+                    </p>
+                </div> 
+                <hr/>
+                <h4><b>Info about the inputs</b></h4>
+                <div class="innerBox">
+                    <p> Specify number of inputs this task require &nbsp; &nbsp;
+                        <input type="number" id ="numberOfInputs" name="numberOfInputs" min="0" value="0" class="right"
+                               onchange="getNumberOfInputs(this)" />
+                    </p>
+                    <div id="inputInfo" style="display:none;">
+
+                    </div>
+
+
+
+
+                </div> 
+                <hr />
+                <div class="center">    
+                    <input id="submitTask" type="button" class="btn btn-primary" value="Save Task"/>
+                    &nbsp; &nbsp; &nbsp;                   
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $('#submitTask').click(function (e) {
+            e.preventDefault();
+            saveNewTask();
+
+            $.ajax({
+                type: "POST",
+                url: "controllers/Task.php",
+                data: {
+                    action: 'add',
+                    userId: userId,
+                    name: $("#taskshortname").val(),
+                    datasetId: datasetId
+                },
+                success: function ()
+                {
+                    location.reload();
+                }
+            });
+        });
+    </script>

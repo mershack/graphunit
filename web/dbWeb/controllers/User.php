@@ -1,8 +1,10 @@
 <?php
 
-require_once './DatabaseManager.php';
-require '../phpmailer/PHPMailerAutoload.php';
-require '../phpmailer/class.smtp.php';
+require_once (dirname(__FILE__) . '/Session.php');
+include (dirname(__FILE__) . '/DatabaseManager.php');
+
+//include (dirname(__FILE__) . '../phpmailer/PHPMailerAutoload.php');
+//include (dirname(__FILE__) . '../phpmailer/class.smtp.php');
 
 class User extends DatabaseManager {
 
@@ -91,15 +93,18 @@ class User extends DatabaseManager {
      * in DatabaseManager
      */
     public function login() {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
         $fields = ['email', 'password'];
         $conditions = [$_POST['email'], $_POST['password']];
         $result = $this->select($fields, $conditions);
         if (!empty($result)) {
-            session_start();
             $_SESSION['userId'] = $result['0']['id'];
             $_SESSION['firstName'] = $result['0']['firstName'];
             $_SESSION['lastName'] = $result['0']['lastName'];
             $_SESSION['email'] = $result['0']['email'];
+            $_SESSION['amazon_turk_id'] = $result['0']['amazon_turk_id'];
             echo json_encode(true);
             return;
         }
@@ -108,11 +113,46 @@ class User extends DatabaseManager {
     }
 
     /**
+     * Process of deleting a user 
+     */
+    public function deleteUser() {
+        $successful = $this->delete($_POST['id']);
+
+        $result = true;
+
+        if (!$successful) {
+            $result = false;
+        } else {
+            $this->logout();
+        }
+
+        echo json_encode($result);
+    }
+
+    /**
+     * Process of changing password of a user 
+     */
+    public function changePassword() {
+        $data = [$this->email, $_POST['password'], $this->userId, $this->amazon];
+        $successful = $this->update($this->userId, $this->fields, $data);
+
+        $result = true;
+
+        if (!$successful) {
+            $result = false;
+        }
+
+        echo json_encode($result);
+    }
+
+    /**
      * Process of loging out a user 
      * using the session_destroy()
      */
     public function logout() {
-        session_start();
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
         session_destroy();
         $_SESSION = array();
     }
@@ -132,5 +172,11 @@ switch ($_POST['action']) {
         break;
     case 'forgot':
         $user->forgotPassword();
+        break;
+    case 'delete':
+        $user->deleteUser();
+        break;
+    case 'changePassword':
+        $user->changePassword();
         break;
 }
