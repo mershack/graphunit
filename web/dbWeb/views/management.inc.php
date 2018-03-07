@@ -13,17 +13,17 @@
     <div class="tab-content">
         <div class="tab-pane active" id="studyManagementTab">
             <?php
-            include './views/include/managementTabs/study/studyManagement.php';
+            include dirname(__FILE__) . '/include/managementTabs/study/studyManagement.php';
             ?>
         </div>
         <div class="tab-pane" id="datasetManagementTab" >
             <?php
-            include './views/include/managementTabs/dataset/datasetManagement.inc.php';
+            include dirname(__FILE__) . '/include/managementTabs/dataset/datasetManagement.inc.php';
             ?>
         </div>
         <div class="tab-pane" id="viewerManagementTab" >
             <?php
-            include './views/include/managementTabs/viewer/viewerManagement.inc.php';
+            include  dirname(__FILE__) . '/include/managementTabs/viewer/viewerManagement.inc.php';
             ?>
         </div>
     </div>

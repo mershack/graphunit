@@ -13,9 +13,9 @@
                 <input name="description"  type="text" class="form-control " id="description" placeholder="Please enter a description" />
             </div>
         </div>
-        <input type="file" name="thedataset[]" id="thedataset" onchange="uploadDataset()"/>
+        <input type="file" name="thedataset[]" id="thedataset"/>
         <div class="form-group col-sm-offset-5">
-            <button id="submitButtonAddDataset" type="submit" class="btn btn-primary">Add Dataset</button>
+            <button id="submitButtonAddDataset" class="btn btn-primary">Add Dataset</button>
         </div>
     </form>
 </div>
@@ -23,6 +23,7 @@
 <script type="text/javascript">
     $('#submitButtonAddDataset').click(function (e) {
         e.preventDefault();
+        uploadDataset();
         $.ajax({
             type: "POST",
             url: "controllers/Dataset.php",
