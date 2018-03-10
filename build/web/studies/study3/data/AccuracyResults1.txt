@@ -1,4 +1,0 @@
-Acc_neighbor_one_step_nodesize5
-0.8
-0.8
-0.6

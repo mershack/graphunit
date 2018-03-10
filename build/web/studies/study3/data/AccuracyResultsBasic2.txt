@@ -1,5 +1,0 @@
-Acc_neighbor_one_step_nodesize10,,,,
-Q1,Q2,Q3,Q4,Q5
-true,true,false,true,false
-true,true,true,true,false
-true,true,true,true,false

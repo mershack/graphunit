@@ -1,6 +1,0 @@
-Warning message:
-In wilcox.test.default(x = c(0.8, 0.8, 0.8, 1), y = c(0.6, 0.4,  :
-  cannot compute exact p-value with ties
-Warning message:
-In wilcox.test.default(x = c(3.6, 2.8, 1.8, 3), y = c(3.6, 2, 2.6,  :
-  cannot compute exact p-value with zeroes

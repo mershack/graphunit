@@ -1,8 +1,0 @@
-[1] "TaskName = Acc_neighbor_one_step"
-[1] "Acc_neighbor_one_step_edgesize2 , 0.00124072593197728"
-[1] "Acc_neighbor_one_step_edgesize4 , 0.971877057620899"
-[1] "*********************"
-[1] "TaskName = Time_neighbor_one_step"
-[1] "Time_neighbor_one_step_edgesize2 , 0.782546969582453"
-[1] "Time_neighbor_one_step_edgesize4 , 0.19921358962106"
-[1] "*********************"

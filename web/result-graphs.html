@@ -13,26 +13,75 @@ and open the template in the editor.
 
         <style type="text/css">
             body{
-                margin: 20px;
-                padding: 20px;
+                margin-left: 20px;
+                padding-left: 20px;
+
+                margin-bottom: 50px;
+
             }
             #completionStats{
                 margin-left:100px;
             }
+            th, td {
+                border: 1px solid black;
+                text-align: center;
+                padding: 5px;   
+            }
+            #dataSelection{
+                width: 500px;
+                padding-top: 10px;
+                padding-left: 10px;
+                margin-left: 200px;
+                margin-right: 300px;
+            }
+            .grayBackground{
+                background-color: #E8E8E8 ;
+                margin: 1px;
+                padding: 1px;
+            }
+            .hide_borders{
+                border: 0px;
+                width: 0.2px;
+                background-color: gray;
+            }
+            .hide_borders2{
+                border: 0px;
+                width: 0.2px;                
+            }
+            .italics{
+                font-style: italic;
+            }
+            .tableButtons{
+                margin-left: 5%;
+                margin-right: 5%
+            }
+            .grayout {
+                opacity: 0.2;
+                filter: alpha(opacity = 60); //IE
+            }
         </style>
         <script type="text/javascript">
+
+            var experimenttype = "";
+            var numOfTasks = 0;
+            var allAccuracyfilesRows = [];
+            var allTimefilesRows = [];
+
+            var tableSelections = [];
+            var selectedRowCount = 0;
 
             window.onload = function() {
                 getStudyId();
             };
 
-
+            //get the studyname and set it.
             function getStudyId() {
                 removeDivChildren(document.getElementById("chart"));
 
-                //get accuracy result
                 var command = "getStudyId";
                 var url = "StudyResults?command=" + command;
+
+
                 var xmlHttpRequest = getXMLHttpRequest();
 
                 xmlHttpRequest.onreadystatechange = function()
@@ -40,7 +89,12 @@ and open the template in the editor.
                     if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
                     {
                         if (xmlHttpRequest.responseText !== "") {
+                            var split = xmlHttpRequest.responseText.split("::");
                             document.getElementById("studyid").value = xmlHttpRequest.responseText;
+
+                            //get the experimenttype;
+                            getExperimentType();
+                            getNumberOfTasks();
 
                             getAnalysisOfResults(); //now get the analysis of the results
                         }
@@ -50,23 +104,74 @@ and open the template in the editor.
                 xmlHttpRequest.send();
 
             }
+            function getExperimentType() {
+
+
+                var studyid = document.getElementById("studyid").value;
+
+                var command = "getExperimentType";
+                var url = "StudyResults?command=" + command
+                        + "&studyid=" + studyid;
+
+                var xmlHttpRequest = getXMLHttpRequest();
+
+                xmlHttpRequest.onreadystatechange = function()
+                {
+                    if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
+                    {
+                        if (xmlHttpRequest.responseText !== "") {
+                            experimenttype = xmlHttpRequest.responseText;
+                        }
+                    }
+                };
+                xmlHttpRequest.open("GET", url, false);
+                xmlHttpRequest.send();
+            }
+            //get and set number of tasks
+            function getNumberOfTasks() {
+                var studyid = document.getElementById("studyid").value;
+
+                var command = "getNumberOfTasks";
+                var url = "StudyResults?command=" + command
+                        + "&studyid=" + studyid;
+
+                var xmlHttpRequest = getXMLHttpRequest();
+
+                xmlHttpRequest.onreadystatechange = function()
+                {
+                    if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
+                    {
+                        numOfTasks = +xmlHttpRequest.responseText;
+                    }
+                };
+                xmlHttpRequest.open("GET", url, false);
+                xmlHttpRequest.send();
+            }
 
             function getAnalysisOfResults() {
                 var studyid = document.getElementById("studyid").value;
-                //      alert("the study id is -- "+ studyid);
+
+
+
+
                 getGraphAnalysis(studyid);
                 getRAnalysis(studyid);
 
                 getCompletionStats(studyid);
 
-                getRawData(studyid, 'summarized');
-                getRawData(studyid, 'basic');
+                getCombinedRawDataFilename(studyid, 'summarized');
+                // getRawDataFilename(studyid, 'basic');
+                loadDataTable("summarized");
+
             }
 
 
             function getCompletionStats(studyid) {
                 var command = "getCompletionStats";
+
+
                 var url = "StudyResults?command=" + command + "&studyid=" + studyid;
+
                 var xmlHttpRequest = getXMLHttpRequest();
 
                 xmlHttpRequest.onreadystatechange = function()
@@ -77,21 +182,37 @@ and open the template in the editor.
                         if (xmlHttpRequest.responseText !== "") {
                             var theResponse = xmlHttpRequest.responseText;
                             var split = theResponse.split("::");
+                            //create a table of the condition and number finished
+                            var table = document.createElement("table");
+                            var thr = document.createElement("tr");
+                            var th1 = document.createElement("th");
+                            th1.innerHTML = "Condition-Name";
+                            var th2 = document.createElement("th");
+                            th2.innerHTML = "Number Finished";
+
+                            thr.appendChild(th1);
+                            thr.appendChild(th2);
+                            table.appendChild(thr);
 
                             for (var i = 0; i < split.length; i++) {
                                 //create a paragraph with the short name and the number completed.
                                 var split2 = split[i].split(",");
-
-                                var p = document.createElement("p");
-
-                                p.innerHTML = split2[0] + "&nbsp;&nbsp;&nbsp;&nbsp;  ----- &nbsp;&nbsp;&nbsp;&nbsp;  " + split2[1];
-
-                                document.getElementById("completionStats").appendChild(p);
+                                //create a row for each condition
+                                var tr = document.createElement("tr");
 
 
+                                //create a column for the condition name and a column for the number finished.                               
+                                var td1 = document.createElement("td");
+                                td1.innerHTML = split2[0];
+                                var td2 = document.createElement("td");
+                                td2.innerHTML = split2[1];
+
+                                tr.appendChild(td1);
+                                tr.appendChild(td2);
+                                table.appendChild(tr);
                             }
 
-
+                            document.getElementById("completionStats").appendChild(table);
                         }
                     }
                 };
@@ -106,6 +227,7 @@ and open the template in the editor.
                 //get accuracy result
                 var command = "getAccuracyAnalysis";
                 var url = "StudyResults?command=" + command + "&studyid=" + studyid;
+
                 var xmlHttpRequest = getXMLHttpRequest();
 
                 xmlHttpRequest.onreadystatechange = function()
@@ -114,8 +236,6 @@ and open the template in the editor.
                     {
                         if (xmlHttpRequest.responseText !== "") {
                             drawD3Graphs(xmlHttpRequest.responseText);
-                            //set the studyid
-                            //  getOtherResults();
                         }
                     }
                 };
@@ -126,6 +246,7 @@ and open the template in the editor.
                 //get time result
                 command = "getTimeAnalysis";
                 var url = "StudyResults?command=" + command + "&studyid=" + studyid;
+
                 var xmlHttpRequest = getXMLHttpRequest();
 
                 xmlHttpRequest.onreadystatechange = function()
@@ -278,7 +399,7 @@ and open the template in the editor.
                             .attr("y1", 2)
                             .attr("y2", 5)
                             .style("stroke", "black")
-                    .style("stroke-width", "2px");
+                            .style("stroke-width", "2px");
 
                     gridContainer.selectAll("line").data(x.ticks(5)).enter().append("line")
                             .attr("x1", x)
@@ -394,8 +515,11 @@ and open the template in the editor.
                  typesList += list[i].value + ", ";
                  }
                  }*/
-                //form the url
+
+
+
                 var url = "StudyResults?command=" + command + "&studyid=" + studyid;
+
                 //make a request to the servlet, get the analsyis and then display them
                 var xmlHttpRequest = getXMLHttpRequest();
 
@@ -434,11 +558,14 @@ and open the template in the editor.
                 xmlHttpRequest.send();
             }
 
-            function getRawData(studyid, type) {
+            function getCombinedRawDataFilename(studyid, type) {
                 //send a request to the servlet, you will receive the name of the file at the end
-                var command = "getRawData";
+                var command = "getCombinedRawDataFileName";
+                //  var userid = document.getElementById("userid").value;
 
-                var url = "StudyResults?command=" + command + "&type=" + type + "&studyid=" + studyid;
+                var url = "StudyResults?command=" + command + "&type=" + type
+                        + "&studyid=" + studyid;
+
                 //make a request to the servlet, get the name of the file and create a link for it
                 var xmlHttpRequest = getXMLHttpRequest();
 
@@ -446,8 +573,9 @@ and open the template in the editor.
                 {
                     if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
                     {
+                        //alert(xmlHttpRequest.responseText);
                         //put that result as in the rawData div location
-                        var rawDataDiv = document.getElementById("rawData");
+                        var rawDataDiv = document.getElementById("rawDataFilenames");
                         //removeDivChildren(rawDataDiv);
 
                         var outputFilename = xmlHttpRequest.responseText;
@@ -455,6 +583,8 @@ and open the template in the editor.
                         var anchor = document.createElement("a");
 
                         var url = outputFilename;
+
+                        //alert(outputFilename);
 
                         anchor.setAttribute("href", url);
                         anchor.innerHTML = type + " raw data";
@@ -505,37 +635,404 @@ and open the template in the editor.
                     div.removeChild(last);
             }
 
+            function dataTypeChanged() {
+                alert("data has been changed");
+            }
+
+            //this function will load a specific data type and create a table for that data
+            function loadDataTable(datatype) {
+                var studyid = document.getElementById("studyid").value;
+
+                //send a request to the servlet, you will receive the name of the file at the end
+                var command = "getAllRawDataFilenames";
+
+                var url = "StudyResults?command=" + command + "&type=" + datatype
+                        + "&studyid=" + studyid;
+                //make a request to the servlet, get the name of the file and create a link for it
+                var xmlHttpRequest = getXMLHttpRequest();
+                xmlHttpRequest.onreadystatechange = function()
+                {
+                    if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
+                    {
+                        removeDivChildren(document.getElementById("dataTableDiv"));
+                        var filename = xmlHttpRequest.responseText;
+
+                        // alert(xmlHttpRequest.responseText);
+
+                        var conditions = xmlHttpRequest.responseText.split("::::");
+                        var conditionAccuracy = [];
+                        var conditionTime = [];
+
+                        for (var i = 0; i < conditions.length; i++) {
+
+                            var condition = conditions[i].split("::");
+
+                            conditionAccuracy.push(condition[0]);
+                            conditionTime.push(condition[1]);
+                        }
+
+
+                        //create a table with the condition names
+
+
+                        //create a table here.
+                        var table = document.createElement("table");
+
+                        table.setAttribute("id", "curDataTable");
+                        //header row.
+                        var thr = document.createElement("tr");
+                        thr.setAttribute("id", "data_headerRow");
+
+
+
+
+                        filename = conditionAccuracy[0];
+
+
+                        for (var i = 0; i < conditionAccuracy.length; i++) {
+
+                            //accuracy
+                            filename = conditionAccuracy[i];
+                            d3.csv(filename, function(rows) {
+                                allAccuracyfilesRows.push(rows);
+                            });
+
+                            //time
+                            filename = conditionTime[i];
+                            //  alert(filename);
+                            d3.csv(filename, function(rows) {
+                                //alert(rows);
+                                allTimefilesRows.push(rows);
+                            });
+                        }
+
+
+
+
+                        setTimeout(function() {
+                            //populate the table
+                            var thr0 = document.createElement("tr");
+                            var cnt1 = 0;
+                            for (var i = 0; i < allAccuracyfilesRows.length; i++) {
+
+                                var rows = allAccuracyfilesRows[i];
+                                //first lets get the row                             
+
+                                var keys = d3.keys(rows[i]);
+
+                                //  for (var k = 0; k < keys.length; k++) {
+                                var split = keys[0].split("_");
+
+                                var cond_name = split[split.length - 1];
+
+
+                                var th0 = document.createElement("th");
+                                th0.setAttribute("colspan", "" + numOfTasks * 2);
+                                th0.innerHTML = cond_name;
+
+
+                                var cell_before = document.createElement("th");
+
+                                if (cnt1 === 0) {
+                                    cell_before.setAttribute("class", "hide_borders2");
+                                }
+                                else {
+                                    cell_before.setAttribute("class", "hide_borders");
+                                }
+
+                                thr0.appendChild(cell_before);
+
+                                thr0.appendChild(th0);
+                                // }
+
+                                cnt1++;
+                            }
+                            table.appendChild(thr0);
+
+                            //create the task headers
+                            for (var i = 0; i < allAccuracyfilesRows.length; i++) {
+                                var rows = allAccuracyfilesRows[i];
+
+
+                                var th = document.createElement("th");
+
+                                if (i === 0) {
+                                    th.setAttribute("class", "hide_borders2");
+                                }
+                                else {
+                                    th.setAttribute("class", "hide_borders");
+                                }
+                                thr.appendChild(th);
+
+                                for (var j = 0; j < keys.length; j++) {
+                                    var header = document.createElement("th");
+                                    var split = keys[j].split("_");
+                                    var cond_indx = split.length;
+                                    var firstIndex = keys[j].indexOf("_");
+                                    var lastIndex = keys[j].lastIndexOf("_");
+                                    var taskname = keys[j].substring(firstIndex + 1, lastIndex);
+
+
+
+                                    header.innerHTML = taskname;
+                                    header.setAttribute("colspan", "2");
+                                    thr.appendChild(header);
+                                }
+                                table.appendChild(thr);
+                            }
+
+                            //create the accuracy and time headers.
+                            var thr2 = document.createElement("tr");
+
+                            for (var i = 0; i < allAccuracyfilesRows.length; i++) {
+                                var cnt_acc_time = 0;
+
+                                var th2 = document.createElement("td");
+                                if (i === 0) {
+                                    th2.setAttribute("class", "hide_borders2");
+                                }
+                                else {
+                                    th2.setAttribute("class", "hide_borders");
+                                }
+                                thr2.appendChild(th2);
+
+                                for (var j = 0; j < keys.length; j++) {
+
+                                    var acc_head = document.createElement("td");
+                                    acc_head.setAttribute("class", "italics");
+                                    acc_head.innerHTML = "Acc";
+
+                                    thr2.appendChild(acc_head);
+
+                                    var time_head = document.createElement("td");
+                                    time_head.innerHTML = "Time";
+                                    time_head.setAttribute("class", "italics");
+                                    thr2.appendChild(time_head);
+                                }
+                                table.appendChild(thr2);
+
+                            }
+
+
+
+                            var tableNumber = 0;
+                            var maxRowNumber = 0;
+                            //just get the accuracy data for now.
+                            for (var i = 0; i < allAccuracyfilesRows.length; i++) {
+
+                                var rows = allAccuracyfilesRows[i];
+
+                                if (rows.length > maxRowNumber) {
+                                    maxRowNumber = rows.length;
+                                }
+                            }
+
+                            for (var i = 0; i < maxRowNumber; i++) {
+                                var tr = document.createElement("tr");
+                                tr.setAttribute("id", "row_" + tableNumber + "_" + i);
+                                var cnt2 = 0;
+
+                                for (var j = 0; j < allAccuracyfilesRows.length; j++) {
+                                    var rows = allAccuracyfilesRows[j];
+                                    var time_rows = allTimefilesRows[j];
+                                    var keys = d3.keys(rows[0]);
+                                    var time_keys = d3.keys(time_rows[0]);
+
+                                    var row = rows[i];
+                                    var time_row = time_rows[i];
+
+                                    if (cnt2 === 0) {
+                                        var td1 = document.createElement("td");
+                                        var chbx = document.createElement("input");
+                                        chbx.setAttribute("type", "checkbox");
+                                        chbx.setAttribute("id", "chkbx_" + tableNumber + "_" + i);//row-number part of the id, which we will get later
+                                        chbx.setAttribute("onclick", "dataRowSelected(this);");
+
+                                        td1.appendChild(chbx);
+                                        tr.appendChild(td1);
+                                    }
+                                    else {
+                                        var td1 = document.createElement("td");
+                                        td1.setAttribute("class", "hide_borders");
+                                        td1.innerHTML = "";  //leave some column between conditions
+                                        tr.appendChild(td1);
+                                    }
+
+                                    for (var k = 0; k < keys.length; k++) {
+                                        //create a column for the accuracy of this value
+                                        var td = document.createElement("td");
+
+                                        var val = "";
+                                        //if there is a row get the value otherwise
+                                        //we will put a an empty space there.
+                                        if (row) {
+                                            val = row[keys[k]];
+                                        }
+                                        td.innerHTML = val;
+                                        //  alert(td.innerHTML);
+                                        tr.appendChild(td);
+
+                                        //do something similar for time
+                                        //create a column for the accuracy of this value
+                                        var td_t = document.createElement("td");
+
+                                        var val_t = "";
+                                        //if there is a row get the value otherwise
+                                        //we will put a an empty space there.
+                                        if (time_row) {
+                                            val_t = time_row[time_keys[k]];
+                                        }
+                                        td_t.innerHTML = val_t;
+                                        //  alert(td.innerHTML);
+                                        tr.appendChild(td_t);
+
+                                    }
+                                    cnt2++;
+
+                                }
+                                //alert("adding to table now");
+                                table.appendChild(tr);
+                            }
+
+
+                            //add the table just created to the dataTableDiv.
+                            var dataTableDiv = document.getElementById("dataTableDiv");
+                            dataTableDiv.appendChild(table);
+                        }, 1500);
+                    }
+                };
+                xmlHttpRequest.open("GET", url, false);
+                xmlHttpRequest.send();
+            }
+
+            function dataRowSelected(element) {
+
+                var split = element.id.split("_");
+
+                var tableNumber = +split[1];
+                var rowNumber = +split[2];
+
+                //if it is checked, we will be adding it to the 
+                if (element.checked === true) {
+                    //add it to the selections in that table.
+                    selectedRowCount++;
+                    if (tableSelections[tableNumber]) {
+                        tableSelections[tableNumber].push(rowNumber);
+                    }
+                    else {
+                        tableSelections[tableNumber] = [];
+                        tableSelections[tableNumber].push(rowNumber);
+                    }
+                }
+                else {
+                    //remove the row from the selected table.
+                    selectedRowCount--;
+                    var selections = tableSelections[tableNumber];
+                    var index = -1;
+                    for (var i = 0; i < selections.length; i++) {
+                        if (rowNumber === selections[i]) {
+                            index = i;
+                            break;
+                        }
+                    }
+
+
+                    //now remove this index from the array.
+                    tableSelections[tableNumber].splice(index, 1);
+                    //alert(tableSelections[tableNumber]);
+                }
+
+                //enable the table buttons
+                if (selectedRowCount > 0) {
+                    document.getElementById("filterRows_button").disabled = false;
+                    document.getElementById("deleteRows_button").disabled = false;
+
+
+                }
+                else {
+                    //disable the table buttons
+                    document.getElementById("filterRows_button").disabled = true;
+                    document.getElementById("deleteRows_button").disabled = true;
+                }
+
+            }
+
+
+            function filterSelectedRows(element) {
+                var elem_parent = element.parentNode;
+
+                var tableNumber = elem_parent.id.split("_")[1];
+                tableNumber = +tableNumber;
+
+                var selections = tableSelections[tableNumber];
+
+                for (var i = 0; i < selections.length; i++) {
+                    var id = "#row_" + tableNumber + "_" + selections[i];
+
+                    d3.select(id).classed("grayout", true);
+                }
+
+            }
+
+            function deleteSelectedRows(element) {
+
+                var r = confirm("Are you sure you want to delete these rows permanently?");
+                if (r === true) {
+                    alert("Okay! It will be deleted soon.");
+                }
+
+            }
+
         </script>
 
     </head>
     <body>
-        <div style="margin-left:60px;">
-            <h4><u>(Please refresh the page if you do not see barcharts)</u></h4>
-            <br/>
+        <div style="margin-left:200px; margin-top: 5px;">
+            <h4><em>(Please refresh the page if you do not see barcharts)</em></h4>            
+        </div>        
+        <div id="completionStats" style="margin-left:200px;">
+            <h4>Number of completed studies (per experimental condition)</h4> 
         </div>
-        
-        <div>
+        <br/><br/>
+        <div id="dataSelection" class="grayBackground">
+            Select a data to show 
+            <select onchange="dataTypeChanged();">
+                <option selected>Summarized Study Tasks Results</option>
+                <option>Raw Study Tasks Results</option>
+                <option>Results of Study Tasks without correct Answers</option>
+                <option>Pre-Study Results</option>
+                <option>Post-Study results</option>
 
-            <!--   <input type="button" value="Get D3 Graphs of the Results" onclick="getGraphAnalysis()" /> -->
-            <!-- <input type="button" value="Get R Analysis" onclick="getRAnalysis()" /> -->
-            
-            <h3>Number of completed studies (per condition)</h3> <hr />
-            <div id="completionStats"></div>
+            </select> 
+            <br/><br/>
+        </div>
 
-            <br />
 
-            <h3>Graphs of the Results</h3> <hr />
+        <div> 
+            <h4>Graphs of the Results</h4> <hr />
             <div id="chart"></div>
-
-            <h3>Statistical Analysis of Results (R)</h3> <hr />
+            <h4>Statistical Analysis of Results (R)</h4> <hr />
             <div id="analysis"></div>
+            <h4>Raw Results Files </h4> <hr />
+            <div id="rawDataFilenames"></div>
 
+            <br/>
+            <div id="tableButtons_0" class="tableButtons">
+                <input type="button" value="Filter Selected Rows"  id="filterRows_button" disabled
+                       onclick="filterSelectedRows(this);"/>
+                <input type="button" value="Delete Selected rows" id="deleteRows_button" disabled
+                       onclick="deleteSelectedRows(this);"/>
+            </div>
+            <br/><br/>
+            <div id="dataTableDiv">
 
-            <h3>Raw Results Files </h3> <hr />
-            <div id="rawData"></div>
+            </div>
 
+            <br/>
+            <hr/>
 
             <input type="hidden" id="studyid" name="studyid" value="" />
+
 
         </div>
 

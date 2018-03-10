@@ -1,6 +1,7 @@
 var quantTaskCounter = 1;
 var qualTaskCounter = 1;
 var viewerCondsCounter = 2;
+var datasetsCounter = 1;
 var studystarted = false;
 var trainingstarted = false;
 var gettingTurkId = false;
@@ -12,6 +13,25 @@ var outputInterface = "";
 var checkAnswerClicked = true;
 var inputAnswerOptions = "";
 var inputAnswersOptionsAlreadySet = false;
+
+var inputAccessorMethods = [];
+var inputMutatorMethods = [];
+var outputAccessorMethod = "";
+var outputMutatorMethod = "";
+var outputDescription = "";
+
+var inputTypes = [];
+var inputDescriptions = [];
+var inputMediums = [];
+
+var interfaceForValidatingAnswers = "";
+var correctAnswer = "";
+var hasCorrectAnswer = "";
+
+function getInputInformations() {
+
+}
+
 
 function setInputAnswerOptions(optionStr) {
     inputAnswerOptions = optionStr;
@@ -34,10 +54,24 @@ function getOutputInterface() {
     return outputInterface;
 }
 
+function getOutputAccessorMethod() {
+    return outputAccessorMethod;
+}
+
+function getOutputMutatorMethod() {
+    return outputMutatorMethod;
+}
+
+function getInputsAndAnswerControllers() {
+    getInputControllers();
+    getAnswerControllers();
+    //alert("ok");
+}
+
+
 function getAnswerControllers() {
     var studyid = document.getElementById("studyid").value;
-    //  +"&studyid="+studyid;
-    //alert("here");
+    //  +"&studyid="+studyid;    
     inputAnswersOptionsAlreadySet = false;
     inputAnswerOptions = ""
     var url = "StudyManager?command=getAnswerControllers" + "&studyid=" + studyid;
@@ -47,36 +81,133 @@ function getAnswerControllers() {
         if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
         {
             //create the controls received from the servlet
+            retrieveHasCorrectAnswer();
             setUpAnswerControllers(xmlHttpRequest.responseText);
-            // alert("here1");
+
+            retrieveCorrectAnswer();
+
+            if (answergroup.trim() === "interface" && hasCorrectAnswer === "yes") {
+                //i.e. do this if the task has a correct answer.
+                retrieveInterfaceForValidatingAnswers();
+
+            }
+            //setup the inputtypes also 
+            //get the input controllers also           
         }
     };
     xmlHttpRequest.open("GET", url, true);
     xmlHttpRequest.send(null);
 }
 
+function getInputControllers() {
+    var studyid = document.getElementById("studyid").value;
+
+    var url = "StudyManager?command=getInputTypes" + "&studyid=" + studyid;
+    var xmlHttpRequest = getXMLHttpRequest();
+    xmlHttpRequest.onreadystatechange = function()
+    {
+        if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
+        {
+            // alert(xmlHttpRequest.responseText);
+            setUpInputTypesAndDescriptions(xmlHttpRequest.responseText);
+        }
+    };
+    xmlHttpRequest.open("GET", url, true);
+    xmlHttpRequest.send(null);
+}
+
+function setUpInputTypesAndDescriptions(inputStr) {
+    var inputs = inputStr.split(":::");
+
+    inputAccessorMethods = [];
+    inputMutatorMethods = [];
+    inputTypes = [];
+    inputDescriptions = [];
+
+    //alert(inputStr);
+
+    for (var i = 0; i < inputs.length; i++) {
+        var type = inputs[i].split("::")[0].trim();
+        var descp = inputs[i].split("::")[1].trim();
+        //create accessor and mutator methods for the input types
+        inputAccessorMethods.push("get" + capitalizeFirstLetter(type));
+        inputMutatorMethods.push("set" + capitalizeFirstLetter(type));
+        inputTypes.push(type);
+        inputDescriptions.push(descp);
+
+        // alert("about to set the input accessor method === "+inputAccessorMethods);
+
+
+
+        //include the inputmedium if it is given
+        if (inputs[i].split("::").length > 2) {
+            var medium = inputs[i].split("::")[2].trim();
+            inputMediums.push(medium);
+        }
+    }
+
+}
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 function setUpAnswerControllers(controllersString) {
     //NB: the controllersString will be of the format:   answerGroup:::dataType:::option1::option2:::inputInterface:::outputInterface
-//alert("okay");
-//alert(controllersString);
+    //new format: answertype:::datatype::options::
+
+    //The format is answertype:::outputtype.
+    //Answertype can be interface, or the other widgets
+
+    //alert
+
+
     var split = controllersString.split(":::");
     answergroup = split[0];
-    var dataType = split[1];
-    inputInterface = split[3];
-    outputInterface = split[4];
-    //remove the previous answer controllers
+
+    var dataType = "";
+
+    if (answergroup.trim() === "interface") {
+        dataType = split[1].split("::")[0];
+        outputAccessorMethod = "get" + capitalizeFirstLetter(dataType);
+        outputMutatorMethod = "set" + capitalizeFirstLetter(dataType);
+        //get interface for checking answer correctness
+    }
+    else {
+        //it is some kind of widget
+        answergroup = "widget";
+        dataType = split[0].split("::")[0];
+    }
+
+
+
     removeDivChildren(document.getElementById("answersDiv"));
     //alert("oh okay");
 
-    if (dataType === "options") {
-        //get the options
-        var split2 = split[2].split("::");
 
-        for (var i = 0; i < split2.length; i++) {
-            createAnswerOption(split2[i]);
+
+    answerDataType = dataType;
+
+
+
+    if (dataType === "options-fixed" || dataType === "options-dynamic") {
+
+        //get the options
+        var options = split[1].split("::");
+
+
+        //and over here too.
+        //var optionsArr = options.split(":");
+        for (var i = 0; i < options.length; i++) {
+            if (options[i].trim() !== "")
+                createAnswerOption(options[i]);
         }
+        //}
+
+
+
     }
-    else if (dataType === "integer") {
+    else if (dataType === "integer" || dataType === "Number") {
         //create a numeric input 
         createIntegerInput();
     }
@@ -86,8 +217,8 @@ function setUpAnswerControllers(controllersString) {
     else if (dataType === "string") {
         createStringInput();
     }
-    else if (dataType === "colors") {
-        var split2 = split[2].split("::");
+    else if (dataType === "Color-options-fixed") {
+        var split2 = split[1].split("::");
 
         for (var i = 0; i < split2.length; i++)
             createColorOption(split2[i], i);
@@ -96,71 +227,113 @@ function setUpAnswerControllers(controllersString) {
         //the inputOptions should already be set by now.
         setUpInputOptionsAnswerController();
     }
-    //  answerControllersAlreadySet = true;
-
-
-
-    /*else{
-     alert(split[2]);
-     }*/
-    /*else{
-     alert("*"+dataType + "*")
-     }*/
-
+    /* else if (dataType === "options-dynamic") {
+     
+     }  */
     //show the answer div
     document.getElementById("answersDiv").style.display = "block";
 }
 
+function retrieveInterfaceForValidatingAnswers() {
+    var studyid = document.getElementById("studyid").value;
+    var url = "StudyManager?command=getInterfaceForValidatingAnswers" + "&studyid=" + studyid;
+    var xmlHttpRequest = getXMLHttpRequest();
+    xmlHttpRequest.onreadystatechange = function()
+    {
+        if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
+        {
+            interfaceForValidatingAnswers = xmlHttpRequest.responseText;
+        }
+    };
+    xmlHttpRequest.open("GET", url, true);
+    xmlHttpRequest.send(null);
+}
+
+function getInterfaceForValidatingAnswers() {
+    return interfaceForValidatingAnswers;
+}
+
+function retrieveCorrectAnswer() {
+    var studyid = document.getElementById("studyid").value;
+    var url = "StudyManager?command=getCorrectAnswerForInterfaceAnswerTypes" + "&studyid=" + studyid;
+    var xmlHttpRequest = getXMLHttpRequest();
+    xmlHttpRequest.onreadystatechange = function()
+    {
+        if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
+        {
+            correctAnswer = xmlHttpRequest.responseText;
+        }
+    };
+    xmlHttpRequest.open("GET", url, true);
+    xmlHttpRequest.send(null);
+}
+
+function retrieveHasCorrectAnswer() {
+    var studyid = document.getElementById("studyid").value;
+    var url = "StudyManager?command=getHasCorrectAnswer" + "&studyid=" + studyid;
+    var xmlHttpRequest = getXMLHttpRequest();
+    xmlHttpRequest.onreadystatechange = function()
+    {
+        if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
+        {
+            hasCorrectAnswer = (xmlHttpRequest.responseText).trim();
+        }
+    };
+    xmlHttpRequest.open("GET", url, true);
+    xmlHttpRequest.send(null);
+}
+
+function getHasCorrectAnswer() {
+    return hasCorrectAnswer;
+}
+
+
+
+function getCorrectAnswer() {
+    return correctAnswer;
+}
 
 function setUpInputOptionsAnswerController() {
 //    //note: inputAnswerOptions has already been set by now
 
     var optionsArr = inputAnswerOptions.split(";;");
-    //alert("somewhere");
-   // alert("okay"  + inputAnswerOptions + "***");
-   // alert(inputAnswersOptionsAlreadySet);
-   // if (inputAnswersOptionsAlreadySet === true) {
-
     //alert(optionsArr.length);
-        if (optionsArr.length > 0 && optionsArr[0] !== "") {
-            inputAnswersOptionsAlreadySet = true;
+    if (optionsArr.length > 0 && optionsArr[0] !== "") {
+        inputAnswersOptionsAlreadySet = true;
 
-            // removeDivChildren(document.getElementById("answersDiv"));
-            for (var i = 0; i < optionsArr.length; i++) {
+        // removeDivChildren(document.getElementById("answersDiv"));
+        for (var i = 0; i < optionsArr.length; i++) {
 
-                createAnswerOption(optionsArr[i]);
-            }
-          
-            //inputAnswerOptions = ""; //empty
-//alert("999 of okay");
+            createAnswerOption(optionsArr[i]);
         }
-          inputAnswersOptionsAlreadySet = true;
-        //   alert("here too " + inputAnswerOptions);
+    }
+    inputAnswersOptionsAlreadySet = true;
+    //   alert("here too " + inputAnswerOptions);
 
 //alert("^^ of okay");
 
 
-   // }
-   // alert("end of okay");
+    // }
+    // alert("end of okay");
 }
 
 function setUpInputOptionsAnswerControllerWithArg(optionStr) {
 
 //alert("okay2");
     //if (inputAnswersOptionsAlreadySet === false) {
-        removeDivChildren(document.getElementById("answersDiv"));
-        if (optionStr && optionStr.split(";;").length > 0 &&optionStr.split(";;")[0] !== "") {
-            var optionsArr = optionStr.split(";;");
-            for (var i = 0; i < optionsArr.length; i++) {
-                createAnswerOption(optionsArr[i]);
-            }
-            //inputAnswerOptions = ""; //empty
-           
-    //        alert("*** okay2");
+    removeDivChildren(document.getElementById("answersDiv"));
+    if (optionStr && optionStr.split(";;").length > 0 && optionStr.split(";;")[0] !== "") {
+        var optionsArr = optionStr.split(";;");
+        for (var i = 0; i < optionsArr.length; i++) {
+            createAnswerOption(optionsArr[i]);
         }
+        //inputAnswerOptions = ""; //empty
+
+        //        alert("*** okay2");
+    }
     //     alert("--- okay2");
-   // }
-   // alert("end of okay2");
+    // }
+    // alert("end of okay2");
 }
 
 function createColorOption(option, i) {
@@ -199,7 +372,7 @@ function createColorOption(option, i) {
 }
 
 function createAnswerOption(option) {
-   // alert(option);
+    // alert(option);
     if (option !== "") { //not empty
         //createRadio button
         var radio = document.createElement("input");
@@ -298,6 +471,28 @@ function createQualStringInput(li, ind) {
     li.appendChild(input2);
 }
 
+function createQualIntegerInput(li, ind) {
+    //alert("here now");
+    var input1 = document.createElement("input");
+
+    input1.setAttribute("type", "number");
+    input1.setAttribute("value", "");
+    input1.setAttribute("id", "qualAnsWidget" + ind);
+    input1.setAttribute("onKeyUp", "setQualSelectedAnswer(this," + ind + ")");
+
+    var input2 = document.createElement("input");
+    input2.setAttribute("type", "hidden");
+    input2.setAttribute("id", "qualAnswer" + ind);
+
+    li.appendChild(input1);
+    li.appendChild(input2);
+
+    // alert("here2");
+
+}
+
+
+
 function createQualMediumSizeStringInput(li, ind) {
 
     // alert("here");
@@ -319,16 +514,35 @@ function createQualMediumSizeStringInput(li, ind) {
     li.appendChild(input2);
 }
 
+function removeQualAnswerWidgetsIfExists(indx) {
+    var widget = document.getElementById("qualAnsWidget" + indx);
 
+    if (widget) {
+        widget.parentNode.removeChild(widget);
+    }
 
+    var ans = document.getElementById("qualAnswer" + indx);
+    if (ans) {
+        ans.parentNode.removeChild(ans);
+    }
+}
 
 
 function createQualMultipleChoiceInput(li, ind, choices) {
+
+    //removeQualAnswerWidgetsIfExists();
     //createRadio button
     var input = document.createElement("input");
     input.setAttribute("type", "hidden");
     input.setAttribute("value", "");
     input.setAttribute("id", "qualAnsWidget" + ind);
+
+
+    var input2 = document.createElement("input");
+    input2.setAttribute("type", "hidden");
+    input2.setAttribute("value", "");
+    input2.setAttribute("id", "qualAnswer" + ind);
+
 
     var choicediv = document.createElement("div");
     var split = choices.split("::");
@@ -338,7 +552,7 @@ function createQualMultipleChoiceInput(li, ind, choices) {
         radio.setAttribute("type", "radio");
         radio.setAttribute("name", "radio" + ind);
         radio.setAttribute("value", choice);
-        radio.setAttribute("onclick", "setQualSelectedAnswer(this," + ind + ")");
+        radio.setAttribute("onclick", "setMultipleChoiceQualSelectedAnswer(this," + ind + ")");
         //create label
         var label = document.createElement("label");
         label.innerHTML = choice;
@@ -357,10 +571,10 @@ function createQualMultipleChoiceInput(li, ind, choices) {
 
     //li.appendChild(form);
     li.appendChild(input);
+    li.appendChild(input2);
     li.appendChild(choicediv);
 
 }
-
 
 function createFloatInput() {
     //create a numeric input that accepts numeric numbers 
@@ -484,7 +698,15 @@ function checkAnswer() {
             alert("The output method that returns the output is not implemented.");
         }
     }
-
+    
+    if(givenAnswer.trim() === correctAnswer.trim()){
+        document.getElementById("correctnessOfAnswer").innerHTML = "Correct!";
+    }
+    else{
+        document.getElementById("correctnessOfAnswer").innerHTML = "Wrong.";
+    }
+    
+/*
     var studyid = document.getElementById("studyid").value;
     var url = "StudyManager?command=checkAnswer&givenAnswer=" + givenAnswer + "&studyid=" + studyid;
     var xmlHttpRequest = getXMLHttpRequest();
@@ -492,24 +714,28 @@ function checkAnswer() {
     {
         if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
         {
-            //  alert(xmlHttpRequest.responseText);
+            //alert(xmlHttpRequest.responseText);
             //set the correctness of the answer label with the returned response
             document.getElementById("correctnessOfAnswer").innerHTML = xmlHttpRequest.responseText;
         }
     };
     xmlHttpRequest.open("GET", url, true);
-    xmlHttpRequest.send(null);
+    xmlHttpRequest.send(null); */
 }
 
 function setSelectedAnswer(element) {
     //alert(element.value);
     document.getElementById("selectedAnswer").value = element.value;
-
     //   alert(document.getElementById("selectedAnswer").value);
 }
 
 function setQualSelectedAnswer(element, ind) {
     //alert("hey");
+    document.getElementById("qualAnswer" + ind).value = element.value;
+}
+
+function setMultipleChoiceQualSelectedAnswer(element, ind) {
+    document.getElementById("qualAnsWidget" + ind).value = element.value;
     document.getElementById("qualAnswer" + ind).value = element.value;
 }
 
@@ -520,8 +746,8 @@ function startStudy() {
     gettingTurkId = false;
     document.getElementById("afterTrialControls").style.display = "none";
     document.getElementById("studyControls").style.display = "block";
-    //getQuestion();
-    getNodes(); //get the nodes to be highlighted.
+    getQuestion();
+   // getNodes(); //get the nodes to be highlighted.
     startQuestionDurationCountDown();
 }
 
@@ -532,7 +758,7 @@ function endOfQuantitative(turkcode) {
     document.getElementById("turkcode").innerHTML = turkcode;
 }
 
-function showQualitativeQuestions(qnString) {
+function showPostStudyQualitativeQuestions(qnString) {
     //alert("omg" + qnString);
     document.getElementById("studyControls").style.display = "none";
     document.getElementById("qualitativeQuestions").style.display = "block";
@@ -560,21 +786,21 @@ function showQualitativeQuestions(qnString) {
         li.appendChild(p1);
 
 
-        if (split2[1] === "Range") {
-            //create a rating input
-            var split3 = split2[2].split("::");
-            createQualRangeInput(li, i, split3[0], split3[1]);//append the answer controller too
-        }
-        else if (split2[1] === "String") {
-            createQualStringInput(li, i);
-        }
-        else if (split2[1] === "StringMediumSize") {
-            //alert("medium-size-string");
-            createQualMediumSizeStringInput(li, i);
-        }
-        else if (split2[1] === "MultipleChoice") {
+        var dataType = split2[1];
+        if (dataType === "options-fixed" || dataType === "options-dynamic") {
             createQualMultipleChoiceInput(li, i, split2[2]);
         }
+        else if (dataType === "integer" || dataType === "Number") {
+            //create a numeric input 
+            createQualIntegerInput(li, i);
+        }
+        else if (dataType === "float") {
+            createQualFloatInput(li, i);
+        }
+        else if (dataType === "string") {
+            createQualStringInput(li, i);
+        }
+
         ol.appendChild(li);
     }
     qualqnDiv.appendChild(ol);
@@ -648,14 +874,24 @@ function submitQualitativeAnswers() {
 
     //check if all qualitative questions has been answered before continuing
     for (var i = 1; i <= numOfQualQns; i++) {
-        var answer = document.getElementById("qualAnsWidget" + i).value;
+        var answer1 = document.getElementById("qualAnswer" + i).value;
+
+        var answer2 = document.getElementById("qualAnsWidget" + i).value;
+
+        var answer = "";
+        if (answer1.trim() !== "") {
+            answer = answer1;
+        }
+        else {
+            answer = answer2;
+        }
 
         if (answer === "") {//if no answer, return false;
             alert("Please provide answers to all the questions before you continue");
             return false;
         }
 
-        if (i == 1) {
+        if (i === 1) {
             allQualitativeAnswers = answer;
         }
         else {
@@ -689,7 +925,6 @@ function submitQualitativeAnswers() {
 }
 
 function showPreQualitativeQuestions(qnString) {
-
     document.getElementById("studyControls").style.display = "none";
     document.getElementById("preQualitativeQuestions").style.display = "block";
 
@@ -716,17 +951,46 @@ function showPreQualitativeQuestions(qnString) {
         p1.innerHTML = split2[0];
         li.appendChild(p1);
 
-        if (split2[1] === "Range") {
-            //create a rating input
-            var split3 = split2[2].split("::");
-            createQualRangeInput(li, i, split3[0], split3[1]);//append the answer controller too
-        }
-        else if (split2[1] === "String") {
-            createQualStringInput(li, i);
-        }
-        else if (split2[1] === "MultipleChoice") {
+
+
+        var dataType = split2[1];
+
+
+        if (dataType === "options-fixed" || dataType === "options-dynamic") {
             createQualMultipleChoiceInput(li, i, split2[2]);
         }
+        else if (dataType === "integer" || dataType === "Number") {
+            //create a numeric input 
+            createQualIntegerInput(li, i);
+        }
+        else if (dataType === "float") {
+            createQualFloatInput();
+        }
+        else if (dataType === "string") {
+            createQualStringInput(li, i);
+        }
+
+
+
+
+
+
+        /*
+         if (split2[1] === "Range") {
+         //create a rating input
+         var split3 = split2[2].split("::");
+         createQualRangeInput(li, i, split3[0], split3[1]);//append the answer controller too
+         }
+         else if (split2[1] === "String") {
+         createQualStringInput(li, i);
+         }
+         else if (split2[1] === "MultipleChoice") {
+         createQualMultipleChoiceInput(li, i, split2[2]);
+         }
+         */
+
+
+
         ol.appendChild(li);
     }
     qualqnDiv.appendChild(ol);
@@ -747,7 +1011,18 @@ function submitPreQualitativeAnswers() {
     var allQualitativeAnswers = "";
     //check if all answers has been provided.
     for (var i = 1; i <= numOfQualQns; i++) {
-        var answer = document.getElementById("qualAnswer" + i).value;
+        var answer1 = document.getElementById("qualAnswer" + i).value;
+
+        var answer2 = document.getElementById("qualAnsWidget" + i).value;
+
+        var answer = "";
+        if (answer1 !== "") {
+            answer = answer1;
+        }
+        else {
+            answer = answer2;
+        }
+
 
         if (answer === "") {//if no answer, return false;
             alert("Please provide answers to all the questions before you continue");
@@ -763,7 +1038,6 @@ function submitPreQualitativeAnswers() {
             allQualitativeAnswers += "::::" + answer;
         }
     }
-    //-alert(allQualitativeAnswers);
     //now send the answers to the server 
     var studyid = document.getElementById("studyid").value;
     var url = "StudyManager?command=setPreQualitativeAnswers" + "&preQualitativeAnswers=" + allQualitativeAnswers
@@ -784,133 +1058,465 @@ function submitPreQualitativeAnswers() {
 
 
 function newQuantitativeTaskDetails() {
-    //  alert("hey");
-    quantTaskCounter++;
+    var numberOfTasks = document.getElementById("numberOfTasks").value;
 
-    var div = document.createElement("div");
+    quantTaskCounter = Number(numberOfTasks) + 1;
+
+    // var quantTaskDiv = document.getElementById("quantitativeTasksDiv");
+    //quantTaskDiv.appendChild(document.createElement("br"));
+
+    // var div = document.createElement("div");
+
+
+    var qnDiv = document.createElement("div");
+    qnDiv.setAttribute("id", "qnDiv" + quantTaskCounter);
+
+
+
+    var table = document.getElementById("quantitativeTasksTable");
+    var tr = document.createElement("tr");
 
     if (quantTaskCounter % 2 === 0) {
-        div.setAttribute("class", "questionNumberEven");
+        tr.setAttribute("class", "questionNumberEven");
     }
     else {
-        div.setAttribute("class", "questionNumberOdd");
+        tr.setAttribute("class", "questionNumberOdd");
     }
 
-
-    var quantTaskDiv = document.getElementById("quantitativeTasksDiv");
-    quantTaskDiv.appendChild(document.createElement("br"));
-
-    var parag1 = document.createElement("p");
-    parag1.innerHTML = "Task Type " + (quantTaskCounter);
-
-    var select = document.createElement("select");
-    select.setAttribute("class", "right");
-    select.setAttribute("name", "quantitativeTasks");
-
-    var opt1 = document.createElement("option");
-    opt1.setAttribute("value", "select a task");
-    opt1.innerHTML = "Select a Task";
-
-    select.appendChild(opt1);
-
-    var optgroup1 = document.createElement("optgroup");
-    optgroup1.setAttribute("label", "Topology-Based Tasks");
-
-    var opt2 = document.createElement("option");
-    opt2.setAttribute("value", "Are the two highlighted nodes directly connected?");
-    opt2.innerHTML = "Are the two highlighted nodes directly connected?";
-
-    var opt2b = document.createElement("option");
-    opt2b.setAttribute("value", "Can you get from one of the highlighted nodes to the other with exactly 2 steps?");
-    opt2b.innerHTML = "Can you get from one of the highlighted nodes to the other with exactly 2 steps?";
+    tr.setAttribute("id", "task" + quantTaskCounter);
 
 
-    var opt3 = document.createElement("option");
-    opt3.setAttribute("value", "Are the three highlighted nodes directly connected?");
-    opt3.innerHTML = "Are the three highlighted nodes directly connected?";
-
-    var opt4 = document.createElement("option");
-    opt4.setAttribute("value", "Can you get from one of the highlighted nodes to the other in at most 3 steps?");
-    opt4.innerHTML = "Can you get from one of the highlighted nodes to the other in at most 3 steps?";
-
-    var opt5 = document.createElement("option");
-    opt5.setAttribute("value", "How many nodes can be reached in one step from the highlighted node?");
-    opt5.innerHTML = "How many nodes can be reached in one step from the highlighted node?";
 
 
-    var opt6 = document.createElement("option");
-    opt6.setAttribute("value", "What is the maximum number of nodes connected to one of the two highlighted nodes?");
-    opt6.innerHTML = "What is the maximum number of nodes connected to one of the two highlighted nodes?";
+    var td1 = document.createElement("td");
+    td1.setAttribute("id", "qnDiv" + quantTaskCounter + "TD");
+    var td2 = document.createElement("td");
+    td2.setAttribute("id", "taskSize" + quantTaskCounter + "TD");
 
-    optgroup1.appendChild(opt2);
-    optgroup1.appendChild(opt2b);
-    optgroup1.appendChild(opt3);
-    optgroup1.appendChild(opt4);
-    optgroup1.appendChild(opt5);
-    optgroup1.appendChild(opt6);
+    var td3 = document.createElement("td");
+    td3.setAttribute("id", "taskTime" + quantTaskCounter + "TD");
 
-    select.appendChild(optgroup1);
 
-    var optgroup2 = document.createElement("optgroup");
-    optgroup2.setAttribute("label", "Attribute-Based Tasks");
 
-    var opt7 = document.createElement("option");
-    opt7.setAttribute("value", "Is there an adjacent node that contains the letter B?");
-    opt7.innerHTML = "Is there an adjacent node that contains the letter B?";
 
-    var opt8 = document.createElement("option");
-    opt8.setAttribute("value", "How many adjacent nodes contain the letter B?");
-    opt8.innerHTML = "How many adjacent nodes contain the letter B?";
+    td1.appendChild(qnDiv);
 
-    optgroup2.appendChild(opt7);
-    optgroup2.appendChild(opt8);
-    select.appendChild(optgroup2);
-
-    var optgroup3 = document.createElement("optgroup");
-    optgroup3.setAttribute("label", "Browsing-Based Tasks");
-
-    var opt9 = document.createElement("option");
-    opt9.setAttribute("value", "Find the number of nodes on a given path starting with a letter");
-    opt9.innerHTML = "Find the number of nodes on a given path starting with a letter";
-
-    var opt10 = document.createElement("option");
-    opt10.setAttribute("value", "Find the number of nodes starting with a letter on all paths between 2 nodes");
-    opt10.innerHTML = "Find the number of nodes starting with a letter on all paths between 2 nodes";
-
-    optgroup3.appendChild(opt9);
-    optgroup3.appendChild(opt10);
-    select.appendChild(optgroup3);
-
-    parag1.appendChild(select);
-
-    //quantTaskDiv.appendChild(parag1);
-    div.appendChild(parag1);
-    var parag2 = document.createElement("p");
-    parag2.innerHTML = "Number of Task Type " + quantTaskCounter + " Questions";
+    var parag2 = document.createElement("div");
+    //parag2.innerHTML = "Number of Task Type " + quantTaskCounter + " Questions";
 
     var taskSizeInput = document.createElement("input");
-    taskSizeInput.setAttribute("type", "text");
-    taskSizeInput.setAttribute("class", "right");
+    taskSizeInput.setAttribute("type", "number");
+    taskSizeInput.setAttribute("class", "taskTxtbox");
+    taskSizeInput.setAttribute("id", "taskSize" + quantTaskCounter);
     taskSizeInput.setAttribute("name", "quantitativeTaskSize");
 
     parag2.appendChild(taskSizeInput);
-    // quantTaskDiv.appendChild(parag2);
-    div.appendChild(parag2);
 
-    var parag3 = document.createElement("p");
-    parag3.innerHTML = "Time In Seconds for Task Type " + quantTaskCounter + " (Enter 0 for unlimited)";
+    td2.appendChild(parag2);
+
+
+    // tr.appendChild(td2)
+
+    // quantTaskDiv.appendChild(parag2);
+    // div.appendChild(parag2);
+
+    var parag3 = document.createElement("div");
+    //parag3.innerHTML = "Time In Seconds for Task Type " + quantTaskCounter + " (Enter 0 for unlimited)";
 
     var timeInput = document.createElement("input");
-    timeInput.setAttribute("type", "text");
-    timeInput.setAttribute("class", "right");
+    timeInput.setAttribute("type", "number");
+    timeInput.setAttribute("class", "taskTxtbox");
+    timeInput.setAttribute("id", "taskTime" + quantTaskCounter);
     timeInput.setAttribute("name", "quantitativeTaskTime");
 
     parag3.appendChild(timeInput);
-    //quantTaskDiv.appendChild(parag3);
-    div.appendChild(parag3);
 
-    quantTaskDiv.appendChild(div);
+    td3.appendChild(parag3);
+
+
+    var td4 = document.createElement("td");
+    //td4.setAttribute("id", "taskPosition" + quantTaskCounter);
+
+
+    var parag4 = document.createElement("p");
+    parag4.setAttribute("id", "taskPosition" + quantTaskCounter);
+
+    parag4.innerHTML = quantTaskCounter + ".";
+    td4.appendChild(parag4);
+
+
+
+    /* For the arrows */
+    var td5 = document.createElement("td");
+    td5.setAttribute("class", "sortingArrowsTD");
+    var upImg = document.createElement("img");
+    upImg.setAttribute("src", "images/up-arrow-icon.png");
+    upImg.setAttribute("class", "sortingArrows");
+    upImg.setAttribute("alt", "move task up");
+    upImg.setAttribute("title", "Move Task Up");
+    upImg.setAttribute("onclick", "moveTaskUp('" + quantTaskCounter + "');");
+
+    var downImg = document.createElement("img");
+    downImg.setAttribute("src", "images/down-arrow-icon.png");
+    downImg.setAttribute("class", "sortingArrows");
+    downImg.setAttribute("alt", "move task down");
+    downImg.setAttribute("title", "Move Task Down");
+    downImg.setAttribute("onclick", "moveTaskDown('" + quantTaskCounter + "');");
+
+    td5.appendChild(upImg);
+    td5.appendChild(document.createElement("br"));
+    td5.appendChild(downImg);
+
+
+
+
+    var td6 = document.createElement("td");
+    td6.setAttribute("class", "deleteIconTD");
+    var deleteIcon = document.createElement("img");
+    deleteIcon.setAttribute("src", "images/delete-icon.jpg");
+    deleteIcon.setAttribute("class", "deleteIcon");
+    deleteIcon.setAttribute("alt", "delete task");
+    deleteIcon.setAttribute("title", "Delete Task");
+    deleteIcon.setAttribute("id", "deleteIcon" + quantTaskCounter);
+
+    var id = "task" + quantTaskCounter;
+
+    deleteIcon.setAttribute("onclick", "deleteTaskIconClicked(\"" + quantTaskCounter + "\")");
+
+    td6.appendChild(deleteIcon);
+
+
+    //div.appendChild(parag3);
+    tr.appendChild(td5);
+    tr.appendChild(td4);
+    tr.appendChild(td1);
+    tr.appendChild(td2);
+    tr.appendChild(td3);
+    tr.appendChild(td6);
+
+    table.appendChild(tr);
+
+
+    //now load the tasks into the tasks placeholder
+    loadTasks(document.getElementById("qnDiv" + quantTaskCounter), "Task Type "
+            + quantTaskCounter, quantTaskCounter, "taskType");
+
+    //now increment the number of tasks variable.    
+    var numberOfTasks = document.getElementById("numberOfTasks").value;
+    document.getElementById("numberOfTasks").value = Number(numberOfTasks) + 1;
+
+
+    //show the delete icon of the first task.
+    document.getElementById("deleteIcon1").style.display = "block";
+
 }
+
+
+function moveTaskUp(value) {
+
+    var prevValue = value - 1;
+
+    var prevTaskRow = document.getElementById("task" + prevValue);
+
+    var taskrow = document.getElementById("task" + value);
+
+    if (prevTaskRow) {
+        //size
+        var prevTaskSizeTD = document.getElementById("taskSize" + prevValue + "TD");
+        var prevTaskSize = document.getElementById("taskSize" + prevValue);
+        var currentTaskSizeTD = document.getElementById("taskSize" + value + "TD");
+        var currentTaskSize = document.getElementById("taskSize" + value);
+
+        var cln1 = prevTaskSize.cloneNode(true);
+        var cln2 = currentTaskSize.cloneNode(true);
+        //cln1.setAttribute("value", currentTaskSize.value);
+        //cln1.setAttribute("id", "taskSize" + value);
+        cln1.value = currentTaskSize.value;
+        cln2.value = prevTaskSize.value;
+
+        //cln2.setAttribute("id", "taskSize" + prevValue);
+        prevTaskSize.parentNode.removeChild(prevTaskSize);
+
+        currentTaskSize.parentNode.removeChild(currentTaskSize);
+        prevTaskSizeTD.appendChild(cln1);
+
+        currentTaskSizeTD.appendChild(cln2);
+
+
+
+
+        // currentTaskSizeTD.appendChild(cln2);
+        //time
+        var prevTaskTimeTD = document.getElementById("taskTime" + prevValue + "TD");
+        var prevTaskTime = document.getElementById("taskTime" + prevValue);
+        var currentTaskTimeTD = document.getElementById("taskTime" + value + "TD");
+        var currentTaskTime = document.getElementById("taskTime" + value);
+        var clnT1 = prevTaskTime.cloneNode(true);
+        var clnT2 = currentTaskTime.cloneNode(true);
+
+
+        clnT1.value = currentTaskTime.value;
+        //clnT1.setAttribute("id", "taskTime"+prevValue)
+        clnT2.value = prevTaskTime.value;
+
+        prevTaskTime.parentNode.removeChild(prevTaskTime);
+        currentTaskTime.parentNode.removeChild(currentTaskTime);
+
+        prevTaskTimeTD.appendChild(clnT1);
+        currentTaskTimeTD.appendChild(clnT2);
+
+        //qn
+        var prevQnDiv = document.getElementById("qnDiv" + prevValue);
+        var prevTaskType = document.getElementById("taskType" + prevValue);
+        var currentQnDiv = document.getElementById("qnDiv" + value);
+        var currentTaskType = document.getElementById("taskType" + value);
+        var clnQ1 = prevTaskType.cloneNode(true);
+        var clnQ2 = currentTaskType.cloneNode(true);
+
+        clnQ1.selectedIndex = currentTaskType.selectedIndex;
+        clnQ1.setAttribute("id", "taskType" + prevValue);
+        clnQ2.selectedIndex = prevTaskType.selectedIndex;
+        clnQ2.setAttribute("id", "taskType" + value);
+        prevTaskType.parentNode.removeChild(prevTaskType);
+        prevQnDiv.appendChild(clnQ1);
+        currentTaskType.parentNode.removeChild(currentTaskType);
+        currentQnDiv.appendChild(clnQ2);
+
+        // prevQnDiv.parentNode.removeChild(prevQnDiv);
+        // prevQnDivTD.appendChild(clnQ1);        
+        // currentQnDiv.parentNode.removeChild(currentQnDiv);
+        // currentQnDivTD.appendChild(clnQ2);
+    }
+
+
+}
+
+function moveTaskDown(value) {
+
+    var nextValue = Number(value) + 1;
+
+    // alert("task"+nextValue);
+
+    var nextTaskRow = document.getElementById("task" + nextValue);
+
+    var taskrow = document.getElementById("task" + value);
+
+    //alert(" --hheere");
+    if (nextTaskRow) {
+        //("hey");
+        var nextTaskSizeTD = document.getElementById("taskSize" + nextValue + "TD");
+        var nextTaskSize = document.getElementById("taskSize" + nextValue);
+        var currentTaskSizeTD = document.getElementById("taskSize" + value + "TD");
+        var currentTaskSize = document.getElementById("taskSize" + value);
+        var cln1 = nextTaskSize.cloneNode(true);
+        var cln2 = currentTaskSize.cloneNode(true);
+
+
+
+        cln1.value = currentTaskSize.value;
+        //cln1.setAttribute("id", "taskSize" + value);
+
+        cln2.value = nextTaskSize.value;
+        //cln2.setAttribute("id", "taskSize" + nextValue);
+
+        nextTaskSize.parentNode.removeChild(nextTaskSize);
+        nextTaskSizeTD.appendChild(cln1);
+        currentTaskSize.parentNode.removeChild(currentTaskSize);
+        currentTaskSizeTD.appendChild(cln2);
+
+
+        var nextTaskTimeTD = document.getElementById("taskTime" + nextValue + "TD");
+        var nextTaskTime = document.getElementById("taskTime" + nextValue);
+        var currentTaskTimeTD = document.getElementById("taskTime" + value + "TD");
+        var currentTaskTime = document.getElementById("taskTime" + value);
+        var clnT1 = nextTaskTime.cloneNode(true);
+        var clnT2 = currentTaskTime.cloneNode(true);
+
+
+        clnT1.value = currentTaskTime.value;
+        //clnT1.setAttribute("id", "taskTime" + value);
+        clnT2.value = nextTaskTime.value;
+
+        //clnT2.setAttribute("id", "taskTime" + nextValue);
+
+        nextTaskTime.parentNode.removeChild(nextTaskTime);
+        nextTaskTimeTD.appendChild(clnT1);
+        currentTaskTime.parentNode.removeChild(currentTaskTime);
+        currentTaskTimeTD.appendChild(clnT2);
+
+
+
+        //qn
+        var nextQnDiv = document.getElementById("qnDiv" + nextValue);
+        var prevTaskType = document.getElementById("taskType" + nextValue);
+        var currentQnDiv = document.getElementById("qnDiv" + value);
+        var currentTaskType = document.getElementById("taskType" + value);
+        var clnQ1 = prevTaskType.cloneNode(true);
+        var clnQ2 = currentTaskType.cloneNode(true);
+
+        clnQ1.selectedIndex = currentTaskType.selectedIndex;
+        clnQ1.setAttribute("id", "taskType" + nextValue);
+        clnQ2.selectedIndex = prevTaskType.selectedIndex;
+        clnQ2.setAttribute("id", "taskType" + value);
+        prevTaskType.parentNode.removeChild(prevTaskType);
+        nextQnDiv.appendChild(clnQ1);
+        currentTaskType.parentNode.removeChild(currentTaskType);
+        currentQnDiv.appendChild(clnQ2);
+    }
+}
+
+function deleteTaskIconClicked(value) {
+
+    var id = "task" + value;
+    var taskrow = document.getElementById(id);
+
+    taskrow.parentNode.removeChild(taskrow);
+    var numberOfTasks = document.getElementById("numberOfTasks").value;
+
+    value = Number(value);
+    for (var i = value + 1; i <= numberOfTasks; i++) {
+        var nextTaskPosition_parag = document.getElementById("taskPosition" + (i));
+
+        if (nextTaskPosition_parag) {
+            nextTaskPosition_parag.innerHTML = (i - 1) + ".";
+            nextTaskPosition_parag.setAttribute("id", "taskPosition" + (i - 1));
+
+            var nextTask = document.getElementById("task" + i);
+            nextTask.setAttribute("id", "task" + (i - 1));
+
+            var nextQnDivTD = document.getElementById("qnDiv" + i + "TD");
+            nextQnDivTD.setAttribute("id", "qnDiv" + (i - 1) + "TD");
+
+            var nextQnDiv = document.getElementById("qnDiv" + i);
+            nextQnDiv.setAttribute("id", "qnDiv" + (i - 1));
+
+            var nextTaskSizeTD = document.getElementById("taskSize" + i + "TD");
+            nextTaskSizeTD.setAttribute("id", "taskSize" + (i - 1) + "TD")
+
+            var nextTaskSize = document.getElementById("taskSize" + i);
+            nextTaskSize.setAttribute("id", "taskSize" + (i - 1));
+
+            var nextTaskTimeTD = document.getElementById("taskTime" + i + "TD");
+            nextTaskTimeTD.setAttribute("id", "taskTime" + (i - 1) + "TD");
+
+            var nextTaskTime = document.getElementById("taskTime" + i);
+            nextTaskTime.setAttribute("id", "taskTime" + (i - 1));
+
+            var nextDeleteIcon = document.getElementById("deleteIcon" + i);
+            nextDeleteIcon.setAttribute("id", "deleteIcon" + (i - 1));
+            nextDeleteIcon.setAttribute("onclick", "deleteTaskIconClicked(\"" + (i - 1) + "\")");
+        }
+    }
+
+    //decrement the number of tasks by 1
+    var nt = document.getElementById("numberOfTasks").value;
+    document.getElementById("numberOfTasks").value = Number(nt) - 1;
+    quantTaskCounter = Number(nt) - 1;
+
+    //disable the delete icon if this is the last task.
+    if ((Number(nt) - 1) == 1) {
+        document.getElementById("deleteIcon1").style.display = "none";
+    }
+}
+
+function deleteCondition(value) {
+
+    //delete this condition
+    var conditionrow = document.getElementById("conditionRow" + value);
+    conditionrow.parentNode.removeChild(conditionrow);
+
+    //now reorder the condition list again.
+
+    value = Number(value);
+
+    for (var i = value + 1; i <= viewerCondsCounter; i++) {
+
+        var td = document.getElementById("conditionPosition" + i);
+        td.innerHTML = " " + (i - 1) + ". ";
+        td.setAttribute("id", "conditionPosition" + (i - 1));
+
+        //change the id of the  image that will be used to delete this task.
+        //and change the value that is passed the method.
+        var img = document.getElementById("deleteCondition" + (i));
+        img.setAttribute("id", "deleteCondition" + (i - 1));
+        img.setAttribute("onclick", "deleteCondition('" + (i - 1) + "')");
+
+        //change the viewerDirectories select too.
+        var select1 = document.getElementById("existingViewerDirName" + i);
+        select1.setAttribute("id", "existingViewerDirName" + (i - 1));
+        select1.setAttribute("onchange", "viewerDirectoryChanged(this, '" + (i - 1) + "')");
+
+        //change the viewer url select widget id
+        var select2 = document.getElementById("condition" + i);
+        select2.setAttribute("id", "condition" + (i - 1));
+
+        //change the task short name widget id too
+        var sn = document.getElementById("conditionShortName" + i);
+        sn.setAttribute("id", "conditionShortName" + (i - 1));
+        sn.setAttribute("value", "cond" + (i - 1));
+
+        //now change the id of the row also 
+        var tr = document.getElementById("conditionRow" + i);
+        tr.setAttribute("id", "conditionRow" + (i - 1));
+    }
+
+    //reduce the viewer counters by 1
+    viewerCondsCounter = viewerCondsCounter - 1;
+
+    //make sure the last two conditions cannot be deleted
+    if (viewerCondsCounter == 2) {
+
+        document.getElementById("deleteCondition1").style.display = "none";
+        document.getElementById("deleteCondition2").style.display = "none";
+    }
+
+
+
+}
+
+
+
+function deleteDatasetIconClicked(value) {
+
+    //delete this condition
+    var datasetrow = document.getElementById("datasetRow" + value);
+    datasetrow.parentNode.removeChild(datasetrow);
+
+    //now reorder the condition list again.
+
+    value = Number(value);
+    for (var i = value + 1; i <= datasetsCounter; i++) {
+        var tr = document.getElementById("datasetRow" + i);
+        tr.setAttribute("id", "datasetRow" + (i - 1));
+
+        var td = document.getElementById("datasetPosition" + i);
+        td.innerHTML = " " + (i - 1) + ". ";
+        td.setAttribute("id", "datasetPosition" + (i - 1));
+
+        //change the id of the  image that will be used to delete this task.
+        //and change the value that is passed the method.
+        var img = document.getElementById("deleteDatasetIcon" + (i));
+        img.setAttribute("id", "deleteDatasetIcon" + (i - 1));
+        img.setAttribute("onclick", "deleteDatasetIconClicked('" + (i - 1) + "')");
+
+        //change the viewerDirectories select too.
+        var select1 = document.getElementById("dataset" + i);
+        select1.setAttribute("id", "dataset" + (i - 1));
+        select1.setAttribute("onchange", "datasetChanged(this, '" + (i - 1) + "')");
+
+        //change the viewer url select widget id
+        var select2 = document.getElementById("datasetFormat" + i);
+        select2.setAttribute("id", "datasetFormat" + (i - 1));
+
+    }
+
+    //reduce the viewer counters by 1
+    datasetsCounter = datasetsCounter - 1;
+
+}
+
+
+
 
 
 function newQualitativeQuestion() {
@@ -1027,61 +1633,181 @@ function newQualitativeQuestion() {
 
 }
 
+function getInputAccessorMethods() {
+    return inputAccessorMethods;
+}
+function getInputMutatorMethods() {
+    return inputMutatorMethods;
+}
+function getInputDescriptions() {
+    return inputDescriptions;
+}
+function getInputTypes() {
+    return inputTypes;
+}
+function getInputMediums() {
+    return inputMediums;
+}
+
+
 function addAnotherCondition() {
-    var viewerCondDiv = document.getElementById("viewerConditionsDiv");
-
     viewerCondsCounter++;
+    var table = document.getElementById("conditionsTable");
+    var tr = document.createElement("tr");
+    tr.setAttribute("id", "conditionRow" + viewerCondsCounter);
 
-    var div = document.createElement("div");
     if (viewerCondsCounter % 2 === 0) {
-        div.setAttribute("class", "conditionNumberEven");
+        tr.setAttribute("class", "conditionNumberEven");
     }
     else {
-        div.setAttribute("class", "conditionNumberOdd");
+        tr.setAttribute("class", "conditionNumberOdd");
     }
 
-    var p = document.createElement("p");
-    p.innerHTML = "Condition " + viewerCondsCounter;
+    var td0 = document.createElement("td");
+    td0.setAttribute("id", "conditionPosition" + viewerCondsCounter);
+    td0.innerHTML = viewerCondsCounter + ". ";
+    tr.appendChild(td0);
+    //table.appendChild(tr);
 
-    var select = document.createElement("select");
-    select.setAttribute("class", "right");
-    select.setAttribute("name", "conditions");
-    select.setAttribute("id", "condition" + viewerCondsCounter + "");
-    select.setAttribute("style", "min-width:50%;");
+    //for the viewer directory.
+    var td1 = document.createElement("td");
+    var select1 = document.createElement("select");
+    select1.setAttribute("id", "existingViewerDirName" + viewerCondsCounter);
+    select1.setAttribute("onchange", "viewerDirectoryChanged(this, '" + viewerCondsCounter + "')");
 
-    var opt = document.createElement("option");
-    opt.setAttribute("value", "");
-    opt.innerHTML = "Select An Uploaded File";
+    populateViewerDirectoryOptions2(select1);
 
-    select.appendChild(opt);
-    p.appendChild(select);
+    td1.appendChild(select1);
+    tr.appendChild(td1);
 
-    var inputshortname = document.createElement("input");
-    inputshortname.setAttribute("type", "text");
-    inputshortname.setAttribute("class", "right");
-    inputshortname.setAttribute("name", "condition-shortnames");
-    // inputshortname.setAttribute("size", "36");
-    inputshortname.setAttribute("style", "min-width:49%;");
-
-    var condname = "cond" + viewerCondsCounter + "";
-    inputshortname.setAttribute("value", condname);
+    var td2 = document.createElement("td");
 
     var p2 = document.createElement("p");
-    p2.innerHTML = "Condition " + viewerCondsCounter + " Short Name";
-
-    p2.appendChild(inputshortname);
-
-    //viewerCondDiv.appendChild(p);
-    //viewerCondDiv.appendChild(p2);
+    var select = document.createElement("select");
+    select.setAttribute("id", "condition" + viewerCondsCounter);
+    select.setAttribute("name", "conditions");
+    select.setAttribute("style", "min-width:100%;");
 
 
-    div.appendChild(p);
-    div.appendChild(p2);
+    var option1 = document.createElement("option");
+    option1.setAttribute("value", "");
+    option1.innerHTML = "Select An Uploaded Web-page";
+    select.appendChild(option1);
 
-    viewerCondDiv.appendChild(document.createElement("br"));
-    viewerCondDiv.appendChild(div);
+    p2.appendChild(select);
+    p2.appendChild(document.createElement("br"));
 
-    populateConditionOptions(select);
+    td2.appendChild(p2);
+    tr.appendChild(td2);
+
+    var td3 = document.createElement("td");
+    var p3 = document.createElement("p");
+    var input = document.createElement("input");
+    input.setAttribute("name", "condition-shortnames");
+    input.setAttribute("id", "conditionShortName" + viewerCondsCounter);
+    input.setAttribute("type", "text");
+    input.setAttribute("style", "min-width:49%;");
+    input.setAttribute("value", "cond" + viewerCondsCounter);
+    p3.appendChild(input);
+    p3.appendChild(document.createElement("br"));
+
+    td3.appendChild(p3);
+    tr.appendChild(td3);
+
+    var td4 = document.createElement("td");
+    td4.setAttribute("class", "deleteIconTD");
+    var img = document.createElement("img");
+    img.setAttribute("src", "images/delete-icon.jpg");
+    img.setAttribute("class", "deleteIcon");
+    img.setAttribute("alt", "delete condition");
+    img.setAttribute("title", "Delete Condition");
+    img.setAttribute("id", "deleteCondition" + viewerCondsCounter);
+    img.setAttribute("onclick", "deleteCondition('" + viewerCondsCounter + "')");
+
+    td4.appendChild(img);
+    tr.appendChild(td4);
+    table.appendChild(tr);
+
+    //show the delete icon for the first two conditions
+    document.getElementById("deleteCondition1").style.display = "block";
+    document.getElementById("deleteCondition2").style.display = "block";
+
+    //now populate the select widgets
+    //populateConditionOptions(document.getElementById("condition" + viewerCondsCounter));
+}
+
+
+function addAnotherDataset() {
+    datasetsCounter++;
+    var table = document.getElementById("datasetsTable");
+    var tr = document.createElement("tr");
+
+    tr.setAttribute("id", "datasetRow" + datasetsCounter);
+
+    if (datasetsCounter % 2 === 0) {
+        tr.setAttribute("class", "conditionNumberEven");
+    }
+    else {
+        tr.setAttribute("class", "conditionNumberOdd");
+    }
+
+
+    var td0 = document.createElement("td");
+    td0.setAttribute("id", "datasetPosition" + datasetsCounter);
+    td0.innerHTML = datasetsCounter + ". ";
+    tr.appendChild(td0);
+
+
+
+    //create the combobox td
+    var td1 = document.createElement("td");
+
+    var parag = document.createElement("p");
+    var select1 = document.createElement("select");
+
+    select1.setAttribute("id", "dataset" + datasetsCounter);
+    select1.setAttribute("onchange", "datasetChanged(this);");
+
+    parag.appendChild(select1);
+    td1.appendChild(parag);
+
+    var td2 = document.createElement("td");
+
+    var parag2 = document.createElement("p");
+
+    var select2 = document.createElement("select");
+    select2.setAttribute("id", "datasetFormat" + datasetsCounter);
+    select2.setAttribute("style", "min-width: 100px");
+
+    parag2.appendChild(select2);
+    td2.appendChild(parag2);
+
+
+    var td3 = document.createElement("td");
+    td3.setAttribute("class", "deleteIconTD");
+
+    var del_img = document.createElement("img");
+
+    del_img.setAttribute("src", "images/delete-icon.jpg");
+    del_img.setAttribute("class", "deleteIcon");
+    del_img.setAttribute("title", "Delete Dataset");
+    del_img.setAttribute("id", "deleteDatasetIcon" + datasetsCounter);
+    del_img.setAttribute("onclick", "deleteDatasetIconClicked('" + datasetsCounter + "')");
+
+
+    td3.appendChild(del_img);
+
+    tr.appendChild(td1);
+    tr.appendChild(td2);
+    tr.appendChild(td3);
+
+    table.appendChild(tr);
+
+    populateDatasetOptions("" + datasetsCounter + "");
+
 
 }
+
+
+
 

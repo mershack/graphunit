@@ -1,7 +1,0 @@
-Acc_selectLargerGroup_NL,Acc_does2NodeBelongToSameCluster_NL,Acc_howManyClustersAreThere_NL
-0.9,0.7,0.0
-1.0,0.7,0.0
-0.9,1.0,0.0
-0.9,1.0,0.0
-0.8,1.0,0.0
-0.8,1.0,0.0

@@ -31,8 +31,8 @@ and open the template in the editor.
             }
             #propControl{
                 float: right;
-                width: 350px;
-                height: 810px;
+                width: 400px;
+                height: 840px;
                 border: solid #000;
                 padding: 10px;
                 font-size: 120%;
@@ -95,6 +95,9 @@ and open the template in the editor.
             #study{
                 //  width: 1250px;
             }
+            .small-font{
+                font-size: 11px;
+            }
 
 
         </style>
@@ -106,7 +109,9 @@ and open the template in the editor.
             var taskInstances = []; //
 
             window.onload = function() {
-                getTempId();
+                //getTempId();
+               // getCurrentTempName();
+               getViewer();
             };
 
             window.onkeyup = function(event) {
@@ -117,19 +122,19 @@ and open the template in the editor.
                 // alert(studystarted);
                 //alert(keyCode);
 
-                if (keyCode == 13 && (studystarted == true || trainingstarted == true)) { //click the next                     
-                    advanceButtonClicked();
-                }
-                else if (keyCode == 13 && (gettingTurkId == true)) {
-                    startStudy();  //call the start study method, which the button would have called anyway.
-                }
+                /*  if (keyCode == 13 && (studystarted == true || trainingstarted == true)) { //click the next                     
+                 advanceButtonClicked();
+                 }
+                 else if (keyCode == 13 && (gettingTurkId == true)) {
+                 startStudy();  //call the start study method, which the button would have called anyway.
+                 }  */
 
 
             };
 
 
-            function getTempId() {
-                var command = "getTempId";
+            /*function getCurrentTempName() {
+                var command = "getCurrentInstanceCreationTempName";
                 var url = "TaskInstancesCreator?command=" + command;
 
                 var xmlHttpRequest = getXMLHttpRequest();
@@ -138,13 +143,15 @@ and open the template in the editor.
                 {
                     if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
                     {
+                        //set the current temp name.
+                        document.getElementById("tempname").value = xmlHttpRequest.responseText;
                         getViewer();
                     }
                 };
 
                 xmlHttpRequest.open("GET", url, true);
                 xmlHttpRequest.send();
-            }
+            } */
 
             /**
              * This method gets the url of the first condition viewer 
@@ -162,12 +169,22 @@ and open the template in the editor.
                     {
                         createViewerFrame(xmlHttpRequest.responseText);
                         getTask();
-                        getAnswerType();
                     }
                 };
                 xmlHttpRequest.open("GET", url, true);
                 xmlHttpRequest.send();
             }
+
+
+
+
+
+
+
+
+
+
+
 
             //get the required task.
             function getTask() {
@@ -182,11 +199,13 @@ and open the template in the editor.
                     if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
                     {
                         // alert(xmlHttpRequest.responseText);       
-
                         var taskPara = document.getElementById("task");
-
                         taskPara.innerHTML = "<strong>Task: </strong>" + xmlHttpRequest.responseText;
-
+                        getTaskHasCorrectAnswerValue();
+                        getAnswerType();
+                        getInputSize();
+                        getInputTypesAndDescriptions();
+                        
                     }
                 };
                 xmlHttpRequest.open("GET", url, true);
@@ -232,13 +251,14 @@ and open the template in the editor.
                 myframe.setAttribute("src", url);
                 viewers.appendChild(myframe);
                 //get the dataset  
-                getAndSetNodePositions();
+                //getAndSetNodePositions();
                 //getAndSetDataset();
+                
+                setTimeout(getAndSetDataset(), 1000);
 
             }
             function getAndSetNodePositions() {
                 var studyid = document.getElementById("studyid").value;
-                //  "&studyid="+studyid;
 
                 var command = "getNodePositions";
                 var url = "StudyManager?command=" + command + "&studyid=" + studyid;
@@ -295,7 +315,16 @@ and open the template in the editor.
                 var iframe = document.getElementById("viewerFrame");
                 var dataset2 = dataset;
                 //check the setdataset type that has been implemented
-                if (typeof iframe.contentWindow.setJSONdataset == "function") { //json
+               
+               //alert(dataset2);
+               
+                if (typeof iframe.contentWindow.setDataset == "function") { //json
+                    iframe.contentWindow.setDataset(dataset2);
+                    clearInterval(datasetInterval);
+                }
+               
+        
+                /*if (typeof iframe.contentWindow.setJSONdataset == "function") { //json
                     dataset2 += ".json";
                     //alert(dataset2);
                     iframe.contentWindow.setJSONdataset(dataset2);
@@ -310,15 +339,16 @@ and open the template in the editor.
                     dataset2 += ".tsv";
                     iframe.contentWindow.setTSVdataset(dataset2);
                     clearInterval(datasetInterval);
-                }
+                }*/
             }
             function setFrameNodePositions(nodePositions) {
                 var iframe = document.getElementById("viewerFrame"); //set the node positions                        
                 if (typeof iframe.contentWindow.setNodePositions == "function") {
-                    getAndSetDataset();
+                    //getAndSetDataset();
                     iframe.contentWindow.setNodePositions(nodePositions);
                     clearInterval(nodePosInterval);
                 }
+                 
             }
             function getAndSetNodePositions() {
 
@@ -341,6 +371,7 @@ and open the template in the editor.
                             var y = Number(posValues[2]);
                             nodePositions[name] = {"x": x, "y": y};
                         }
+                        
                         nodePosInterval = setInterval(function() {
                             setFrameNodePositions(nodePositions);
                         }, 200);
@@ -349,11 +380,6 @@ and open the template in the editor.
                 xmlHttpRequest.open("GET", url, true);
                 xmlHttpRequest.send();
             }
-
-
-
-
-
 
         </script>
     </head>
@@ -364,46 +390,195 @@ and open the template in the editor.
             <h4 style="margin-top: 0px;">Select task instances for the task listed below.</h4>
             <p id="task"><strong>Task: </strong></p>
             <hr />
-            <p><u>Steps</u></p>
-        <ol>
-            <li>Select the inputs for each task instance one at a time.</li>
-            <li>Provide the correct answer for each task instance.</li> 
-            <li>Click on the "Next Instance" button, and repeat step 1 and 2.</li>
-            <li>Click on the "Save All Instances" button when you finish creating instances. </li>
-        </ol>    
-        <p> <u><strong>Current Task instance #</strong>: <span id="taskInstanceNumber">1</span></u></p>
 
-    <div id="inputsDiv">
-        Provide Inputs for current instance <!--and specify the type of input
-        <p> <input type="radio" /> Will be selected</p>
-        <p> <input type="radio" /> Will be part of a question</p> -->
-        <p>  
-            <input type="button" value="Save Input and Proceed" onclick="saveInputs();"/> 
-            <!--<input type="button" value="Done with Inputs" onclick="doneWithInputs()"/> -->
-        </p>
-    </div>
-
-    <div id="answersDivContainer" style="display:none;">
-        <div>
-            Provide answer for current task instance
-            <div id="answerSelectionDiv" style="display:none">
-                <br/>
-                <strong><em>Note: Answer should be selected in the visualization</em></strong>
-            </div>    
-
-            <div id="answersDiv">           
-                <input type="text" name="answer" id="answer" value=""/>
+            <div>
+                <span id="showStepsButton" style="display:none;"><button onclick="showSteps()">Show steps</button> </span> 
+                <span id="hideStepsButton"><button onclick="hideSteps()">Hide steps</button> </span>
             </div>
+
+            <div id="steps">
+                <p><u>Steps</u></p>
+                <ol>
+                    <li>Select input(s) for the task instance one by one.</li>
+                    <li>Give correct answer for task instance.</li> 
+                    <li>Click the "Next Instance" button, and repeat step 1 and 2.</li>
+                    <li>Click the "Save All Instances" button when done 
+                        with all instances. </li>
+                </ol>  
+                <hr/> 
+            </div>
+
+
+
+            <div id="inputsAndAnswers">
+
+
+                <p> <u><strong>Current Task instance #</strong>: <span id="taskInstanceNumber">1</span></u></p>
+
+                <div id="inputsDiv">
+                    Provide <strong><em>Inputs</em></strong> for current instance 
+
+                    <br /> <br/>
+                    Input Type: <em><span id="inputType"></span>  </em>
+                    <br/>
+                    Input Description:  <em><span id="inputDescription"></span>  </em>
+                    <br/> <br/>
+
+                    <!--Specify how this input will be provided -->
+                    <p id="input-from-visualization" style="display: none;">               
+
+                        Select this input in the visualization
+                        <span id="selectedInputSpan" style="display:none"> <input type="text" id="selectedInput" size="30" readOnly/> </span>
+
+                        &nbsp;&nbsp;&nbsp;<input type="button" value="Check/Refresh Input" onclick="getAndShowSelectedInput();"/>
+
+                    </p>
+                    <p id="input-from-typing" style="display: none;">
+                        Provide this input here:  <input type="text" size="25" id="typedInput"/>
+                    </p>
+
+
+
+                    <!--and specify the type of input
+                    
+                    <p> <input type="radio" /> Will be selected</p>
+                    <p> <input type="radio" /> Will be part of a question</p> -->
+                    <p id="next-input-button" style="display:none;">  
+                        <input type="button" value="Next Input" onclick="saveInputs();"/>                 
+                    </p>
+
+                    <p id="provide-answer-button" style="display:none;">
+                        <input type="button" value="Next - Provide Answer" onclick="doneWithInputs();"/> 
+                    </p>
+                </div>
+
+
+
+                <div id="answersDivContainer" style="display:none;">
+                    <div>
+                        <!--
+                        Provide <strong><em>answer</em></strong> for current task instance
+                        <br />
+        
+                        How will this answer be provided? 
+                        <select id="answerMedium" onchange="answerMediumChanged();">
+                            <option value="">Select One</option>
+                            <option value="from-visualization">From Visualization </option>
+                            <option value="by-typing">By Typing </option>
+                        </select>
+                        -->
+                        <p id="answer-from-visualization" style="display:none;">
+                            Provide the correct answer from the visualization
+                            <input type="text" id="selectedAnswerFromVis" size="25" readOnly style="display:none;"/> 
+                            &nbsp;  <input type="button" value="Check/Refresh Answer" onclick="getAndShowSelectedAnswer()"/>
+                            <br /><br/>
+                            Or <input type="button" value="Answer manually" class="small-font" onclick="showAnswerByTyping()"/> 
+                            <input type="text" id="selectedAnswerFromTyping" style="display:none;"/>
+                        </p>
+
+                        <p id="answer-by-typing" style="display:none;">
+                            Type the correct answer <input type="text" size="22" id="typedAnswer"/>                    
+                        </p>
+
+
+                        <input type="hidden" id="selectedAnswer" value="" />
+                        <input type="hidden" id= "answerMedium" value=""/>
+
+                        <div id="interfaceAnswerDiv" style="display:none;">
+
+                        </div>
+
+                        <div id="answerSelectionDiv" style="display:none">
+                            <br/>                  
+                        </div>
+
+                        <div id="answersDiv">
+                            <!-- for widget answers. -->
+                        </div>
+
+
+                        <div id="dynamic-optionsDiv" style="display:none;">                    
+                            Provide all the options and select the correct option.
+                            <div id="optionsDiv">      
+                                <div id="div_option1">
+                                    <p>
+                                        <input type="radio" id="optionRadio1" name="answerOption"
+                                               value="1" onclick="setDynamicOptionAnswer(this)"
+                                               />
+                                        <input type="text" id="option1" size="15"/>
+                                    </p>
+                                </div>
+                                <div id="div_option2">
+                                    <p>
+                                        <input type="radio" id="optionRadio2" name="answerOption"
+                                               value="2" onclick="setDynamicOptionAnswer(this)"
+                                               />
+                                        <input type="text" id="option2" size="15"/> 
+                                    </p>
+                                </div>
+                                <div id="div_option3">
+                                    <p>
+                                        <input type="radio" id="optionRadio3" name="answerOption"
+                                               value="3" onclick="setDynamicOptionAnswer(this)"
+                                               />
+                                        <input type="text" id="option3" size="15" />
+                                    </p>
+                                </div>
+                                <div id="div_option4">
+                                    <p>
+                                        <input type="radio" id="optionRadio4" name="answerOption"
+                                               value="4" onclick="setDynamicOptionAnswer(this)"
+                                               />
+                                        <input type="text" id="option4" size="15" />
+                                    </p>                              
+                                </div>
+
+
+                                <input type="hidden" value="" id="selectedOption" />
+                            </div>
+                            <!--
+                            <div id="dynamic-option-answerDiv">
+                                <br/>
+                                What is the correct Option?:  <input type="text" size="15" id="dynamic-option-answer"/>
+                                <br/> <br/>
+                            </div>
+                            -->
+                            <input type="button" value="add additional option box box" onclick="addMoreDynamicOptions()"/>
+                            <!-- <input type="button" value="Done with Options" onclick="doneWithDynamicOptions()"/> -->
+
+                            <input type="hidden" value="4" id="numberOfOptions"/>
+                        </div>
+                    </div>
+                </div>    
+                <p>  <input type="button" id="nextInstance" value="Go to Next Instance" onclick="saveInstance();" disabled/></p>
+                <hr/>
+                <p><input type="button" value="Save All Instances" onclick="saveAllTaskInstances();"/></p>
+
+            </div>
+
+            <div id="noNeedForTaskInstances" style="display:none;">
+                <br/><br/>
+               <strong> NOTE:  </strong>
+                Since this task does not require any input,
+                    and does not have a correct answer, there is no need to create 
+                    task instance for this task.
+            </div>
+
+
+
+
+
         </div>
-    </div>    
-    <p>  <input type="button" id="nextInstance" value="Go to Next Instance" onclick="saveInstance();" disabled/></p>
-    <hr/>
-    <p><input type="button" value="Save All Instances" onclick="saveAllTaskInstances();"/></p>
-</div>
 
-<input type="hidden" name="tempname" id="tempname" value=""/>
-<input type="hidden" id="selectedAnswer" value=""/>
+        <input type="hidden" name="tempname" id="tempname" value=""/>
+        <input type="hidden" id="selectedAnswer" value=""/>
+       
+            <input type="hidden" id="userid" value="user6" />
+    
+    <!--<input type="hidden" id="userid" value="user2" />
+    <input type="hidden" id="userid" value="user4" />
+    <input type="hidden" id="userid" value="user5" />
+    <input type="hidden" id="userid" value="user1" />  -->
 
-
-</body>
+    </body>
 </html>

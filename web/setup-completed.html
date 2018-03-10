@@ -25,8 +25,15 @@ and open the template in the editor.
                         //document.getElementById("studyname").value = xmlHttpRequest.responseText;
                         
                        //document.URL; 
-                        var studyurl = "StudyManager?studyname="+xmlHttpRequest.responseText;
-                        var resulturl = "StudyResults?studyname="+xmlHttpRequest.responseText;
+                       var userid = document.getElementById("userid").value;
+                        var studyurl = "StudyManager?studyname="+xmlHttpRequest.responseText
+                                            + "&userid="+userid;
+                        var resulturl = "StudyResults?studyname="+xmlHttpRequest.responseText
+                                            +"&userid="+userid;
+                        
+                        
+                      //  alert(studyurl);
+                        
                         
                         document.getElementById("userstudy").href = studyurl;
                         document.getElementById("studyresults").href = resulturl;
@@ -60,6 +67,7 @@ and open the template in the editor.
         <p>Link to the User Study : <a id="userstudy" href="">User study</a></p>
         <p>Link to the Study Results : <a id="studyresults" href="">Study Results</a></p>
                       
-            <input type="hidden" id="studyname" value="" />
+            <input type="hidden" id="studyname" value=""  />
+            <input type="hidden" id="userid" value="user2" />
     </body>
 </html>

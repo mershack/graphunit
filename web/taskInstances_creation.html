@@ -12,6 +12,8 @@ and open the template in the editor.
         <script type="text/javascript" src="question-properties.js"></script>
         <script type="text/javascript" src="taskinstances.js"></script>
         <script type="text/javascript" src="utils.js"></script>
+        <script type="text/javascript" src="setup.js"></script>
+        <script type="text/javascript" src="addviewers.js"></script>
         <script src="jquery-1.10.2.js"></script>
 
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css"> 
@@ -23,7 +25,7 @@ and open the template in the editor.
                 padding: 10px 50px;
                 margin-left: 20px;
                 //padding-left: 20px;
-                width:560px;
+                width:760px;
             }
             .right{                
                 float:right;
@@ -49,25 +51,46 @@ and open the template in the editor.
                 margin: 1px;
                 padding: 1px;
             }
+             .refreshIconSmall{
+                margin-left: 10px;
+                margin-right: 10px;
+                width: 20px;
+                height: 15px;
+            }
         </style>
         <script type="text/javascript">
 
             window.onload = function() {
                 //we will try and get the respective name for this current study
+                var div = document.getElementById("qnDiv");
+               // loadTasks(div, "Task Type");
+                
+                loadTasks(div, "label", "1", "taskType");
+                
+            
+                loadDatasets("1");
+                getExistingDirectoryNamesAndHTMLFilenames();
+
+                getNewTempName();
+
+            };
+
+            //function to get the new temp name
+            function getNewTempName() {
+
                 var command = "getTempName";
                 var url = "TaskInstancesCreator?command=" + command;
                 var xmlHttpRequest = getXMLHttpRequest();
-
                 xmlHttpRequest.onreadystatechange = function()
                 {
                     if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
-                    {  
+                    {
                         document.getElementById("tempname").value = xmlHttpRequest.responseText;
                     }
                 };
                 xmlHttpRequest.open("GET", url, true);
                 xmlHttpRequest.send();
-            };
+            }
 
         </script>
     </head>
@@ -76,17 +99,32 @@ and open the template in the editor.
             <h2> Create Task Instances </h2>
             <form>
                 <hr>
+                <!--
                 <h4> Supporting Files </h4>
                 <div class="innerBox">
                     <p> Load Supporting Files &nbsp; &nbsp; &nbsp;
                         <input type="file" name="thefiles[]" id="thefiles" onchange="getUploadedFileNames(this)" multiple/>   
                     </p>
-                </div>  
+                </div> 
+                -->
+                
+                <h4>Create or Update files</h4>
+
+                <div class="innerBox divCenter2" >
+                    <input class="" type="button" value="Create or Update Viewer Directories" onclick="createUpdateViewerDir();" /> 
+
+                    <input type="button" value="Create or Update Tasks" onclick="createUpdateTask();">
+                    <input type="button" value="Upload or Update Datasets" onclick="uploadUpdateDataset();">
+
+                    <br/> <br/>
+                </div>      
+                
+                
             </form>
             <form method="GET" action="TaskInstancesCreator"  id="setupForm">
                 <hr>
                 <h4> Viewer </h4>
-                <div class="innerBox">
+              <!--  <div class="innerBox">
                     <div id="viewerConditionsDiv">
                         <div class="conditionNumberOdd">
                             <p> Specify Viewer Name
@@ -96,12 +134,84 @@ and open the template in the editor.
                         </div>
                         <br />
                     </div>
-                 
-                </div>
+
+                </div>  -->
+                
+                
+                
+                 <table class="center" id="conditionsTable">
+                            <tr>
+                                <th></th>
+                                <th>Viewer Directory 
+                                    <img src="images/refresh-icon.png" title="Refresh Viewer Directories" 
+                                         alt="Refresh Viewer Directories" 
+                                         onclick="getExistingDirectoryNamesAndHTMLFilenames();" 
+                                         class="refreshIconSmall"/>
+                                </th>
+                                <th>Condition URL</th>
+                            </tr>
+                            <tr class="conditionNumberOdd" id="conditionRow1">
+                                <td id="conditionPosition1"> 1. </td>
+                                <td>
+                                    <select id="existingViewerDirName1" onchange="viewerDirectoryChanged(this, '1')">
+                                    </select>
+                                </td>
+                                <td>
+                                    <p>
+                                        <select id="condition1" name="conditions" 
+                                                style="min-width:100%;">
+                                            <option value="">Select An Uploaded Web-page</option>                                            
+                                        </select>   
+                                        <br/>
+                                    </p>
+                                </td>
+                            </tr>
+                 </table>
+                
+                
+                
+                
+                
+                
+                
+                
                 <hr>
 
                 <h4>Dataset</h4>
-                <div class="innerBox">
+                
+                <table class="center" id="datasetsTable">
+                        <tr>
+                            
+                            <th>Dataset
+                                <img src="images/refresh-icon.png" title="Refresh Datasets" 
+                                     alt="Refresh Datasets" onclick="loadDatasets()" class="refreshIconSmall"/>
+
+                            </th>
+                            <th>Format</th>                        
+                        </tr>
+                        <tr class="questionNumberEven" id="datasetRow1">
+                           
+                            <td>
+                                <p>                                   
+                                    <select name="dataset" id="dataset1" onchange="datasetChanged(this);">
+                                        <option value ="">Select One</option> 
+                                    </select>
+                                </p>
+                            </td>
+                            <td>
+                                <p>
+                                    <select style="min-width: 100px" name="datasetFormat" id="datasetFormat1">
+                                    </select>
+                                </p>
+                            </td>
+                           
+                        </tr>
+
+                    </table>
+                
+                
+                
+                <!-- <div class="innerBox">
                     <p> Select the Dataset                         
                         <select name="dataset" id="dataset" class="right">
                             <option value=""> Select One </option>
@@ -109,65 +219,39 @@ and open the template in the editor.
                             <option value="miserables">Les Miserables</option>
                             <option value="miserables_small">Les Miserables (small)</option>
                             <option value="receipe_small">Receipe (small)</option>
-                            
+
                         </select>
                     </p>
                 </div>
+                -->
 
                 <hr />
 
                 <h4> Quantitative Tasks </h4>
                 <div class="innerBox">
                     <div id="quantitativeTasksDiv">
-                        <div class="questionNumberOdd">
-                            <p>
-                                Task Type 1  
-                                <select class="right" name="quantitativeTasks" id="quantitativeTasks">
-                                    <option>Select a Task</option>
-                                    <optgroup label="Topology-Based Tasks">
-                                        <option value="Are the two highlighted nodes directly connected?">Are the two highlighted nodes directly connected?</option>
-                                        <option value="Can you get from one of the highlighted nodes to the other with exactly 2 steps?">Can you get from one of the highlighted nodes to the other with exactly 2 steps?</option>
-                                        <option value="Are the three highlighted nodes directly connected?">Are the three highlighted nodes directly connected?</option>
-                                        <option value="Can you get from one of the highlighted nodes to the other in at most 3 steps?">Can you get from one of the highlighted nodes to the other in at most 3 steps?</option>
-                                        <option value="How many nodes can be reached in one step from the highlighted node?">How many nodes can be reached in one step from the highlighted node?</option>
-                                        <option value="What is the maximum number of nodes connected to one of the two highlighted nodes?">What is the maximum number of nodes connected to one of the two highlighted nodes?</option>                                          
-                                    </optgroup>
-                                    <optgroup label="Attribute-Based Tasks">
-                                        <option value="Is there an adjacent node that contains the letter B?">Is there an adjacent node that contains the letter B?</option>
-                                        <option value="How many adjacent nodes contain the letter B?">How many adjacent nodes contain the letter B?</option>                       
-                                    </optgroup>
-                                    <optgroup label="Browsing-Based Tasks">
-                                        <option value="Find the number of nodes on a given path starting with a letter">Find the number of nodes on a given path starting with a letter</option>
-                                        <option value="Find the number of nodes starting with a letter on all paths between 2 nodes">Find the number of nodes starting with a letter on all paths between 2 nodes</option>                        
-                                    </optgroup>
-                                    <option value="Select the most connected node">Select the most connected node</option>
-                                    <option value="Given the two highlighted nodes, select the one with the highest degree">
-                                           Given the two highlighted nodes, select the one with the highest degree
-                                    </option>
-                                    <option value="Select all the neighbors of the highlighted node">
-                                        Select all the neighbors of the highlighted node                                        
-                                    </option>
-                                    <option value="Select all of the common neighbors of the two highlighted nodes">
-                                        Select all of the common neighbors of the two highlighted nodes
-                                    </option>
-                                    <option value="Given the two highlighted pairs nodes (red and blue), select the pair that has a shorter path among them">
-                                        Given the two highlighted pairs nodes (red and blue), select the pair that has a shorter path among them
-                                    </option>
-                                </select>
-                            </p>
+                        <div class="questionNumberOdd" id="qnDiv">
+                           
                             <br>                          
                         </div>
                     </div>
                 </div>
                 <hr />
                 <div class="center">
-                    <input type="button" value="Next step: Selecting task instances" onclick="uploadFiles()"/>
+                    <input type="button" value="Next step: Selecting task instances" onclick="startTaskInstances();"/>
                     &nbsp; &nbsp; &nbsp; 
-                    
+
                     <input type="hidden" value="" id="command" name="submitForm" />
                     <input type="hidden" value=""  id="tempname" name="studyname" />
                 </div>
             </form>
+
+            <input type="hidden" id="userid" value="user2" />
+    
+    <!--<input type="hidden" id="userid" value="user2" />
+    <input type="hidden" id="userid" value="user4" />
+    <input type="hidden" id="userid" value="user5" />
+    <input type="hidden" id="userid" value="user1" />  -->
         </div>
 
     </body>

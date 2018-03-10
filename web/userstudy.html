@@ -1176,12 +1176,22 @@ and open the template in the editor.
 
                     var studyid = document.getElementById("studyid").value;
 
+                    var studyid = document.getElementById("studyid").value;
+
+<<<<<<< HEAD
+                    var command = "getPreQualitativeQuestions";
+                    var url = "StudyManager?command=" + command + "&studyid=" + studyid;
+
+                    var xmlHttpRequest = getXMLHttpRequest();
+
+=======
 
                     var command = "getPreQualitativeQuestions";
                     var url = "StudyManager?command=" + command + "&studyid=" + studyid;
 
                     var xmlHttpRequest = getXMLHttpRequest();
 
+>>>>>>> fa8bfe0... merging with dev
                     xmlHttpRequest.onreadystatechange = function()
                     {
                         if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
@@ -1196,10 +1206,18 @@ and open the template in the editor.
                                 showPreQualitativeQuestions(xmlHttpRequest.responseText);
                             }
                         }
+<<<<<<< HEAD
                     };
                     xmlHttpRequest.open("GET", url, true);
                     xmlHttpRequest.send();
                 }
+=======
+                    }
+                /*};*/
+                xmlHttpRequest.open("GET", url, true);
+                xmlHttpRequest.send();
+                /*    }*/
+>>>>>>> fa8bfe0... merging with dev
 
 
             }

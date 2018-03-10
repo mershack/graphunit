@@ -2502,6 +2502,276 @@ public class StudyManager extends HttpServlet {
                 pws[i].close();
             }
 
+            /**
+             * **************************************
+             * **************************************
+             * *write the basic raw error data also to file
+             * *****************************************
+             * *****************************************
+             * ********************************************
+             */
+            start = 0;
+            taskSize = 0;
+            cnt = 0;
+            /**
+             * First write the file headers *
+             */
+            for (int i = 0; i < numOfConditions; i++) {
+
+                filename = upmts.utils.getConditionErrorBasicFileName(upmts.orderOfConditionShortNames.get(i));
+                String studydataurl = "studies" + File.separator + upmts.studyname + File.separator + "data";
+                files[i] = new File(getServletContext().getRealPath(studydataurl + File.separator + filename));
+
+                boolean newFile = false;
+
+                if (!files[i].exists()) {
+                    files[i].createNewFile();
+                    newFile = true;
+                    //print the headers
+                }
+
+                bws[i] = new BufferedWriter(new FileWriter(files[i], true));
+                pws[i] = new PrintWriter(bws[i]);
+
+                if (newFile) {
+                    //write the headers
+                    //first line will be the actual name and the second line will be the question numbers
+                    upmts.currentCondition = upmts.orderOfConditionShortNames.get(i);
+
+                    start = 0;
+                    taskSize = 0;
+                    cnt = 0;
+
+                    for (int j = 0; j < upmts.questionSizes.size(); j++) {
+                        start = taskSize;
+                        taskSize = upmts.questionSizes.get(j);
+                        String ttype = upmts.questionCodes.get(j);
+                        limit = start + taskSize;
+                        cnt = 0;
+
+                        for (int k = start; k < limit; k++) {
+                            //ttype = taskTypes.get(m);
+                            String name = "Error_" + ttype + "_" + upmts.currentCondition;
+                            if (k == 0 && start == 0) {
+                                pws[i].print(name);
+                            } else if (cnt == 0) {
+                                pws[i].print(" :: " + name);
+                            } else {
+                                pws[i].print(",");
+                            }
+
+                            cnt++;
+                        }
+                    }
+
+                    pws[i].println();
+
+                    //print the question headers
+                    start = 0;
+                    taskSize = 0;
+                    cnt = 0;
+                    for (int j = 0; j < upmts.questionSizes.size(); j++) {
+                        start = taskSize;
+                        taskSize = upmts.questionSizes.get(j);
+                        limit = start + taskSize;
+                        cnt = 0;
+                        for (int k = start; k < limit; k++) {
+                            String name = "Q" + (cnt + 1);
+                            if (k == 0 && start == 0) {
+                                pws[i].print(name);
+                            } else if (cnt == 0) {
+                                pws[i].print(" :: " + name);
+                            } else {
+                                pws[i].print("," + name);
+                            }
+                            cnt++;
+                        }
+                    }
+                    pws[i].println();
+
+                }
+            }
+
+            /**
+             * Now write the answers given for each question *
+             */
+            start = 0;
+            limit = 0;
+            //   System.out.println("*** Size of a condition::: " + upmts.sizeOfACondition);
+            for (int i = 0; i < numOfConditions; i++) {
+                start = i * upmts.sizeOfACondition;
+                limit = start + upmts.sizeOfACondition;
+
+                int j = 0;
+                taskSize = upmts.questionSizes.get(j);
+                cnt = 0;
+
+                //   System.out.println("The Start is:: " + start +"  The LIMIT IS :: " +limit);
+                for (int k = start; k < limit; k++) {
+                    cnt++;
+
+                    {
+                        double numOfErrors = upmts.evalQuestions.get(k).getNumberOfErrors();
+
+                        if (j == 0 && cnt == 1) {
+                            pws[i].print(numOfErrors);
+                        } else if (cnt == 1) {
+                            pws[i].print(" :: " + numOfErrors);
+                        } else {
+                            pws[i].print("," + numOfErrors);
+                        }
+                    }
+
+                    if (cnt == taskSize) {
+                        taskSize = (Integer) upmts.questionSizes.get(j);
+                        j++;
+                        cnt = 0;
+                    }
+
+                }
+                pws[i].println();
+            }
+
+            //close the printWriters
+            for (int i = 0; i < pws.length; i++) {
+                pws[i].close();
+            }
+
+            /**
+             * **************************************
+             * **************************************
+             * *write the basic raw missed data also to file
+             * *****************************************
+             * *****************************************
+             * ********************************************
+             */
+            start = 0;
+            taskSize = 0;
+            cnt = 0;
+            /**
+             * First write the file headers *
+             */
+            for (int i = 0; i < numOfConditions; i++) {
+
+                filename = upmts.utils.getConditionMissedBasicFileName(upmts.orderOfConditionShortNames.get(i));
+                String studydataurl = "studies" + File.separator + upmts.studyname + File.separator + "data";
+                files[i] = new File(getServletContext().getRealPath(studydataurl + File.separator + filename));
+
+                boolean newFile = false;
+
+                if (!files[i].exists()) {
+                    files[i].createNewFile();
+                    newFile = true;
+                    //print the headers
+                }
+
+                bws[i] = new BufferedWriter(new FileWriter(files[i], true));
+                pws[i] = new PrintWriter(bws[i]);
+
+                if (newFile) {
+                    //write the headers
+                    //first line will be the actual name and the second line will be the question numbers
+                    upmts.currentCondition = upmts.orderOfConditionShortNames.get(i);
+
+                    start = 0;
+                    taskSize = 0;
+                    cnt = 0;
+
+                    for (int j = 0; j < upmts.questionSizes.size(); j++) {
+                        start = taskSize;
+                        taskSize = upmts.questionSizes.get(j);
+                        String ttype = upmts.questionCodes.get(j);
+                        limit = start + taskSize;
+                        cnt = 0;
+
+                        for (int k = start; k < limit; k++) {
+                            //ttype = taskTypes.get(m);
+                            String name = "Missed_" + ttype + "_" + upmts.currentCondition;
+                            if (k == 0 && start == 0) {
+                                pws[i].print(name);
+                            } else if (cnt == 0) {
+                                pws[i].print(" :: " + name);
+                            } else {
+                                pws[i].print(",");
+                            }
+
+                            cnt++;
+                        }
+                    }
+
+                    pws[i].println();
+
+                    //print the question headers
+                    start = 0;
+                    taskSize = 0;
+                    cnt = 0;
+                    for (int j = 0; j < upmts.questionSizes.size(); j++) {
+                        start = taskSize;
+                        taskSize = upmts.questionSizes.get(j);
+                        limit = start + taskSize;
+                        cnt = 0;
+                        for (int k = start; k < limit; k++) {
+                            String name = "Q" + (cnt + 1);
+                            if (k == 0 && start == 0) {
+                                pws[i].print(name);
+                            } else if (cnt == 0) {
+                                pws[i].print(" :: " + name);
+                            } else {
+                                pws[i].print("," + name);
+                            }
+                            cnt++;
+                        }
+                    }
+                    pws[i].println();
+
+                }
+            }
+
+            /**
+             * Now write the answers given for each question *
+             */
+            start = 0;
+            limit = 0;
+            //   System.out.println("*** Size of a condition::: " + upmts.sizeOfACondition);
+            for (int i = 0; i < numOfConditions; i++) {
+                start = i * upmts.sizeOfACondition;
+                limit = start + upmts.sizeOfACondition;
+
+                int j = 0;
+                taskSize = upmts.questionSizes.get(j);
+                cnt = 0;
+
+                //   System.out.println("The Start is:: " + start +"  The LIMIT IS :: " +limit);
+                for (int k = start; k < limit; k++) {
+                    cnt++;
+
+                    {
+                        double numberMissed = upmts.evalQuestions.get(k).getNumberMissed();
+
+                        if (j == 0 && cnt == 1) {
+                            pws[i].print(numberMissed);
+                        } else if (cnt == 1) {
+                            pws[i].print(" :: " + numberMissed);
+                        } else {
+                            pws[i].print("," + numberMissed);
+                        }
+                    }
+
+                    if (cnt == taskSize) {
+                        taskSize = (Integer) upmts.questionSizes.get(j);
+                        j++;
+                        cnt = 0;
+                    }
+
+                }
+                pws[i].println();
+            }
+
+            //close the printWriters
+            for (int i = 0; i < pws.length; i++) {
+                pws[i].close();
+            }
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }

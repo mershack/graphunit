@@ -12,18 +12,21 @@ and open the template in the editor.
         <script type="text/javascript" src="question-properties.js"></script>
         <script type="text/javascript" src="setup.js"></script>
         <script type="text/javascript" src="utils.js"></script>
+        <script type="text/javascript" src="addviewers.js"></script>
         <script src="jquery-1.10.2.js"></script>
 
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css"> 
         <script src="//code.jquery.com/jquery-1.10.2.js"></script>
         <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 
+        <script src="http://d3js.org/d3.v3.min.js"></script>
+
         <style type="text/css" >
             #controlBox{
                 padding: 10px 50px;
                 margin-left: 20px;
                 //padding-left: 20px;
-                width:560px;
+                width:750px;
             }
             .right{                
                 float:right;
@@ -36,8 +39,14 @@ and open the template in the editor.
                 font-style: italic;
             }
             .center{
-                margin-left: 150px;
-                margin-right: 150px;
+                //margin-left: 400px;
+                //margin-right: 150px;
+                margin-left: auto;
+                margin-right: auto;
+
+            }
+            img.center{
+                display: block;
             }
             .questionNumberEven, .conditionNumberEven{
                 background-color: #E8E8E8 ;
@@ -49,26 +58,125 @@ and open the template in the editor.
                 margin: 1px;
                 padding: 1px;
             }
+            .sortingArrows{
+                width: 20px;
+                height: 20px;                
+            }
+            .sortingArrowsTD, .deleteIconTD{
+                background-color: white !important;
+            }
+            .plusIcon, .deleteIcon, .refreshIcon{
+                width: 25px;
+                height: 25px;
+            }
+
+            .refreshIconSmall{
+                margin-left: 10px;
+                margin-right: 10px;
+                width: 20px;
+                height: 15px;
+            }
+
+            .deleteIcon{
+                width: 30px;
+                height: 30px;
+
+            }
+            .taskTxtbox{
+                width: 100px;
+            }
+            td{
+                padding-left: 10px;
+                padding-right: 10px;
+                margin: 15px;
+            }
+
+            .leftSpacing1{
+                margin-left: 50px;
+                margin-bottom: 0px !important
+            }
+            .divCenter{
+                margin-left: 40%;
+            }       
+
+            .divCenter2{
+                margin-left: 10%;
+            }  
+            .divCenter3{
+                margin-left: 8%;
+            }
+            .divCenter4{
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .buttonCenter{
+                margin-left:30%;
+            }
+            .buttonCenter2{
+                margin-left:20%;
+            }
+
+            .errorNotices{
+                color: red !important;
+                font-size: 20px;
+                /*background-color: yellow;*/
+                display: none;
+            }
+
+            #smallBox{
+                background-color: lightgray;
+                width: 200px;
+                height: 50px;
+                margin: 100px 100px;
+                padding: 5px;
+
+            }
+            .divCenter4{
+                margin-left: 50%;
+            }
+
         </style>
         <script type="text/javascript">
 
             window.onload = function() {
-                //we will try and get the respective name for this current study
-                var command = "getStudyName";
-                var url = "StudySetup?command=" + command;
+                //we will try and get the respective name for this current study              
+
+                //get management command of this setup.
+
+                var userid = document.getElementById("userid").value;
+
+                var command = "getManagementCommand";
+                var url = "StudySetup?command=" + command + "&userid=" + userid;
                 var xmlHttpRequest = getXMLHttpRequest();
 
                 xmlHttpRequest.onreadystatechange = function()
                 {
                     if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
-                    {                        //set the studyname variable
-                        // alert(xmlHttpRequest.responseText);
-                        document.getElementById("studyname").value = xmlHttpRequest.responseText;
+                    {
+                        var managementCommand = xmlHttpRequest.responseText;
+                        document.getElementById("managementCommand").value = managementCommand;
+
+                        //prepare the setup form depending on the command.
+                        if (managementCommand.trim() === "edit" || managementCommand.trim() === "copy") {
+                            prepareEditingCopySetupForm(managementCommand);
+                        }
+                        else {
+                            prepareNewSetupForm();
+                        }
                     }
                 };
                 xmlHttpRequest.open("GET", url, true);
                 xmlHttpRequest.send();
+
+
+
+
+
+
             };
+
+
 
         </script>
 
@@ -76,149 +184,671 @@ and open the template in the editor.
     <body>
 
         <div id="controlBox">
-            <h2>Set up an Evaluation for Graph Visualizations  </h2>
+            <h2>Design a user study involving Data Visualizations     </h2>
             <form>
                 <hr>
-                <h4> Supporting Files </h4>
-                <div class="innerBox">
-                    <p> Load Supporting Files &nbsp; &nbsp; &nbsp;
-                        <input type="file" name="thefiles[]" id="thefiles" onchange="getUploadedFileNames(this)" multiple/>   
-                    </p>
-                </div>  
+                <h4>Create or Update files</h4>
+
+                <div class="innerBox divCenter2" >
+                    <input class="" type="button" value="Create or Update Viewer Directories" onclick="createUpdateViewerDir();" /> 
+
+                    <input type="button" value="Create or Update Tasks" onclick="createUpdateTask();">
+                    <input type="button" value="Upload or Update Datasets" onclick="uploadUpdateDataset();">
+
+                    <br/> <br/>
+                </div>             
             </form>
-            <form method="GET" action="StudySetup"  id="setupForm">
+
+            <div>
+                <hr>
+                <h4> Study Name </h4>
+                <div id="innerBox">
+                    <div class="errorNotices" id="studyNameError">
+                        <p>
+                            There is an Error in Study name. Either the studyname already exists or its empty.
+                        </p>
+                    </div>
+                    <table class="center">
+                        <tr class="questionNumberEven">
+                            <td>
+                                <p>
+                                    Name of Study                                    
+                                    <span class="leftSpacing1">
+                                        <input type="text" value=""  id="studyname" name="studyname" />   
+                                    </span> 
+                                </p>   
+                            </td>
+                        </tr>
+                    </table>
+
+
+                </div>                
+            </div>
+
+
+
+            <form method="POST" action="StudySetup"  id="setupForm">
                 <hr>
                 <h4> Viewers </h4>
                 <div class="innerBox">
-                    <div id="viewerConditionsDiv">
-                        <div class="conditionNumberOdd">
-                            <p> Condition 1 URL 
-                                <select id="condition1" name="conditions" class="right" style="min-width:50%;">
-                                    <option value="">Select An Uploaded File</option>
-                                </select>                           
-                                <!--<input name="conditions" class="right" type = "text" size="45"/>  --> </p>
-                            <p> Condition 1 Short Name <input name="condition-shortnames" class="right" type = "text" style="min-width:49%;" value="cond1"/> </p>                            
-                        </div>
-                        <br />
-                        <div class="conditionNumberEven">
-                            <p> Condition 2 URL  
-                                <select id="condition2" name="conditions" class="right" style="min-width:50%;">
-                                    <option value="">Select An Uploaded File</option>
-                                </select>  
-                                <!-- <input name="conditions" class="right" type ="text" size="45" /> </span> --></p>
-                            <p> Condition 2 Short Name <input name="condition-shortnames" class="right" type = "text" style="min-width:49%;" value="cond2"/> </p>
-                        </div>
+                    <div class="errorNotices" id="viewersError">
+                        <p>
+                            ** Some fields are empty.
+                        </p>
                     </div>
-                    <input type="button" value="Add Another Condition" onclick="{
-                                addAnotherCondition();
-                            }" class="center"/>
+                    <div id="viewerConditionsDiv">
+                        <table class="center" id="conditionsTable">
+                            <tr>
+                                <th></th>
+                                <th>Viewer Directory 
+                                    <img src="images/refresh-icon.png" title="Refresh Viewer Directories" 
+                                         alt="Refresh Viewer Directories" 
+                                         onclick="getExistingDirectoryNamesAndHTMLFilenames();" 
+                                         class="refreshIconSmall"/>
+                                </th>
+                                <th>Condition URL</th>
+                                <th>Condition Shortname</th>
+                                <th></th>
+                            </tr>
+                            <tr class="conditionNumberOdd" id="conditionRow1">
+                                <td id="conditionPosition1"> 1. </td>
+                                <td>
+                                    <select id="existingViewerDirName1" onchange="viewerDirectoryChanged(this, '1')">
+                                    </select>
+                                </td>
+                                <td>
+                                    <p>
+                                        <select id="condition1" name="conditions" 
+                                                style="min-width:100%;">
+                                            <option value="">Select An Uploaded Web-page</option>                                            
+                                        </select>   
+                                        <br/>
+                                    </p>
+                                </td>
+                                <td>
+                                    <p>
+                                        <input name="condition-shortnames" 
+                                               type = "text" style="min-width:49%;" value="cond1"
+                                               id="conditionShortName1"/> 
+
+                                        <br/>
+                                    </p>                                                                        
+                                </td>
+                                <td class="deleteIconTD">
+
+                                    <img src="images/delete-icon.jpg" class="deleteIcon"
+                                         alt="delete condition" title="Delete Condition"
+                                         id="deleteCondition1" onclick ="deleteCondition('1')"
+                                         style="display:none;"/>
+                                </td>
+                            </tr>
+                            <tr class="conditionNumberEven" id="conditionRow2">
+                                <td id="conditionPosition2"> 2.</td>
+                                <td>
+                                    <select id="existingViewerDirName2" onchange="viewerDirectoryChanged(this, '2')">
+                                    </select>
+                                </td>
+                                <td>
+                                    <p>
+                                        <select id="condition2" name="conditions" 
+                                                style="min-width:100%;">
+                                            <option value="">Select An Uploaded Web-page</option>
+                                        </select>                           
+                                        <br/>
+                                    </p>
+
+                                </td>
+                                <td>
+                                    <p>
+                                        <input name="condition-shortnames" 
+                                               type = "text" style="min-width:49%;" value="cond2"
+                                               id="conditionShortName2"/>
+
+                                        <br/>
+                                    </p>
+
+                                </td>
+                                <td class="deleteIconTD">
+
+                                    <img src="images/delete-icon.jpg" class="deleteIcon"
+                                         alt="delete condition" title="Delete Condition"
+                                         id="deleteCondition2" onclick ="deleteCondition('2')" 
+                                         style="display:none;"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <input type="button" class="divCenter3" value="Create a new Viewer Directory" onclick="createUpdateViewerDir()"/> 
+
+                        <p>
+                            <img src="images/plus-icon.jpg" onclick="addAnotherCondition();" 
+                                 class="plusIcon center" alt="add new task"  title="Add Another Viewer Condition"/> 
+
+
+                        </p>                       
+                    </div>
                 </div>
+
+
+                <hr>
+                <h4>Experiment Design Type for the visualizations</h4>
+                <div class="innerBox">
+                    <div class="errorNotices" id="experimentTypeError_vis">
+                        <p>
+                            ** Select an experiment type.
+                        </p>
+                    </div>
+                    <table class="center">
+                        <tr class="questionNumberEven">
+                            <td>
+                                <p> Select the experiment design type for the visualizations
+                                    <span class="leftSpacing1">
+                                        <select name="expType_vis" class="right" id="expType_vis">
+                                            <option value="">Select One</option>
+                                            <option value="Between">Between-Subjects</option>
+                                            <option value="Within">Within-Subjects</option>
+                                            <option value="Within-Fixed">Within-Subjects-FixedOrder</option>
+                                        </select>
+                                    </span>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>                    
+                </div>
+
                 <hr>
                 <h4>Viewer Dimensions</h4>
                 <div class="innerBox">
-                    <p>Viewer Width <input type="text" value="860" name="viewerWidth" id="viewerWidth" class="right"/></p> 
-                    <p>Viewer Height <input type="text" value="800" name="viewerHeight" id="viewerHeight" class="right"/></p> 
-                </div>
+                    <div class="errorNotices" id="viewerDimensionsError">
+                        <p>
+                            ** Viewer Dimensions cannot be empty.
+                        </p>
+                    </div>
 
+
+                    <table class="center">
+                        <tr class="questionNumberOdd">
+                            <td> 
+                                <p>
+                                    Viewer Width 
+                                    <span class="leftSpacing1">
+                                        <input type="number" value="860" name="viewerWidth" id="viewerWidth" class="right"/>
+                                    </span>                                    
+                                </p>
+                            </td>
+                            <td>
+                                <p>Viewer Height
+                                    <span class="leftSpacing1">
+                                        <input type="number" value="800" name="viewerHeight" id="viewerHeight" class="right"/>
+                                    </span>
+                                </p>
+                            </td>
+
+                        </tr>
+                        <tr class="questionNumberEven">
+
+                        </tr>
+                    </table>
+                </div>
 
                 <hr>
                 <h4>Dataset</h4>
                 <div class="innerBox">
-                    <p> Select the Dataset for the study
-                        <select name="dataset" id="dataset" class="right">
-                            <option value=""> Select One </option>
-                            <!-- <option value="book_recommendation"> Book recommendation</option> -->
-                            <option value="imdb_small">IMDB - small</option>
-                            <!--  <option value="imdb_large">IMDB - large</option> -->
-                            <option value="miserables">Les Miserables</option>
-                            <option value="receipe_small">Receipe - small</option>
-                        </select>
-                        <!--  <input type="hidden" name="datasetType" id="datasetType" value="" /> -->
-                    </p>
+
+                    <div class="errorNotices" id="datasetError">
+                        <p>
+                            ** You have to select a dataset.
+                        </p>
+                    </div>
+
+
+
+
+                    <input type="button" value="Add A New Dataset or Update an Existing Dataset Files" 
+                           class="buttonCenter" onclick="uploadUpdateDataset();"/>
+                    <br/><br/>  
+                    <table class="center" id="datasetsTable">
+                        <tr>
+                            <th></th>
+                            <th>Dataset
+                                <img src="images/refresh-icon.png" title="Refresh Datasets" 
+                                     alt="Refresh Datasets" onclick="loadDatasets()" class="refreshIconSmall"/>
+
+                            </th>
+                            <th>Format</th>                        
+                        </tr>
+                        <tr class="questionNumberEven" id="datasetRow1">
+                            <td>1. </td>
+                            <td>
+                                <p>                                   
+                                    <select name="dataset" id="dataset1" onchange="datasetChanged(this);">
+                                        <option value ="">Select One</option> 
+                                    </select>
+                                </p>
+                            </td>
+                            <td>
+                                <p>
+                                    <select style="min-width: 100px" name="datasetFormat" id="datasetFormat1">
+                                    </select>
+                                </p>
+                            </td>
+                            <td class="deleteIconTD">
+
+                                <img src="images/delete-icon.jpg" class="deleteIcon"
+                                     alt="delete dataset" title="Delete Dataset"
+                                     id="deleteDatasetIcon1" onclick ="deleteDatasetIconClicked('1')" 
+                                     />
+                            </td>
+                        </tr>
+
+                    </table>
+                    <!--
+                     <input type="button" class="buttonCenter" value="Upload or a new Dataset"
+                            onclick="uploadUpdateDataset()"/>   -->
+
+                    <br><br>
+                    <div class="divCenter4">
+
+                        <img src="images/plus-icon.jpg" onclick="addAnotherDataset();" 
+                             class="plusIcon" alt="add new dataset"  title="Add Another Dataset"/>                         
+                        <!--<input type="button" value="Refresh Datasets" onclick="loadDatasets()"/>  -->
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
                 </div>
 
-                <hr>
 
-                <h4>Experiment Type</h4>
+                <hr>
+<!--                <h4>Experiment Design Type for the datasets</h4>
                 <div class="innerBox">
-                    <p> Select Experiment Type 
-                        <select name="expType" class="right">
-                            <option value="">Select One</option>
-                            <option value="Within">Within</option>
-                            <option value="Between">Between</option>
-                        </select>
+                    <div class="errorNotices" id="experimentTypeError_ds">
+                        <p>
+                            ** Select an experiment type.
+                        </p>
+                    </div>
+                    <table class="center">
+                        <tr class="questionNumberEven">
+                            <td>
+                                <p> Select the experiment design type for the visualizations
+                                    <span class="leftSpacing1">
+                                        <select name="expType_ds" class="right" id="expType_ds">
+                                            <option value="">Select One</option>
+                                            <option value="Between">Between-Subjects</option>
+                                            <option value="Within">Within-Subjects</option>
+                                            <option value="Within-Fixed">Within-Subjects-FixedOrder</option>
+                                        </select>
+                                    </span>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>                    
+                </div>-->
 
-                    </p>
+                <hr>
+                <h4> Pre-Study Activities</h4>
+                <div class="innerBox">
+                    
+                    <div class="errorNotices" id="introductionError">
+                        <p>
+                            Some fields are empty.
+                        </p>
+                    </div>
+                    
+                    
+                    <div id="introductionFilesDiv">
+
+                        <table class="center" id="introductionFilesTable">
+                            <tr>
+                                <th></th>
+                                <th>Introduction URL
+
+                                </th>
+                                <th>For which condition?
+                                    <img src="images/refresh-icon.png" title="Refresh Condition Names" 
+                                         alt="Refresh Condition Names" onclick="" class="refreshIconSmall"/>
+                                </th>                        
+                            </tr>
+                            <tr class="questionNumberEven" id="introductionFileRow1">
+                                <td id="introductionFilePosition1">1. </td>
+                                <td id="introductionFileURL1TD">
+                                    <p>                                   
+                                        <input type="text" value="" style="min-width:100%;" id="introductionFileURL1">
+                                    </p>
+                                </td>
+                                <td id="introductionFileCondition1TD">
+                                    <p>
+                                        <select name="introductionFileCondition1" id="introductionFileCondition1" style="min-width:100%;">
+                                            <option value ="">Select One</option> 
+                                            <option value ="all">All conditions</option> 
+                                            <option value="cond1">Cond1</option>
+                                            <option value="cond2">Cond2</option>
+                                        </select>
+                                    </p>
+                                </td>
+                                <td class="deleteIconTD">
+                                    <!--
+                                    <img src="images/delete-icon.jpg" class="deleteIcon"
+                                         alt="delete dataset" title="Delete Dataset"
+                                         id="deleteDatasetIcon1" onclick ="deleteDatasetIconClicked('1')" 
+                                         />
+                                    -->
+                                </td>
+                            </tr>
+                        </table>    
+
+                        <p class="center">
+                            <img src="images/plus-icon.jpg" onclick="addAnotherIntroductionFile();" 
+                                 class="plusIcon center" alt="add new introduction File"  title="Add New Introduction File"/> 
+
+                        </p>
+                        
+                        <input type="hidden" id="introFileCounter" value="1"/>
+                    </div>
+
+
+                    <br /><br/>
+
+                    <input type="button" value="Include a Standard Test" onclick="showStandardTestDiv();" class="buttonCenter2" id="inclStandardTestBtn"/>
+                    <br/><br/>
+                    <div id="standardTestsDiv" style="display:none;"> 
+
+                        <table class="center" id="standardTestsTable">
+                            <tr>
+                                <th></th>
+                                <th>Standard Test URL
+
+                                </th>
+                                <th>
+                                    Interface Name For User Response
+                                </th>                        
+                                <th>
+                                    Interface Name for User Performance
+                                </th>
+                                <th></th>
+                            </tr>
+                            <tr class="questionNumberEven" id="standardTestRow1">
+                                <td id="standardTestPosition1">1. </td>
+                                <td id="standardTestURL1TD">
+                                    <p>                                   
+                                        <input type="text" value="" style="min-width:100%;" id="standardTestURL1">
+                                    </p>
+                                </td>
+                                <td id="standardTestUserResponseInterface1TD">
+                                    <p>
+                                        <input type="text" value="" style="min-width:100%" id="standardTestUserResponseInterface1"/>
+                                    </p>
+                                </td>
+                                <td id="standardTestUserPerformanceInterface1TD">
+                                    <p>
+                                        <input type="text" value="" style="min-width:100%" id="standardTestUserPerformanceInterface1"/>
+                                    </p>
+                                </td>
+
+                                <td class="deleteIconTD">
+                                    <img src="images/delete-icon.jpg" class="deleteIcon"
+                                         alt="delete standard test" title="Delete Dataset"
+                                         id="deleteStandardTestIcon1" onclick ="deleteStandardTestIconClicked('1')" 
+                                         />
+
+                                </td>
+                            </tr>
+                        </table> 
+
+
+
+                        <p class="center">
+                            <img src="images/plus-icon.jpg" onclick="AddAnotherStandardTest();" 
+                                 class="plusIcon center" alt="add new introduction File"  title="Add New Introduction File"/> 
+
+                        </p>
+                        
+                        <input type="hidden" id="standardTestCounter" value="1">
+                        
+                        
+                    </div>
                 </div>
 
                 <hr>
+                <h4> Pre-Study Tasks</h4>
+                <div class="innerBox">
+                    <div id="preStudyTasksDiv">
 
-                <h4> Quantitative Tasks </h4>
+                        <table >
+                            <tbody id="preStudyTasksTable">
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th>Task Type</th>
+                                    <th></th>
+                                </tr> 
+
+                                <tr class ="questionNumberOdd" id="preStudyTask1">
+                                    <td class="sortingArrowsTD">
+
+                                        <img src="images/up-arrow-icon.png" class="sortingArrows" onclick="moveTaskUp('1');"
+                                             alt="move task up" title="Move Task Up"/>
+                                        <br />
+                                        <img src="images/down-arrow-icon.png" class="sortingArrows" onclick="moveTaskDown('1');"
+                                             alt="move task down" title="Move Task Down"/>
+                                    </td>
+                                    <td id="preStudyTaskPosition1"> 1.</td>
+                                    <td id="preStudyQnDiv1TD">                                        
+                                        <div id="preStudyQnDiv1">
+                                        </div>
+                                    </td>
+                                    <td class="deleteIconTD">
+
+                                        <img src="images/delete-icon.jpg" class="deleteIcon"
+                                             alt="delete pre-study task" title="Delete Pre-Study Task"
+                                             id="deletePreStudyTaskIcon1" onclick ="deletePreStudyTaskIconClicked('1')" 
+                                             />
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                        <!--
+                        <input class="divCenter2" type="button" value="Create a new Task" 
+                               onclick="createUpdateTask();"/>   -->
+
+
+                        <input type="hidden" value="1" id="numberOfPreStudyTasks" />
+                        <br>
+                    </div>
+                     <p class="center">
+                        <img src="images/plus-icon.jpg" onclick="addAnotherPreStudyTask();" 
+                             class="plusIcon center" alt="add new Pre-Study task"  title="Add New Pre-Study Task"/> 
+                    </p>
+
+                </div>
+
+                <hr>
+                <h4> Actual Study Tasks </h4>
+                <div class="errorNotices" id="tasksError">
+                    <p>
+                        ** Some fields are empty. They should be filled
+                    </p>
+                </div>
                 <div class="innerBox">
                     <div id="quantitativeTasksDiv">
-                        <div class="questionNumberOdd">
+                        <div>
 
-                            <p>
-                                Task Type 1  
-                                <select class="right" name="quantitativeTasks" onchange="checkExistenceOfInterfaceMethods(this);">
-                                    <option>Select a Task</option>
-                                    <optgroup label="Topology-Based Tasks">
-                                        <option value="Are the two highlighted nodes directly connected?">Are the two highlighted nodes directly connected?</option>
-                                        <option value="Can you get from one of the highlighted nodes to the other with exactly 2 steps?">Can you get from one of the highlighted nodes to the other with exactly 2 steps?</option>
-                                        <option value="Are the three highlighted nodes directly connected?">Are the three highlighted nodes directly connected?</option>
-                                        <option value="Can you get from one of the highlighted nodes to the other in at most 3 steps?">Can you get from one of the highlighted nodes to the other in at most 3 steps?</option>
-                                        <option value="How many nodes can be reached in one step from the highlighted node?">How many nodes can be reached in one step from the highlighted node?</option>
-                                        <option value="What is the maximum number of nodes connected to one of the two highlighted nodes?">What is the maximum number of nodes connected to one of the two highlighted nodes?</option>                                          
-                                    </optgroup>
-                                    <optgroup label="Attribute-Based Tasks">
-                                        <option value="Is there an adjacent node that contains the letter B?">Is there an adjacent node that contains the letter B?</option>
-                                        <option value="How many adjacent nodes contain the letter B?">How many adjacent nodes contain the letter B?</option>                       
-                                    </optgroup>
-                                    <optgroup label="Browsing-Based Tasks">
-                                        <option value="Find the number of nodes on a given path starting with a letter">Find the number of nodes on a given path starting with a letter</option>
-                                        <option value="Find the number of nodes starting with a letter on all paths between 2 nodes">Find the number of nodes starting with a letter on all paths between 2 nodes</option>                        
-                                    </optgroup>
-                                    <option value="Select the most connected node">Select the most connected node</option>
-                                     <option value="Given the two highlighted nodes, select the one with the highest degree">
-                                           Given the two highlighted nodes, select the one with the highest degree
-                                    </option>
-                                    <option value="Select all the neighbors of the highlighted node">
-                                        Select all the neighbors of the highlighted node                                        
-                                    </option>
-                                    <option value="Select all of the common neighbors of the two highlighted nodes">
-                                        Select all of the common neighbors of the two highlighted nodes
-                                    </option>
-                                </select>
-                            </p>
+                            <table >
+                                <tbody id="quantitativeTasksTable">
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th>Task Type</th>
+                                        <th># of Questions</th>
+                                        <th>Time (sec)</th>
+                                        <th></th>
+                                    </tr> 
+
+                                    <tr class ="questionNumberOdd" id="task1">
+                                        <td class="sortingArrowsTD">
+
+                                            <img src="images/up-arrow-icon.png" class="sortingArrows" onclick="moveTaskUp('1');"
+                                                 alt="move task up" title="Move Task Up"/>
+                                            <br />
+                                            <img src="images/down-arrow-icon.png" class="sortingArrows" onclick="moveTaskDown('1');"
+                                                 alt="move task down" title="Move Task Down"/>
+                                        </td>
+                                        <td id="taskPosition1"> 1.</td>
+                                        <td id="qnDiv1TD">                                        
+                                            <div id="qnDiv1">
+                                            </div>
+                                        </td>
+                                        <td id="taskSize1TD">
+                                            <input type="number" name="quantitativeTaskSize" class="taskTxtbox" id="taskSize1"/>
+                                        </td>
+                                        <td id="taskTime1TD">
+                                            <!--Time In Seconds for Task Type 1 (Enter 0 for unlimited) -->
+                                            <input type="number"  name="quantitativeTaskTime" class="taskTxtbox" id="taskTime1"/>
+                                        </td>
+                                        <td class="deleteIconTD">
+
+                                            <img src="images/delete-icon.jpg" class="deleteIcon"
+                                                 alt="delete task" title="Delete Task"
+                                                 id="deleteIcon1" onclick ="deleteTaskIconClicked('1')" 
+                                                 style="display:none;"/>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                            <!--
+                            <input class="divCenter2" type="button" value="Create a new Task" 
+                                   onclick="createUpdateTask();"/>   -->
+
+
+                            <input type="hidden" value="1" id="numberOfTasks" />
+
                             <br>
-                            <p>
-                                Number of Task Type 1 Questions  
-                                <input type="text" class="right"  name="quantitativeTaskSize"/>
-                            </p>
-                            <p>
-                                Time In Seconds for Task Type 1 (Enter 0 for unlimited)
-                                <input type="text"  class="right" name="quantitativeTaskTime"/>
-                            </p>
                         </div>
 
 
                     </div>
-                    <br><br><input type="button" value="Add Another Quantitative Task Type" class="center" onclick="newQuantitativeTaskDetails()"/> <br>
-                    <br>
-                </div>
 
-                <hr>
-                <h4>Number of Training Questions</h4>
-                <div class="innerBox">
-                    <p> Specify number of training questions 
-                        <input type="text" class="right"  name="trainingSize"/>
+                    <p class="center">
+                        <img src="images/plus-icon.jpg" onclick="newQuantitativeTaskDetails();" 
+                             class="plusIcon center" alt="add new task"  title="Add New Task"/> 
 
                     </p>
+
+                    <!--
+                   <input type="button" value="Add Another Quantitative Task Type" class="center" onclick="newQuantitativeTaskDetails()"/> <br>
+                    -->
+                    <br>                 
+                   
                 </div>
+                
+                 <h4>Number of Training Samples</h4>
+                <div class="innerBox">
+                    <div class="errorNotices" id="trainingSizeError">
+                        <p>
+                            ** Number of training questions cannot be empty
+                        </p>
+                    </div>
 
+
+                    <table class="center">
+                        <tr class="questionNumberOdd">
+                            <td>
+                                <p> Specify the number of training Samples
+                                    <span class="leftSpacing1"> 
+                                        <input type="number" value="2" class="right" min="0" name="trainingSize" id="trainingSize"/>
+                                    </span>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                    
+                
+                
+                
+                
+                
                 <hr>
+                <h4> Post-Study Tasks</h4>
+                <div class="innerBox">
+                    <div id="postStudyTasksDiv">
+                        
+                            <table >
+                                <tbody id="postStudyTasksTable">
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th>Task Type</th>
+                                        <th></th>
+                                    </tr> 
 
-                <h4>Qualitative Tasks</h4>               
+                                    <tr class ="questionNumberOdd" id="postStudyTask1">
+                                        <td class="sortingArrowsTD">
+
+                                            <img src="images/up-arrow-icon.png" class="sortingArrows" onclick="moveTaskUp('1');"
+                                                 alt="move task up" title="Move Task Up"/>
+                                            <br />
+                                            <img src="images/down-arrow-icon.png" class="sortingArrows" onclick="moveTaskDown('1');"
+                                                 alt="move task down" title="Move Task Down"/>
+                                        </td>
+                                        <td id="postStudyTaskPosition1"> 1.</td>
+                                        <td id="postStudyQnDiv1TD">                                        
+                                            <div id="postStudyQnDiv1">
+                                            </div>
+                                        </td>
+                                        <td class="deleteIconTD">
+
+                                            <img src="images/delete-icon.jpg" class="deleteIcon"
+                                                 alt="delete post-study task" title="Delete Post-Study Task"
+                                                 id="deletePostStudyTaskIcon1" onclick ="deletePostStudyTaskIconClicked('1')" 
+                                             />
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                            <!--
+                            <input class="divCenter2" type="button" value="Create a new Task" 
+                                   onclick="createUpdateTask();"/>   -->
+
+
+                            <input type="hidden" value="1" id="numberOfPostStudyTasks" />
+                            <br>
+                    </div>
+                     <p class="center">
+                        <img src="images/plus-icon.jpg" onclick="addAnotherPostStudyTask();" 
+                             class="plusIcon center" alt="add new post study task"  title="Add New Post Study Task"/> 
+
+                    </p>
+
+                </div>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+               
+                
+
+
+
+                <!--
+                <hr>
+                <h4>Qualitative Tasks</h4>       
                 <div class="innerBox">
                     <div id="qualitativeTasksDiv">                        
                         <div class="questionNumberOdd">
@@ -235,8 +865,6 @@ and open the template in the editor.
                                     How will you rate your familiarity with this type of visualization prior to this study?
                                 </option>
                                 <option value="Please enter your Mechanical Turk ID">Please enter your Mechanical Turk ID</option>
-
-
                             </select>
                             <br><br><br>
                             When should Task type 1 be asked?
@@ -246,37 +874,63 @@ and open the template in the editor.
                                 <option value="after">After  quantitative tasks</option>
                             </select>
                         </div>                       
-                    </div>                 
-
-                    <br><br> <input class="center" type="button" value="Add another Qualitative Question" onclick="newQualitativeQuestion()" />
+                    </div>        
+                    <br/><br/>
+                    <input class="center" type="button" value="Add another Qualitative Question" onclick="newQualitativeQuestion()" />
                     <br>
                 </div>  
+                
+                -->
 
+                
+                
+                
                 <hr>
 
                 <h4> Mechanical Turk Details </h4>
-                <div class="innerBox">
-                    <p> AWS Access Key <input name="awsAccessKey" class="right" type="text" value="" size="35"/> </p>
-                    <p> AWS Secret Key <input name="awsSecretKey" class="right" type="text" value="" size="35"/> </p>
-                    <p> HIT Title <input name="hitTitle" class="right" type="text" value="" size="35"/> </p>
-                    <p> Number of Assignments <input name="maxAssignments" class="right" type="text" value="" size="35"/> </p>
-                    <p> Reward <input name="hitReward" class="right" type="text" value="" size="35"/> </p>
+
+                <div class="innerBox" style="display: none;">
+                    <input id="showMTDetailsBtn" type="button" value="Show Details" 
+                           onclick="showMTDetails();"/> 
+                    <input id="hideMTDetailsBtn" style="display:none;" type="button" value="Hide Details" 
+                           onclick="hideMTDetails();"/>
+                    <div id="MTDetails" style="display:none;">
+                        <p> AWS Access Key <input id="awsAccessKey" name="awsAccessKey" class="right" type="text" value="" size="35"/> </p>
+                        <p> AWS Secret Key <input id="awsSecretKey" name="awsSecretKey" class="right" type="text" value="" size="35"/> </p>
+                        <p> HIT Title <input id="hitTitle" name="hitTitle" class="right" type="text" value="" size="35"/> </p>
+                        <p> Number of Assignments <input id="maxAssignments" name="maxAssignments" class="right" type="text" value="" size="35"/> </p>
+                        <p> Reward <input id="hitReward" name="hitReward" class="right" type="text" value="" size="35"/> </p>
+                    </div>
+
                 </div>
                 <hr>
 
-                <div class="center">
+                <div class="divCenter">
                     <input type="button" value="See Demo" onclick="getDemo()"/>
-                    &nbsp; &nbsp; &nbsp; 
-                    <input type="submit" value="Submit" onclick="setSubmitCommand();"/>
-
-                    <input type="hidden" value="" id="command" name="command" />
-                    <input type="hidden" value=""  id="studyname" name="studyname" />
+                    &nbsp; 
+                    <input type="button" value="Save Study" onclick="setSubmitCommand();"/>
+                </div>
+                <div id="hiddenElements">
+                    <input type="hidden" value="" id="command" name="command" />                    
+                    
+                    
+                     <input type="hidden" id="userid" value="user2" />
+    
+    <!--<input type="hidden" id="userid" value="user2" />
+    <input type="hidden" id="userid" value="user4" />
+    <input type="hidden" id="userid" value="user5" />
+    <input type="hidden" id="userid" value="user1" />  -->
+                    
+                    
+                    <input type="hidden" id="managementCommand" value=""/>
                 </div>
 
             </form>
             <div id="frameForViewerTesting" style="display:none;">
 
-           </div>
+            </div>
+
+
         </div>
 
     </body>

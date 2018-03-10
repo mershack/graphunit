@@ -1,5 +1,0 @@
-Acc_neighbor_one_step_arrow, :: Acc_neighbor_two_step_arrow,
-Q1,Q2 :: Q1,Q2
-true,true :: false,false
-false,false :: true,false
-true,true :: false,true

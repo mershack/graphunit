@@ -40,6 +40,18 @@
         <servlet-name>SaveTaskInstances</servlet-name>
         <servlet-class>userstudy.SaveTaskInstances</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DatasetManager</servlet-name>
+        <servlet-class>userstudy.DatasetManager</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewerManager</servlet-name>
+        <servlet-class>userstudy.ViewerManager</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ManageStudies</servlet-name>
+        <servlet-class>userstudy.ManageStudies</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NewServlet</servlet-name>
         <url-pattern>/NewServlet</url-pattern>
@@ -79,6 +91,18 @@
     <servlet-mapping>
         <servlet-name>SaveTaskInstances</servlet-name>
         <url-pattern>/SaveTaskInstances</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DatasetManager</servlet-name>
+        <url-pattern>/DatasetManager</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewerManager</servlet-name>
+        <url-pattern>/ViewerManager</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManageStudies</servlet-name>
+        <url-pattern>/ManageStudies</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

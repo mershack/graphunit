@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class EvaluationQuestion {
 
     private String question;
-    ArrayList<String> nodes;
+    private ArrayList<String> inputs;
     private String correctAns;
     private String ansType;
     private ArrayList<String> ansOptions;
@@ -22,30 +22,36 @@ public class EvaluationQuestion {
     private String givenAnswer;
     private int timeInSeconds;
     private int maxTimeInSeconds;
-    private String answerGroup;
-    private String inputInterface;
-    private String outputInterface;
+    //private String answerGroup;
+    private String inputTypes;
+    private String outputType;
     private int numberMissed;
     private int numberOfErrors;
     private String inputTypeStr;
+    private String interfaceForValidatingAnswers;
+    private String taskOptions;
+    private String hasCorrectAnswer;
+    //private double accuracy;
 
-    public EvaluationQuestion(String question, String correctAns, ArrayList<String> nodes,
-            ArrayList<String> ansOptions, String ansType, String ansGroup, int maxTime, String inputInterface, String outputInterface, String inputTypeString) {
+    public EvaluationQuestion(String question, String correctAns, ArrayList<String> inputs,
+            String ansType, int maxTime, String inputInterface, String outputInterface,
+            String inputTypeString, String interfaceForValidatingAnswers
+    , String hasCorrectAns) {
         this.question = question;
         this.correctAns = correctAns;
-        this.nodes = nodes;
+        this.inputs = inputs;
         this.ansOptions = ansOptions;
         this.ansType = ansType;
-        this.answerGroup = ansGroup;
-        this.inputInterface = inputInterface;
-        this.outputInterface = outputInterface;
+        //this.answerGroup = answ;
+        this.inputTypes = inputInterface;
+        this.outputType = outputInterface;
         this.averageCorrect = 0;
         this.maxTimeInSeconds = maxTime;
         numberMissed = 0;
         numberOfErrors = 0;
         inputTypeStr = inputTypeString; //by default
-        
-        //System.out.println("----"+inputTypeStr);
+        this.interfaceForValidatingAnswers = interfaceForValidatingAnswers;
+        this.hasCorrectAnswer  = hasCorrectAns;        
     }
 
     public String getQuestion() {
@@ -56,12 +62,12 @@ public class EvaluationQuestion {
         this.question = question;
     }
 
-    public ArrayList<String> getNodes() {
-        return nodes;
+    public ArrayList<String> getInputs() {
+        return inputs;
     }
 
-    public void setNodes(ArrayList<String> nodes) {
-        this.nodes = nodes;
+    public void setInputs(ArrayList<String> nodes) {
+        this.inputs = nodes;
     }
 
     public String getCorrectAns() {
@@ -88,123 +94,109 @@ public class EvaluationQuestion {
         this.ansOptions = ansOptions;
     }
 
-    public String getAnswerGroup() {
-        return answerGroup;
-    }
-
-    public void setAnswerGroup(String answerGroup) {
-        this.answerGroup = answerGroup;
-    }
-
     public String getInputInterface() {
-        return inputInterface;
+        return inputTypes;
     }
 
     public void setInputInterface(String inputInterface) {
-        this.inputInterface = inputInterface;
+        this.inputTypes = inputInterface;
     }
 
     public String getOutputInterface() {
-        return outputInterface;
+        return outputType;
     }
 
     public void setOutputInterface(String outputInterface) {
-        this.outputInterface = outputInterface;
+        this.outputType = outputInterface;
     }
 
-    public String getNodesAsString() {
-        String nodesString = "";
-        if (nodes.size() > 0) {
-            nodesString = nodes.get(0);
-            for (int i = 1; i < nodes.size(); i++) {
-                nodesString += "," + nodes.get(i);
+    public String getInputsAsString() {
+        String inputsString = "";
+        if (inputs.size() > 0) {
+            inputsString = inputs.get(0);
+            for (int i = 1; i < inputs.size(); i++) {
+                //note we are separting it with this colons
+                inputsString += ":::::" + inputs.get(i);
             }
         }
-        return nodesString;
+        return inputsString;
     }
 
-    public String getAnsOptionsAsString() {
-        String ansOptionsString = answerGroup + ":::" + ansType + ":::";
-        //include the answer options
-        if (ansOptions.size() > 0) {
-            ansOptionsString += ansOptions.get(0);
-            for (int i = 1; i < ansOptions.size(); i++) {
-                ansOptionsString += "::" + ansOptions.get(i);
-            }
-        } else {
-            ansOptionsString += "none";
-        }
-        //now include the names the inputinterface and output interface names.
-        ansOptionsString += ":::" + inputInterface + ":::" + outputInterface;
+    public String getAnswerTypeAndOutputType() {
+        String ansAndoutputType = this.ansType + ":::" + outputType;
 
-        return ansOptionsString;
+        return ansAndoutputType;
     }
 
-    public void setAverageCorrect(String ans) {
+    public void setAverageCorrect(double accuracy) {
+        /**
+         * The Average correct will represent the accuracy the user gave.
+         */
 
-        String correctAnsArr[] = correctAns.split(";;");
-        String givenAnsArr[] = ans.split(";;");
+        averageCorrect = accuracy;
+
+        /*
+         String correctAnsArr[] = correctAns.split(";;");
+         String givenAnsArr[] = ans.split(";;");
        
-        if (correctAnsArr.length < 2) {
-            if (ans.equalsIgnoreCase(correctAns)) {
-                averageCorrect = 1;
-            } else {
-                averageCorrect = 0;
-            }
-        }
-        else{
-            //check the percentage correct.
-            int cnt = 0, numOfErrors=0;
-            boolean exists =false;
-            for(int i=0; i<givenAnsArr.length; i++){
-                exists = false;
-                for(int j=0; j<correctAnsArr.length; j++){
-                    if(givenAnsArr[i].trim().equalsIgnoreCase(correctAnsArr[j].trim())){
-                        cnt++;
-                        exists = true;
-                        break;
-                    }
-                }
-                //if it doesn't exist, then it is an erroneous selection
-                if(!exists){
-                    numOfErrors++;
-                }
+        
+         if (correctAnsArr.length < 2) {
+         if (ans.equalsIgnoreCase(correctAns)) {
+         averageCorrect = 1;
+         } else {
+         averageCorrect = 0;
+         }
+         }
+         else{
+         //check the percentage correct.
+         int cnt = 0, numOfErrors=0;
+         boolean exists =false;
+         for(int i=0; i<givenAnsArr.length; i++){
+         exists = false;
+         for(int j=0; j<correctAnsArr.length; j++){
+         if(givenAnsArr[i].trim().equalsIgnoreCase(correctAnsArr[j].trim())){
+         cnt++;
+         exists = true;
+         break;
+         }
+         }
+         //if it doesn't exist, then it is an erroneous selection
+         if(!exists){
+         numOfErrors++;
+         }
                 
                 
-            }
+         }
             
-            averageCorrect = (double)cnt/correctAnsArr.length;
-            
-           // System.out.println("AverageCorrect is "+ averageCorrect);
-            //calculate the number of missed items 
-            //and the number of erroneous selections
-            
-            numberMissed = correctAnsArr.length - cnt;
-            numberOfErrors = numOfErrors;
-            
-            //System.out.println("Given answer is :: "+ ans);
-            //System.out.println("Correct answer is :: "+ correctAns);
-            
-         //   System.out.println("# of erroneous selection is "+ numberOfErrors);
-           // System.out.println("# selections missed is "+ numberMissed);
-            
-           // System.out.println("#correct is "+ cnt);
-        }
-
+         averageCorrect = (double)cnt/correctAnsArr.length;
+                        
+         numberMissed = correctAnsArr.length - cnt;
+         numberOfErrors = numOfErrors;            
+         }
+        
+         */
     }
 
     public double getIsGivenAnsCorrect() {
-        return averageCorrect;
-    }
+        //if the answer type is an interface, return the averageCorrect value
 
-    public double isIsGivenAnsCorrect() {
-        return averageCorrect;
-    } 
+        //otherwise, check what is wrong and return that one.
+        if (ansType.trim().equalsIgnoreCase("interface")) {
+            //we would know the answer by now.
+            return averageCorrect;
+        } else {
+            //compute the answer now.
+            if (givenAnswer.equalsIgnoreCase(correctAns)) {
+                averageCorrect = 1;
+            } else {
+                averageCorrect = 0;
+           }
+            
+            return averageCorrect;
+            
+        }
 
-    /*public void setAverageCorrect(double isGivenAnsCorrect) {
-        this.averageCorrect = isGivenAnsCorrect;
-    } */
-
+    }    
     public int getTimeInSeconds() {
         return timeInSeconds;
     }
@@ -229,29 +221,53 @@ public class EvaluationQuestion {
         this.givenAnswer = givenAnswer;
     }
 
-   public int getNumberMissed(){
-       return numberMissed;
-   }
-   public int getNumberOfErrors(){
-       return numberOfErrors;
-   }
+    public int getNumberMissed() {
+        return numberMissed;
+    }
+
+    public int getNumberOfErrors() {
+        return numberOfErrors;
+    }
 
     public String getInputTypeStr() {
         return inputTypeStr;
     }
 
-    public void setInputTypeStr(String inputTypeStr) {
+    public void setInputTypeStr(String inputTypes) {
+        this.inputTypeStr = inputTypes;
+    }
+
+    public String getInputTypes() {
+        return inputTypes;
+    }
+
+    public void setInputTypes(String inputTypeStr) {
         this.inputTypeStr = inputTypeStr;
     }
-    
-    
-    public String getNodesAndInputTypesAsString(){
-        
-        //System.out.println(inputTypeStr);
-        
-        //System.out.println ("^^^^___^^^^"+ getNodesAsString() + "::"+inputTypeStr);
-        
-        return   getNodesAsString() + "::"+inputTypeStr;
+
+    /* public String getNodesAndInputTypesAsString(){
+     return   getInputsAsString() + "::"+inputTypeStr;
+     }*/
+    public String getInterfaceForValidatingAnswers() {
+        return interfaceForValidatingAnswers;
     }
-   
+
+    //set the interface for validating the answers
+    public void setInterfaceForValidatingAnswers(String ifva) {
+        interfaceForValidatingAnswers = ifva;
+    }
+    
+    //setting the tasktype
+     public void setHasCorrectAnswer(String ttype){
+         hasCorrectAnswer = ttype;
+     }
+
+     //getting the tasktype
+     public String getHasCorrectAnswer(){
+         return hasCorrectAnswer;
+     }
+     
+     public boolean hasCorrectAnswer(){
+         return (hasCorrectAnswer.equalsIgnoreCase("yes"));
+     }
 }
