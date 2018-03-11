@@ -182,7 +182,6 @@ function setUpAnswerControllers(controllersString) {
 
 
     removeDivChildren(document.getElementById("answersDiv"));
-    //alert("oh okay");
 
 
 
@@ -527,7 +526,6 @@ function removeQualAnswerWidgetsIfExists(indx) {
     }
 }
 
-
 function createQualMultipleChoiceInput(li, ind, choices) {
 
     //removeQualAnswerWidgetsIfExists();
@@ -708,6 +706,7 @@ function checkAnswer() {
     
 /*
     var studyid = document.getElementById("studyid").value;
+    //  +"&studyid="+studyid;
     var url = "StudyManager?command=checkAnswer&givenAnswer=" + givenAnswer + "&studyid=" + studyid;
     var xmlHttpRequest = getXMLHttpRequest();
     xmlHttpRequest.onreadystatechange = function()

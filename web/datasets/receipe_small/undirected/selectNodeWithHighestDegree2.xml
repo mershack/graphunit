@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <taskFile>
-	<!--
 	<question>
 		<input>butter</input>
 		<input>yeast</input>
@@ -15,8 +14,7 @@
 		<input>barley</input>
 		<input>black_tea</input>
 		<answer>barley</answer>
-	</question> -->
-	
+	</question>
 	<question>
 		<input>herring</input>
 		<input>chayote</input>
