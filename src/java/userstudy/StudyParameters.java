@@ -95,30 +95,18 @@ public class StudyParameters {
     public String viewerHeight = "";
 
     public int totalNumOfQuestions = 0;
-    
-    public String userViewerWidth ="";
-    public String userViewerHeight="";
-    public String offFocusTime = "";           
+
+    public String userViewerWidth = "";
+    public String userViewerHeight = "";
+    public String offFocusTime = "";
     public String dateAndTime = "";
     public String colorBlindnessTestAnswers = "";
-    
+
     public String accuracyInfo = "";
     public String timeInfo = "";
     public boolean miscellaneousInfoSaved = false;
     public boolean quantitativeAnswersSaved = false;
     public boolean qualitativeQnsSent = false;
-
-//    public String userViewerWidth = "";
-//    public String userViewerHeight = "";
-//    public String offFocusTime = "";
-//    public String dateAndTime = "";
-//    public String colorBlindnessTestAnswers = "";
-
-//    public String accuracyInfo = "";
-//    public String timeInfo = "";
-//    public boolean miscellaneousInfoSaved = false;
-//    public boolean quantitativeAnswersSaved = false;
-//    public boolean qualitativeQnsSent = false;
     public int datasetSetSizeBeforeAdjustment = 0;
     public int viewerSizeBeforeAdjustment = 0;
     public int tutorialViewerConditionCounter = 0;

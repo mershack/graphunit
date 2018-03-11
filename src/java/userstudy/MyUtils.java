@@ -160,68 +160,6 @@ public class MyUtils {
         return filename;
     }
 
-//    public String getConditionErrorBasicFileName(String cname) {
-//        String filename = "";
-//        //this one returns the condition name, based on the condition code. 
-//        //Currently only 5 conditions but we will extend this code later.
-//        
-//        
-//        for(int i=0; i<conditionNames.size(); i++){
-//            if(conditionNames.get(i).equalsIgnoreCase(cname)){
-//                filename = "ErrorResultsBasic" + (i+1) +".txt";
-//                break;
-//            }
-//            
-//        }
-//        
-//        
-//       /* if (cname.equalsIgnoreCase("cond1")) {
-//            filename = "AccuracyResultsBasic1.txt";
-//        } else if (cname.equalsIgnoreCase("cond2")) {
-//            filename = "AccuracyResultsBasic2.txt";
-//        } else if (cname.equalsIgnoreCase("cond3")) {
-//            filename = "AccuracyResultsBasic3.txt";
-//        } else if (cname.equalsIgnoreCase("cond4")) {
-//            filename = "AccuracyResultsBasic4.txt";
-//        } else if (cname.equalsIgnoreCase("cond5")) {
-//            filename = "AccuracyResultsBasic5.txt";
-//        }   */
-//
-//        return filename;
-//    }
-    
-//    public String getConditionMissedBasicFileName(String cname) {
-//        String filename = "";
-//        //this one returns the condition name, based on the condition code. 
-//        //Currently only 5 conditions but we will extend this code later.
-//        
-//        
-//        for(int i=0; i<conditionNames.size(); i++){
-//            if(conditionNames.get(i).equalsIgnoreCase(cname)){
-//                filename = "MissedResultsBasic" + (i+1) +".txt";
-//                break;
-//            }
-//            
-//        }
-//        
-//        
-//       /* if (cname.equalsIgnoreCase("cond1")) {
-//            filename = "AccuracyResultsBasic1.txt";
-//        } else if (cname.equalsIgnoreCase("cond2")) {
-//            filename = "AccuracyResultsBasic2.txt";
-//        } else if (cname.equalsIgnoreCase("cond3")) {
-//            filename = "AccuracyResultsBasic3.txt";
-//        } else if (cname.equalsIgnoreCase("cond4")) {
-//            filename = "AccuracyResultsBasic4.txt";
-//        } else if (cname.equalsIgnoreCase("cond5")) {
-//            filename = "AccuracyResultsBasic5.txt";
-//        }   */
-//
-//        return filename;
-//    }
-    
-    
-    
     public String getConditionTimeBasicFileName(String cname) {
         String filename = "";
 

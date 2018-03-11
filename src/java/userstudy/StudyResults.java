@@ -54,51 +54,48 @@ public class StudyResults extends HttpServlet {
             String studyname = request.getParameter("studyname");
             String studydataurl;
 
-            //System.out.println("***** " + studyname);
+            System.out.println("***** " + studyname);
+            //this is the first this url has been called
             if (request.getParameter("studyname") != null) {
-                // System.out.println("----Studyname is not null !!!");
+                //get the studyname and userid and saved them in sessions to be accessed later.
                 studyname = request.getParameter("studyname");
+                String userid = request.getParameter("userid");
+
                 session.setAttribute("studyname", studyname);
+                session.setAttribute("userid", userid);
                 RequestDispatcher view = request.getRequestDispatcher("result-graphs.html");
                 view.forward(request, response);
 
             } else {
-                // System.out.println("---SESSION NOT NULL");
-                //get the studyname from the session
-
                 String nameofstudy;
-
                 //getStudyId
                 String command = request.getParameter("command");
 
+                //System.out.println("\t\tThe command is " + command);
+                String userid = session.getAttribute("userid").toString();
+
+                //this is the first command that will be executed.
                 if (command.equalsIgnoreCase("getStudyId")) {
                     nameofstudy = session.getAttribute("studyname").toString();
                 } else {
                     nameofstudy = request.getParameter("studyid").toString();
                 }
 
-                String studyId = session.getId() + nameofstudy;
-
-                if (session.getAttribute("studyname") != null) {
-                    studyname = session.getAttribute("studyname").toString();
-                    //rpmts.studyname = session.getAttribute("studyname").toString();
-                }
+                String studyId = session.getId() + "_" + userid + "_" + nameofstudy;
 
                 //      studyname = session.getAttribute("studyname").toString();
                 // System.out.println("studyname is " + studyname);;
-                studydataurl = "studies" + File.separator + nameofstudy + File.separator + "data";
+                //  studydataurl = "studies" + File.separator + nameofstudy + File.separator + "data";
+                studydataurl = "users" + File.separator + userid + File.separator
+                        + "studies" + File.separator + nameofstudy + File.separator + "data";
 
                 ResultParameters rpmts = (ResultParameters) resultParameters.get(studyId);
 
                 if (rpmts == null) { // first time
                     // System.out.println("^^^^^ SESSION IS NULL");
                     rpmts = new ResultParameters();
-                } else {
-                    //System.out.println("^^^^ SESSION IS NOT NULL");
                 }
 
-//                rpmts = new ResultParameters();
-                //rpmts.studyname
                 rpmts.studydataurl = studydataurl;
 
                 loadStudyDetails(request, rpmts);
@@ -108,7 +105,14 @@ public class StudyResults extends HttpServlet {
 
                 if (command != null) {
                     if (command.equalsIgnoreCase("getStudyId")) {
+                        //return the studyname and the user id;.
+
                         msg = nameofstudy;
+                    } else if (command.equalsIgnoreCase("getExperimentType")) {
+                        //get experiment type and return it.
+                        msg = rpmts.studyType;
+                    } else if (command.equalsIgnoreCase("getNumberOfTasks")) {
+                        msg = "" + rpmts.numOfTasks;
                     } else if (command.equalsIgnoreCase("getAccuracyAnalysis")) {
                         msg = getAccuracyResults(rpmts);
                     } else if (command.equalsIgnoreCase("getTimeAnalysis")) {
@@ -127,9 +131,6 @@ public class StudyResults extends HttpServlet {
                         ArrayList<String> nonNormalTasks = new ArrayList<String>();
 
                         msg += generateShapiroWilk(normalTasks, nonNormalTasks, rpmts);
-                        
-                        System.out.println("^^^^ The number of normal taks is: " + normalTasks.size());
-                        System.out.println("**** The number of nonnormal Tasks is :"+ nonNormalTasks.size());
 
                         msg += "::" + generateMeanAndStandardDeviation(rpmts);
 
@@ -147,7 +148,11 @@ public class StudyResults extends HttpServlet {
                         // msg = msg.replaceAll("\\\"", "&nbsp;");
                         // msg = msg.replaceAll("\\\\t","&nbsp;");
                         // msg = msg.replaceAll("\\[(.*?)\\]","&nbsp;");
-                    } else if (command.equalsIgnoreCase("getRawData")) {
+                    } else if (command.equalsIgnoreCase("getCombinedRawDataFilename")) {
+                        /**
+                         * Returns a filename of a combined summarized data or
+                         * basic data.
+                         */
                         //compute the raw data and return the 
                         String type = request.getParameter("type");
 
@@ -161,9 +166,42 @@ public class StudyResults extends HttpServlet {
                             getTimeResultsBasic(rpmts);
                             msg = getBasicRawData(rpmts);
                         }
+                    } else if (command.equalsIgnoreCase("getAllRawDataFilenames")) {
+                        /**
+                         * Returns the individual filenames (time or accuracy)
+                         * for either summarized or basic.
+                         */
 
+                        String type = request.getParameter("type");
+
+                        String filenames = "";
+
+                        if (type.equalsIgnoreCase("summarized")) {
+                            for (int i = 0; i < rpmts.numOfConditions; i++) { //Read the results from file
+
+                                String acc_filename = rpmts.studydataurl + File.separator + "AccuracyResults" + (i + 1) + ".txt";
+                                String time_filename = rpmts.studydataurl + File.separator + "TimeResults" + (i + 1) + ".txt";;
+
+                                if (i == 0) {
+                                    //this is the first time    
+                                    filenames = acc_filename
+                                            + "::" + time_filename;
+                                } else {
+
+                                    filenames += "::::" + acc_filename
+                                            + "::" + time_filename;
+                                }
+
+                            }
+
+                        }
+
+                        msg = filenames;
                     }
-                }
+                }/*else if(command.equalsIgnoreCase("getRawData")){
+                    
+                 }*/
+
 
                 resultParameters.put(studyId, rpmts);
 
@@ -258,12 +296,8 @@ public class StudyResults extends HttpServlet {
         //For kruskal-Wallis find the effect for pairs:  r/sqrt(N) : where N is the  total number of the pairs.
         //Friedman is similar to kruskal wallis.
         //t-test to get the t use results$statistic, then get 
-        
-        System.out.println("****Normal Tasks: " + normalTasks.size());
-        System.out.println("----Abnormal Tasks: " + nonNormalTasks);
-        
         if (normalTasks.size() > 0) {
-             System.out.println("***-normal***" + normalTasks.get(0));
+            // System.out.println("***-normal***" + normalTasks.get(0));
             //there are some normal data so we will use a normalized            
             if (rpmts.numOfConditions == 2) { //we can use a ttest(it requires comparison between the two) or anova
                 analysis += generateTTest(rpmts.studyType, rpmts, normalTasks);
@@ -448,8 +482,7 @@ public class StudyResults extends HttpServlet {
                     pw.println("size2 = length(c(" + dataName2 + "[," + (i + 1) + "]))");
                     //now calculating the z first: formula: z = (W - (n1*n2)/2 )/sqrt(n1*n2(n1+n2+n1)/12) 
                     pw.println("num = result$statistic - (size1*size2)/2");
-                    pw.println("num = num/sqrt(((size1*size2) * (size1+size2+1))/12)");
-                    pw.println("denom = sqrt(size1 + size2)");                    
+                    pw.println("denom = sqrt(((size1*size2) * (size1+size2+1))/12)");
                     pw.println("es = num/denom");
 
                     pw.println("cat(paste(\"\\n" + taskname + "\", " + "\" , \"" + " , result$p.value, "
@@ -503,9 +536,7 @@ public class StudyResults extends HttpServlet {
                     pw.println("size2 = length(c(" + dataName2 + "[," + (i + 1) + "]))");
                     //now calculating the z first: formula: z = (W - (n1*n2)/2 )/sqrt(n1*n2(n1+n2+n1)/12) 
                     pw.println("num = result$statistic - (size1*size2)/2");
-                    pw.println("num = num/sqrt(((size1*size2) * (size1+size2+1))/12)");
-                    pw.println("denom = sqrt(size1 + size2)");
-                    //pw.println("denom = sqrt(((size1*size2) * (size1+size2+1))/12)");
+                    pw.println("denom = sqrt(((size1*size2) * (size1+size2+1))/12)");
                     pw.println("es = num/denom");
 
                     pw.println("cat(paste(\"\\n" + taskname + "\", " + "\" , \"" + " , result$p.value, "
@@ -672,13 +703,13 @@ public class StudyResults extends HttpServlet {
                     //     r = z/sqrt(N) : where N is the total number of participants n1+n2
                     pw.println("size1 = length(c(" + dataName1 + "[," + (i + 1) + "]))");
                     pw.println("size2 = length(c(" + dataName2 + "[," + (i + 1) + "]))");
-                    //now calculating the z first: formula: z = (W - (n1*n2)/2 )/sqrt(n1*n2(n1+n2+1)/12) 
+                    //now calculating the z first: formula: z = (W - (n1*n2)/2 )/sqrt(n1*n2(n1+n2+n1)/12) 
                     pw.println("num = result$statistic - (size1*size2)/2");
-                    pw.println("num = num/sqrt(((size1*size2) * (size1+size2+1))/12)");
+                    pw.println("num = num / sqrt(((size1*size2) * (size1+size2+1))/12)");
                     pw.println("denom = sqrt(size1 + size2)");
                     pw.println("es = num/denom");
                     
-                    System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^");
+                    System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
 
                     pw.println("cat(paste(\"\\n" + taskname + "\", " + "\" , \"" + " , result$p.value, "
                             + "\" , " + "\"" + ", abs(es) , " + "\"\\n\" ))");
@@ -797,8 +828,7 @@ public class StudyResults extends HttpServlet {
                     pw.println("size2 = length(c(" + dataName2 + "[," + (i + 1) + "]))");
                     //now calculating the z first: formula: z = (W - (n1*n2)/2 )/sqrt(n1*n2(n1+n2+n1)/12) 
                     pw.println("num = result$statistic - (size1*size2)/2");
-                    pw.println("num = num/sqrt(((size1*size2) * (size1+size2+1))/12)");
-                    pw.println("denom = sqrt(size1 + size2)");           
+                    pw.println("denom = sqrt(((size1*size2) * (size1+size2+1))/12)");
                     pw.println("es = num/denom");
 
                     pw.println("cat(paste(\"\\n" + taskname + "\", " + "\" , \"" + " , result$p.value, "
@@ -1119,8 +1149,7 @@ public class StudyResults extends HttpServlet {
                         pw.println("size2 = length(c(" + dataName2 + "[," + (i + 1) + "]))");
                         //now calculating the z first: formula: z = (W - (n1*n2)/2 )/sqrt(n1*n2(n1+n2+n1)/12) 
                         pw.println("num = results$statistic - (size1*size2)/2");
-                        pw.println("num = num/sqrt(((size1*size2) * (size1+size2+1))/12)");
-                        pw.println("denom = sqrt(size1 + size2)");                      
+                        pw.println("denom = sqrt(((size1*size2) * (size1+size2+1))/12)");
                         pw.println("ess[" + (j + 1) + "] = abs(num/denom)");
 
                         // pw.println("tasknames[" + numberOfTasksDone + "] = \"" + taskname + "\"");
@@ -1138,7 +1167,7 @@ public class StudyResults extends HttpServlet {
                         pw.println("cat(paste(tasknames[" + (j + 1) + "] , " + "\",\" , pvalues_adj[" + (j + 1) + "], "
                                 + "\",\" , ess[" + (j + 1) + "]))");//get the pvalue for each column name
 
-                                //pw.println("paste(tasknames[" + (j + 1) + "] , " + "\",\" , pvalues_adj[" + (j + 1) + "])");//get the pvalue for each column name
+                        //pw.println("paste(tasknames[" + (j + 1) + "] , " + "\",\" , pvalues_adj[" + (j + 1) + "])");//get the pvalue for each column name
                     }
 
                 }
@@ -1172,8 +1201,7 @@ public class StudyResults extends HttpServlet {
                         pw.println("size2 = length(c(" + dataName2 + "[," + (i + 1) + "]))");
                         //now calculating the z first: formula: z = (W - (n1*n2)/2 )/sqrt(n1*n2(n1+n2+n1)/12) 
                         pw.println("num = results$statistic - (size1*size2)/2");
-                        pw.println("num = num/sqrt(((size1*size2) * (size1+size2+1))/12)");
-                        pw.println("denom = sqrt(size1 + size2)");
+                        pw.println("denom = sqrt(((size1*size2) * (size1+size2+1))/12)");
                         pw.println("ess[" + (j + 1) + "] = abs(num/denom)");
 
                         pw.println("tasknames[" + (j + 1) + "] = \"" + taskname + "\"");
@@ -1183,11 +1211,11 @@ public class StudyResults extends HttpServlet {
                     pw.println("pvalues_adj = p.adjust(pvalues, \"bonferroni\")");
                     //now print the name and the adjusted pvalues to file
                     for (int j = 0; j < timeColumnNames[i].length; j++) {
-                          pw.println("cat(\"\\n\")");
+                        pw.println("cat(\"\\n\")");
                         //pw.println("cat(paste(tasknames[" + j + "] , " + "\",\" , pvalues_adj[" + j + "]))");//get the pvalue for each column name
                         pw.println("cat(paste(tasknames[" + (j + 1) + "] , " + "\",\" , pvalues_adj[" + (j + 1) + "], "
                                 + "\",\" , ess[" + (j + 1) + "]))");//get the pvalue for each column name                      
-                        
+
                         //pw.println("paste(tasknames[" + (j + 1) + "] , " + "\",\" , pvalues_adj[" + (j + 1) + "])");//get the pvalue for each column name
                     }
 
@@ -1382,8 +1410,7 @@ public class StudyResults extends HttpServlet {
                             pw.println("size2 = length(c(" + dataName2 + "[," + (i + 1) + "]))");
                             //now calculating the z first: formula: z = (W - (n1*n2)/2 )/sqrt(n1*n2(n1+n2+n1)/12) 
                             pw.println("num = results$statistic - (size1*size2)/2");
-                            pw.println("num = num/sqrt(((size1*size2) * (size1+size2+1))/12)");
-                            pw.println("denom = sqrt(size1 + size2)");
+                            pw.println("denom = sqrt(((size1*size2) * (size1+size2+1))/12)");
                             pw.println("ess[" + numberOfTasksDone + "] = abs(num/denom)");
 
                             pw.println("tasknames[" + numberOfTasksDone + "] = \"" + taskname + "\"");
@@ -1457,9 +1484,7 @@ public class StudyResults extends HttpServlet {
                             pw.println("size2 = length(c(" + dataName2 + "[," + (i + 1) + "]))");
                             //now calculating the z first: formula: z = (W - (n1*n2)/2 )/sqrt(n1*n2(n1+n2+n1)/12) 
                             pw.println("num = results$statistic - (size1*size2)/2");
-                            pw.println("num = num/sqrt(((size1*size2) * (size1+size2+1))/12)");
-                            pw.println("denom = sqrt(size1 + size2)");
-                            //pw.println("denom = sqrt(((size1*size2) * (size1+size2+1))/12)");
+                            pw.println("denom = sqrt(((size1*size2) * (size1+size2+1))/12)");
                             pw.println("ess[" + numberOfTasksDone + "] = abs(num/denom)");
 
                             pw.println("tasknames[" + numberOfTasksDone + "] = \"" + taskname + "\"");
@@ -1742,44 +1767,43 @@ public class StudyResults extends HttpServlet {
     public String getAccuracyResults(ResultParameters rpmts) {
         rpmts.accuracyResults = new ArrayList<String[][]>();
         String allAccuracyData = "";
-
         try {
-
             for (int i = 0; i < rpmts.numOfConditions; i++) { //Read the results from file
                 String filename = "AccuracyResults" + (i + 1) + ".txt";
                 //  System.out.println("This is the result for file:: " + filename);
                 File file = new File(getServletContext().getRealPath(rpmts.studydataurl + File.separator + filename));
-
-                BufferedReader br = new BufferedReader(new FileReader(file));
-                String line = "";
-                ArrayList<String> taskAccuracy = new ArrayList<String>();
-                //  System.out.println("-----------------*___*------------------------");
-                while ((line = br.readLine()) != null) {
-                    //System.out.println("--- " + line);
-                    taskAccuracy.add(line);
-                    //System.out.println("------" + line);
-                }
-                String[][] taskAccuracy2 = new String[taskAccuracy.size()][rpmts.numOfTasks];
-
-                //  System.out.println("accSize:: " + taskAccuracy.size() + "--- numoftasks:: " + rpmts.numOfTasks);
-                for (int j = 0; j < taskAccuracy.size(); j++) {
-
-                    //  System.out.println("***--- " + taskAccuracy);
-                    String split[] = taskAccuracy.get(j).split(",");
-                    // System.out.println("^^ " + split.toString());
-                    for (int k = 0; k < split.length; k++) {
-                        //  System.out.println("+++***** " + split[k]);
-                        //  System.out.println("j: " + j + " k: " + k);
-                        taskAccuracy2[j][k] = split[k];
+                if (file.exists()) {
+                    BufferedReader br = new BufferedReader(new FileReader(file));
+                    String line = "";
+                    ArrayList<String> taskAccuracy = new ArrayList<String>();
+                    //  System.out.println("-----------------*___*------------------------");
+                    while ((line = br.readLine()) != null) {
+                        //System.out.println("--- " + line);
+                        taskAccuracy.add(line);
+                        //System.out.println("------" + line);
                     }
-                }
-                //record the maximum rows
-                if (taskAccuracy.size() > rpmts.maxResultsRows) {
-                    rpmts.maxResultsRows = taskAccuracy.size();
-                }
+                    String[][] taskAccuracy2 = new String[taskAccuracy.size()][rpmts.numOfTasks];
 
-                rpmts.accuracyResults.add(taskAccuracy2);
-                br.close();
+                    //  System.out.println("accSize:: " + taskAccuracy.size() + "--- numoftasks:: " + rpmts.numOfTasks);
+                    for (int j = 0; j < taskAccuracy.size(); j++) {
+
+                        //  System.out.println("***--- " + taskAccuracy);
+                        String split[] = taskAccuracy.get(j).split(",");
+                        // System.out.println("^^ " + split.toString());
+                        for (int k = 0; k < split.length; k++) {
+                            //  System.out.println("+++***** " + split[k]);
+                            //  System.out.println("j: " + j + " k: " + k);
+                            taskAccuracy2[j][k] = split[k];
+                        }
+                    }
+                    //record the maximum rows
+                    if (taskAccuracy.size() > rpmts.maxResultsRows) {
+                        rpmts.maxResultsRows = taskAccuracy.size();
+                    }
+
+                    rpmts.accuracyResults.add(taskAccuracy2);
+                    br.close();
+                }
 
             }
 
@@ -1960,29 +1984,28 @@ public class StudyResults extends HttpServlet {
 
                 //System.out.println("This is the result for file:: " + filename);
                 File file = new File(getServletContext().getRealPath(rpmts.studydataurl + File.separator + filename));
+                if (file.exists()) {
+                    BufferedReader br = new BufferedReader(new FileReader(file));
+                    String line = "";
+                    ArrayList<String> taskTime = new ArrayList<String>();
+                    while ((line = br.readLine()) != null) {
+                        taskTime.add(line);
+                    }
+                    String[][] taskTime2 = new String[taskTime.size()][rpmts.numOfTasks];
+                    for (int j = 0; j < taskTime.size(); j++) {
 
-                BufferedReader br = new BufferedReader(new FileReader(file));
-                String line = "";
-                ArrayList<String> taskTime = new ArrayList<String>();
-                while ((line = br.readLine()) != null) {
-                    taskTime.add(line);
-                }
-                String[][] taskTime2 = new String[taskTime.size()][rpmts.numOfTasks];
-                for (int j = 0; j < taskTime.size(); j++) {
+                        String split[] = taskTime.get(j).split(",");
+                        for (int k = 0; k < split.length; k++) {
+                            // System.out.println("***** " +taskAccuracy.get(i));
+                            taskTime2[j][k] = split[k];
+                        }
 
-                    String split[] = taskTime.get(j).split(",");
-                    for (int k = 0; k < split.length; k++) {
-                        // System.out.println("***** " +taskAccuracy.get(i));
-                        taskTime2[j][k] = split[k];
                     }
 
+                    rpmts.timeResults.add(taskTime2);
+                    br.close();
                 }
-
-                rpmts.timeResults.add(taskTime2);
-                br.close();
-
             }
-
             /**
              * *I'm going to find the average of the results this time
              */
@@ -2106,30 +2129,33 @@ public class StudyResults extends HttpServlet {
                 //  System.out.println("This is the result for file:: " + filename);
                 File file = new File(getServletContext().getRealPath(rpmts.studydataurl + File.separator + filename2));
 
-                BufferedReader br = new BufferedReader(new FileReader(file));
-                String line = "";
-                ArrayList<String> taskTime = new ArrayList<String>();
-                while ((line = br.readLine()) != null) {
-                    taskTime.add(line);
-                }
-                String[][] taskTime2 = new String[taskTime.size()][rpmts.numOfTasks];
-                for (int j = 0; j < taskTime.size(); j++) {
+                if (file.exists()) {
+                    BufferedReader br = new BufferedReader(new FileReader(file));
+                    String line = "";
+                    ArrayList<String> taskTime = new ArrayList<String>();
+                    while ((line = br.readLine()) != null) {
+                        taskTime.add(line);
+                    }
+                    String[][] taskTime2 = new String[taskTime.size()][rpmts.numOfTasks];
+                    for (int j = 0; j < taskTime.size(); j++) {
 
-                    String split[] = taskTime.get(j).split("::");
-                    for (int k = 0; k < split.length; k++) {
-                        // System.out.println("***** " +taskAccuracy.get(i));
-                        taskTime2[j][k] = split[k];
+                        String split[] = taskTime.get(j).split("::");
+                        for (int k = 0; k < split.length; k++) {
+                            // System.out.println("***** " +taskAccuracy.get(i));
+                            taskTime2[j][k] = split[k];
+                        }
+
                     }
 
+                    //record the maximum rows
+                    if (taskTime.size() > rpmts.maxResultsRowsBasic) {
+                        rpmts.maxResultsRowsBasic = taskTime.size();
+                    }
+
+                    rpmts.timeResultsBasic.add(taskTime2);
+                    br.close();
                 }
 
-                //record the maximum rows
-                if (taskTime.size() > rpmts.maxResultsRowsBasic) {
-                    rpmts.maxResultsRowsBasic = taskTime.size();
-                }
-
-                rpmts.timeResultsBasic.add(taskTime2);
-                br.close();
             }
 
             int cnt = 0;
@@ -2171,18 +2197,20 @@ public class StudyResults extends HttpServlet {
 
                 File file = new File(getServletContext().getRealPath(rpmts.studydataurl + File.separator + filename));
 
-                BufferedReader br = new BufferedReader(new FileReader(file));
-                String line = "";
+                if (file.exists()) {
+                    BufferedReader br = new BufferedReader(new FileReader(file));
+                    String line = "";
 
-                int counter = 0;
-                while ((line = br.readLine()) != null) {
-                    counter++;
+                    int counter = 0;
+                    while ((line = br.readLine()) != null) {
+                        counter++;
+                    }
+                    //record the maximum rows
+                    counter = counter - 1; //subtract the header.
+                    rpmts.numOfCompletedStudiesPerCondition.add(counter);
+
+                    br.close();
                 }
-                //record the maximum rows
-                counter = counter - 1; //subtract the header.
-                rpmts.numOfCompletedStudiesPerCondition.add(counter);
-
-                br.close();
 
             }
 
@@ -2231,30 +2259,36 @@ public class StudyResults extends HttpServlet {
             String[][] timeColumnNames = new String[rpmts.numOfConditions][rpmts.numOfTasks];
             for (int i = 0; i < rpmts.numOfConditions; i++) {
                 File AccuracyFile = new File(getServletContext().getRealPath(rpmts.studydataurl + File.separator + rpmts.accuracyFilenames.get(i)));
-                br = new BufferedReader(new FileReader(AccuracyFile));
-                while ((line = br.readLine()) != null) {
-                    String split[] = line.split(",");
+                if (AccuracyFile.exists()) {
+                    br = new BufferedReader(new FileReader(AccuracyFile));
+                    while ((line = br.readLine()) != null) {
+                        String split[] = line.split(",");
 
-                    for (int j = 0; j < split.length; j++) {
-                        accColumnNames[i][j] = split[j];
+                        for (int j = 0; j < split.length; j++) {
+                            accColumnNames[i][j] = split[j];
+                        }
+                        break;
                     }
-                    break;
+                    br.close();
                 }
-                br.close();
+
             }
 
             for (int i = 0; i < rpmts.numOfConditions; i++) {
                 File timeFile = new File(getServletContext().getRealPath(rpmts.studydataurl + File.separator + rpmts.timeFilenames.get(i)));
-                br = new BufferedReader(new FileReader(timeFile));
-                while ((line = br.readLine()) != null) {
-                    String split[] = line.split(",");
 
-                    for (int j = 0; j < split.length; j++) {
-                        timeColumnNames[i][j] = split[j];
+                if (timeFile.exists()) {
+                    br = new BufferedReader(new FileReader(timeFile));
+                    while ((line = br.readLine()) != null) {
+                        String split[] = line.split(",");
+
+                        for (int j = 0; j < split.length; j++) {
+                            timeColumnNames[i][j] = split[j];
+                        }
+                        break;
                     }
-                    break;
+                    br.close();
                 }
-                br.close();
             }
 
             //Write the R-Script           
@@ -2404,7 +2438,6 @@ public class StudyResults extends HttpServlet {
                 // System.out.println("Line::: " + line);
 
                 if (line.indexOf("******") >= 0) {
-                    System.out.println("......... "+curtask + "........................ normal: "+normal);
                     //write the previous task
                     if (normal) {
                         //System.out.println("*** this task:: "+ curtask + "  is normal");
@@ -2446,9 +2479,6 @@ public class StudyResults extends HttpServlet {
                     if (pvalue < 0.05) {
                         normal = false;
                     }
-                    else {
-                        System.out.println("### " + pvalue);
-                    }
                     //System.out.println("***pvalue :: " + pvalue);
                 }
 
@@ -2488,30 +2518,37 @@ public class StudyResults extends HttpServlet {
             String[][] timeColumnNames = new String[rpmts.numOfConditions][rpmts.numOfTasks];
             for (int i = 0; i < rpmts.numOfConditions; i++) {
                 File AccuracyFile = new File(getServletContext().getRealPath(rpmts.studydataurl + File.separator + rpmts.accuracyFilenames.get(i)));
-                br = new BufferedReader(new FileReader(AccuracyFile));
-                while ((line = br.readLine()) != null) {
-                    String split[] = line.split(",");
 
-                    for (int j = 0; j < split.length; j++) {
-                        accColumnNames[i][j] = split[j];
+                if (AccuracyFile.exists()) {
+                    br = new BufferedReader(new FileReader(AccuracyFile));
+                    while ((line = br.readLine()) != null) {
+                        String split[] = line.split(",");
+
+                        for (int j = 0; j < split.length; j++) {
+                            accColumnNames[i][j] = split[j];
+                        }
+                        break;
                     }
-                    break;
+                    br.close();
                 }
-                br.close();
+
             }
 
             for (int i = 0; i < rpmts.numOfConditions; i++) {
                 File timeFile = new File(getServletContext().getRealPath(rpmts.studydataurl + File.separator + rpmts.timeFilenames.get(i)));
-                br = new BufferedReader(new FileReader(timeFile));
-                while ((line = br.readLine()) != null) {
-                    String split[] = line.split(",");
+                if (timeFile.exists()) {
+                    br = new BufferedReader(new FileReader(timeFile));
+                    while ((line = br.readLine()) != null) {
+                        String split[] = line.split(",");
 
-                    for (int j = 0; j < split.length; j++) {
-                        timeColumnNames[i][j] = split[j];
+                        for (int j = 0; j < split.length; j++) {
+                            timeColumnNames[i][j] = split[j];
+                        }
+                        break;
                     }
-                    break;
+                    br.close();
                 }
-                br.close();
+
             }
 
             //Write the R-Script           
@@ -2692,11 +2729,14 @@ public class StudyResults extends HttpServlet {
             BufferedReader br;
             String line = "\n\n\n";
             File file = new File(getServletContext().getRealPath(rpmts.studydataurl + File.separator + filename));
-            br = new BufferedReader(new FileReader(file));
-            while ((line = br.readLine()) != null) {
-                fileContent += line + "\n";
+            if (file.exists()) {
+                br = new BufferedReader(new FileReader(file));
+                while ((line = br.readLine()) != null) {
+                    fileContent += line + "\n";
+                }
+                br.close();
             }
-            br.close();
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -3429,7 +3469,7 @@ public class StudyResults extends HttpServlet {
                         pw.println("anovaresult = aov(lm(values ~ ind, combineddata))");
                     } else {//do this if it is a within study. //i.e. a repeated measure anova
                         //TODO: Effect-size  for anova 
-                        
+
                         pw.println("numcases = " + numOfRows);  //the number of cases goes here
                         pw.println("numvariables =" + rpmts.numOfConditions);
                         pw.println("recall.df = data.frame(recall = combineddata,");

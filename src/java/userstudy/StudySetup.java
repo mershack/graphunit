@@ -900,9 +900,6 @@ public class StudySetup extends HttpServlet {
         } else if (task.equalsIgnoreCase("Do you have any feedback,comment or what issue did you had in this study?")) {
             taskCode = "feedback_comment_issues";
         }
-        else if(task.equalsIgnoreCase("Do you have any feedback,comment or what issue did you had in this study?")){
-            taskCode="feedback_comment_issues";
-        }
 
         return taskCode;
     }
