@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<task_details>
+	<taskname>ratehelpfulnessYoN</taskname>
+	<accuracyCheckingInterface></accuracyCheckingInterface>
+	<outputtype></outputtype>
+	<outputTypeDescription></outputTypeDescription>
+	<answertype>options-fixed:::yes::no</answertype>
+	<taskquestion>Was this visualization helpful for the task</taskquestion>
+	<taskDescription>Rating the helpfulness of the visualization</taskDescription>
+	<inputsize>0</inputsize>
+	<hasCorrectAnswer>no</hasCorrectAnswer>
+</task_details>

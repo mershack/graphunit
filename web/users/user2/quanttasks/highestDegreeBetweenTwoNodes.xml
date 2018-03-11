@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<task_details>
+	<taskname>highestDegreeBetweenTwoNodes</taskname>
+	<accuracyCheckingInterface>checkAnswer</accuracyCheckingInterface>
+	<outputtype>node</outputtype>
+	<outputTypeDescription>this will be the node that is clicked on by the user.</outputTypeDescription>
+	<answertype>interface</answertype>
+	<taskquestion>Given the two highlighted nodes, select the one with the larger degree.</taskquestion>
+	<taskDescription>Given two highlighted nodes, you will select the one with the larger degree.</taskDescription>
+	<inputsize>1</inputsize>
+	<input>
+		<inputtype>nodes</inputtype>
+		<inputdescription>two nodes that will be highlighted</inputdescription>
+		<inputmedium>from-visualization</inputmedium>
+	</input>
+	<hasCorrectAnswer>yes</hasCorrectAnswer>
+</task_details>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<task_details>
+	<taskname>aondaoi</taskname>
+	<accuracyCheckingInterface></accuracyCheckingInterface>
+	<outputtype></outputtype>
+	<outputTypeDescription></outputTypeDescription>
+	<answertype>options-fixed:::yes::no</answertype>
+	<taskquestion>$1 dadoaie $2</taskquestion>
+	<taskDescription>adifaond oindoiaeoi ndoiadoiae</taskDescription>
+	<inputsize>2</inputsize>
+<hasCorrectAnswer>yes</hasCorrectAnswer>
+	<input>
+		<inputtype>input1</inputtype>
+		<inputdescription>oandofaineoa ondoanoeo odaone i</inputdescription>
+		<inputmedium>by-typing</inputmedium>
+	</input>
+	<input>
+		<inputtype>input2</inputtype>
+		<inputdescription>aondoianf oeiid onaieoi doinae</inputdescription>
+		<inputmedium>by-typing</inputmedium>
+	</input>
+</task_details>

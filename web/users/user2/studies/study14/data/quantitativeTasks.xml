@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+	<study_specification>
+	<datasetCondition>
+		<dataset>user2_receipe_small</dataset>
+		<datasetType>user2_Datasets</datasetType>
+		<datasetFormat>.json</datasetFormat>
+	</datasetCondition>
+	<datasetCondition>
+		<dataset>miserables</dataset>
+		<datasetType>System_Datasets</datasetType>
+		<datasetFormat>.json</datasetFormat>
+	</datasetCondition>
+	<studyname>study14</studyname>
+	<experimenttype>Between</experimenttype>
+	<trainingsize>2</trainingsize>
+	<condition>
+		<conditionurl>viewer1/intro_matrix_interpLong_G5_1.html</conditionurl>
+		<conditionshortname>cond1</conditionshortname>
+	</condition>
+	<condition>
+		<conditionurl>viewer2/matrix__Long_intro_IdenticalQn10.html</conditionurl>
+		<conditionshortname>cond2</conditionshortname>
+	</condition>
+	<viewerwidth>860</viewerwidth>
+	<viewerheight>800</viewerheight>
+	<task>
+		<name>twoNodesConnectionToANamedNode</name>
+		<question>Are the highlighted nodes connected to $2?</question>
+		<size>3</size>
+		<time>12</time>
+	</task>
+</study_specification>

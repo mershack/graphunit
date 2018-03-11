@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<task_details>
+	<taskname>howManyChildrenDoesANodeHas</taskname>
+	<accuracyCheckingInterface></accuracyCheckingInterface>
+	<outputtype></outputtype>
+	<outputTypeDescription></outputTypeDescription>
+	<answertype>Number</answertype>
+	<taskquestion>How many children does $1 has?</taskquestion>
+	<taskDescription>Participants count how many children a given node has.</taskDescription>
+	<inputsize>1</inputsize>
+	
+	<hasCorrectAnswer>yes</hasCorrectAnswer>
+	<input>
+		<inputtype>input1</inputtype>
+		<inputdescription>The input that will part of the question text.</inputdescription>
+		<inputmedium>by-typing</inputmedium>
+	</input>
+</task_details>

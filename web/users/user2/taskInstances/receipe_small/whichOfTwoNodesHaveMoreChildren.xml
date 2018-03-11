@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<taskFile>
+	<question>
+		<input>june</input>
+		<input>may</input>
+		<taskoptions></taskoptions>
+		<answer>yes</answer>
+	</question>
+	<question>
+		<input>kofi</input>
+		<input>ke</input>
+		<taskoptions></taskoptions>
+		<answer>yes</answer>
+	</question>
+	<question>
+		<input>many</input>
+		<input>cat</input>
+		<taskoptions></taskoptions>
+		<answer>no</answer>
+	</question>
+</taskFile>

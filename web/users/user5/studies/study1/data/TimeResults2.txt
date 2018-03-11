@@ -1,0 +1,2 @@
+Time_more_child_cond2,Time_number_of_children_cond2,Time_same_parent_cond2
+27.5,2.0,3.5

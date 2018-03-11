@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<task_details>
+	<taskname>twoNodesConnectionToANamedNode</taskname>
+	<accuracyCheckingInterface></accuracyCheckingInterface>
+	<outputtype></outputtype>
+	<outputTypeDescription></outputTypeDescription>
+	<answertype>options-fixed:::Yes::No</answertype>
+	<taskquestion>
+		Are the highlighted nodes connected to $2?
+	</taskquestion>
+	<taskDescription>
+		Check if highlighted nodes are connected to a named node
+	</taskDescription>
+	<inputsize>2</inputsize>
+	<input>
+		<inputtype>nodes</inputtype>
+		<inputdescription>
+			This is a group of nodes at least 2.
+		</inputdescription>
+		<inputmedium>from-visualization</inputmedium>
+	</input>
+	<input>
+		<inputtype>node</inputtype>
+		<inputdescription>one node</inputdescription>
+		<inputmedium>by-typing</inputmedium>
+	</input>
+	
+	<hasCorrectAnswer>yes</hasCorrectAnswer>
+</task_details>
+
+

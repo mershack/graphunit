@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+	<study_specification>
+	<datasetCondition>
+		<dataset>receipe_small</dataset>
+		<datasetType>System_Datasets</datasetType>
+		<datasetFormat>.json</datasetFormat>
+	</datasetCondition>
+	<datasetCondition>
+		<dataset>userRecipeSmall</dataset>
+		<datasetType>user2_Datasets</datasetType>
+		<datasetFormat>.json</datasetFormat>
+	</datasetCondition>
+	<studyname>study15</studyname>
+	<experimenttype>Within</experimenttype>
+	<trainingsize>2</trainingsize>
+	<condition>
+		<conditionurl>viewer3/nodeLink1.html</conditionurl>
+		<conditionshortname>cond1</conditionshortname>
+	</condition>
+	<condition>
+		<conditionurl>viewer3/matrix1.html</conditionurl>
+		<conditionshortname>cond2</conditionshortname>
+	</condition>	
+	<viewerwidth>860</viewerwidth>
+	<viewerheight>800</viewerheight>
+	<task>
+		<name>twoNodesConnectionToANamedNode</name>
+		<question>Are the highlighted nodes connected to $2?</question>
+		<size>2</size>
+		<time>12</time>
+	</task>
+	<task>
+		<name>whichNodeIsConnectedToTwoHighlightedNodes</name>
+		<question>Which of the following nodes is connected to both highlighted nodes?</question>
+		<size>2</size>
+		<time>12</time>
+	</task>
+</study_specification>

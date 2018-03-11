@@ -1,0 +1,2 @@
+		OrderOfConditions		WindowWidth		WindowHeight		OffFocusTime		UserAccuracyInfo		UserTimeInfo		ColorBlindessTestAnswers		DateAndTime
+		cond1		1340		701		notRecorded		,0.5		,2.5		no color-blind-test		Sat Apr 16 2016 15:37:35 GMT-0400 (Eastern Daylight Time)

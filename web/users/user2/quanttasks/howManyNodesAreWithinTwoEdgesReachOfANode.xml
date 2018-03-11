@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<task_details>
+	<taskname>howManyNodesAreWithinTwoEdgesReachOfANode</taskname>
+	<accuracyCheckingInterface></accuracyCheckingInterface>
+	<outputtype></outputtype>
+	<outputTypeDescription></outputTypeDescription>
+	<answertype>Number</answertype>
+	<taskquestion>How many nodes are within two edges reach from the highlighted node?</taskquestion>
+	<taskDescription>Given a selected node, how many nodes are within two edges reach?</taskDescription>
+	<inputsize>1</inputsize>
+	<input>
+		<inputtype>node</inputtype>
+		<inputdescription>A single node to be highlighted</inputdescription>
+		<inputmedium>from-visualization</inputmedium>
+	</input>
+	
+	<hasCorrectAnswer>yes</hasCorrectAnswer>
+</task_details>

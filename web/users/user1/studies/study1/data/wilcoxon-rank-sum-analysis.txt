@@ -1,0 +1,10 @@
+
+Accuracy-Taskname , p-value, Effect-Size (r=z/sqrt(n))
+--------------------------------------------------------------
+Acc_neighbor_count  ,  1.9496923930956e-12  ,  6.99914502337373 
+
+
+
+Time-Taskname , p-value, Effect-Size (r=z/sqrt(n))
+--------------------------------------------------------------
+Time_neighbor_count  ,  0.0323452190842563  ,  2.14283308535901 

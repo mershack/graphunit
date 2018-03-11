@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<task_details>
+	<taskname>dfndaiodnai</taskname>
+	<accuracyCheckingInterface></accuracyCheckingInterface>
+	<outputtype></outputtype>
+	<outputTypeDescription></outputTypeDescription>
+	<answertype>options-fixed:::yes::no</answertype>
+	<taskquestion>dadnfiadon</taskquestion>
+	<taskDescription>adfnaoidnaiod</taskDescription>
+	<inputsize>2</inputsize>
+<hasCorrectAnswer>yes</hasCorrectAnswer>
+	<input>
+		<inputtype>input1</inputtype>
+		<inputdescription>aondoa oidnaoidf onodia ndoiadf</inputdescription>
+		<inputmedium>by-typing</inputmedium>
+	</input>
+	<input>
+		<inputtype>input2</inputtype>
+		<inputdescription>foand ido inafid oidnoafi nd</inputdescription>
+		<inputmedium>by-typing</inputmedium>
+	</input>
+</task_details>

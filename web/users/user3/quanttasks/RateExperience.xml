@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<task_details>
+	<taskname>RateExperience</taskname>
+	<accuracyCheckingInterface></accuracyCheckingInterface>
+	<outputtype></outputtype>
+	<outputTypeDescription></outputTypeDescription>
+	<answertype>options-fixed:::1::2::3::4::5</answertype>
+	<taskquestion>Rate your experience: 1- bad, 5-good. </taskquestion>
+	<taskDescription>RateExperience</taskDescription>
+	<inputsize>0</inputsize>
+<hasCorrectAnswer>no</hasCorrectAnswer>
+</task_details>

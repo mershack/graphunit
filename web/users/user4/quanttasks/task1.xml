@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<task_details>
+	<taskname>task1</taskname>
+	<accuracyCheckingInterface></accuracyCheckingInterface>
+	<outputtype></outputtype>
+	<outputTypeDescription></outputTypeDescription>
+	<answertype>options-fixed:::Yes::No</answertype>
+	<taskquestion>Does $1 has more children than $2?</taskquestion>
+	<taskDescription>This question needs two parameters, referring to $1 and $2, respectively.</taskDescription>
+	<inputsize>2</inputsize>
+<hasCorrectAnswer>yes</hasCorrectAnswer>
+	<input>
+		<inputtype>input1</inputtype>
+		<inputdescription>This visualization is clear enough for pick any node.</inputdescription>
+		<inputmedium>by-typing</inputmedium>
+	</input>
+	<input>
+		<inputtype>input2</inputtype>
+		<inputdescription>input2</inputdescription>
+		<inputmedium>by-typing</inputmedium>
+	</input>
+</task_details>

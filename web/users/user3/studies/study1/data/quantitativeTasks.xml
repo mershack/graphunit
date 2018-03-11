@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+	<study_specification>
+	<studyname>study1</studyname>
+	<experimenttype_vis>Between</experimenttype_vis>
+	<experimenttype_ds>Between</experimenttype_ds>
+	<trainingsize>2</trainingsize>
+	<condition>
+		<conditionurl>CollapsibleViewer/CollapsibleTree.html</conditionurl>
+		<conditionshortname>Collapsible</conditionshortname>
+	</condition>
+	<condition>
+		<conditionurl>RadialViewer/Radial.html</conditionurl>
+		<conditionshortname>Radial</conditionshortname>
+	</condition>
+	<datasetCondition>
+		<dataset>flare</dataset>
+		<datasetType>user3_Datasets</datasetType>
+		<datasetFormat>.json</datasetFormat>
+	</datasetCondition>
+	<viewerwidth>860</viewerwidth>
+	<viewerheight>800</viewerheight>
+	<task>
+		<name>MoreChildren</name>
+		<question>Does $1 has more children than $2 ?</question>
+		<size>2</size>
+		<time>30</time>
+	</task>
+	<task>
+		<name>HowManyChildren</name>
+		<question>How many children does $1 has ?</question>
+		<size>3</size>
+		<time>30</time>
+	</task>
+	<task>
+		<name>SameParent</name>
+		<question>Does $1 and $2 belong to the same immediate parent?</question>
+		<size>3</size>
+		<time>30</time>
+	</task>
+	<introFile>
+		<introURL>Intro</introURL>
+		<introCond>all</introCond>
+	</introFile>
+	<standardTest>
+		<standardTestURL></standardTestURL>
+		<standardTestUserResponse></standardTestUserResponse>
+		<standardTestUserPerformance></standardTestUserPerformance>
+	</standardTest>
+	<preStudyTask>
+		<name>Age</name>
+		<question>Whats your age?</question>
+	</preStudyTask>
+	<postStudyTask>
+		<name>RateExperience</name>
+		<question>Rate your experience: 1- bad, 5-good.</question>
+	</postStudyTask>
+</study_specification>

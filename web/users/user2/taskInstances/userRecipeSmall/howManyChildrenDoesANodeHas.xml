@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<taskFile>
+	<question>
+		<input>abc</input>
+		<taskoptions></taskoptions>
+		<answer>3</answer>
+	</question>
+	<question>
+		<input>fake</input>
+		<taskoptions></taskoptions>
+		<answer>7</answer>
+	</question>
+	<question>
+		<input>home</input>
+		<taskoptions></taskoptions>
+		<answer>34</answer>
+	</question>
+	<question>
+		<input>ehaeri</input>
+		<taskoptions></taskoptions>
+		<answer>34</answer>
+	</question>
+	<question>
+		<input>faeae</input>
+		<taskoptions></taskoptions>
+		<answer>3</answer>
+	</question>
+</taskFile>

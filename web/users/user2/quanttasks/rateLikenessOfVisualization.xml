@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<task_details>
+	<taskname>rateLikenessOfVisualization</taskname>
+	<accuracyCheckingInterface></accuracyCheckingInterface>
+	<outputtype></outputtype>
+	<outputTypeDescription></outputTypeDescription>
+	<answertype>options-fixed:::5::4::3::2::1</answertype>
+	<taskquestion>How will rate your likeness for the visualization</taskquestion>
+	<taskDescription>Rate your likeness of this visualization</taskDescription>
+	<inputsize>0</inputsize>
+	
+	<hasCorrectAnswer>no</hasCorrectAnswer>
+</task_details>

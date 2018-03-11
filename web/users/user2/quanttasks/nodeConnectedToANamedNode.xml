@@ -1,0 +1,23 @@
+	<?xml version="1.0"?>
+<task_details>
+	<taskname>nodeConnectedToANamedNode</taskname>
+	<accuracyCheckingInterface></accuracyCheckingInterface>
+	<outputtype></outputtype>
+	<outputTypeDescription></outputTypeDescription>
+	<answertype>options-fixed:::yes::no</answertype>
+	<taskquestion>Is the highlighted node connected to $2</taskquestion>
+	<taskDescription>Given one highlighted node and one named node, are they connected?</taskDescription>
+	<inputsize>2</inputsize>
+	<input>
+		<inputtype>node</inputtype>
+		<inputdescription>node to be highlighted</inputdescription>
+		<inputmedium>from-visualization</inputmedium>
+	</input>
+	<input>
+		<inputtype>namedNode</inputtype>
+		<inputdescription>Node to be asked in the question</inputdescription>
+		<inputmedium>by-typing</inputmedium>
+	</input>
+	
+	<hasCorrectAnswer>yes</hasCorrectAnswer>
+</task_details>

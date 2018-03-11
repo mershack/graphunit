@@ -45,26 +45,6 @@ function loadTasks(div, label, num, id) {
     xmlHttpRequest.send();
 }
 
-//load qualitative tasks
-function loadQualitativeTasks(div, label, num, id) {
-    //We will get all the tasks and populate the quantitative task list  
-    var userid = document.getElementById("userid").value;
-    var command = "getQuantitativeTasks";
-    var url = "TaskInstancesCreator?command=" + command
-            + "&userid=" + userid;
-    var xmlHttpRequest = getXMLHttpRequest();
-    xmlHttpRequest.onreadystatechange = function()
-    {
-        if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
-        {
-            //create the task option box.                    
-            createTasksSelectWidget(xmlHttpRequest.responseText, div, label, num, id);
-        }
-    };
-    xmlHttpRequest.open("GET", url, true);
-    xmlHttpRequest.send();
-}
-
 //function for creating the task option box.
 function createTasksSelectWidget(tasklist,div, label, num, id) {
     var select = document.createElement("select");

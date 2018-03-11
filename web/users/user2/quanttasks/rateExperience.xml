@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<task_details>
+	<taskname>rateExperience</taskname>
+	<accuracyCheckingInterface></accuracyCheckingInterface>
+	<outputtype></outputtype>
+	<outputTypeDescription></outputTypeDescription>
+	<answertype>options-fixed:::1::2::3::4::5</answertype>
+	<taskquestion>Please Rate your experience in this study</taskquestion>
+	<taskDescription>asking users to rate their experience on a Likert scale</taskDescription>
+	<inputsize>0</inputsize>
+<hasCorrectAnswer>no</hasCorrectAnswer>
+</task_details>

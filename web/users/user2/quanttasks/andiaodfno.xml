@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<task_details>
+	<taskname>andiaodfno</taskname>
+	<accuracyCheckingInterface></accuracyCheckingInterface>
+	<outputtype></outputtype>
+	<outputTypeDescription></outputTypeDescription>
+	<answertype>options-fixed:::yes::no</answertype>
+	<taskquestion>$1 $2</taskquestion>
+	<taskDescription>donadoiaoie</taskDescription>
+	<inputsize>2</inputsize>
+<hasCorrectAnswer>yes</hasCorrectAnswer>
+	<input>
+		<inputtype>input1</inputtype>
+		<inputdescription>dionadion doina doidoin af</inputdescription>
+		<inputmedium>by-typing</inputmedium>
+	</input>
+	<input>
+		<inputtype>input2</inputtype>
+		<inputdescription>iaondoia oindaioda oiodaeo</inputdescription>
+		<inputmedium>by-typing</inputmedium>
+	</input>
+</task_details>

@@ -1,0 +1,10 @@
+
+Independent T-Test Accuracy-Taskname , p-value, Effect-Size (Cohen's d)
+--------------------------------------------------------------
+
+
+
+Independent T-Test Time-Taskname , p-value , Effect-Size (Cohen's d)
+--------------------------------------------------------------
+
+Time_selectNodeWithHighestDegree2  ,  2.29207073653101e-06  ,  1.15279758814561 

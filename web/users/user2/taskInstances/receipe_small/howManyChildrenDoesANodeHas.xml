@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<taskFile>
+	<question>
+		<input>abe</input>
+		<taskoptions></taskoptions>
+		<answer>5</answer>
+	</question>
+	<question>
+		<input>why</input>
+		<taskoptions></taskoptions>
+		<answer>20</answer>
+	</question>
+</taskFile>

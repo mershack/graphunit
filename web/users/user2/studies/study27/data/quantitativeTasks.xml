@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+	<study_specification>
+	<studyname>study27</studyname>
+	<experimenttype_vis>Between</experimenttype_vis>
+	<experimenttype_ds>Between</experimenttype_ds>
+	<trainingsize>2</trainingsize>
+	<condition>
+		<conditionurl>viewer1/nodeLink_for_images.html</conditionurl>
+		<conditionshortname>cond1</conditionshortname>
+	</condition>
+	<condition>
+		<conditionurl>viewer2/nodeLink_LongTrainnig4.html</conditionurl>
+		<conditionshortname>cond2</conditionshortname>
+	</condition>
+	<datasetCondition>
+		<dataset>receipe_small</dataset>
+		<datasetType>System_Datasets</datasetType>
+		<datasetFormat>.json</datasetFormat>
+	</datasetCondition>
+	<viewerwidth>860</viewerwidth>
+	<viewerheight>800</viewerheight>
+	<task>
+		<name>whichPairOfNodesIsCloser</name>
+		<question>Which of the following two pairs of nodes (red and blue) are closer in terms of graph topology?</question>
+		<size>2</size>
+		<time>12</time>
+	</task>
+	<introFile>
+		<introURL>abc.html</introURL>
+		<introCond>all</introCond>
+	</introFile>
+	<introFile>
+		<introURL>sweet.html</introURL>
+		<introCond>cond2</introCond>
+	</introFile>
+	<standardTest>
+		<standardTestURL>testurl</standardTestURL>
+		<standardTestUserResponse>testresp1</standardTestUserResponse>
+		<standardTestUserPerformance>testperf1</standardTestUserPerformance>
+	</standardTest>
+	<standardTest>
+		<standardTestURL>testurl2</standardTestURL>
+		<standardTestUserResponse>testresp2</standardTestUserResponse>
+		<standardTestUserPerformance>testperf2</standardTestUserPerformance>
+	</standardTest>
+	<preStudyTask>
+		<preStudyQuestion>How will you rate the usability of this visualization?</preStudyQuestion>
+	</preStudyTask>
+	<preStudyTask>
+		<preStudyQuestion>Which of the following nodes is connected to the two highlighted nodes</preStudyQuestion>
+	</preStudyTask>
+	<postStudyTask>
+		<postStudyQuestion>Given the two highlighted nodes, select the one with the larger degree.</postStudyQuestion>
+	</postStudyTask>
+	<postStudyTask>
+		<postStudyQuestion>Was this visualization helpful for the task</postStudyQuestion>
+	</postStudyTask>
+</study_specification>

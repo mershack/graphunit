@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<task_details>
+	<taskname>same_parent</taskname>
+	<accuracyCheckingInterface></accuracyCheckingInterface>
+	<outputtype></outputtype>
+	<outputTypeDescription></outputTypeDescription>
+	<answertype>options-fixed:::yes::no</answertype>
+	<taskquestion>does $1 and $2 belong to the same immediate parent?</taskquestion>
+	<taskDescription>same_parent</taskDescription>
+	<inputsize>2</inputsize>
+<hasCorrectAnswer>yes</hasCorrectAnswer>
+	<input>
+		<inputtype>input_1</inputtype>
+		<inputdescription>first input</inputdescription>
+		<inputmedium>by-typing</inputmedium>
+	</input>
+	<input>
+		<inputtype>input_2</inputtype>
+		<inputdescription>second input</inputdescription>
+		<inputmedium>by-typing</inputmedium>
+	</input>
+</task_details>

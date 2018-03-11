@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<taskFile>
+	<question>
+		<input>moazzarella</input>
+		<answer>no</answer>
+	</question>
+	<question>
+		<input>crab;;beech</input>
+		<answer>yes</answer>
+	</question>
+	<question>
+		<input>sake;;lovage</input>
+		<answer>no</answer>
+	</question>
+	<question>
+		<input>holy_basil;;okra</input>
+		<answer>yes</answer>
+	</question>
+	<question>
+		<input>octopus;;vinegar</input>
+		<answer>no</answer>
+	</question>
+	<question>
+		<input>lentil;;pimenta</input>
+		<answer>no</answer>
+	</question>
+	<question>
+		<input>brandy;;fruit</input>
+		<answer>no</answer>
+	</question>
+</taskFile>

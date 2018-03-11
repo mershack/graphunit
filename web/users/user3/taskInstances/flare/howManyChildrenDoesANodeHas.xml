@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<taskFile>
+	<question>
+		<input>abc</input>
+		<taskoptions></taskoptions>
+		<answer>7</answer>
+	</question>
+	<question>
+		<input>abcadie</input>
+		<taskoptions></taskoptions>
+		<answer>4</answer>
+	</question>
+	<question>
+		<input>sdfd</input>
+		<taskoptions></taskoptions>
+		<answer>34</answer>
+	</question>
+	<question>
+		<input>dafeaa</input>
+		<taskoptions></taskoptions>
+		<answer>6</answer>
+	</question>
+</taskFile>

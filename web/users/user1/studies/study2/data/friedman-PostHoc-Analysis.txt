@@ -1,0 +1,16 @@
+
+Accuracy-Taskname , p-value, Effect-Size (r = z/sqrt(n))
+--------------------------------------------------------------
+Acc_neighbor_one_step_arrow-Acc_neighbor_one_step_tapered , 1 , 9.00031355679943
+Acc_neighbor_two_step_arrow-Acc_neighbor_two_step_tapered , 0.107300771859315 , 6.18427985926668
+Acc_neighbor_one_step_arrow-Acc_neighbor_one_step_circular , 1.28898395550295e-06 , 5.3896935985609
+Acc_neighbor_two_step_arrow-Acc_neighbor_two_step_circular , 0.00126765391797962 , 5.05736664046698
+Acc_neighbor_one_step_tapered-Acc_neighbor_one_step_circular , 8.60098052558128e-06 , 9.04279143866106
+Acc_neighbor_two_step_tapered-Acc_neighbor_two_step_circular , 0.253799765060357 , 7.84841334866935
+
+
+Time-Taskname , p-value, Effect-Size (r = z/sqrt(n))
+--------------------------------------------------------------
+Time_neighbor_one_step_arrow-Time_neighbor_one_step_tapered , 0.054201886924414 , 6.58407168855261
+Time_neighbor_one_step_arrow-Time_neighbor_one_step_circular , 0.138937596578959 , 7.35866835779409
+Time_neighbor_one_step_tapered-Time_neighbor_one_step_circular , 0.947518490880638 , 7.72847579988357

@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+	<study_specification>
+	<studyname>study36</studyname>
+	<experimenttype_vis>Within</experimenttype_vis>
+	<experimenttype_ds>Between</experimenttype_ds>
+	<trainingsize>2</trainingsize>
+	<condition>
+		<conditionurl>viewer1/matrix__Long_intro_IdenticalQn9.html</conditionurl>
+		<conditionshortname>cond1</conditionshortname>
+	</condition>
+	<condition>
+		<conditionurl>viewer1/matrix__Long_intro_IdenticalQn9.html</conditionurl>
+		<conditionshortname>cond2</conditionshortname>
+	</condition>
+	<datasetCondition>
+		<dataset>userRecipeSmall</dataset>
+		<datasetType>user2_Datasets</datasetType>
+		<datasetFormat>.json</datasetFormat>
+	</datasetCondition>
+	<viewerwidth>860</viewerwidth>
+	<viewerheight>800</viewerheight>
+	<task>
+		<name>doesTwoNodesBelongToSameParent</name>
+		<question>Does $1 and $2 have the same parent?</question>
+		<size>2</size>
+		<time>12</time>
+	</task>
+	<task>
+		<name>howManyChildrenDoesANodeHas</name>
+		<question>How many children does $1 has?</question>
+		<size>2</size>
+		<time>12</time>
+	</task>
+	<task>
+		<name>whichOfTwoNodesHaveMoreChildren</name>
+		<question>Does $1 has more children than $2</question>
+		<size>2</size>
+		<time>12</time>
+	</task>
+	<introFile>
+		<introURL>abc.html</introURL>
+		<introCond>cond1</introCond>
+	</introFile>
+	<standardTest>
+		<standardTestURL></standardTestURL>
+		<standardTestUserResponse></standardTestUserResponse>
+		<standardTestUserPerformance></standardTestUserPerformance>
+	</standardTest>
+	<preStudyTask>
+		<name>age</name>
+		<question>Please enter your age</question>
+	</preStudyTask>
+	<postStudyTask>
+		<name>rateExperience</name>
+		<question>Please Rate your experience in this study</question>
+	</postStudyTask>
+</study_specification>

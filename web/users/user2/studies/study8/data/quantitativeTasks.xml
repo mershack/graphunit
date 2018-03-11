@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+	<study_specification>
+	<dataset>receipe_small</dataset>
+	<datasetFormat>.json</datasetFormat>
+	<dataset>miserables</dataset>
+	<datasetFormat>.csv</datasetFormat>
+	<studyname>study8</studyname>
+	<experimenttype>Between</experimenttype>
+	<trainingsize>2</trainingsize>
+	<condition>
+		<conditionurl>viewer1/matrix__Long_intro_IdenticalQn10.html</conditionurl>
+		<conditionshortname>cond1</conditionshortname>
+	</condition>
+	<condition>
+		<conditionurl>viewer3/nodeLink_LongTrainnig6_G3.html</conditionurl>
+		<conditionshortname>cond2</conditionshortname>
+	</condition>
+	<viewerwidth>860</viewerwidth>
+	<viewerheight>800</viewerheight>
+	<task>
+		<name>shortestPathBetweenThree</name>
+		<question>How long is the shortest path between the highlighted nodes?</question>
+		<size>3</size>
+		<time>12</time>
+	</task>
+</study_specification>

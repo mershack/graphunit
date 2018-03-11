@@ -1,0 +1,7 @@
+Time_whichOfTwoNodesHaveMoreChildren_cond1
+3.0
+2.0
+2.0,2.5,1.5
+2.0,4.5,4.5
+2.5,4.5,1.5
+

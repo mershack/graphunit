@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<task_details>
+	<taskname>experience</taskname>
+	<accuracyCheckingInterface></accuracyCheckingInterface>
+	<outputtype></outputtype>
+	<outputTypeDescription></outputTypeDescription>
+	<answertype>options-fixed:::1::2::3::4::5</answertype>
+	<taskquestion>please rate your experience (scale of 1 to 5)</taskquestion>
+	<taskDescription>experience</taskDescription>
+	<inputsize>1</inputsize>
+<hasCorrectAnswer>no</hasCorrectAnswer>
+	<input>
+		<inputtype></inputtype>
+		<inputdescription></inputdescription>
+		<inputmedium></inputmedium>
+	</input>
+</task_details>

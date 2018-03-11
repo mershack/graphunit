@@ -161,11 +161,6 @@ function getSelectedElements() {
 
     if (typeof iframe.contentWindow.window[outInterfaceName] == "function") {
         var selectedElements = iframe.contentWindow.window[outInterfaceName]();
-        
-        //now give command to unselect the selected items.
-        //Ideally, we will use a user-given interface name, but for now we are assuming
-        //the name of that method is unselectSelectedElements
-        iframe.contentWindow.unSelectSelectedElements();
 
         //now give command to unselect the selected items.
         //Ideally, we will use a user-given interface name, but for now we are assuming

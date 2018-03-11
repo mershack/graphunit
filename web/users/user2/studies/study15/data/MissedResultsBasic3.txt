@@ -1,0 +1,4 @@
+Missed_twoNodesConnectionToANamedNode_cond2__receipe_small, :: Missed_whichNodeIsConnectedToTwoHighlightedNodes_cond2__receipe_small,
+Q1,Q2 :: Q1,Q2
+0.0,0.0 :: 0.0,0.0
+0.0,0.0 :: 0.0,0.0

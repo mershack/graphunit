@@ -1,0 +1,3 @@
+		OrderOfConditions		WindowWidth		WindowHeight		OffFocusTime		UserAccuracyInfo		UserTimeInfo		ColorBlindessTestAnswers		DateAndTime
+		Collapsible		1422		1025		notRecorded		1.0,0.6666666666666666,0.6666666666666666		20.0,4.333333333333333,4.333333333333333		no color-blind-test		Tue May 17 2016 15:22:09 GMT-0400 (Eastern Daylight Time)
+		Collapsible		1422		1025		notRecorded		1.0,0.6666666666666666,0.6666666666666666		20.0,4.333333333333333,4.333333333333333		no color-blind-test		Tue May 17 2016 15:22:09 GMT-0400 (Eastern Daylight Time)

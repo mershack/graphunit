@@ -1,0 +1,4 @@
+Time_twoNodesConnectionToANamedNode_cond2__userRecipeSmall, :: Time_whichNodeIsConnectedToTwoHighlightedNodes_cond2__userRecipeSmall,
+Q1,Q2 :: Q1,Q2
+1,0 :: 1,1
+2,1 :: 2,0

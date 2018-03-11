@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<study_specification>
+<dataset>miserables</dataset>
+<studyname>study6</studyname>
+<experimenttype>Between</experimenttype>
+<condition>
+<conditionurl>graph_lesMiserables.html</conditionurl>
+<conditionshortname>graph</conditionshortname>
+</condition>
+<condition>
+<conditionurl>matrix.html</conditionurl>
+<conditionshortname>matrix</conditionshortname>
+</condition>
+<viewerwidth>860</viewerwidth>
+<viewerheight>null</viewerheight>
+<task>
+<name>neighborCount</name>
+<question>How many nodes can be reached in one step from the highlighted node?</question>
+<size>20</size>
+<time>10</time>
+</task>
+</study_specification>

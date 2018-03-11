@@ -1,0 +1,3 @@
+Missed_twoNodesConnectionToANamedNode_cond1__userRecipeSmall, :: Missed_whichNodeIsConnectedToTwoHighlightedNodes_cond1__userRecipeSmall,
+Q1,Q2 :: Q1,Q2
+0.0,0.0 :: 0.0,0.0

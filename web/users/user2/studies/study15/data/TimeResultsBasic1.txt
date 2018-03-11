@@ -1,0 +1,3 @@
+Time_twoNodesConnectionToANamedNode_cond1__receipe_small, :: Time_whichNodeIsConnectedToTwoHighlightedNodes_cond1__receipe_small,
+Q1,Q2 :: Q1,Q2
+1,2 :: 2,2

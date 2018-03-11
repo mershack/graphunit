@@ -1,0 +1,30 @@
+setwd("C:\\Users\\Mershack\\Documents\\NetbeansProjects\\GitHub_projects\\d3graphevaluation\\build\\web\\users\\user1\\studies\\study1\\data")
+sink("wilcoxon-rank-sum-analysis.txt")
+accuracy1 = read.csv("AccuracyResults1.txt")
+accuracy2 = read.csv("AccuracyResults2.txt")
+time1 = read.csv("TimeResults1.txt")
+time2 = read.csv("TimeResults2.txt")
+cat(paste("\nAccuracy-Taskname ," ,"p-value," , "Effect-Size (r=z/sqrt(n))"))
+cat("\n--------------------------------------------------------------")
+Acc_neighbor_count_graph= c(accuracy1[,1])
+Acc_neighbor_count_matrix= c(accuracy2[,1])
+result = wilcox.test(Acc_neighbor_count_graph,Acc_neighbor_count_matrix)
+size1 = length(c(accuracy1[,1]))
+size2 = length(c(accuracy2[,1]))
+num = result$statistic - (size1*size2)/2
+denom = sqrt(((size1*size2) * (size1+size2+1))/12)
+es = num/denom
+cat(paste("\nAcc_neighbor_count", " , " , result$p.value, " , ", abs(es) , "\n" ))
+cat(paste("\n\n\nTime-Taskname ," ,"p-value," , "Effect-Size (r=z/sqrt(n))"))
+cat("\n--------------------------------------------------------------")
+taskname="TaskName = Time_neighbor_count"
+Time_neighbor_count_graph= c(time1[,1])
+Time_neighbor_count_matrix= c(time2[,1])
+result = wilcox.test(Time_neighbor_count_graph,Time_neighbor_count_matrix)
+size1 = length(c(time1[,1]))
+size2 = length(c(time2[,1]))
+num = result$statistic - (size1*size2)/2
+denom = sqrt(((size1*size2) * (size1+size2+1))/12)
+es = num/denom
+cat(paste("\nTime_neighbor_count", " , " , result$p.value, " , ", abs(es) , "\n" ))
+sink()

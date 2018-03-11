@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+	<study_specification>
+	<studyname>study29</studyname>
+	<experimenttype_vis>Between</experimenttype_vis>
+	<experimenttype_ds>Between</experimenttype_ds>
+	<trainingsize>2</trainingsize>
+	<condition>
+		<conditionurl>viewer1/nodeLink_LongTrainnig6_G4.html</conditionurl>
+		<conditionshortname>cond1</conditionshortname>
+	</condition>
+	<condition>
+		<conditionurl>viewer1/nodeLink_LongTrainnig6_G5.html</conditionurl>
+		<conditionshortname>cond2</conditionshortname>
+	</condition>
+	<datasetCondition>
+		<dataset>receipe_small</dataset>
+		<datasetType>System_Datasets</datasetType>
+		<datasetFormat>.json</datasetFormat>
+	</datasetCondition>
+	<viewerwidth>860</viewerwidth>
+	<viewerheight>800</viewerheight>
+	<task>
+		<name>twoNodesConnectionToANamedNode</name>
+		<question>Are the highlighted nodes connected to $2?</question>
+		<size>2</size>
+		<time>12</time>
+	</task>
+	<introFile>
+		<introURL>abc.html</introURL>
+		<introCond>all</introCond>
+	</introFile>
+	<standardTest>
+		<standardTestURL></standardTestURL>
+		<standardTestUserResponse></standardTestUserResponse>
+		<standardTestUserPerformance></standardTestUserPerformance>
+	</standardTest>
+	<preStudyTask>
+		<name>rateUsabilityOfVisualization</name>
+		<question>How will you rate the usability of this visualization?</question>
+	</preStudyTask>
+	<preStudyTask>
+		<name>rateBeautyOfVisualization</name>
+		<question>How will you rate the beauty of this visualization</question>
+	</preStudyTask>
+	<postStudyTask>
+		<name>ratehelpfulnessYoN</name>
+		<question>Was this visualization helpful for the task</question>
+	</postStudyTask>
+	<postStudyTask>
+		<name>rateBeautyOfVisualization</name>
+		<question>How will you rate the beauty of this visualization</question>
+	</postStudyTask>
+	<postStudyTask>
+		<name>rateUsabilityOfVisualization</name>
+		<question>How will you rate the usability of this visualization?</question>
+	</postStudyTask>
+</study_specification>

@@ -1,0 +1,6 @@
+shortname ::: taskquestion ::: taskgroup
+MoreChildren ::: Does $1 has more children than $2 ? :::  noGroup
+HowManyChildren ::: How many children does $1 has ? :::  noGroup
+SameParent ::: Does $1 and $2 belong to the same immediate parent? :::  noGroup
+Age ::: Whats your age? :::  noGroup
+RateExperience ::: Rate your experience: 1- bad, 5-good.  :::  noGroup

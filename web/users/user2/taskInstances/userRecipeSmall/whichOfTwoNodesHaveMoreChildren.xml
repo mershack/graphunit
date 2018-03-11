@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<taskFile>
+	<question>
+		<input>fadad</input>
+		<input>fadfae</input>
+		<taskoptions></taskoptions>
+		<answer>no</answer>
+	</question>
+	<question>
+		<input>faed</input>
+		<input>faedf</input>
+		<taskoptions></taskoptions>
+		<answer>no</answer>
+	</question>
+	<question>
+		<input>dfae</input>
+		<input>faed</input>
+		<taskoptions></taskoptions>
+		<answer>no</answer>
+	</question>
+	<question>
+		<input>faead</input>
+		<input>feafa</input>
+		<taskoptions></taskoptions>
+		<answer>yes</answer>
+	</question>
+	<question>
+		<input>dfae</input>
+		<input>faedf</input>
+		<taskoptions></taskoptions>
+		<answer>yes</answer>
+	</question>
+</taskFile>

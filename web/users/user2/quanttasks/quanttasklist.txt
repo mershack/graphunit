@@ -1,0 +1,38 @@
+shortname ::: taskquestion ::: taskgroup
+twoNodesConnectionToANamedNode ::: Are the highlighted nodes connected to $2? :::  noGroup
+shortestPathBetweenThree ::: How long is the shortest path between the highlighted nodes? :::  noGroup
+highestDegreeBetweenTwoNodes ::: Given the two highlighted nodes, select the one with the larger degree. :::  noGroup
+allNeighborsOfANode ::: Given a highlighted node, select all its neighbors :::  noGroup
+whichOfTwoClustersIsMoreInterconnected ::: Given two clusters of highlighted nodes, which one is more interconnected? :::  noGroup
+allCommonNeighborsBetweenTwoNodes ::: Given two highlighted nodes, select all of the common neighbors :::  noGroup
+whichPairOfNodesIsCloser ::: Which of the following two pairs of nodes (red and blue) are closer in terms of graph topology? :::  noGroup
+numberOfClusters ::: How many clusters are there in the visualization? :::  noGroup
+whichofTwoGroupsIsLarger ::: Which of the following two groups (red and blue) is larger? :::  noGroup
+doesTwoNodesBelongToSameGroup ::: Does the two highlighted nodes belong to the same group? :::  noGroup
+nodeConnectedToANamedNode ::: Is the highlighted node connected to $2 :::  noGroup
+shortestPathBetweenTwoNodes ::: How long is the shortest path between the two highlighted nodes? :::  noGroup
+whichNodeIsConnectedToTwoNodes ::: Which of the following nodes is connected to the two highlighted nodes :::  noGroup
+howManyNodesAreWithinTwoEdgesReachOfANode ::: How many nodes are within two edges reach from the highlighted node? :::  noGroup
+whichNodeIsConnectedToTwoHighlightedNodes ::: Which of the following nodes is connected to both highlighted nodes? :::  noGroup
+rateUsabilityOfVisualization ::: How will you rate the usability of this visualization? :::  noGroup
+rateBeautyOfVisualization ::: How will you rate the beauty of this visualization :::  noGroup
+rateLikenessOfVisualization ::: How will rate your likeness for the visualization :::  noGroup
+ratehelpfulnessYoN ::: Was this visualization helpful for the task :::  noGroup
+dafad ::: daoinvaoidonaie :::  noGroup
+dfa ::: fafae :::  noGroup
+twfg ::: wrgfwf :::  noGroup
+dfadaf ::: dafed :::  noGroup
+dfndaiodnai ::: dadnfiadon :::  noGroup
+andiaodfno ::: $1 $2 :::  noGroup
+fankdao ::: $1 $2? :::  noGroup
+faandaoidnioa ::: $1 adndoiad $2 :::  noGroup
+snvsfoisrqq ::: $1 andaio $2 :::  noGroup
+fandoaoidid ::: $1 anid $2 :::  noGroup
+fanvaoiea ::: $1 faodampe $2 :::  noGroup
+andioafaioe ::: $1 diaonodif $2 :::  noGroup
+aondaoi ::: $1 dadoaie $2 :::  noGroup
+whichOfTwoNodesHaveMoreChildren ::: Does $1 has more children than $2 :::  noGroup
+howManyChildrenDoesANodeHas ::: How many children does $1 has? :::  noGroup
+doesTwoNodesBelongToSameParent ::: Does $1 and $2 have the same parent? :::  noGroup
+age ::: Please enter your age :::  noGroup
+rateExperience ::: Please Rate your experience in this study :::  noGroup

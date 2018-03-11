@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+	<study_specification>
+	<studyname>study1</studyname>
+	<experimenttype_vis>Between</experimenttype_vis>
+	<experimenttype_ds>Between</experimenttype_ds>
+	<trainingsize>2</trainingsize>
+	<condition>
+		<conditionurl>view_redial/redial.html</conditionurl>
+		<conditionshortname>cond1</conditionshortname>
+	</condition>
+	<condition>
+		<conditionurl>view_collapse_tree/collapse_tree.html</conditionurl>
+		<conditionshortname>cond2</conditionshortname>
+	</condition>
+	<datasetCondition>
+		<dataset>flare</dataset>
+		<datasetType>user5_Datasets</datasetType>
+		<datasetFormat>.json</datasetFormat>
+	</datasetCondition>
+	<viewerwidth>860</viewerwidth>
+	<viewerheight>800</viewerheight>
+	<task>
+		<name>more_child</name>
+		<question>Does $1 has more children than $2?</question>
+		<size>2</size>
+		<time>50</time>
+	</task>
+	<task>
+		<name>number_of_children</name>
+		<question>how many children does $1 has?</question>
+		<size>2</size>
+		<time>70</time>
+	</task>
+	<task>
+		<name>same_parent</name>
+		<question>does $1 and $2 belong to the same immediate parent?</question>
+		<size>2</size>
+		<time>45</time>
+	</task>
+	<introFile>
+		<introURL>abc</introURL>
+		<introCond>all</introCond>
+	</introFile>
+	<standardTest>
+		<standardTestURL></standardTestURL>
+		<standardTestUserResponse></standardTestUserResponse>
+		<standardTestUserPerformance></standardTestUserPerformance>
+	</standardTest>
+	<preStudyTask>
+		<name>age</name>
+		<question>please enter the age of participants</question>
+	</preStudyTask>
+	<postStudyTask>
+		<name>experience</name>
+		<question>please rate your experience (scale of 1 to 5)</question>
+	</postStudyTask>
+</study_specification>

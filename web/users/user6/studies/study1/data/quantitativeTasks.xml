@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+	<study_specification>
+	<studyname>study1</studyname>
+	<experimenttype_vis>Within</experimenttype_vis>
+	<experimenttype_ds>Between</experimenttype_ds>
+	<trainingsize>2</trainingsize>
+	<condition>
+		<conditionurl>Viewer1/Collapsible.html</conditionurl>
+		<conditionshortname>cond1</conditionshortname>
+	</condition>
+	<condition>
+		<conditionurl>Viewer2/radial.html</conditionurl>
+		<conditionshortname>cond2</conditionshortname>
+	</condition>
+	<datasetCondition>
+		<dataset>flare</dataset>
+		<datasetType>user6_Datasets</datasetType>
+		<datasetFormat>.json</datasetFormat>
+	</datasetCondition>
+	<viewerwidth>860</viewerwidth>
+	<viewerheight>800</viewerheight>
+	<task>
+		<name>moreChild</name>
+		<question>Does $1 has more children than $2?</question>
+		<size>2</size>
+		<time>30</time>
+	</task>
+	<task>
+		<name>moreChildren</name>
+		<question>How many children does $1 has?</question>
+		<size>1</size>
+		<time>15</time>
+	</task>
+	<introFile>
+		<introURL>abc</introURL>
+		<introCond>all</introCond>
+	</introFile>
+	<standardTest>
+		<standardTestURL></standardTestURL>
+		<standardTestUserResponse></standardTestUserResponse>
+		<standardTestUserPerformance></standardTestUserPerformance>
+	</standardTest>
+	<preStudyTask>
+		<name>Age</name>
+		<question>Please enter the age</question>
+	</preStudyTask>
+	<postStudyTask>
+		<name>Expert</name>
+		<question>Please rate the experience on a scale to 1 to 5?</question>
+	</postStudyTask>
+</study_specification>

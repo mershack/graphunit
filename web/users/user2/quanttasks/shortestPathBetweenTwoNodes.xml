@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<task_details>
+	<taskname>shortestPathBetweenTwoNodes</taskname>
+	<accuracyCheckingInterface></accuracyCheckingInterface>
+	<outputtype></outputtype>
+	<outputTypeDescription></outputTypeDescription>
+	<answertype>Number</answertype>
+	<taskquestion>How long is the shortest path between the two highlighted nodes?</taskquestion>
+	<taskDescription>Given two highlighted nodes, how long is the shortest path between them?</taskDescription>
+	<inputsize>1</inputsize>
+	<input>
+		<inputtype>nodes</inputtype>
+		<inputdescription>the two nodes to be highlighted</inputdescription>
+		<inputmedium>from-visualization</inputmedium>
+	</input>
+	
+	<hasCorrectAnswer>yes</hasCorrectAnswer>
+</task_details>

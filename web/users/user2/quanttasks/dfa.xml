@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<task_details>
+	<taskname>dfa</taskname>
+	<accuracyCheckingInterface></accuracyCheckingInterface>
+	<outputtype></outputtype>
+	<outputTypeDescription></outputTypeDescription>
+	<answertype>Number</answertype>
+	<taskquestion>fafae</taskquestion>
+	<taskDescription>dfadad</taskDescription>
+	<inputsize>3</inputsize>
+<hasCorrectAnswer>no</hasCorrectAnswer>
+	<input>
+		<inputtype>fadd</inputtype>
+		<inputdescription>fad</inputdescription>
+		<inputmedium>from-visualization</inputmedium>
+	</input>
+	<input>
+		<inputtype>adf</inputtype>
+		<inputdescription>dfaae</inputdescription>
+		<inputmedium>from-visualization</inputmedium>
+	</input>
+	<input>
+		<inputtype>dfae</inputtype>
+		<inputdescription>vadde</inputdescription>
+		<inputmedium>by-typing</inputmedium>
+	</input>
+</task_details>

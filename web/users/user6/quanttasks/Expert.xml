@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<task_details>
+	<taskname>Expert</taskname>
+	<accuracyCheckingInterface></accuracyCheckingInterface>
+	<outputtype></outputtype>
+	<outputTypeDescription></outputTypeDescription>
+	<answertype>Number</answertype>
+	<taskquestion>Please rate the experience on a scale to 1 to 5?</taskquestion>
+	<taskDescription>Expert</taskDescription>
+	<inputsize>0</inputsize>
+<hasCorrectAnswer>no</hasCorrectAnswer>
+</task_details>

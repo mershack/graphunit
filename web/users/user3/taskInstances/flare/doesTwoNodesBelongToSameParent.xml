@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<taskFile>
+	<question>
+		<input>abca</input>
+		<input>434</input>
+		<taskoptions></taskoptions>
+		<answer>no</answer>
+	</question>
+	<question>
+		<input>332</input>
+		<input>fadiawone</input>
+		<taskoptions></taskoptions>
+		<answer>yes</answer>
+	</question>
+	<question>
+		<input>doado</input>
+		<input>edae</input>
+		<taskoptions></taskoptions>
+		<answer>yes</answer>
+	</question>
+	<question>
+		<input>dfae</input>
+		<input>ade</input>
+		<taskoptions></taskoptions>
+		<answer>yes</answer>
+	</question>
+	<question>
+		<input>dadae</input>
+		<input>eadad</input>
+		<taskoptions></taskoptions>
+		<answer>yes</answer>
+	</question>
+</taskFile>

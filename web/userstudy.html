@@ -25,18 +25,7 @@ and open the template in the editor.
                 width: 860px;
                 display: block;
             }
-            /*  #viewerFrame1{
-                  border: none;
-                  height: 800px;
-                  width: 800px;
-                  display: none;
-              }
-              #viewerFrame2{
-                  display: none;
-                  border: none;
-                  height: 720px;
-                  width: 1020px;
-              } */
+            
             #viewerFrame{
                 //display: none;
                 border: none;
@@ -155,9 +144,7 @@ and open the template in the editor.
 
             /**For a color blindness test that we will be doing **/
             var checkColorBlindess = true;
-                // I'm temporariy disabling the color blindness test by making the line below true
-                // this is temporarily
-                var colorBlindnessChecked = false;
+            var colorBlindnessChecked = false;
             var some_answers = [];
             var some_answersArrCnt = 0;
             var two_hours_default_time_limit = 7200;   //default time for questions which are unlimited time
@@ -441,6 +428,7 @@ and open the template in the editor.
              * 
              */
             function getQuestion() {
+                //  alert("over here");
                 if (stage === 0) {
                     //hide the beginTutorial button and show the next button
                     document.getElementById("beginTutorial").style.display = "none";
@@ -459,13 +447,51 @@ and open the template in the editor.
                     some_answers.push(previousAnswer);
                     // alert(some_answers);
                 }
-                //reset the selected answer for subsequent questions
-                document.getElementById("selectedAnswer").value = "";
+
                 var studyid = document.getElementById("studyid").value;
                 //  "&studyid="+studyid;
                 var command = "getQuestion";
+                var accuracy = "";
+
+                //get the answer if the answer group is interface
+
+                //get the correctAnswer and the selected answer, And pass it to the visualization
+
+
+                var correctAnswer = getCorrectAnswer();
+
+                var hasCorrectAns = getHasCorrectAnswer();
+
+                var validateAnswerInterface = getInterfaceForValidatingAnswers();
+                if (validateAnswerInterface !== "" && getAnswerGroup() === "interface"
+                        && previousAnswer != "" && hasCorrectAns === "yes") {
+
+                    var iframeContentWindow = document.getElementById("viewerFrame").contentWindow;
+                    //if the method exists do it
+                    if (typeof iframeContentWindow.window[validateAnswerInterface] === "function") {
+
+                        //this function will be passed the correct answer, and 
+                        //the answer given by the user
+                        accuracy = iframeContentWindow.window[validateAnswerInterface](
+                                previousAnswer, correctAnswer);
+                    }
+                    else {
+                        alert("The interface for validating answers has not been implemented");
+                    }
+                }
+                else {
+
+                    if (previousAnswer.trim() === correctAnswer.trim()) {
+                        accuracy = 1;
+                    }
+                    else {
+                        accuracy = 0;
+                    }
+                }
+                
                 var url = "StudyManager?command=" + command + "&previousAnswer="
-                        + previousAnswer + "&previousTime=" + currQuestionTime + "&studyid=" + studyid;
+                        + previousAnswer + "&previousTime=" + currQuestionTime + "&studyid=" + studyid
+                        + "&accuracy=" + accuracy;
 
                 var xmlHttpRequest = getXMLHttpRequest();
 
@@ -473,44 +499,48 @@ and open the template in the editor.
                 {
                     if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
                     {
-                        console.log('______ '+ xmlHttpRequest.responseText);
                         var split = (xmlHttpRequest.responseText).split("::");
-
                         if (split[0] === "ChangeViewers") {
                             //TODO: //change the url of the viewer Frame to the new viewer
                             var newViewerUrl = split[1].trim();
                             var viewerFrame = document.getElementById("viewerFrame");
 
                             viewerFrame.setAttribute("src", newViewerUrl);
-                            getAndSetNodePositions();
-                            // getAndSetDataset();
-                            //wait a couple of seconds and call the getQuestion method again
+//                            getAndSetNodePositions();
+                            
+                            //NB: get and set datasets is currently also called in 
+                            //in the getAndSetNodePositions() function. Ideally, we will change
+                            //the get and setnode-positions file
+                            
+                            getAndSetDataset();                          
+                            
                             setTimeout(getQuestion, 1000);
-                        } else if (split[0] === "EndOfQuantitative") {
+                        }
+                        else if (split[0] === "EndOfQuantitative") {
                             //this is our cue to save the miscellanous information before the actual completion.
                             saveMiscellaneousInfo();
-                        } else if (split[0] === "Finished") {
+                        }
+                        else if (split[0] === "Finished") {
                             var turkcode = split[1];
                             endOfQuantitative(turkcode);
-                        } else if (split[0] === "Feedback") {
+                        }
+                        else if (split[0] === "Feedback") {
                             //call the qualitative function
-                            showQualitativeQuestions(xmlHttpRequest.responseText);
-                        } else {
+                            showPostStudyQualitativeQuestions(xmlHttpRequest.responseText);
+                        }
+                        else {
                             var qnheader = split[0];
                             var question = split[1];
                             
-                            console.log(split[0]);
-                            console.log(split[1]);
-                            
-                            console.log('RESPONSE TEXT: ' + xmlHttpRequest.responseText);
-
                             var originalqn = question.trim();
 
-                            // alert(question);
+                            //reset the selected answer for subsequent questions
+                            document.getElementById("selectedAnswer").value = "";
+
                             if (question.trim() === "Remember answers found for previously answered connectivity questions") {
                                 //we will hide the viewer for this task. //this is a hack.
                                 showBlankViewer();
-                            } 
+                            }
                             
                             //change the question now
                             var iframe = document.getElementById("viewerFrame");
@@ -521,18 +551,11 @@ and open the template in the editor.
                                 }
                             }
 
-                            //alert(qnheader);
-
                             //Notify the user about the question group they will be working on.
                             if (previousQuestion !== "" && previousQuestion !== question
-
                                     && ((qnheader.indexOf("Training Question") > -1)
-                                            ||
-                                            qnheader.indexOf("Study Question") > -1)
-                                    && (qnheader.indexOf("(1/") < 0)
-
-                                    ) {
-                                //alert("The current question you will be working on is " + question);
+                                    ||  qnheader.indexOf("Study Question") > -1)
+                                    && (qnheader.indexOf("(1/") < 0)) {
 
                                 var qnChgdNotify = document.getElementById("questionChangedNotification");
 
@@ -543,14 +566,16 @@ and open the template in the editor.
                                 document.getElementById("currentQuestion").value = question;
                                 document.getElementById("currentQnHeader").value = qnheader;
                                 document.getElementById("currentMaxTime").value = split[2];
-                                previousQuestion = question; 
+                                previousQuestion = question;
                             }
                             else {
                                 document.getElementById("currentQuestion").value = question;
                                 document.getElementById("currentQnHeader").value = qnheader;
                                 document.getElementById("currentMaxTime").value = split[2];
 
-                                //check if the method of the viewer needs the question to be changed. And change it accordingly.
+
+                                //check if the method of the viewer needs the question to be changed. 
+                                //And change it accordingly.
                                 /*    var iframe = document.getElementById("viewerFrame");
                                  if (typeof iframe.contentWindow.changeQuestion == "function") {
                                  var newquestion = iframe.contentWindow.changeQuestion(question.trim());
@@ -561,7 +586,7 @@ and open the template in the editor.
                                  */
 
 
-                                previousQuestion = question; 
+                                previousQuestion = question;
 
                                 //get the legend of the question if there is some 
                                 if (typeof iframe.contentWindow.getQuestionLegend == "function") {
@@ -589,13 +614,13 @@ and open the template in the editor.
 
                                 document.getElementById("selectedAnswer").value = "";
 
-                                getAnswerControllers();
-
+                                getInputsAndAnswerControllers();
                                 //do not show the nodes if the study has not been started, 
                                 // in that case,they will be shown when the start study button is clicked.
                                 if (!(isTutorial === "false" && studystarted === false)) {
                                     getNodes();
-                                } else {
+                                }
+                                else {
                                     //deselect the previous nodes 
                                     deselectPrevNodes();
                                 }
@@ -604,7 +629,8 @@ and open the template in the editor.
                                 if (originalqn === "Remember answers found for previously answered connectivity questions") {
                                     //we will hide the viewer for this task. //this is a hack.
                                     showBlankViewer();
-                                }  else {
+                                }
+                                else {
                                     revealViewer();
                                 }
 
@@ -613,12 +639,6 @@ and open the template in the editor.
                                 }
                             }
 
-
-
-
-                            /*  else {
-                             gettingTurkID = "false";
-                             } */
                         }
                     }
                 };
@@ -674,9 +694,7 @@ and open the template in the editor.
 
                 }
             }
-
-
-
+            
             /*
              * function to get the nodes from the server 
              */
@@ -691,12 +709,22 @@ and open the template in the editor.
                 {
                     if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
                     {
-                        inputValues = xmlHttpRequest.responseText;
-                        if (getInputInterface() === "") {
-                            inputInterfaceInterval = setInterval("checkIfInputInterfaceNameIsSet()", 200);
-                        }
-                        else {
-                            displayNodes(inputValues);
+                        //alert("in getting nodes +  "+ xmlHttpRequest.responseText);
+                        //alert("input values returnede is +" + xmlHttpRequest.responseText);
+
+                        if (xmlHttpRequest.responseText.trim() !== "") {
+                            //if there are actual input values.
+                            inputValues = xmlHttpRequest.responseText;
+
+                            var inpMutatorMethods = getInputMutatorMethods();
+
+                            if (!(inpMutatorMethods.length > 0) || inpMutatorMethods[0] === "") {
+                                inputInterfaceInterval = setInterval("checkIfInputMutatorMethodsIsSet()", 200);
+                            }
+                            else {
+                                displayNodes(inputValues, inpMutatorMethods);
+                            }
+
                         }
                     }
                 };
@@ -704,118 +732,171 @@ and open the template in the editor.
                 xmlHttpRequest.send();
             }
 
-
-            function checkIfInputInterfaceNameIsSet() {
-                if (getInputInterface() !== "") {
+            function checkIfInputMutatorMethodsIsSet() {
+                //get the array of the input mutator methods
+                var mutatorMethodsArr = getInputMutatorMethods();
+                //check if at least the first mutator method has been set
+                if (mutatorMethodsArr.length > 0 && mutatorMethodsArr[0] !== "") {
+                    // alert("it is now set  "+ mutatorMethodsArr);
+                    // alert("input --values is " + inputValues ); 
                     clearInterval(inputInterfaceInterval);
-                    displayNodes(inputValues);
+
+                    displayNodes(inputValues, mutatorMethodsArr);
+
                 }
             }
 
 
             function deselectPrevNodes() {
-                displayNodes(""); // send an empty string.
+                var mutatorMethodsArr = getInputMutatorMethods();
+                displayNodes("", mutatorMethodsArr); // send an empty string.
             }
 
             /**
              * function to highlight the nodes involved in the question
              *  
              **/
-            function displayNodes(nodesStr) {
-                //alert("displaying nodes");
+            function displayNodes(inputsString, inputMutatorMethodsArr) {
+                //NB: the inputs should be an array of inputs that have name and type
+                var theInputs = inputsString.split(":::::"); //NB the inputs are separated by 5 semi-colons
 
-                //alert(nodesStr);
-                if (nodesStr !== "") {
-                    var split = nodesStr.split("::");
+                //now let's check the question to see if any of the inputs will be part of the question               
+                var question = document.getElementById("currentQuestion").value;
 
-                    //var nodesArr = nodesStr.split(",");
-                    var nodesArr = split[0].split(",");
+               
+                if (inputsString !== "") {
+                    var params = findInputParametersInQuestion(question);
 
-                    var typesArr = split[1].split(",");
-
-                    var nodesArr2 = nodesArr;
-                    var typesArr2 = typesArr;
-
-                    nodesArr = [];
-                    typesArr = [];
-                    var inputAnswerOptionsArr = [];
-
-                    (some_answers);
-
-                    //this is a hack for a specific task
-                    // alert(question);
-
-                    var question = document.getElementById("currentQuestion").value;
-
-                    // alert(typesArr2);
-                    //make sure you do not pass nodes that are part of a question as an input
-                    for (var i = 0; i < typesArr2.length; i++) {
-                        if (typesArr2[i].trim() === "partOfAnswer") {
-                            inputAnswerOptionsArr.push(nodesArr2[i]);
+                    for (var i = 0; i < theInputs.length; i++) {
+                        //first check if the input is a parameter or not
+                        var currParam = i + 1;
+                        var paramExists = false;
+                        for (var j = 0; j < params.length; j++) {
+                            if (currParam === Number(params[j])) {
+                                //parameter exists.
+                                paramExists = true;
+                            }
                         }
-                        else if (!(typesArr2[i].trim() === "partOfQuestion")) {
-                            nodesArr.push(nodesArr2[i]);
-                            typesArr.push(typesArr2[i]);
+
+                        if (paramExists === false) {
+                            
+                            var rawInput = theInputs[i].split(';;');
+                            var selectableInputs = [];
+                            //TODO: Type has to be the type provided by the user
+                            
+                            for (var j = 0; j < rawInput.length; j++) {
+                                selectableInputs.push({"node": rawInput[j], "type": "node"});
+                            }
+                            
+                            //pass this input to the visualization using its mutator methods
+                            var iframeContentWindow = document.getElementById("viewerFrame").contentWindow;
+
+                            //if the method exists do it
+                            if (typeof iframeContentWindow.window["selectNode"] === "function") {
+                                //reset the previous inputs to empty strings
+                                
+                                //TODO: Make sure the visualization implements unselectNode() method
+                                iframeContentWindow.window["selectNode"]("");
+                                
+                        
+                                //now pass the actual input.
+                                iframeContentWindow.window["selectNode"](selectableInputs);
+                            }
+                            else {
+                                alert("the interface method \"selectNode\" has not been implemented");
+                            }
                         }
                     }
 
-
-                    var iframe = document.getElementById("viewerFrame");
-                    if (typeof iframe.contentWindow.changeQuestion == "function") {
-                        var newquestion = iframe.contentWindow.changeQuestion(question.trim(), nodesArr2, typesArr2);
-                        if (newquestion !== "") { //if a newquestion was returned that set the question with  the new question
-                            question = newquestion;
-                        }
-                        if (newquestion !== "") {
-                            document.getElementById("note").innerHTML = question;
-                        }
-
-                    }
-                    if (question.trim() === "Remember the nodes used in previous common neigbhbor task") {
-                        // alert("okay");
-                        // In the first task you identified that bread, now highlighted, was connected to two ingredients. Can you select them?"
-                        if (some_answers.length > 0) {
-                            // alert("here");
-                            question = "In the first task you identified that " + some_answers[some_answersArrCnt]
-                                    + ", now highlighted, was connected to two ingredients. Can you select them?";
-
-                            nodesArr.push(some_answers[some_answersArrCnt]);
-                            some_answersArrCnt++;
-                            document.getElementById("note").innerHTML = question;
-
-                        }
-
+                    //now replace the params with the inputs
+                    for (var i = 0; i < params.length; i++) {
+                        question = question.replace("$" + params[i], theInputs[params[i] - 1]);
                     }
 
-                    setInputAnswerOptions("");
-                    // alert(inputAnswerOptionsArr[0]);
-                    // alert("ansOptions "+inputAnswerOptionsArr);
-                    if (inputAnswerOptionsArr.length > 0) {
-
-                        if (inputAnswerOptionsArr[0]) {
-                            setInputAnswerOptions(inputAnswerOptionsArr[0]);
-                            // alert("not null");
-                        }
-                        //set it in case answer controllers have already been done
-                        if (getInputAnswersControllersAlreadySet() === true) {
-                            setUpInputOptionsAnswerControllerWithArg(inputAnswerOptionsArr[0]);
-                        }
-
-
+                    if (params.length > 0) {
+                        document.getElementById("currentQuestion").value = question;
+                        document.getElementById("note").innerHTML = question;
                     }
-                    //get the inputInterface name                
-                    var inpInterfaceName = getInputInterface();
-                    var iframeContentWindow = document.getElementById("viewerFrame").contentWindow;
-                    //call the method 
-                    iframeContentWindow.window[inpInterfaceName](nodesArr, typesArr);
                 }
                 else {
-                    var inpInterfaceName = getInputInterface();
-                    var iframeContentWindow = document.getElementById("viewerFrame").contentWindow;
-                    //call the method 
-                    iframeContentWindow.window[inpInterfaceName]([], []); //send empty arrays
+
+
+
+                    //send an empty string to each of the input accessor methods
+                    //if they were not inputs that belong to part of the question text
+
+                    if (inputMutatorMethodsArr) {
+                        for (var i = 0; i < inputMutatorMethodsArr.length; i++) {
+                            
+                            var params = findInputParametersInQuestion(question);
+                            var currParam = i + 1;
+                            var paramExists = false;
+
+                            for (var j = 0; j < params.length; j++) {
+                                if (currParam === Number(params[j])) {
+                                    //parameter exists.
+                                    paramExists = true;
+                                }
+                            }
+
+                            if (paramExists === false) {
+                                var iframeContentWindow = document.getElementById("viewerFrame").contentWindow;
+                                //if the method exists do it
+                                if (typeof iframeContentWindow.window["selectNode"] === "function") {
+                                    iframeContentWindow.window["selectNode"]("");
+                                }
+                                else {
+                                    alert("the interface method selectNode");
+                                }
+                            }
+
+                        }
+                    }
+
                 }
+
             }
+
+            function findInputParametersInQuestion(question) {
+                //this will find the parameters and return them e.g. if it finds "$1,  $2" it will return [1,2]
+
+                //alert("question is "+ question);
+                var params = [];
+                var regex = new RegExp('\\d');
+
+                for (var i = 0; i < question.length; i++) {
+
+                    if (question.charAt(i) === "$") {
+
+                        // alert("found the dollar sign");
+
+                        //find out if what follows is a number or not
+                        var beginIndex;
+
+                        //check what follows if it is a number or not
+                        var regex = new RegExp('\\d');
+
+                        if (regex.test(question.charAt(i + 1)) === true) {
+
+                            beginIndex = i + 1;
+                            var j = i + 1;
+                            for (j = i + 1; j < question.length; j++) {
+                                //stop the moment you find a non number value
+                                if (regex.test(question.charAt(j)) === false) {
+                                    break;
+                                }
+                            }
+
+                            i = j;
+
+                            params.push(Number(question.substring(beginIndex, j)));
+
+                        }
+                    }
+                }
+                return params;
+            }
+
 
 
             /**
@@ -883,9 +964,7 @@ and open the template in the editor.
 
                 durationRecorded = false;
                 timedout = false;
-                //  if (maxQuestionDuration > 0) {
                 questionDurationIntv = setInterval("questionDurationCountDown()", 1000);
-                //}
 
                 if (!(maxQuestionDuration > 0)) { //hide the countdown
                     document.getElementById("durationCountDown").innerHTML = " ";
@@ -960,6 +1039,7 @@ and open the template in the editor.
              * function that is executed when the next button is clicked.   
              */
             function advanceButtonClicked() {
+
                 //for widgets we will get the answer from the answer widget
                 if (getAnswerGroup() === "widget") {
                     var answer = document.getElementById("selectedAnswer").value;
@@ -967,26 +1047,24 @@ and open the template in the editor.
                         alert("Please provide a valid answer before continuing");
                         return false;
                     }
-                } else if (getAnswerGroup() === "interface") {
-                    console.log('interface***');
-                    //for interface we will get the answer from the interface method of the visualization                
+                }
+                //for interface we will get the answer from the interface method of the visualization
+                else if (getAnswerGroup() === "interface") {
                     //we will get the output by calling the interface method to get the output
                     var iframe = document.getElementById("viewerFrame");
-                    var outInterfaceName = getOutputInterface();
-                    
-                    if (typeof iframe.contentWindow.window[outInterfaceName] == "function") {
-                        var output = iframe.contentWindow.window[outInterfaceName]();
-                        var outputStr = "";
-                        
-                        for (var i = 0; i < output.length; i++) {
-                            if (i === 0) {
-                                outputStr = output[i];
-                            } else {
-                                outputStr += ";;" + output[i];
-                            }
-                        }
-                        
+
+                    //var outputMutatorMethod = getOutputMutatorMethod();
+
+                    var outputAccessorMethod = getOutputAccessorMethod();
+
+
+                    // alert("outputMutator method is + "+outInterfaceName);
+
+
+                    if (typeof iframe.contentWindow.window[outputMutatorMethod] === "function") {
+                        var outputStr = iframe.contentWindow.window[outputAccessorMethod]();
                         //if user was timedout before they could select an answer.
+
                         if (outputStr === "" && timedout === true) {
                             outputStr = "timedout";
 
@@ -995,19 +1073,26 @@ and open the template in the editor.
                             alert("Please provide a valid answer before continuing");
                             return false;
                         }
-                                                
+
+
+
                         document.getElementById("selectedAnswer").value = outputStr;
-                    } else {
+
+                    }
+                    else {
                         alert("The output method that returns the output is not implemented.");
                     }
                 }
 
                 if (durationRecorded === false) {
+
                     continueAfterQuestionDurationOver();
                 }
 
                 //now call the question get again.
                 getQuestion();
+
+
             }
 
             /**
@@ -1022,8 +1107,13 @@ and open the template in the editor.
                 viewers.appendChild(myframe);
                 //get the dataset      
 
-                getAndSetNodePositions();
-                //  getAndSetDataset();
+//                getAndSetNodePositions();
+                getAndSetDataset();
+
+                if (!questionsPrepared) { //questions will be prepared only once.
+                    prepareQuestions();
+                    questionsPrepared = true;
+                }
 
             }
             //this function gets the dataset from the servlet and sets it for the iframe
@@ -1059,51 +1149,39 @@ and open the template in the editor.
             function setFrameDataset(dataset) {
                 var iframe = document.getElementById("viewerFrame");
 
+                //alert(dataset);
                 var dataset2 = dataset;
 
+                //  alert(dataset);
                 //check the setdataset type that has been implemented
-                if (typeof iframe.contentWindow.setJSONdataset == "function") { //json
-                    dataset2 += ".json";
-                    //alert(dataset2);
-                    iframe.contentWindow.setJSONdataset(dataset2);
+                if (typeof iframe.contentWindow.setDataset == "function") { //json                   
+                    iframe.contentWindow.setDataset(dataset2);
                     clearInterval(datasetInterval);
                 }
-                else if (typeof iframe.contentWindow.setCSVdataset == "function") {
-                    dataset2 += ".csv";
-                    iframe.contentWindow.setCSVdataset(dataset2);
-                    clearInterval(datasetInterval);
-                }
-                else if (typeof iframe.contentWindow.setTSVdataset == "function") {
-                    dataset2 += ".tsv";
-                    iframe.contentWindow.setTSVdataset(dataset2);
-                    clearInterval(datasetInterval);
-                }
-                // }
-
-
             }
             function setFrameNodePositions(nodePositions) {
                 var iframe = document.getElementById("viewerFrame"); //set the node positions                        
 
                 if (typeof iframe.contentWindow.setNodePositions == "function") {
                     //alert("here");
-                    getAndSetDataset();
-
-                    if (!questionsPrepared) { //questions will be prepared only once.
-                        prepareQuestions();
-                        questionsPrepared = true;
-                    }
+//                    getAndSetDataset();
 
 
                     iframe.contentWindow.setNodePositions(nodePositions);
                     clearInterval(nodePosInterval);
                 }
+
+
+                if (!questionsPrepared) { //questions will be prepared only once.
+                    prepareQuestions();
+                    questionsPrepared = true;
+                }
+
             }
 
 
             function getAndSetNodePositions() {
                 var studyid = document.getElementById("studyid").value;
-                //  "&studyid="+studyid;
 
                 var command = "getNodePositions";
                 var url = "StudyManager?command=" + command + "&studyid=" + studyid;
@@ -1114,11 +1192,12 @@ and open the template in the editor.
                 {
                     if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
                     {
-
                         // alert(xmlHttpRequest.responseText);
 
                         var nodesAndPositions = xmlHttpRequest.responseText.split("::::");
                         var nodePositions = [];
+                        
+//                        getAndSetDataset();
 
                         for (var i = 0; i < nodesAndPositions.length; i++) {
                             var posValues = nodesAndPositions[i].split("::");
@@ -1167,57 +1246,39 @@ and open the template in the editor.
 
             function getPreQualitativeQuestions() {
 
-                if (checkColorBlindess === true && colorBlindnessChecked === false) { //hide the introduction div and show the study div.
-                    document.getElementById("introduction").style.display = "none";
-                    showColorBlindnessTest();
-                }
-                else {//do 
-                    //for this current study (i.e. Nov-Dec 2015, I will like to check for color blindness test before the qualitative questions
+                /* if (checkColorBlindess === true && colorBlindnessChecked === false) { //hide the introduction div and show the study div.
+                 document.getElementById("introduction").style.display = "none";
+                 showColorBlindnessTest();
+                 }
+                 else {//do    */
+                //for this current study (i.e. Nov-Dec 2015, I will like to check for color blindness test before the qualitative questions
 
-                    var studyid = document.getElementById("studyid").value;
+                var studyid = document.getElementById("studyid").value;
 
-                    var studyid = document.getElementById("studyid").value;
 
-<<<<<<< HEAD
-                    var command = "getPreQualitativeQuestions";
-                    var url = "StudyManager?command=" + command + "&studyid=" + studyid;
+                var command = "getPreQualitativeQuestions";
+                var url = "StudyManager?command=" + command + "&studyid=" + studyid;
 
-                    var xmlHttpRequest = getXMLHttpRequest();
+                var xmlHttpRequest = getXMLHttpRequest();
 
-=======
-
-                    var command = "getPreQualitativeQuestions";
-                    var url = "StudyManager?command=" + command + "&studyid=" + studyid;
-
-                    var xmlHttpRequest = getXMLHttpRequest();
-
->>>>>>> fa8bfe0... merging with dev
-                    xmlHttpRequest.onreadystatechange = function()
+                xmlHttpRequest.onreadystatechange = function()
+                {
+                    if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
                     {
-                        if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
-                        {
-                            // alert(xmlHttpRequest.responseText);
+                        // alert(xmlHttpRequest.responseText);
 
-                            if (xmlHttpRequest.responseText === "") {
-                                showTheStudy();
-                            }
-                            else {
-                                showTheStudy();
-                                showPreQualitativeQuestions(xmlHttpRequest.responseText);
-                            }
+                        if (xmlHttpRequest.responseText === "") {
+                            showTheStudy();
                         }
-<<<<<<< HEAD
-                    };
-                    xmlHttpRequest.open("GET", url, true);
-                    xmlHttpRequest.send();
-                }
-=======
+                        else {
+                            showTheStudy();
+                            showPreQualitativeQuestions(xmlHttpRequest.responseText);
+                        }
                     }
-                /*};*/
+                };
                 xmlHttpRequest.open("GET", url, true);
                 xmlHttpRequest.send();
                 /*    }*/
->>>>>>> fa8bfe0... merging with dev
 
 
             }
@@ -1380,7 +1441,8 @@ and open the template in the editor.
 
                 document.getElementById("selectedAnswer").value = "";
 
-                getAnswerControllers();
+                getInputsAndAnswerControllers();
+                //getAnswerControllers();
 
                 //do not show the nodes if the study has not been started, 
                 // in that case,they will be shown when the start study button is clicked.
@@ -1401,9 +1463,6 @@ and open the template in the editor.
                 else {
                     revealViewer();
                 }
-
-
-
 
                 if (studystarted == true) {
                     startQuestionDurationCountDown();
@@ -1672,17 +1731,7 @@ and open the template in the editor.
                             5.   <input type="number" min="0"  id="btAnswer5" class="btAnswerbox" />    
                         </div>   
                         <hr/>
-                    </div>
-
-                    <!--
-                   <div class="bt-qn-and-ans">
-                       <img class="blindTestImg" src="color-blindness-test-images/img10.gif" width="120" height="120"/>
-                       <div class="btAnswer">
-                           10.   <input type="number" min="0"  id="btAnswer10" class="btAnswerbox" />    
-                       </div>   
-                 
-                </div>
-                    -->
+                    </div>                 
 
                     <div class="bt-qn-and-ans">
                         <img class="blindTestImg" src="color-blindness-test-images/img11.gif" width="120" height="120"/>

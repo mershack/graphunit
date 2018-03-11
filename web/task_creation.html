@@ -6,7 +6,7 @@ and open the template in the editor.
 -->
 <html>
     <head>
-    <title>Create a new Task</title>
+        <title>Create a new Task</title>
         <meta charset="UTF-8">
         <!-- <meta name="viewport" content="width=device-width"> -->
         <script type="text/javascript" src="question-properties.js"></script>
@@ -23,7 +23,7 @@ and open the template in the editor.
                 padding: 10px 50px;
                 margin-left: 20px;
                 //padding-left: 20px;
-                width:600px;
+                width:750px;
             }
             .right{                
                 float:right;
@@ -38,6 +38,10 @@ and open the template in the editor.
             .center{
                 margin-left: 150px;
                 margin-right: 150px;
+            }
+            .center2{
+                margin-left: 5%;
+
             }
             .questionNumberEven, .conditionNumberEven{
                 background-color: #E8E8E8 ;
@@ -55,6 +59,15 @@ and open the template in the editor.
             #nameUnavailable{
                 color:red;
             }
+            textarea{
+                overflow-x:hidden;
+            }
+            .grayBackground{
+                background-color: #F0F0F0;               
+            }
+            .inputMedium{
+                min-width: 200px;
+            }
         </style>
         <script type="text/javascript">
 
@@ -62,53 +75,91 @@ and open the template in the editor.
         </script>
     </head>
     <body>
-        <div id="controlBox">
+        <div id="controlBox">            
             <h2> Create a New Task </h2>
+            <div id="emptyFieldsNotice" style="display:none;">
+                <p style="color: red">
+                    Some fields are empty. Please fill all fields before Saving task.
+                </p>
+            </div>
+            <hr />
+
+            <div class="innerBox">
+
+                <table class="center grayBackground">
+                    <tr>
+                        <td>
+                            <p> Provide a short name for this task  &nbsp; &nbsp; &nbsp;
+                                <input type="text" size="20" id="taskShortname" value="" class="right"
+
+                                       onblur="checkShortNameAvailability();" />
+
+                                <span id="nameAvailabilityChecking" style="display:none;">
+                                    <span id="nameAvailable" style="display:none;" class="center"> (Name is Available)</span>
+                                    <span id="nameUnavailable" style="display:none;" class="center"> (Name is not Available, try another)</span>
+                                </span>
+                            </p>
+                        </td>
+                    </tr>
+
+                </table>
+
+            </div>  
+
+
+
             <form>
-                <hr>
+
                 <h4> Task Question </h4>
                 <div class="innerBox">
-                    <p> Type the task question &nbsp; &nbsp;
+                    <p> Type the task question as will be shown to 
+                        users                        
+                        &nbsp; &nbsp;
                         <textarea rows="2" cols="40" id="taskQuestion" class="right"></textarea>
+                    </p>                    
+                    <br />
+                    <em>
+                        (<strong>NB</strong>: If the question text will
+                        include dynamic values, use "$1", "$2", etc. as placeholders
+                        for the dynamic values, where the number 1 or 2 
+                        represents the position of the value among inputs provided for the task).                        
+                    </em>
+                    <br /> <br />
+                    <p> Type a short description of the task &nbsp; &nbsp;
+                        <textarea rows="2" cols="40" id="taskDescription" class="right"></textarea>
                     </p>
                     <br /><br/>
                 </div>  
             </form>
-            <form>
-                <hr />
-                <h4> Task Shortname </h4>
-                <div class="innerBox">
-                    <p> Specify a short name for this task  &nbsp; &nbsp; &nbsp;
-                        <input type="text" size="30" id="taskshortname" value="" class="right"
 
-                               onblur="checkShortNameAvailability();" />
-
-                    </p>
-
-                    <div id="nameAvailabilityChecking" style="display:none;">
-                        <p> <span id="nameAvailable" style="display:none;" class="center"> (Name is Available)</span>
-                            <span id="nameUnavailable" style="display:none;" class="center"> (Name is not Available, try another)</span>
-                        </p>
-                    </div>
-
-                </div>  
-            </form>
             <form method="GET" action="TaskCreator"  id="setupForm">
                 <hr>
                 <h4> Answer type </h4>
                 <div class="innerBox">                    
-                    <div class="condgitionNumberOdd">
+                    <div class="conditionNumberOdd">
+
+                        <p>
+                            Will this task have correct Answers?
+                            <select id="hasCorrectAnswer" class="right"
+                                    style="min-width:20%"
+                                    onchange="doesTaskHasCorrectAnswer(this);">
+                                <option value="yes" selected>Yes</option>
+                                <option value="no">No</option>
+                            </select>                           
+
+                        </p>
                         <p> Select the answer type
-                            <select id="answertype" name="answertype" 
-                                    class="right" style="min-width:50%;" onchange="answerOptionChanged(this);">
+                            <select id="answerType" name="answertype" 
+                                    class="right" style="min-width:40%;" onchange="answerOptionChanged(this);">
                                 <option value="">Select One</option>
                                 <option value="Number">Number</option>
-                                <option value="Options">Options</option>
+                                <option value="options-fixed">Options (Fixed)</option>
+                                <option value="options-dynamic">Options(Dynamic)</option>
+                                <option value="Color-options-fixed">Color Options</option>                                
                                 <option value="Text">Text</option>                                    
-                                <option value="Selection">Selection</option>
+                                <option value="Interface">Interface</option>
                             </select>
-                        </p>
-
+                        </p>                   
                         <div id="ansOptionsDiv" style="display:none;">
                             <div id="optionsBlock">
                                 <p>Specify Option1 <input type="text" id ="ansOptions1" name="ansOptions1" value="" class="right"/></p>
@@ -117,45 +168,154 @@ and open the template in the editor.
                             <input type="button" value="Add more answer options" onclick="addMoreAnsOptions();" class="center" />
                         </div>
 
+                        <div id="outputTypeDiv" style="display:none;">
+                            <div id="accuracyCheckingInterfaceDiv">
+                                <p>
+                                    Provide an interface name for answer validation
+
+                                    <input type="text" id="accuracyCheckingInterface" size="40" class="right" />
+                                    <br/><br/>
+                                </p>
+                                <em>
+                                    (<strong>NB</strong>: This interface will be used to check the accuracy of 
+                                    a user's answer and will return a value between 0 and 1).
+                                </em>
+                            </div>
+
+                            <p> Provide a shortname for the output type &nbsp; &nbsp;
+                                <input type="text" id="outputType" size="40" class="right"/>                                
+                            </p> 
+                            <p> Write a short description for this output type &nbsp; &nbsp;
+                                <textarea rows="2" cols="40" id="outputTypeDescription" class="right"></textarea>
+                            </p>
+
+                            <p>
+                                <br>  <br/>
+                                <em>
+                                    (<strong>NB</strong>: You have to implement an interface (accessor method) for this output type.
+                                    For example, if the shortname for the output type is "nodes", you have to implement
+                                    the method "getNodes()" in your visualization ).
+                                </em>
+                            </p>
+                        </div>
+
 
                     </div>
                     <br />
-                </div> 
-                <hr/>
-                <h4> Custom function names for passing input and getting output </h4>
-                <div class="innerBox">
-                    <p>Name of function for passing task inputs to the visualization &nbsp; &nbsp;
-                        <input type="text" id ="inputInterface" name="inputInterface" value="setInput" class="right"/>
-                    </p>
+                </div>
 
-                    <p>Name of function for getting task outputs from the visualization &nbsp; &nbsp;
-                        <input type="text" id ="outputInterface" name="outputInterface" value="getOutput" class="right"/>
-                    </p>
-                    <p>//TODO: include an input for an interface name for unselecting all selected items.</p>
-                </div> 
+                <!--
+                                <hr />
+                
+                                
+                                <h4> Type of Task</h4>
+                                <div class="innerBox">
+                
+                                    <p>
+                                        <input type="radio" value="quantitative" name="typeOfTask" onclick="typeOfTaskChanged(this);" checked/>
+                                        Objective/Quantitative Question (i.e. Question with predetermined answers).
+                
+                                    </p>
+                                    <p>
+                                        <input type="radio" value="qualitative" name="typeOfTask" onclick="typeOfTaskChanged(this);" />
+                                        Subjective/Qualitative Question (i.e. Question without predermined answer).
+                                    </p>
+                
+                                    <input type="hidden" value="quantitative" id="typeOfTask"/>
+                                </div>
+                -->
+
                 <hr/>
                 <h4>Info about the inputs</h4>
                 <div class="innerBox">
-                    <p> Specify number of inputs this task require &nbsp; &nbsp;
-                        <input type="number" id ="numberOfInputs" name="numberOfInputs" min="0" value="0" class="right"
-                               onchange="getNumberOfInputs(this)" />
-                    </p>
+                    <table>
+                        <tbody id="inputsTable" class="center2">
+                            <tr>
+                                <th></th>
+                                <th>Short name</th>
+                                <th>How input will be provided</th>
+                                <th>Short Description</th>
+                            </tr>
+                            <tr id="inputRow1">
+                                <td> 1. </td>
+                                <td> <p id="parag_inputShortName1">
+
+                                        <input type="text" id="inputShortName1" size="24" />
+
+                                    </p>
+                                </td>
+                                <td>
+                                    <p id="parag_inputMedium1">
+                                        <select id="inputMedium1" class="inputMedium">
+                                            <option value="">Select One</option>
+                                            <option value="from-visualization">From Visualization</option>
+                                            <option value="by-typing">By Typing</option>
+                                        </select>
+                                    </p>
+                                </td>
+                                <td>
+                                    <p id="parag_inputShortDescription1">                                    
+                                        <textarea rows="2" cols="38" id="inputShortDescription1"></textarea>
+
+
+                                    </p>
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+
+
+
                     <div id="inputInfo" style="display:none;">
-                       
+                    </div>
+                    <div id="inputsDetails">
+
+
+
+
+                    </div>
+                    <div class="center">
+                        <input type="button" value="Add Another input Detail" onclick="addAnotherInputDetail()"/>
+                        <input type="button" value="Remove Last Input Detail" onclick="removeLastInputDetail()"/>
+                        <input type="hidden" value="1" id="inputCnt"/>
                     </div>
 
+                    <br/><br/>
+                    <div id="inputNotice">
+                        <em>  <strong>NB</strong>: 
+                            If inputs are required by this task, you have to implement interfaces for each input type 
+                            specified (i.e. accessor, and mutator methods). For example, if the shortname for an input
+                            type is "node", you have to implement the methods "getNode()" and "setNode()" in your visualization. 
+                        </em>  
+                    </div>
 
 
 
                 </div> 
                 <hr />
+                <div id="emptyFieldsNotice2" style="display:none;">
+                    <p style="color: red">
+                        Some fields are empty. Please fill all fields before Saving task.
+                    </p>
+                </div>
                 <div class="center">    
-                    <input type="button" value="Save Task" onclick="saveNewTask()"/>
-                    &nbsp; &nbsp; &nbsp;                   
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+                    <input type="button" value="Save New Task" onclick="saveNewTask()"/>
+
                 </div>
 
             </form>
         </div>
+
+       <input type="hidden" id="userid" value="user2" />
+    
+    <!--<input type="hidden" id="userid" value="user2" />
+    <input type="hidden" id="userid" value="user4" />
+    <input type="hidden" id="userid" value="user5" />
+    <input type="hidden" id="userid" value="user1" />  -->
 
     </body>
 </html>

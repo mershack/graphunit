@@ -1,0 +1,14 @@
+TaskName = Acc_neighbor_count
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Acc_neighbor_count_graph , 0.521551724137931 , 0.142997996846943
+Acc_neighbor_count_matrix , 0.850925925925926 , 0.260893012978164
+******************************************************************
+
+TaskName = Time_neighbor_count
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Time_neighbor_count_graph , 7.06724137931035 , 2.04114587108066
+Time_neighbor_count_matrix , 6.33611111111111 , 1.71341589380898
+******************************************************************
+

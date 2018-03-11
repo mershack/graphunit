@@ -1,0 +1,8 @@
+Acc_whichOfTwoNodesHaveMoreChildren_cond1,
+Q1,Q2
+yes,yes
+yes,no
+yes,no :: 2,3 :: no
+yes,no :: 5,1 :: no
+yes,no :: 12,21 :: yes
+

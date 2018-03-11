@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+	<study_specification>
+	<studyname>study23</studyname>
+	<experimenttype_vis>Between</experimenttype_vis>
+	<experimenttype_ds>Between</experimenttype_ds>
+	<trainingsize>2</trainingsize>
+	<condition>
+		<conditionurl>viewer1/nodeLink_LongTrainnig5.html</conditionurl>
+		<conditionshortname>cond1</conditionshortname>
+	</condition>
+	<condition>
+		<conditionurl>viewer1/nodeLink_LongTrainnig6_G4.html</conditionurl>
+		<conditionshortname>cond2</conditionshortname>
+	</condition>
+	<datasetCondition>
+		<dataset>receipe_small</dataset>
+		<datasetType>System_Datasets</datasetType>
+		<datasetFormat>.json</datasetFormat>
+	</datasetCondition>
+	<viewerwidth>860</viewerwidth>
+	<viewerheight>800</viewerheight>
+	<task>
+		<name>twoNodesConnectionToANamedNode</name>
+		<question>Are the highlighted nodes connected to $2?</question>
+		<size>2</size>
+		<time>10</time>
+	</task>
+</study_specification>

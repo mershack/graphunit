@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+	<study_specification>
+	<studyname>study26</studyname>
+	<experimenttype_vis>Between</experimenttype_vis>
+	<experimenttype_ds>Between</experimenttype_ds>
+	<trainingsize>2</trainingsize>
+	<condition>
+		<conditionurl>viewer1/matrix__Long_intro_IdenticalQn2.html</conditionurl>
+		<conditionshortname>cond1</conditionshortname>
+	</condition>
+	<condition>
+		<conditionurl>viewer1/nodeLink_LongTrainnig3.html</conditionurl>
+		<conditionshortname>cond2</conditionshortname>
+	</condition>
+	<datasetCondition>
+		<dataset>receipe_small</dataset>
+		<datasetType>System_Datasets</datasetType>
+		<datasetFormat>.json</datasetFormat>
+	</datasetCondition>
+	<viewerwidth>860</viewerwidth>
+	<viewerheight>800</viewerheight>
+	<task>
+		<name>highestDegreeBetweenTwoNodes</name>
+		<question>Given the two highlighted nodes, select the one with the larger degree.</question>
+		<size>31</size>
+		<time>12</time>
+	</task>
+</study_specification>

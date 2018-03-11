@@ -1,0 +1,3 @@
+Time_twoNodesConnectionToANamedNode_cond1,,
+Q1,Q2,Q3
+2,2,1

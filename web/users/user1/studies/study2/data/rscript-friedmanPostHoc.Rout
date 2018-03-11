@@ -1,0 +1,45 @@
+Warning messages:
+1: In wilcox.test.default(x = c(0.75, 0.5, 1, 1, 0.75, 0.75, 1, 0.75,  :
+  cannot compute exact p-value with ties
+2: In wilcox.test.default(x = c(0.75, 0.5, 1, 1, 0.75, 0.75, 1, 0.75,  :
+  cannot compute exact p-value with zeroes
+Warning messages:
+1: In wilcox.test.default(x = c(0.75, 0.75, 0.25, 0.25, 0.5, 0.5, 0,  :
+  cannot compute exact p-value with ties
+2: In wilcox.test.default(x = c(0.75, 0.75, 0.25, 0.25, 0.5, 0.5, 0,  :
+  cannot compute exact p-value with zeroes
+Warning messages:
+1: In wilcox.test.default(x = c(0.75, 0.5, 1, 1, 0.75, 0.75, 1, 0.75,  :
+  cannot compute exact p-value with ties
+2: In wilcox.test.default(x = c(0.75, 0.5, 1, 1, 0.75, 0.75, 1, 0.75,  :
+  cannot compute exact p-value with zeroes
+Warning messages:
+1: In wilcox.test.default(x = c(0.75, 0.75, 0.25, 0.25, 0.5, 0.5, 0,  :
+  cannot compute exact p-value with ties
+2: In wilcox.test.default(x = c(0.75, 0.75, 0.25, 0.25, 0.5, 0.5, 0,  :
+  cannot compute exact p-value with zeroes
+Warning messages:
+1: In wilcox.test.default(x = c(0.75, 0.5, 0.75, 0, 0.25, 0.75, 0.75,  :
+  cannot compute exact p-value with ties
+2: In wilcox.test.default(x = c(0.75, 0.5, 0.75, 0, 0.25, 0.75, 0.75,  :
+  cannot compute exact p-value with zeroes
+Warning messages:
+1: In wilcox.test.default(x = c(0.75, 0.5, 0, 0.25, 0.25, 0, 0.25,  :
+  cannot compute exact p-value with ties
+2: In wilcox.test.default(x = c(0.75, 0.5, 0, 0.25, 0.25, 0, 0.25,  :
+  cannot compute exact p-value with zeroes
+Warning messages:
+1: In wilcox.test.default(x = c(5, 2.25, 4.25, 3.75, 4.5, 5, 4.75,  :
+  cannot compute exact p-value with ties
+2: In wilcox.test.default(x = c(5, 2.25, 4.25, 3.75, 4.5, 5, 4.75,  :
+  cannot compute exact p-value with zeroes
+Warning messages:
+1: In wilcox.test.default(x = c(5, 2.25, 4.25, 3.75, 4.5, 5, 4.75,  :
+  cannot compute exact p-value with ties
+2: In wilcox.test.default(x = c(5, 2.25, 4.25, 3.75, 4.5, 5, 4.75,  :
+  cannot compute exact p-value with zeroes
+Warning messages:
+1: In wilcox.test.default(x = c(3.75, 2.75, 2.75, 3, 2.75, 4.5, 5,  :
+  cannot compute exact p-value with ties
+2: In wilcox.test.default(x = c(3.75, 2.75, 2.75, 3, 2.75, 4.5, 5,  :
+  cannot compute exact p-value with zeroes

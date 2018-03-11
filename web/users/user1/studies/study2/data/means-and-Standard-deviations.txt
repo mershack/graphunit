@@ -1,0 +1,32 @@
+TaskName = Acc_neighbor_one_step
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Acc_neighbor_one_step_arrow , 0.92741935483871 , 0.159321671561295
+Acc_neighbor_one_step_tapered , 0.931451612903226 , 0.14435664821061
+Acc_neighbor_one_step_circular , 0.774193548387097 , 0.179421185830736
+******************************************************************
+
+TaskName = Acc_neighbor_two_step
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Acc_neighbor_two_step_arrow , 0.439516129032258 , 0.2704181790096
+Acc_neighbor_two_step_tapered , 0.350806451612903 , 0.257906441208262
+Acc_neighbor_two_step_circular , 0.282258064516129 , 0.228519248784528
+******************************************************************
+
+TaskName = Time_neighbor_one_step
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Time_neighbor_one_step_arrow , 4.57258064516129 , 0.54769841971975
+Time_neighbor_one_step_tapered , 4.39516129032258 , 0.778223580195356
+Time_neighbor_one_step_circular , 4.38306451612903 , 0.806883477702392
+******************************************************************
+
+TaskName = Time_neighbor_two_step
+condition , Mean , Standard-Deviation
+------------------------------------------------------
+Time_neighbor_two_step_arrow , 7.125 , 1.85970537945145
+Time_neighbor_two_step_tapered , 6.42338709677419 , 2.12787351986721
+Time_neighbor_two_step_circular , 6.7741935483871 , 2.02277487413531
+******************************************************************
+

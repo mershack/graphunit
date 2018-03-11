@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<taskFile>
+	<question>
+		<input>analytics</input>
+		<input>animate</input>
+		<taskoptions></taskoptions>
+		<answer>yes</answer>
+	</question>
+	<question>
+		<input>cluster</input>
+		<input>animate</input>
+		<taskoptions></taskoptions>
+		<answer>no</answer>
+	</question>
+	<question>
+		<input>interpolate</input>
+		<input>converters</input>
+		<taskoptions></taskoptions>
+		<answer>no</answer>
+	</question>
+	<question>
+		<input>display</input>
+		<input>flex</input>
+		<taskoptions></taskoptions>
+		<answer>yes</answer>
+	</question>
+</taskFile>

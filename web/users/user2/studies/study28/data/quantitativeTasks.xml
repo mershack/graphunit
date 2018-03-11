@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+	<study_specification>
+	<studyname>study28</studyname>
+	<experimenttype_vis>Between</experimenttype_vis>
+	<experimenttype_ds>Between</experimenttype_ds>
+	<trainingsize>2</trainingsize>
+	<condition>
+		<conditionurl>viewer1/nodeLink_LongTrainnig6_G2.html</conditionurl>
+		<conditionshortname>cond1</conditionshortname>
+	</condition>
+	<condition>
+		<conditionurl>viewer2/nodeLink_LongTrainnig6_G5.html</conditionurl>
+		<conditionshortname>cond2</conditionshortname>
+	</condition>
+	<datasetCondition>
+		<dataset>receipe_small</dataset>
+		<datasetType>System_Datasets</datasetType>
+		<datasetFormat>.json</datasetFormat>
+	</datasetCondition>
+	<viewerwidth>860</viewerwidth>
+	<viewerheight>800</viewerheight>
+	<task>
+		<name>twoNodesConnectionToANamedNode</name>
+		<question>Are the highlighted nodes connected to $2?</question>
+		<size>2</size>
+		<time>12</time>
+	</task>
+	<task>
+		<name>rateLikenessOfVisualization</name>
+		<question>How will rate your likeness for the visualization</question>
+		<size>1</size>
+		<time>12</time>
+	</task>
+	<introFile>
+		<introURL>abc.html</introURL>
+		<introCond>all</introCond>
+	</introFile>
+	<standardTest>
+		<standardTestURL></standardTestURL>
+		<standardTestUserResponse></standardTestUserResponse>
+		<standardTestUserPerformance></standardTestUserPerformance>
+	</standardTest>
+	<preStudyTask>
+		<name>rateBeautyOfVisualization</name>
+		<question>How will you rate the beauty of this visualization</question>
+	</preStudyTask>
+	<postStudyTask>
+		<name>rateLikenessOfVisualization</name>
+		<question>How will rate your likeness for the visualization</question>
+	</postStudyTask>
+</study_specification>

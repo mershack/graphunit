@@ -1,0 +1,5 @@
+Error_whichOfTwoNodesHaveMoreChildren_cond1, :: Error_howManyChildrenDoesANodeHas_cond1, :: Error_doesTwoNodesBelongToSameParent_cond1,
+Q1,Q2 :: Q1,Q2 :: Q1,Q2
+
+
+

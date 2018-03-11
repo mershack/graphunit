@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<task_details>
+	<taskname>whichofTwoGroupsIsLarger</taskname>
+	<accuracyCheckingInterface></accuracyCheckingInterface>
+	<outputtype></outputtype>
+	<outputTypeDescription></outputTypeDescription>
+	<answertype>Color-options-fixed</answertype>
+	<taskquestion>Which of the following two groups (red and blue) is larger?</taskquestion>
+	<taskDescription>Given two groups of highlighted nodes (e.g. red and blue) and limited time, estimate which group is larger.</taskDescription>
+	<inputsize>2</inputsize>
+	<input>
+		<inputtype>redgroup</inputtype>
+		<inputdescription>the group that will be colored red</inputdescription>
+		<inputmedium>by-typing</inputmedium>
+	</input>
+	<input>
+		<inputtype>bluegroup</inputtype>
+		<inputdescription>This group will be colored blue</inputdescription>
+		<inputmedium>by-typing</inputmedium>
+	</input>
+	
+   <hasCorrectAnswer>yes</hasCorrectAnswer>
+</task_details>

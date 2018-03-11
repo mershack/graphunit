@@ -1,0 +1,3 @@
+Time_MoreChildren_Collapsible, :: Time_HowManyChildren_Collapsible,, :: Time_SameParent_Collapsible,,
+Q1,Q2 :: Q1,Q2,Q3 :: Q1,Q2,Q3
+30,10 :: 4,9 :: 7,6,5 :: 3

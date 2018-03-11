@@ -1,0 +1,16 @@
+
+Accuracy-Taskname , p-value, Effect-Size (r=z/sqrt(n))
+--------------------------------------------------------------
+Acc_selectNodeWithHighestDegree2  ,  1.54768647595495e-12  ,  6.86933064949574 
+
+Acc_selectAllNeigbhorsOf1Node  ,  0.0677809215839372  ,  1.82888146068523 
+
+Acc_selectMoreInterconnectedCluster2Clusters  ,  0.791077873572705  ,  0.238662545224172 
+
+
+
+Time-Taskname , p-value, Effect-Size (r=z/sqrt(n))
+--------------------------------------------------------------
+Time_selectAllNeigbhorsOf1Node  ,  0.657304435043321  ,  0.446195193245191 
+
+Time_selectMoreInterconnectedCluster2Clusters  ,  0.377566526567675  ,  0.884607912189595 

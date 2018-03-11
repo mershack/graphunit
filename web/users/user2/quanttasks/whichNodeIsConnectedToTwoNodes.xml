@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<task_details>
+	<taskname>whichNodeIsConnectedToTwoNodes</taskname>
+	<accuracyCheckingInterface></accuracyCheckingInterface>
+	<outputtype></outputtype>
+	<outputTypeDescription></outputTypeDescription>
+	<answertype>options-dynamic</answertype>
+	<taskquestion>Which of the following nodes is connected to the two highlighted nodes</taskquestion>
+	<taskDescription>Given two highlighted nodes and three named ones, which of the named nodes is connected to both highlighted nodes?</taskDescription>
+	<inputsize>1</inputsize>
+	<input>
+		<inputtype>nodes</inputtype>
+		<inputdescription>Two nodes to be highlighted</inputdescription>
+		<inputmedium>from-visualization</inputmedium>
+	</input>
+	<hasCorrectAnswer>yes</hasCorrectAnswer>
+</task_details>

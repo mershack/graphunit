@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<task_details>
+	<taskname>numberOfClusters</taskname>
+	<accuracyCheckingInterface></accuracyCheckingInterface>
+	<outputtype></outputtype>
+	<outputTypeDescription></outputTypeDescription>
+	<answertype>Number</answertype>
+	<taskquestion>How many clusters are there in the visualization?</taskquestion>
+	<taskDescription>Counting the number of clusters that are in the visualization</taskDescription>
+	<inputsize>0</inputsize>
+	
+	<hasCorrectAnswer>yes</hasCorrectAnswer>
+</task_details>

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<task_details>
+	<taskname>whichOfTwoClustersIsMoreInterconnected</taskname>
+	<accuracyCheckingInterface></accuracyCheckingInterface>
+	<outputtype></outputtype>
+	<outputTypeDescription></outputTypeDescription>
+	<answertype>Color-options-fixed:::red::blue</answertype>
+	<taskquestion>Given two clusters of highlighted nodes, which one is more interconnected?</taskquestion>
+	<taskDescription>You will be given two clusters and you will select the one is that more interconnected.</taskDescription>
+	<inputsize>2</inputsize>
+	<input>
+		<inputtype>redgroup</inputtype>
+		<inputdescription>The cluster that will be colored red</inputdescription>
+		<inputmedium>by-typing</inputmedium>
+	</input>
+	<input>
+		<inputtype>bluegroup</inputtype>
+		<inputdescription>The group that will be colored blue.</inputdescription>
+		<inputmedium>by-typing</inputmedium>
+	</input>
+	
+	<hasCorrectAnswer>yes</hasCorrectAnswer>
+</task_details>

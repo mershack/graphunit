@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<task_details>
+	<taskname>allCommonNeighborsBetweenTwoNodes</taskname>
+	<accuracyCheckingInterface>checkAnswer</accuracyCheckingInterface>
+	<outputtype>nodes</outputtype>
+	<outputTypeDescription>all nodes that are common to the two highlighted nodes.</outputTypeDescription>
+	<answertype>interface</answertype>
+	<taskquestion>Given two highlighted nodes, select all of the common neighbors</taskquestion>
+	<taskDescription>Select all of the common neighbors between two highlighted nodes</taskDescription>
+	<inputsize>1</inputsize>
+	<input>
+		<inputtype>nodes</inputtype>
+		<inputdescription>Two nodes that will be highlighted.</inputdescription>
+		<inputmedium>from-visualization</inputmedium>
+	</input>
+	<hasCorrectAnswer>yes</hasCorrectAnswer>	
+</task_details>

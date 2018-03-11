@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<task_details>
+	<taskname>age</taskname>
+	<accuracyCheckingInterface></accuracyCheckingInterface>
+	<outputtype></outputtype>
+	<outputTypeDescription></outputTypeDescription>
+	<answertype>Number</answertype>
+	<taskquestion>please enter the age of participants</taskquestion>
+	<taskDescription>age</taskDescription>
+	<inputsize>1</inputsize>
+<hasCorrectAnswer>no</hasCorrectAnswer>
+	<input>
+		<inputtype></inputtype>
+		<inputdescription></inputdescription>
+		<inputmedium></inputmedium>
+	</input>
+</task_details>

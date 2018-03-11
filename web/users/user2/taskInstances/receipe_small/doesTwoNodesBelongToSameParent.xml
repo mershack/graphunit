@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<taskFile>
+	<question>
+		<input>abc</input>
+		<input>adae</input>
+		<taskoptions></taskoptions>
+		<answer>yes</answer>
+	</question>
+	<question>
+		<input>adfae</input>
+		<input>aae</input>
+		<taskoptions></taskoptions>
+		<answer>no</answer>
+	</question>
+</taskFile>

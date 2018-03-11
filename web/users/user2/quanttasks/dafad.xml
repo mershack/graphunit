@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<task_details>
+	<taskname>dafad</taskname>
+	<accuracyCheckingInterface></accuracyCheckingInterface>
+	<outputtype></outputtype>
+	<outputTypeDescription></outputTypeDescription>
+	<answertype>Number</answertype>
+	<taskquestion>daoinvaoidonaie</taskquestion>
+	<taskDescription>doaindae</taskDescription>
+	<inputsize>2</inputsize>
+<hasCorrectAnswer>yes</hasCorrectAnswer>
+	<input>
+		<inputtype>adfae</inputtype>
+		<inputdescription>dfafea</inputdescription>
+		<inputmedium>by-typing</inputmedium>
+	</input>
+	<input>
+		<inputtype>faed</inputtype>
+		<inputdescription>daewdad</inputdescription>
+		<inputmedium>by-typing</inputmedium>
+	</input>
+</task_details>

@@ -1,0 +1,3 @@
+Time_task1_cond2, :: Time_task2_cond2, :: Time_task3_cond2,
+Q1,Q2 :: Q1,Q2 :: Q1,Q2
+6,2 :: 15,6 :: 3,3

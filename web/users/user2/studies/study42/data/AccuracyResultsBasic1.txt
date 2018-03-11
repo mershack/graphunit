@@ -1,0 +1,3 @@
+Acc_whichOfTwoNodesHaveMoreChildren_cond1, :: Acc_howManyChildrenDoesANodeHas_cond1, :: Acc_doesTwoNodesBelongToSameParent_cond1,
+Q1,Q2 :: Q1,Q2 :: Q1,Q2
+yes,no :: 3,4 :: yes,no

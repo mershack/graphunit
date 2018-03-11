@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<task_details>
+	<taskname>number_of_children</taskname>
+	<accuracyCheckingInterface></accuracyCheckingInterface>
+	<outputtype></outputtype>
+	<outputTypeDescription></outputTypeDescription>
+	<answertype>Number</answertype>
+	<taskquestion>how many children does $1 has?</taskquestion>
+	<taskDescription>number_of_children</taskDescription>
+	<inputsize>1</inputsize>
+<hasCorrectAnswer>yes</hasCorrectAnswer>
+	<input>
+		<inputtype>input_1</inputtype>
+		<inputdescription>input_1</inputdescription>
+		<inputmedium>by-typing</inputmedium>
+	</input>
+</task_details>

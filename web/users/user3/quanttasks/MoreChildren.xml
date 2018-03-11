@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<task_details>
+	<taskname>MoreChildren</taskname>
+	<accuracyCheckingInterface></accuracyCheckingInterface>
+	<outputtype></outputtype>
+	<outputTypeDescription></outputTypeDescription>
+	<answertype>options-fixed:::Yes::No</answertype>
+	<taskquestion>Does $1 has more children than $2 ?</taskquestion>
+	<taskDescription>More children</taskDescription>
+	<inputsize>2</inputsize>
+<hasCorrectAnswer>yes</hasCorrectAnswer>
+	<input>
+		<inputtype>Node1</inputtype>
+		<inputdescription>Node 1</inputdescription>
+		<inputmedium>by-typing</inputmedium>
+	</input>
+	<input>
+		<inputtype>Node2</inputtype>
+		<inputdescription>Node 2</inputdescription>
+		<inputmedium>by-typing</inputmedium>
+	</input>
+</task_details>

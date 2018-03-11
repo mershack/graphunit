@@ -1,0 +1,5 @@
+		OrderOfConditions		WindowWidth		WindowHeight		OffFocusTime		UserAccuracyInfo		UserTimeInfo		ColorBlindessTestAnswers		DateAndTime
+		cond1		1422		1025		notRecorded		1.0,0.0,0.0		1.0,1.5,1.5		no color-blind-test		Tue May 17 2016 13:09:23 GMT-0400 (Eastern Daylight Time)
+		cond1		1422		1025		notRecorded		1.0,0.0,0.0		1.0,1.5,1.5		no color-blind-test		Tue May 17 2016 13:09:23 GMT-0400 (Eastern Daylight Time)
+		cond2		1422		1025		notRecorded		1.0,0.5,0.0		2.5,3.0,2.0		no color-blind-test		Tue May 17 2016 13:13:52 GMT-0400 (Eastern Daylight Time)
+		cond2		1422		1025		notRecorded		1.0,0.5,0.0		2.5,3.0,2.0		no color-blind-test		Tue May 17 2016 13:13:52 GMT-0400 (Eastern Daylight Time)

@@ -1,0 +1,2 @@
+Acc_whichOfTwoNodesHaveMoreChildren_cond1,Acc_howManyChildrenDoesANodeHas_cond1,Acc_doesTwoNodesBelongToSameParent_cond1
+

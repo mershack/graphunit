@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<task_details>
+	<taskname>Age</taskname>
+	<accuracyCheckingInterface></accuracyCheckingInterface>
+	<outputtype></outputtype>
+	<outputTypeDescription></outputTypeDescription>
+	<answertype>Number</answertype>
+	<taskquestion>Whats your age?</taskquestion>
+	<taskDescription>Age</taskDescription>
+	<inputsize>0</inputsize>
+<hasCorrectAnswer>no</hasCorrectAnswer>
+</task_details>

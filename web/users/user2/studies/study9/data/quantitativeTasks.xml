@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+	<study_specification>
+	<datasetCondition>
+		<dataset>miserables</dataset>
+		<datasetFormat>.csv</datasetFormat>
+	</datasetCondition>
+	<datasetCondition>
+		<dataset>receipe_small</dataset>
+		<datasetFormat>.json</datasetFormat>
+	</datasetCondition>
+	<studyname>study9</studyname>
+	<experimenttype>Between</experimenttype>
+	<trainingsize>2</trainingsize>
+	<condition>
+		<conditionurl>viewer1/nodeLink_LongTrainnig6_G4.html</conditionurl>
+		<conditionshortname>cond1</conditionshortname>
+	</condition>
+	<condition>
+		<conditionurl>viewer2/nodeLink_LongTrainnig6_G4.html</conditionurl>
+		<conditionshortname>cond2</conditionshortname>
+	</condition>
+	<viewerwidth>860</viewerwidth>
+	<viewerheight>800</viewerheight>
+	<task>
+		<name>twoNodesConnectionToANamedNode</name>
+		<question>Are the highlighted nodes connected to $2?</question>
+		<size>23</size>
+		<time>45</time>
+	</task>
+</study_specification>

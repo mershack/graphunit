@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<task_details>
+	<taskname>doesTwoNodesBelongToSameParent</taskname>
+	<accuracyCheckingInterface></accuracyCheckingInterface>
+	<outputtype></outputtype>
+	<outputTypeDescription></outputTypeDescription>
+	<answertype>options-fixed:::yes::no</answertype>
+	<taskquestion>Does $1 and $2 have the same parent?</taskquestion>
+	<taskDescription>Participants determine if two nodes have the same parent </taskDescription>
+	<inputsize>2</inputsize>
+<hasCorrectAnswer>yes</hasCorrectAnswer>
+	<input>
+		<inputtype>input1</inputtype>
+		<inputdescription>the first input</inputdescription>
+		<inputmedium>by-typing</inputmedium>
+	</input>
+	<input>
+		<inputtype>input2</inputtype>
+		<inputdescription>the second input</inputdescription>
+		<inputmedium>by-typing</inputmedium>
+	</input>
+</task_details>

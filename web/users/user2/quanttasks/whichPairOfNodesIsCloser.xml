@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<task_details>
+	<taskname>whichPairOfNodesIsCloser</taskname>
+	<accuracyCheckingInterface></accuracyCheckingInterface>
+	<outputtype></outputtype>
+	<outputTypeDescription></outputTypeDescription>
+	<answertype>Color-options-fixed</answertype>
+	<taskquestion>Which of the following two pairs of nodes (red and blue) are closer in terms of graph topology?</taskquestion>
+	<taskDescription>Given two pairs of highlighted nodes (red, and blue) and limited time, estimate which pair is closer in terms of graph topology?</taskDescription>
+	<inputsize>2</inputsize>
+	<input>
+		<inputtype>redpair</inputtype>
+		<inputdescription>The pair of nodes that will be highlighted red.</inputdescription>
+		<inputmedium>from-visualization</inputmedium>
+	</input>
+	<input>
+		<inputtype>bluepair</inputtype>
+		<inputdescription>The pair of nodes that will be highlighted blue.</inputdescription>
+		<inputmedium>from-visualization</inputmedium>
+	</input>	
+	<hasCorrectAnswer>yes</hasCorrectAnswer>
+</task_details>

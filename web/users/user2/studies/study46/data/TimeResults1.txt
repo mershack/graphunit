@@ -1,0 +1,2 @@
+Time_whichOfTwoNodesHaveMoreChildren_cond1,Time_howManyChildrenDoesANodeHas_cond1,Time_doesTwoNodesBelongToSameParent_cond1
+1.0,1.5,1.5

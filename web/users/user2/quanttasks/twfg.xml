@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<task_details>
+	<taskname>twfg</taskname>
+	<accuracyCheckingInterface></accuracyCheckingInterface>
+	<outputtype></outputtype>
+	<outputTypeDescription></outputTypeDescription>
+	<answertype>options-fixed:::fwg::fgwr</answertype>
+	<taskquestion>wrgfwf</taskquestion>
+	<taskDescription>fwwtr</taskDescription>
+	<inputsize>2</inputsize>
+<hasCorrectAnswer>yes</hasCorrectAnswer>
+	<input>
+		<inputtype>rwrfw</inputtype>
+		<inputdescription>gwrgw1`</inputdescription>
+		<inputmedium>by-typing</inputmedium>
+	</input>
+	<input>
+		<inputtype>wrfgws</inputtype>
+		<inputdescription>fsgfsfr</inputdescription>
+		<inputmedium>by-typing</inputmedium>
+	</input>
+</task_details>
