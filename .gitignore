@@ -1,6 +1,7 @@
-/build/
-/dist/
-/misc/
-/log/
-/studies_back_up/
-/test/
+build/
+dist/
+misc/
+log/
+studies_back_up/
+test/
+nbproject/
