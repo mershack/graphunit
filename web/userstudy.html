@@ -228,6 +228,8 @@ and open the template in the editor.
 
                         }
                     }
+                    
+                    alert('intropage name: '+ introductionPageName);
                 };
 
                 if (typeof iframe.contentWindow.setIntroduction == "function") {
@@ -586,20 +588,30 @@ and open the template in the editor.
                                 if (typeof iframe.contentWindow.getQuestionLegend == "function") {
                                     var imgname = "";
                                     imgname = iframe.contentWindow.getQuestionLegend(question.trim());
-                                    showTaskLegend(imgname);
+                                    
+                                  
+                                    if (!imgname.trim() === "") {
+                                        showTaskLegend(imgname);
+                                    } 
                                 }
                                 //get the note for the visualization if there is some.
                                 if (typeof iframe.contentWindow.getVisualizationNote == "function" && !visNoteShown) {
                                     var note = "";
                                     note = iframe.contentWindow.getVisualizationNote();
-                                    showVisualizationNote(note);
+                                    
+                                    if (!note.trim() === "") {
+                                        showVisualizationNote(note); 
+                                    }
                                     visNoteShown = true;
                                 }
 
                                 if (typeof iframe.contentWindow.getVisualizationHint == "function") {
                                     var hint = "";
                                     hint = iframe.contentWindow.getVisualizationHint();
-                                    showVisualizationHint(hint);
+                                    
+                                    if (!hint.trim() === "") {
+                                       showVisualizationHint(hint); 
+                                    }
                                 }
 
                                 maxQuestionDuration = parseInt(split[2]);  // the maximum time for this task
@@ -1279,7 +1291,7 @@ and open the template in the editor.
 
 
             function showTaskLegend(imgname) {
-                if (imgname !== "") {
+                if (imgname.trim() !== "") {
                     var iframeurl = document.getElementById("viewerFrame").src;
 
                     var ind = iframeurl.lastIndexOf("/");
