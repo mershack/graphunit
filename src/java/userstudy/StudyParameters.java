@@ -68,13 +68,11 @@ public class StudyParameters {
   
     public ArrayList<EvaluationQuestion> preStudyEvalQuestions = new ArrayList<EvaluationQuestion>();
     public ArrayList<EvaluationQuestion> postStudyEvalQuestions = new ArrayList<EvaluationQuestion>();
-    
-    
-    
-    
-    
+        
     public ArrayList<QualitativeQuestion> qualEvalQuestionAfter = new ArrayList<QualitativeQuestion>();
     public ArrayList<QualitativeQuestion> qualEvalQuestionBefore = new ArrayList<QualitativeQuestion>();
+    
+    private ArrayList<Introduction> introductions = new ArrayList<Introduction>();
 
     public int testCounter = 0;
     public int tutorialCounter = 0;
@@ -166,6 +164,29 @@ public class StudyParameters {
 
     public void incrementQuestionsWithTraining() {
         questionsWithTraining++;
+    }
+
+    public ArrayList<Introduction> getIntroductions() {
+        return introductions;
+    }
+
+    public void setIntroductions(ArrayList<Introduction> introductions) {
+        this.introductions = introductions;
+    }
+    
+    public void addIntroduction(Introduction introduction) {
+        this.introductions.add(introduction);
+    }
+    
+    public String getIntroduction(String condition) {
+        String intro = "";
+        for (int i = 0; i < this.introductions.size(); i++) {
+            if (this.introductions.get(i).getCondition().equalsIgnoreCase(condition.trim())) {
+                intro = this.introductions.get(i).getUrl();
+            }
+        }
+        
+        return intro;
     }
 
 }

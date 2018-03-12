@@ -25,6 +25,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
+import userstudy.Introduction;
 import userstudy.ListOfConditionsAndTheirCounters;
 import userstudy.QualitativeQuestion;
 import userstudy.StudyParameters;
@@ -63,7 +64,6 @@ public class StudyManager extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
-        //  System.out.println("*** Size of evalquestions is ::: " + evalQuestions.size() + " && viewers are::: " + viewerConditionUrls.size());
         try {
 
             HttpSession session = request.getSession();
@@ -166,7 +166,7 @@ public class StudyManager extends HttpServlet {
                     
                     if (upmts.getDatasetConditionUrls().size() == 1) {
                         ds = upmts.getDatasetConditionUrls().get(0);
-                    } else {
+                    } else if (upmts.getDatasetConditionUrls().size() > 1){
 
                         if (upmts.datasetConditionCounter == upmts.getDatasetConditionUrls().size()) {
                             //reset it
@@ -199,9 +199,7 @@ public class StudyManager extends HttpServlet {
                         if (upmts.tutorialCounter == 1) {
                             upmts.tutorialViewerConditionCounter = 1;
                         }
-
-                        System.out.println("&sizeof atriangin: " + upmts.sizeOfATrainingCondition);
-                        System.out.println("&tutoriaCounter: " + upmts.tutorialCounter);
+                      
                         if (upmts.expType_vis.equalsIgnoreCase("Within")
                                 && upmts.tutorialCounter % (upmts.sizeOfATrainingCondition) == 0
                                 && upmts.tutorialViewerchanged != true) {
@@ -469,7 +467,13 @@ public class StudyManager extends HttpServlet {
                     } else {
                         msg = "false";
                     }
-                } else if (command.equalsIgnoreCase("checkAnswer")) {
+                } else if(command.equalsIgnoreCase("getIntroduction")) {  
+                    // TODO: 
+                    
+                    /*System.out.println("******____***" + upmts.currentCondition);
+                    
+                    msg = upmts.getIntroduction(upmts.currentCondition);     */               
+                }  else if (command.equalsIgnoreCase("checkAnswer")) {
 
                     //check if the given answer is right, return "Correct" if right or "Wrong" if wrong
                     String givenAns = request.getParameter("givenAnswer").trim();
@@ -688,6 +692,7 @@ public class StudyManager extends HttpServlet {
             NodeList trainingSizeNode = doc.getElementsByTagName("trainingsize");
 
             NodeList datasetConditionsNode = doc.getElementsByTagName("datasetCondition");
+            NodeList introductionsNode = doc.getElementsByTagName("introFile");
 
             ArrayList<String> dcn = new ArrayList<String>();
             ArrayList<String> dt = new ArrayList<String>();
@@ -704,8 +709,6 @@ public class StudyManager extends HttpServlet {
                     String datasetFormat = eElement.getElementsByTagName("datasetFormat").item(0).getTextContent();
                     String datasetType = eElement.getElementsByTagName("datasetType").item(0).getTextContent();
 
-                    System.out.println("Dataset name is :: " + datasetName);
-
                     dcn.add(datasetName);
                     dt.add(datasetType);
 
@@ -715,23 +718,19 @@ public class StudyManager extends HttpServlet {
                     } else {
                         durl.add(getServerUrl(request) + ("/users/" + userid + "/datasets/" + datasetName + "/" + datasetName + datasetFormat));
                     }
-
                 }
             }
             upmts.setDatasetConditionNames(dcn);
             upmts.setDatasetTypes(dt);
             upmts.setDatasetConditionUrls(durl);
-
-            /*for(int i=0; i<upmts.getDatasetConditionNames().size();i++){
-             System.out.println(upmts.getDatasetConditionNames().get(i)
-             +"  ___  "
-             + upmts.getDatasetConditionUrls().get(i));
-             }*/
-            System.out.println("The size of the datasets is " + datasetNode.getLength());
-
+            
             //get the dataseturl
-            datasetname = ((Element) datasetNode.item(0)).getTextContent();
-            upmts.dataseturl = getServerUrl(request) + ("/datasets/" + datasetname + "/" + datasetname);
+            String datasetUrl = "";
+            if (datasetNode.item(0) != null) {
+                datasetname = ((Element) datasetNode.item(0)).getTextContent();
+                datasetUrl = getServerUrl(request) + ("/datasets/" + datasetname + "/" + datasetname);
+            }
+            upmts.dataseturl = datasetUrl;
             // nodePositions = getServerUrl(request) + ("/datasets/" + datasetname + "/positions.txt");
 
             upmts.datasetname = datasetname;
@@ -853,6 +852,23 @@ public class StudyManager extends HttpServlet {
                     TaskDetails td = readTaskDetails(request, userid, question,
                             questionCode);
                     upmts.postStudyTaskDetails.add(td);
+                }
+            }
+            
+            //get the information about the intro files as well.
+            for (int temp = 0; temp < postStudyTaskNode.getLength(); temp++) {
+                Node nNode = postStudyTaskNode.item(temp);
+                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element eElement = (Element) nNode;
+                    String url = eElement.getElementsByTagName("introURL").item(0).getTextContent();
+                    String condition = eElement.getElementsByTagName("introCond").item(0).getTextContent();
+                    
+                    Introduction introduction = new Introduction(url, condition);
+                    
+                    upmts.addIntroduction(introduction);  
+                    
+                    System.out.println("******** url " + url + " *** *cond: " + condition);
+
                 }
             }
 
@@ -1101,8 +1117,6 @@ public class StudyManager extends HttpServlet {
 
         TaskDetails td = null;
 
-       // System.out.println("--taskShortname is " + taskShortName);
-
         try {
             File sysFile_QuanttaskList = new File(getServletContext().getRealPath("quanttasks" + File.separator + "quanttasklist.txt"));
 
@@ -1124,10 +1138,6 @@ public class StudyManager extends HttpServlet {
             String usr_taskShortname = "";
 
             while ((line = br2.readLine()) != null) {
-               // System.out.println("___"+line);
-                
-                //System.out.println(line.split(":::")[0]+"__"+taskShortName);
-                
                 if ((line.split(":::")[0].trim()).equalsIgnoreCase(taskShortName.trim())) {
                     usr_taskShortname = taskShortName.trim();
                     break;
@@ -1136,7 +1146,6 @@ public class StudyManager extends HttpServlet {
 
             String taskFileName = "";
             if (!usr_taskShortname.isEmpty()) {
-                System.out.println("in usr decision");
                 //we will read the file from the user's directory
                 taskFileName = getServletContext().getRealPath("users"
                         + File.separator + userid + File.separator + "quanttasks" + File.separator + usr_taskShortname + ".xml");
@@ -1148,8 +1157,7 @@ public class StudyManager extends HttpServlet {
                 taskFileName = getServletContext().getRealPath("quanttasks" + File.separator + sys_taskShortname + ".xml");
             }
 
-            System.out.println("@@ taskfilename "+ taskFileName);
-            
+           
             //read the quanttasks file and return the answer type for the current task.
             //read the quant-task-files.
             //String filename = getServletContext().getRealPath("quanttasks" + File.separator + "quanttasks.xml");
@@ -1218,12 +1226,7 @@ public class StudyManager extends HttpServlet {
             if (outputType.trim().isEmpty()) {
                 outputType = "not-interface";
             }
-            //String outputStr = outputType + "::" + outputTypeDescription;
-            //answertype 
-
-            //System.out.println("The answertype is "+answertype);
-            System.out.println("inputtypes ---- " + inputsStr);
-
+           
             td = new TaskDetails(taskname, qn, accCheckingInterface, outputType,
                     outputTypeDescription, inputsStr, taskDescription, answertype,
                     inputSize, hasCorrectAnswer);
@@ -1244,8 +1247,9 @@ public class StudyManager extends HttpServlet {
                 //for(int j=0; j<upmts.getDatasetConditionNames())
                 for (int i = 0; i < upmts.questionCodes.size(); i++) {
                     String taskXmlName = upmts.questionCodes.get(i) + ".xml";
-                    //the url will depend on the type of dataset
-                    if (upmts.getDatasetTypes().get(0).trim().equalsIgnoreCase("System_Datasets")) {
+                    //the url will depend on the type of dataset if any
+                    if (upmts.getDatasetTypes().size() > 0 &&
+                            upmts.getDatasetTypes().get(0).trim().equalsIgnoreCase("System_Datasets")) {
                         taskFilenameUrl = getServletContext().getRealPath("taskInstances" + File.separator
                                 + upmts.datasetname + File.separator + taskXmlName);
                     } else {
@@ -2164,9 +2168,6 @@ public class StudyManager extends HttpServlet {
         }
     }   
   
-
-
-    
     
     public void writeBetweenStudyAnwsersToFile(StudyParameters upmts, String userid) {
         //write a between study results to file
