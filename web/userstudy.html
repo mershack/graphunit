@@ -228,8 +228,6 @@ and open the template in the editor.
 
                         }
                     }
-                    
-                    alert('intropage name: '+ introductionPageName);
                 };
 
                 if (typeof iframe.contentWindow.setIntroduction == "function") {
@@ -440,6 +438,7 @@ and open the template in the editor.
                     checkIsTutorial();
                 }
                 else {
+                    studystarted = true;
                     some_answers.push(previousAnswer);
                     // alert(some_answers);
                 }
@@ -460,7 +459,7 @@ and open the template in the editor.
 
                 var validateAnswerInterface = getInterfaceForValidatingAnswers();
                 if (validateAnswerInterface !== "" && getAnswerGroup() === "interface"
-                        && previousAnswer != "" && hasCorrectAns === "yes") {
+                        && previousAnswer !== "" && hasCorrectAns === "yes") {
 
                     var iframeContentWindow = document.getElementById("viewerFrame").contentWindow;
                     //if the method exists do it
@@ -483,7 +482,7 @@ and open the template in the editor.
                     else {
                         accuracy = 0;
                     }
-                }
+                }                
                 
                 var url = "StudyManager?command=" + command + "&previousAnswer="
                         + previousAnswer + "&previousTime=" + currQuestionTime + "&studyid=" + studyid
@@ -659,25 +658,29 @@ and open the template in the editor.
 
 
             function showVisualizationNote(note) {
+                
+                if (note.trim() !== "") {
+                    var visnoteDiv = document.getElementById("visnoteDiv");
 
-                var visnoteDiv = document.getElementById("visnoteDiv");
-
-                visnoteDiv.innerHTML =
-                        visnoteDiv.innerHTML + note;
-                visnoteDiv.style.display = "block";
+                    visnoteDiv.innerHTML =
+                            visnoteDiv.innerHTML + note;
+                    visnoteDiv.style.display = "block";
 
 
 
-                var iframe = document.getElementById("viewerFrame");
-                if (typeof iframe.contentWindow.getVisualizationNoteImages == "function") {
-                    var imageurls = "";
-                    imageurls = iframe.contentWindow.getVisualizationNoteImages();
-                    showVisualizationNoteImages(imageurls);
+                    var iframe = document.getElementById("viewerFrame");
+                    if (typeof iframe.contentWindow.getVisualizationNoteImages == "function") {
+                        var imageurls = "";
+                        imageurls = iframe.contentWindow.getVisualizationNoteImages();
+                        showVisualizationNoteImages(imageurls);
+                    }
                 }
+
+                
             }
 
             function showVisualizationNoteImages(imageurls) {
-                if (imageurls !== "") {
+                if (imageurls.trim() !== "") {
                     var split = imageurls.split(":");
 
                     var iframeurl = document.getElementById("viewerFrame").src;
@@ -769,7 +772,6 @@ and open the template in the editor.
                 //now let's check the question to see if any of the inputs will be part of the question               
                 var question = document.getElementById("currentQuestion").value;
 
-               
                 if (inputsString !== "") {
                     var params = findInputParametersInQuestion(question);
 
@@ -786,23 +788,26 @@ and open the template in the editor.
 
                         if (paramExists === false) {
                             
-                            var rawInput = theInputs[i].split(';;');
-                            var selectableInputs = [];
+                            //var rawInput = theInputs[i].split(';;');
+                            var selectableInputs = theInputs[i].split(';;');
+                            
+                            
                             //TODO: Type has to be the type provided by the user
                             
-                            for (var j = 0; j < rawInput.length; j++) {
-                                selectableInputs.push({"node": rawInput[j], "type": "node"});
-                            }
+//                            for (var j = 0; j < rawInput.length; j++) {
+//                                selectableInputs.push({"node": rawInput[j], "type": "node"});
+//                            }
                             
+
                             //pass this input to the visualization using its mutator methods
                             var iframeContentWindow = document.getElementById("viewerFrame").contentWindow;
 
                             //if the method exists do it
                             if (typeof iframeContentWindow.window["selectNode"] === "function") {
-                                //reset the previous inputs to empty strings
+                                //reset the previous inputs by passing an empty array of inputs
                                 
                                 //TODO: Make sure the visualization implements unselectNode() method
-                                iframeContentWindow.window["selectNode"]("");
+                                iframeContentWindow.window["selectNode"]([]);
                                 
                         
                                 //now pass the actual input.
@@ -1027,7 +1032,11 @@ and open the template in the editor.
              */
             function continueAfterQuestionDurationOver() {
 
-
+                if (!currDuration) {
+                    // for tutorials 
+                    currDuration = maxQuestionDuration;
+                }
+                
                 //check if the time was unlimited
                 if (maxQuestionDuration > 0) {
                     currQuestionTime = maxQuestionDuration - currDuration;//record the time
@@ -1035,7 +1044,7 @@ and open the template in the editor.
                 else {
                     currQuestionTime = two_hours_default_time_limit - currDuration;//record the time
                 }
-
+                
 
                 clearInterval(questionDurationIntv);  //clear the interval variable                
                 durationRecorded = true;
@@ -1300,8 +1309,6 @@ and open the template in the editor.
                     var imgurl = pageLocation + "/" + imgname;
                     var imgElement = document.createElement("img");
                     imgElement.setAttribute("src", imgurl);
-                    // imgElement.setAttribute("width", "200px");
-                    //imgElement.setAttribute("height", "200px");
 
                     var legendDiv = document.getElementById("legendDiv");
                     removeDivChildren(legendDiv);
@@ -1447,7 +1454,7 @@ and open the template in the editor.
 
                 document.getElementById("selectedAnswer").value = "";
 
-                getInputsAndAnswerControllers();
+//                getInputsAndAnswerControllers();
                 //getAnswerControllers();
 
                 //do not show the nodes if the study has not been started, 

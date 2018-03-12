@@ -248,9 +248,16 @@ public class StudyManager extends HttpServlet {
                             upmts.isTutorial = false;
                             
                         } else {
+                            
+                            String prevAnswera = request.getParameter("previousAnswer");
+                            String prevTimea = request.getParameter("previousTime");
+                            
+                            
+                                
+                            System.out.println("__________" + upmts.testCounter);
+                            System.out.println("@@@ prevAns, prevtime: " + prevAnswera + " " + prevTimea);
 
                             if (upmts.testCounter > 0) {//get the previousAnswer
-                                //  System.out.println("bricks");
 
                                 //now change viewers now.
                                 if (upmts.testCounter == 1) { //let's label this as an ongoing study                                      
@@ -277,6 +284,7 @@ public class StudyManager extends HttpServlet {
                                     upmts.evalQuestions.get(upmts.testCounter - 1).setAverageCorrect(accuracy);
                                 }
 
+                                System.out.println("testCounter, previos answer " + upmts.testCounter + " " + prevAnswer);
                                 upmts.evalQuestions.get(upmts.testCounter - 1).setGivenAnswer(prevAnswer.trim());
                                 upmts.evalQuestions.get(upmts.testCounter - 1).setTimeInSeconds(previousTime);
 
@@ -307,9 +315,6 @@ public class StudyManager extends HttpServlet {
                         int previousTime = Integer.parseInt(prevTime);
 
                         if (upmts.testCounter > 0 && upmts.testCounter - 1 < upmts.evalQuestions.size()) {//save it only now
-                            //System.out.println("**Given-answer is - " + prevAnswer);
-                            // System.out.println("**Testcounter is " + upmts.testCounter);
-
                             if (upmts.evalQuestions.get(upmts.testCounter - 1).hasCorrectAnswer()) {
                                 upmts.evalQuestions.get(upmts.testCounter - 1).setAverageCorrect(accuracy);
                             }
@@ -421,7 +426,11 @@ public class StudyManager extends HttpServlet {
                         msg = upmts.tutorialQuestions.get(upmts.tutorialCounter - 1).getInputsAsString();
                     } else {
                         //msg = upmts.evalQuestions.get(upmts.testCounter - 1).getNodesAsString();
-                        msg = upmts.evalQuestions.get(upmts.testCounter - 1).getInputsAsString();
+                        msg = "";
+                        if (upmts.testCounter > 0) {
+                            msg = upmts.evalQuestions.get(upmts.testCounter - 1).getInputsAsString();
+
+                        }
                     }
                 } else if (command.equalsIgnoreCase("getAnswerControllers")) {
                     if (upmts.isTutorial) {
@@ -2173,7 +2182,8 @@ public class StudyManager extends HttpServlet {
         //write a between study results to file
         try {
             //System.out.println("Writing Between Study Results");
-
+            upmts.sizeOfACondition = upmts.evalQuestions.size();
+            
             File files[] = new File[upmts.currentConditions.size()];
             BufferedWriter bws[] = new BufferedWriter[upmts.currentConditions.size()];
             PrintWriter pws[] = new PrintWriter[upmts.currentConditions.size()];
@@ -2261,7 +2271,7 @@ public class StudyManager extends HttpServlet {
                         quanttaskBegin = true;
                         quanttaskExist = true;
                         numCorrect += upmts.evalQuestions.get(m).getIsGivenAnsCorrect();
-
+                        
                         if (m > start) {
                             cnt++;
                         }
