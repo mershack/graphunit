@@ -664,13 +664,12 @@ function datasetChanged(element) {
             break;
         }
     }
-//alert(indx);
 
-    if (indx >= 0) {
-//var select = document.getElementById("datasetFormat");
+    var dsFormat = document.getElementById("datasetFormat" + val);
+    
+    if (indx >= 0 && dsFormat) {
         populateDatasetFormats(val, indx);
     }
-// }
 }
 
 function createUpdateViewerDir() {

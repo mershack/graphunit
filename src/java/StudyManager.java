@@ -315,6 +315,8 @@ public class StudyManager extends HttpServlet {
                         int previousTime = Integer.parseInt(prevTime);
 
                         if (upmts.testCounter > 0 && upmts.testCounter - 1 < upmts.evalQuestions.size()) {//save it only now
+                           
+
                             if (upmts.evalQuestions.get(upmts.testCounter - 1).hasCorrectAnswer()) {
                                 upmts.evalQuestions.get(upmts.testCounter - 1).setAverageCorrect(accuracy);
                             }
@@ -1416,7 +1418,7 @@ public class StudyManager extends HttpServlet {
          */
         try {
             String taskFilenameUrl = "";
-            boolean tutorialPopulated = false;
+            boolean tutorialPopulated = false;            
 
             if (upmts.getDatasetConditionNames().size() == 1 && upmts.expType_vis.equalsIgnoreCase("Within")) {
 

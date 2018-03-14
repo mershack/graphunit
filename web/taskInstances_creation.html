@@ -32,14 +32,18 @@ and open the template in the editor.
             }
             .innerBox{                
                 padding-left: 20px;
+                margin: 20px;
             }
             .miniHeader{
                 padding-left: 20px;
                 font-style: italic;
             }
             .center{
-                margin-left: 150px;
-                margin-right: 150px;
+                
+                margin:  0 auto;
+                
+/*                margin-left: 150px;
+                margin-right: 150px;*/
             }
             .questionNumberEven, .conditionNumberEven{
                 background-color: #E8E8E8 ;
@@ -57,41 +61,45 @@ and open the template in the editor.
                 width: 20px;
                 height: 15px;
             }
+            
+            .error-notices {
+                color: red;
+            }
+            
+            #files-error, #task-error {
+                display: none;  
+            }
+            
+            .element-center {
+                display: flex;
+                margin: 0 auto;
+            }
+            
+            .progress-bar {
+                display: flex;
+                height: 50px;
+                margin: 10px auto;
+                display: none;
+            }
+            
+            .upload-success {
+                display: none;
+                margin-top: 50px;
+                margin-left: 100px;
+            }
+                
         </style>
         <script type="text/javascript">
 
             window.onload = function() {
                 //we will try and get the respective name for this current study
                 var div = document.getElementById("qnDiv");
-               // loadTasks(div, "Task Type");
-                
+               
                 loadTasks(div, "label", "1", "taskType");
-                
-            
                 loadDatasets("1");
                 getExistingDirectoryNamesAndHTMLFilenames();
 
-                getNewTempName();
-
             };
-
-            //function to get the new temp name
-            function getNewTempName() {
-
-                var command = "getTempName";
-                var url = "TaskInstancesCreator?command=" + command;
-                var xmlHttpRequest = getXMLHttpRequest();
-                xmlHttpRequest.onreadystatechange = function()
-                {
-                    if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
-                    {
-                        document.getElementById("tempname").value = xmlHttpRequest.responseText;
-                    }
-                };
-                xmlHttpRequest.open("GET", url, true);
-                xmlHttpRequest.send();
-            }
-
         </script>
     </head>
     <body>
@@ -99,19 +107,10 @@ and open the template in the editor.
             <h2> Create Task Instances </h2>
             <form>
                 <hr>
-                <!--
-                <h4> Supporting Files </h4>
-                <div class="innerBox">
-                    <p> Load Supporting Files &nbsp; &nbsp; &nbsp;
-                        <input type="file" name="thefiles[]" id="thefiles" onchange="getUploadedFileNames(this)" multiple/>   
-                    </p>
-                </div> 
-                -->
-                
+                               
                 <h4>Create or Update files</h4>
 
-                <div class="innerBox divCenter2" >
-                    <input class="" type="button" value="Create or Update Viewer Directories" onclick="createUpdateViewerDir();" /> 
+                <div class="innerBox divCenter2" >                   
 
                     <input type="button" value="Create or Update Tasks" onclick="createUpdateTask();">
                     <input type="button" value="Upload or Update Datasets" onclick="uploadUpdateDataset();">
@@ -122,61 +121,7 @@ and open the template in the editor.
                 
             </form>
             <form method="GET" action="TaskInstancesCreator"  id="setupForm">
-                <hr>
-                <h4> Viewer </h4>
-              <!--  <div class="innerBox">
-                    <div id="viewerConditionsDiv">
-                        <div class="conditionNumberOdd">
-                            <p> Specify Viewer Name
-                                <select id="viewer" name="conditions" class="right" style="min-width:50%;">
-                                    <option value="">Select An Uploaded File</option>
-                                </select>                           
-                        </div>
-                        <br />
-                    </div>
-
-                </div>  -->
-                
-                
-                
-                 <table class="center" id="conditionsTable">
-                            <tr>
-                                <th></th>
-                                <th>Viewer Directory 
-                                    <img src="images/refresh-icon.png" title="Refresh Viewer Directories" 
-                                         alt="Refresh Viewer Directories" 
-                                         onclick="getExistingDirectoryNamesAndHTMLFilenames();" 
-                                         class="refreshIconSmall"/>
-                                </th>
-                                <th>Condition URL</th>
-                            </tr>
-                            <tr class="conditionNumberOdd" id="conditionRow1">
-                                <td id="conditionPosition1"> 1. </td>
-                                <td>
-                                    <select id="existingViewerDirName1" onchange="viewerDirectoryChanged(this, '1')">
-                                    </select>
-                                </td>
-                                <td>
-                                    <p>
-                                        <select id="condition1" name="conditions" 
-                                                style="min-width:100%;">
-                                            <option value="">Select An Uploaded Web-page</option>                                            
-                                        </select>   
-                                        <br/>
-                                    </p>
-                                </td>
-                            </tr>
-                 </table>
-                
-                
-                
-                
-                
-                
-                
-                
-                <hr>
-
+                <hr>               
                 <h4>Dataset</h4>
                 
                 <table class="center" id="datasetsTable">
@@ -187,7 +132,6 @@ and open the template in the editor.
                                      alt="Refresh Datasets" onclick="loadDatasets()" class="refreshIconSmall"/>
 
                             </th>
-                            <th>Format</th>                        
                         </tr>
                         <tr class="questionNumberEven" id="datasetRow1">
                            
@@ -198,37 +142,21 @@ and open the template in the editor.
                                     </select>
                                 </p>
                             </td>
-                            <td>
-                                <p>
-                                    <select style="min-width: 100px" name="datasetFormat" id="datasetFormat1">
-                                    </select>
-                                </p>
-                            </td>
-                           
+                          
                         </tr>
 
-                    </table>
-                
-                
-                
-                <!-- <div class="innerBox">
-                    <p> Select the Dataset                         
-                        <select name="dataset" id="dataset" class="right">
-                            <option value=""> Select One </option>
-                            <option value="imdb_small">IMDB - small</option>
-                            <option value="miserables">Les Miserables</option>
-                            <option value="miserables_small">Les Miserables (small)</option>
-                            <option value="receipe_small">Receipe (small)</option>
-
-                        </select>
-                    </p>
-                </div>
-                -->
-
+                    </table>   
                 <hr />
 
                 <h4> Quantitative Tasks </h4>
                 <div class="innerBox">
+                    
+                    <div class="error-notices" id="task-error">
+                        <p>
+                            ** You have not selected a task
+                        </p>
+                    </div>
+                    
                     <div id="quantitativeTasksDiv">
                         <div class="questionNumberOdd" id="qnDiv">
                            
@@ -237,22 +165,63 @@ and open the template in the editor.
                     </div>
                 </div>
                 <hr />
-                <div class="center">
+                
+                <h4> Load Task Instance XML File </h4>
+
+                <div class="innerBox">
+                    
+                    <div class="error-notices" id="files-error">
+                        <p>
+                            ** No File has been added.
+                        </p>
+                    </div>
+                    <table class="center">
+                        <tr  class="grayBackground">
+                            <td>
+                                <p>
+                                    Load File
+                                    <span class="leftSpacing1">
+                                        <input type="file" name="thefiles[]" id="thefiles" multiple/>
+                                    </span>  
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <br/> <br/>
+                    <div >
+                        <input type="button" value="Submit Task Instance File" onclick="uploadTaskInstanceFile();" 
+                                class="element-center" />
+                    </div>
+                </div>
+                
+                <div>
+                    <img src="progress.svg" class="progress-bar" id="progress-bar"/>
+                </div>
+                
+                
+<!--                <div class="center">
                     <input type="button" value="Next step: Selecting task instances" onclick="startTaskInstances();"/>
                     &nbsp; &nbsp; &nbsp; 
 
                     <input type="hidden" value="" id="command" name="submitForm" />
                     <input type="hidden" value=""  id="tempname" name="studyname" />
-                </div>
+                </div>-->
             </form>
 
             <input type="hidden" id="userid" value="user2" />
     
-    <!--<input type="hidden" id="userid" value="user2" />
-    <input type="hidden" id="userid" value="user4" />
-    <input type="hidden" id="userid" value="user5" />
-    <input type="hidden" id="userid" value="user1" />  -->
         </div>
+        
+        <div class="upload-success center" id="upload-success">
+            
+            <h3> Task Instance File uploaded successfully </h3>
+        
+            <input type="button" value="Upload Another File" onclick="uploadAnotherFile()" 
+                                 />
+        </div>
+        
+        
 
     </body>
 </html>

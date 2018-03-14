@@ -28,7 +28,7 @@ function startTaskInstances() {
     var viewerdir = document.getElementById("existingViewerDirName1").value;
     //get the viewer url selected by the users
     var viewerURL = document.getElementById("condition1").value;
-//get the dataset
+    //get the dataset
     var dataset = document.getElementById("dataset1").value;
     
     //get the datasetFormat
@@ -41,13 +41,6 @@ function startTaskInstances() {
     //get the task also
     var task = document.getElementById("taskType1").value;
     //call task instances and submit these details.
-
-    /*alert("viewer dir: "+viewerdir
-     +"\nurl: "+viewerURL
-     +"\ndataset: "+dataset
-     +"\nuserid: "+userid
-     +"\ntask: "+task);*/
-
     var command = "submitParametersToBegin";
 
     var url = "TaskInstancesCreator?command=" + command
@@ -79,6 +72,84 @@ function startTaskInstances() {
      var visPage = "TaskInstancesCreator?tempname=" + tempname
      + "&command=showVis";
      window.open(visPage);  */
+}
+
+function uploadTaskInstanceFile() {
+    var thefiles = document.getElementById("thefiles").files;
+    var userid = document.getElementById("userid").value;
+    var dataset = document.getElementById("dataset1").value;
+    var task = document.getElementById("taskType1").value;
+    
+    if (task.trim() === "") {
+        document.getElementById("task-error").style.display = "block";
+        return;
+    } else {
+        document.getElementById("task-error").style.display = "none";
+    }
+
+
+    var command = "submitInstanceFile";
+
+    var url = "TaskInstancesCreator?command=" + command 
+            + "&userid=" + userid
+            + "&dataset=" + dataset
+            + "&task=" + task;
+   
+    var formData = new FormData();
+    
+    //check if no file has been added
+    if (thefiles.length === 0) {
+        //show the errorNotices
+        document.getElementById("files-error").style.display = "block";
+    }
+    else {
+         
+        document.getElementById("files-error").style.display = "none";
+        
+        if (dataset.trim() === "") {
+            var confirmDataset = confirm ("You did not select a dataset. " +
+                        "Are you sure you want to create a task Instance that does not use a dataset?");
+                
+            if (!confirmDataset) {
+                return;
+            }            
+        }
+        
+       
+        
+        //show progress-bar
+        document.getElementById('progress-bar').style.display = 'block';
+        
+        
+        //let's upload the task instance
+
+        for (var i = 0; i < thefiles.length; i++) {
+            formData.append("File", thefiles[i]);
+        }
+
+        var xmlHttpRequest = getXMLHttpRequest();
+        xmlHttpRequest.onreadystatechange = function()
+        {
+            if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
+            {
+
+                 document.getElementById('progress-bar').style.display = 'none';
+                
+                document.getElementById('controlBox').style.display = 'none';
+                document.getElementById('upload-success').style.display = 'block';
+            }
+        };
+
+        xmlHttpRequest.open("POST", url, true);
+        xmlHttpRequest.send(formData);
+    }
+    
+    
+}
+
+function uploadAnotherFile() {
+    document.getElementById('upload-success').style.display = 'none';
+    document.getElementById('controlBox').style.display = 'block';
 }
 
 

@@ -56,10 +56,6 @@ public class TaskInstancesCreator extends HttpServlet {
         try {
             String command = request.getParameter("command");
             
-            System.out.println("command is:  "+command);
-            
-            
-            
             if (command.equalsIgnoreCase("getTempName")) {
                 String tempDirName = getTempDirName();
                 String tempDirPath = getServletContext().getRealPath("temp-files" + File.separator + tempDirName);
@@ -229,25 +225,10 @@ public class TaskInstancesCreator extends HttpServlet {
                 RequestDispatcher view = request.getRequestDispatcher("visualizationForTaskInstances.html");
                 view.forward(request, response);
             } else if (command.equalsIgnoreCase("getViewerUrl")) {
-                
-                
                 String viewerDir = session.getAttribute("viewerDirectory").toString();
                 String viewerURL = session.getAttribute("viewerURL").toString();
-                
                 String userid = session.getAttribute("userid").toString();
-                
-                
-            
-                
-                
                 String viewerUrl = "users/" + userid + "/viewers/" + viewerURL;
-                
-                System.out.println("The viewerUrl IS  "+viewerURL);
-
-               
-                
-                
-                
                 
                 out.write(viewerUrl);
             } else if (command.equalsIgnoreCase("getDataset")) {
@@ -258,6 +239,48 @@ public class TaskInstancesCreator extends HttpServlet {
                 String datasetUrl = getServerUrl(request) + ("/users/" +userid 
                         +"/datasets/" + dataset + "/" + dataset+datasetFormat);
                 out.write(datasetUrl);
+            } else if (command.equalsIgnoreCase("submitInstanceFile")){
+//                userid = session.getAttribute("userid").toString();
+                String userid = request.getParameter("userid").toString();                
+                
+                //process only if its multipart content
+                if (ServletFileUpload.isMultipartContent(request)) {
+                    try {
+                        List<FileItem> multiparts = new ServletFileUpload(
+                                new DiskFileItemFactory()).parseRequest(request);
+
+                        for (FileItem item : multiparts) {
+                            if (!item.isFormField()) {
+                                
+                                String taskInstancesDir = "users" + File.separator + userid + File.separator
+                    + "taskInstances";
+
+                                String name = new File(item.getName()).getName();
+
+                             // String dsDirPath = getServletContext()
+//                                        .getRealPath(taskInstancesDir + File.separator + dsName);
+                                
+                                 String dsDirPath = getServletContext()
+                                        .getRealPath(taskInstancesDir);
+
+                                File datasetDir = new File(dsDirPath);
+
+                                if (!datasetDir.exists()) {
+                                    datasetDir.mkdir();
+                                }
+                                //now write the dataset in that directory
+                                item.write(new File(datasetDir + File.separator + name));
+                            }
+                        }
+                    } catch (Exception ex) {
+                        request.setAttribute("message", "File Upload Failed due to " + ex);
+                    }
+
+                } else {
+                    System.out.println("The request did not include files");
+
+                }
+                
             } else if (command.equalsIgnoreCase("getNodePositions")) {
                 String dataset = session.getAttribute("dataset").toString();
                 String nodePositionsUrl = "datasets" + File.separator + dataset + File.separator + "positions.txt";
@@ -513,10 +536,6 @@ public class TaskInstancesCreator extends HttpServlet {
                     + "taskInstances" + File.separator + dataset
                     + File.separator + taskname + ".xml"));
             
-            
-            //System.out.println("!!!! "+taskInstancesDBFile);
-            
-
             taskInstancesDBFile.createNewFile();
 
             //do the actual writings of the results to the file
