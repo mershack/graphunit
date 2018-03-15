@@ -47,6 +47,9 @@ public class TaskInstancesCreator extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
+    MyUtils utils = new MyUtils();
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -240,8 +243,14 @@ public class TaskInstancesCreator extends HttpServlet {
                         +"/datasets/" + dataset + "/" + dataset+datasetFormat);
                 out.write(datasetUrl);
             } else if (command.equalsIgnoreCase("submitInstanceFile")){
-//                userid = session.getAttribute("userid").toString();
-                String userid = request.getParameter("userid").toString();                
+                String userid = request.getParameter("userid").toString();    
+                String dataset = request.getParameter("dataset").toString();    
+                String task = request.getParameter("task").toString();                 
+                
+                System.out.println("task: " + task);
+                System.out.println("dataset: " + dataset);
+                
+                String taskCode = utils.getTaskCode(request, task, userid);
                 
                 //process only if its multipart content
                 if (ServletFileUpload.isMultipartContent(request)) {
@@ -254,22 +263,35 @@ public class TaskInstancesCreator extends HttpServlet {
                                 
                                 String taskInstancesDir = "users" + File.separator + userid + File.separator
                     + "taskInstances";
-
-                                String name = new File(item.getName()).getName();
-
-                             // String dsDirPath = getServletContext()
-//                                        .getRealPath(taskInstancesDir + File.separator + dsName);
-                                
-                                 String dsDirPath = getServletContext()
+                                    
+                                if (!dataset.trim().isEmpty()) {
+                                     taskInstancesDir = "users" + File.separator 
+                                             + userid + File.separator
+                                             +  "taskInstances" +  File.separator
+                                             + dataset;
+                                 }                              
+                      
+                                 String instanceDirPath = getServletContext()
                                         .getRealPath(taskInstancesDir);
+                                 
+                               
+                                 
+                                 String name = taskCode + ".xml";
+                                 
+                                 
+                                 
 
-                                File datasetDir = new File(dsDirPath);
+                                File instanceDir = new File(instanceDirPath);
 
-                                if (!datasetDir.exists()) {
-                                    datasetDir.mkdir();
+                                if (!instanceDir.exists()) {
+                                    instanceDir.mkdir();
                                 }
+                                
+                                System.out.println(".... " + instanceDir + File.separator + name);
+                                
+                                
                                 //now write the dataset in that directory
-                                item.write(new File(datasetDir + File.separator + name));
+                                item.write(new File(instanceDir + File.separator + name));
                             }
                         }
                     } catch (Exception ex) {
@@ -278,7 +300,6 @@ public class TaskInstancesCreator extends HttpServlet {
 
                 } else {
                     System.out.println("The request did not include files");
-
                 }
                 
             } else if (command.equalsIgnoreCase("getNodePositions")) {

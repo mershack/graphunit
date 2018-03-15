@@ -1,6 +1,10 @@
 package userstudy;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
+import javax.servlet.http.HttpServletRequest;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -224,4 +228,59 @@ public class MyUtils {
         }
         return filenames;
     }
+    
+    public String getTaskCode(HttpServletRequest servlet,  String task, String userid) {
+        
+        String shortname = "";
+
+        //check if we can find the task among the existing tasks, 
+        //otherwise check the tasks in the user directory
+        try {
+            File qlFile = new File(servlet.getServletContext()
+                    .getRealPath("quanttasks" + File.separator + "quanttasklist.txt"));
+
+            BufferedReader br = new BufferedReader(new FileReader(qlFile));
+            String line = "";
+            String sn = "";
+            
+            while ((line = br.readLine()) != null) {
+                sn = line.split(":::")[0].trim();
+                String t = line.split(":::")[1].trim();
+                if (t.equalsIgnoreCase(task.trim())) {
+                    shortname = sn;
+                    break;
+                }
+            }
+            br.close();
+
+            //now check if the shortname has already been found ampong the system's files
+            if (shortname.trim().equalsIgnoreCase("")) {
+                //get the shortname among the user's files
+                qlFile = new File(servlet.getServletContext()
+                        .getRealPath("users" + File.separator + userid + File.separator
+                        + "quanttasks" + File.separator + "quanttasklist.txt"));
+
+                br = new BufferedReader(new FileReader(qlFile));
+                line = "";
+                sn = "";
+                while ((line = br.readLine()) != null) {
+                    sn = line.split(":::")[0].trim();
+                    String t = line.split(":::")[1].trim();
+                    if (t.equalsIgnoreCase(task.trim())) {
+                        shortname = sn;
+                        break;
+                    }
+                }
+                br.close();
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        
+        return shortname;
+    }
+    
+    
+    
+    
 }
