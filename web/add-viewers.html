@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Add Viewers</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+
+        <script type="text/javascript" src="utils.js" /></script>
+        <script type="text/javascript" src="addviewers.js" /></script>
+    <style type="text/css">
+        body{
+            margin: 50px;
+            width:750px;
+        }
+        .centerText{
+            margin-left:  40%;
+            margin-right: 40%;
+
+        }    
+        .innerBox{                
+            padding: 10px 50px;
+        }
+        .divCenter{
+            margin-left: 40%;
+        }  
+        .grayBackground{
+
+            background-color: #F0F0F0  ;           
+
+        }
+        .leftSpacing1{
+            margin-left: 50px;
+            margin-bottom: 0px !important
+        }       
+        .errorNotices{
+            color: red !important;
+
+            /*background-color: yellow;*/
+            display: none;
+        }
+    </style>
+    <script type="text/javascript">
+
+        window.onload = function() {
+            loadExistingDirectoryNames();
+        };
+    </script>
+</head>
+<body>
+
+    <div>
+        <h2>Add a New Viewer Directory or Update an Existing Viewer Directory </h2>
+        <hr />
+        <br/> <br/>
+
+        <strong> Step 1: </strong>
+        <div class="innerBox grayBackground">
+            <div class="errorNotices" id="dirNameError">
+                <p>
+                    ** Directory name has not been provided.
+                </p>
+            </div>
+            <p> Select an existing viewer directory
+                <span class="leftSpacing1">
+                    <select  style="min-width: 160px ;" id="existingViewerDirName">
+                    </select>
+                </span>
+            </p>
+            <p>
+                <span class="centerText"> <strong> OR </strong> </span>
+            </p>
+            <p>
+                Provide a name for a new directory
+                <span class="leftSpacing1">
+                    <input type="text"  id="newViewerDirName"/>    
+                </span>
+
+            </p>
+        </div>
+        <br/><br/>
+        <strong>Step 2</strong>
+
+        <div class="innerBox grayBackground">
+            <div class="errorNotices" id="filesError">
+                <p>
+                    ** No File has been added.
+                </p>
+            </div>
+
+            <p>Upload viewer files
+                <span class="leftSpacing1">
+                    <input type="file" name="thefiles[]" id="thefiles" multiple/>
+                </span>  
+            </p>
+        </div>
+
+        <br/><br/>
+        <div class="divCenter">
+            <input type="button" value="submit Uploaded Files" onclick="uploadViewerFiles();" />
+        </div>
+        <hr/>
+
+
+    </div>
+
+    <input type="hidden" value="user2" id="userid"/>
+
+
+
+</body>
+</html>

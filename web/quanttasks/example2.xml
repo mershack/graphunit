@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<task_details>
+	<taskname>wineTasting</taskname>
+	<outputtype>wines</outputtype>
+	<outputTypeDescription>an array of wines </>
+	<answertype>interface:::Selection:::</answertype>
+	<taskquestion>Which wine tastes better?</taskquestion>
+	<taskDescription>Users will be shown different wines and they have to choose one that tastes better</taskDescription>
+	<taskquestion>Which wine tastes better?</taskquestion>
+	<inputsize>2</inputsize>
+	<input>
+		<inputtype>wine</inputtype>
+		<inputdescription>a single wine</inputdescription>
+	</input>
+	<input>
+		<inputtype>wine </inputtype>
+		<inputdescription>a single wine</inputdescription>
+	</input>

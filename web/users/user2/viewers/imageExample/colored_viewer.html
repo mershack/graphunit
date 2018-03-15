@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+    
+
+</style>
+<script src="http://d3js.org/d3.v3.min.js"></script> 
+<!--<script src="d3.js"></script> -->
+<body >
+     <div id="viewerDiv">
+		<img id="viewer" src="" />
+    </div>
+
+    
+	<script>
+
+        
+		
+        //createVisualization();
+        function createVisualization(dataseturl) {
+            document.getElementById("viewer").src = "wheres-waldo.jpg";		
+        }
+
+        /********************* GRAPHUNIT METHOD STARTS **********************/
+
+        /** 
+         * This method accepts an array of inputs and highlights 
+         * the nodes in the graph. the nodenames also contain types
+         */
+        function selectNode(nodenames) {	
+            /* empty arrays will be passed to deselect previously selected nodes */
+            if (nodenames.length === 0) {
+                document.getElementById("viewer").style.display = "none";
+            } else {
+                document.getElementById("viewer").style.display = "block";
+            }
+            
+            //For images, we assume we will get the images and display the images
+            //assuming  you expect only one image
+            document.getElementById("viewer").src = nodenames[0] + "_color.jpg";
+          
+        }
+        
+		/**
+         * This function will be called to set the dataset variable
+         * @param {type} dataseturl - this is a string of the dataset 
+         * @returns {undefined}
+         */
+
+        /**
+         * This function will be called to set the value of a JSON dataset variable
+         * 
+         */
+        function setDataset(dataseturl) {
+            createVisualization(dataseturl);
+        }
+        
+		/**
+         * a question will be passed to this method, and if the developer wants to change the question, he will do it
+         * in here. He will return the appropriate replacement to the question.
+         * @param {type} question : a string question.
+         * @returns {undefined} : it returns a string which is the replacement question
+         */
+        function changeQuestion(question) {   /***OPTIONAL FUNCTION ***/
+            var newquestion = "";
+           
+            if (question === "Select the most connected node") {
+                //newquestion = "How many black boxes  are on the row highlighted red?";
+                newquestion = "Given the two highlighted ingredients, select the one with more connections.";
+            }
+            else if (question === "Select all the neighbors of the highlighted node") {
+                newquestion = "Select all ingredients that the highlighted ingredient is connected to.";
+            }
+            else if (question === "Select all of the common neighbors of the two highlighted nodes") {
+                newquestion = "Given two highlighted ingredients, select all ingredients that they both connect to.";
+            }
+
+            return newquestion;
+        }
+
+        function setIntroduction() {
+            /***OPTIONAL FUNCTION ***/
+            var introPageName = "waldo_intro.html";
+            return introPageName;
+        }
+
+
+        /*
+         * This function will be given a question and based on the question,
+         * it will return the name of an image to be used as the legend 
+         */
+        function getQuestionLegend(question) {    /***OPTIONAL FUNCTION ***/
+
+            if (question === "How many nodes can be reached in one step from the highlighted node?") {
+                return "undirectedgraph_legend.png";
+            }
+            else {
+                return "";
+            }
+        }
+
+        //this function will be used to display a note for the visualization.
+        function getVisualizationNote() {
+            var html_note = "<ul>"
+                    + "<li> Zoom with mouse wheel, pan by dragging. </li>"                   
+                    + "</ul>";
+
+            return html_note;
+        }
+
+        function getVisualizationNoteImages() {
+            //return the image names separated by a colon.
+            return "edge-hover.png:node-hover.png";
+        }
+
+        function getVisualizationHint() {
+            return " (<strong>Hint</strong>: e.g. zoom, pan, etc.)";
+        }
+
+        function getSelectedAnswers() {
+            return selectedAnswers;
+        }
+        function unSelectSelectedElements() {
+          selectedAnswers = [];
+        }
+
+        /********************************GRAPHUNIT FUNCTIONS ENDS*****************************/
+        function getOutput() {
+            var output = selectedElements;
+            //unSelectSelectedElements();
+            return output;
+        }
+
+    </script>
+   
+    
+</body>
+
+</html>

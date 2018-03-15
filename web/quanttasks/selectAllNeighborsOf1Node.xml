@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<task_details>
+	<taskname>selectAllNeigbhorsOf1Node</taskname>
+	<outputtype></outputtype>
+	<outputTypeDescription>Description 1</>
+	<answertype>interface:::Selection:::</answertype>
+	<taskquestion>Select all the neighbors of the highlighted node</taskquestion>
+	<taskDescription>This is the task description of this task</taskDescription>
+	<inputsize>1</inputsize>
+	<input>
+		<inputtype>node</inputtype>
+		<inputdescription>a single node</inputdescription>
+	</input>	
+</task_details>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Publish Study</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <script type="text/javascript" src="utils.js"></script>
+
+        <style type="text/css" >
+            #controlBox{
+                padding: 10px 50px;
+                margin-left: 20px;
+                //padding-left: 20px;
+                width:500px;
+            }
+
+            .right{                
+                float:right;
+            }
+            .innerBox{                
+                padding-left: 20px;
+            }
+            .buttonCenter{
+                margin-left: 40%;
+            }
+            #centerText{
+                margin-left: 40%;
+            }
+            
+
+
+        </style>
+        <script type="text/javascript">
+
+            window.onload = function() {
+                getCurrentStudyName();
+            };
+
+            function getCurrentStudyName() {
+                var userid = document.getElementById("userid").value;
+                var command = "getCurrentStudyName";
+                var url = "StudySetup?command=" + command + "&userid=" + userid;
+                var xmlHttpRequest = getXMLHttpRequest();
+                xmlHttpRequest.onreadystatechange = function()
+                {
+                    if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
+                    {
+                        var studyname = xmlHttpRequest.responseText;
+                        var studyurl = "StudyManager?studyname=" + studyname
+                                + "&userid=" + userid;
+
+
+
+                        //create a string of the full path
+                        var curfileurl = document.URL;
+                        var ind = curfileurl.lastIndexOf("/");
+                        var baseurl = curfileurl.substring(0, ind + 1);
+
+
+                        document.getElementById("studyurl").innerHTML = baseurl + studyurl;                       
+
+
+
+
+
+
+                    }
+                };
+                xmlHttpRequest.open("GET", url, true);
+                xmlHttpRequest.send();
+            }
+
+        </script>
+    </head>
+    <body>
+
+        <div id="controlBox">
+
+            Use the following URL to create an external HIT on Mechanical Turk: 
+            <br/><br/>
+
+            <strong> <span id="studyurl"></span> </strong>
+            <br/> <br/> <br/>
+            <span id="centerText">OR</span>
+            <br/> <br/> If you have a developer account on Mechanical Turk, provide the information below to publish it.
+
+            <br/><br/>
+            <h5> Mechanical Turk Details </h5>
+            <div class="innerBox">
+
+                <div id="MTDetails">
+                    <p> AWS Access Key <input id="awsAccessKey" name="awsAccessKey" class="right" type="text" value="" size="35"/> </p>
+                    <p> AWS Secret Key <input id="awsSecretKey" name="awsSecretKey" class="right" type="text" value="" size="35"/> </p>
+                    <p> HIT Title <input id="hitTitle" name="hitTitle" class="right" type="text" value="" size="35"/> </p>
+                    <p> Number of Assignments <input id="maxAssignments" name="maxAssignments" class="right" type="text" value="" size="35"/> </p>
+                    <p> Reward <input id="hitReward" name="hitReward" class="right" type="text" value="" size="35"/> </p>
+                </div>  
+                <br/><br/>
+                <input type="button" value="Publish" class="buttonCenter" />
+                <input type="hidden" value="user2" id="userid"/>
+                <input type="hidden" id="studyname" value="" />
+
+            </div>
+        </div>
+
+    </body>
+</html>

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Manage Studies</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <script type="text/javascript" src="utils.js"></script>
+        <style>
+            body{
+                margin: 20px 20px;
+            }
+
+            td{
+                padding: 0px 10px;
+                border: 1px solid gray;
+
+            }
+            .header{
+                border-color:gray;
+                border: 2px 0px;
+                margin-left: 20px;
+                min-width: 150px;
+            }
+            #actions{
+                margin-left: 20px;
+            }
+            .name{
+                margin-left: 30%;               
+            }
+            td{
+                min-width: 150px;
+            }
+            .btn{
+                margin: 2px;
+            }
+            #nostudies{
+                display: none;
+                margin-left: 50px;
+            }
+            .buttonCenter{
+                margin-left: 15%;
+            }       
+
+
+        </style>
+        <script>
+
+
+            window.onload = function() {
+                //try and load all the studies of the user. including the date it was created.
+
+                loadStudies();
+            };
+            function loadStudies() {
+                var studytable = document.getElementById("studyTable");
+                removeDivChildren(studytable);
+
+                var userid = document.getElementById("userid").value;
+                var command = "getAllStudyNames";
+                var url = "StudySetup?command=" + command + "&userid=" + userid;
+                var xmlHttpRequest = getXMLHttpRequest();
+                xmlHttpRequest.onreadystatechange = function()
+                {
+                    if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
+                    {
+                        var studies = xmlHttpRequest.responseText;
+                        populateStudyTable(studies);
+                    }
+                };
+                xmlHttpRequest.open("GET", url, true);
+                xmlHttpRequest.send();
+            }
+
+            function populateStudyTable(studiesStr) {
+                var studies = studiesStr.split("::");
+                if (studies.length === 1 && studies[0].trim() === "") {
+                    document.getElementById("nostudies").style.display = "block";
+                }
+                var st = document.getElementById("studyTable");
+                for (var i = 0; i < studies.length; i++) {
+                    //first make sure it is not empty.
+                    if (studies[i].trim() !== "") {
+                        var tr = document.createElement("tr");
+                        var td1 = document.createElement("td");
+                        var name = document.createElement("h5");
+                        name.setAttribute("class", "name");
+                        name.innerHTML = studies[i];
+                        td1.appendChild(name);
+
+                        /*var td2 = document.createElement("td");
+                         td2.innerHTML = "December 13, 2015";*/
+
+                        var td3 = document.createElement("td");
+                        var div = document.createElement("div");
+                        div.setAttribute("id", "actions");
+
+                        var demoBtn = document.createElement("input");
+                        demoBtn.setAttribute("type", "button");
+                        demoBtn.setAttribute("class", "btn");
+                        demoBtn.setAttribute("id", "demo_" + studies[i]);
+                        demoBtn.setAttribute("value", "Demo");
+                        demoBtn.setAttribute("onclick", "demoStudy(this);");
+
+                        var publishBtn = document.createElement("input");
+                        publishBtn.setAttribute("type", "button");
+                        publishBtn.setAttribute("class", "btn");
+                        publishBtn.setAttribute("id", "publish_" + studies[i]);
+                        publishBtn.setAttribute("value", "Publish");
+                        publishBtn.setAttribute("onclick", "publishStudy(this);");
+
+
+                        var resultsBtn = document.createElement("input");
+                        resultsBtn.setAttribute("type", "button");
+                        resultsBtn.setAttribute("class", "btn");
+                        resultsBtn.setAttribute("id", "results_" + studies[i]);
+                        resultsBtn.setAttribute("value", "Results");
+                        resultsBtn.setAttribute("onclick", "checkStudyResults(this);");
+
+
+
+                        var editBtn = document.createElement("input");
+                        editBtn.setAttribute("type", "button");
+                        editBtn.setAttribute("class", "btn");
+                        editBtn.setAttribute("id", "edit_" + studies[i]);
+                        editBtn.setAttribute("value", "Edit");
+                        editBtn.setAttribute("onclick", "editStudy(this);");
+
+                        var copyBtn = document.createElement("input");
+                        copyBtn.setAttribute("type", "button");
+                        copyBtn.setAttribute("class", "btn");
+                        copyBtn.setAttribute("id", "copy_" + studies[i]);
+                        copyBtn.setAttribute("value", "Copy");
+                        copyBtn.setAttribute("onclick", "copyStudy(this);");
+
+                        var deleteBtn = document.createElement("input");
+                        deleteBtn.setAttribute("type", "button");
+                        deleteBtn.setAttribute("class", "btn");
+                        deleteBtn.setAttribute("value", "Delete");
+                        deleteBtn.setAttribute("id", "delete_" + studies[i]);
+                        deleteBtn.setAttribute("onclick", "confirmDelete(this);");
+
+                        td3.appendChild(demoBtn);
+                        td3.appendChild(publishBtn);
+                        td3.appendChild(resultsBtn);
+                        td3.appendChild(editBtn);
+                        td3.appendChild(copyBtn);
+                        td3.appendChild(deleteBtn);
+
+                        tr.appendChild(td1);
+                        /* tr.appendChild(td2); */
+                        tr.appendChild(td3);
+                        st.appendChild(tr);
+                    }
+
+                }
+            }
+
+            function confirmDelete(element) {
+
+                var deleteVal = confirm('Are you sure you want to delete this Study?');
+                if (deleteVal === true) {
+                    deleteStudy(element);
+                }
+            }
+            function deleteStudy(element) {
+                var id = element.id;
+                //alert(id);
+                var studyname = id.split("_")[1];
+
+
+
+                var userid = document.getElementById("userid").value;
+                var command = "deleteStudy";
+
+                var url = "StudySetup?command=" + command + "&userid=" + userid
+                        + "&studyname=" + studyname;
+                var xmlHttpRequest = getXMLHttpRequest();
+                xmlHttpRequest.onreadystatechange = function()
+                {
+                    if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
+                    {
+                        //var studies = xmlHttpRequest.responseText;
+                        //populateStudyTable(studies);
+
+                        //alert("the study is deleted");
+
+                        loadStudies();
+                    }
+                };
+                xmlHttpRequest.open("GET", url, true);
+                xmlHttpRequest.send();
+            }
+            function copyStudy(element) {
+                var id = element.id;
+                //alert(id);
+                var studyname = id.split("_")[1];
+
+                var userid = document.getElementById("userid").value;
+                var command = "copyStudy";
+
+                var url = "StudySetup?command=" + command + "&userid=" + userid
+                        + "&studyname=" + studyname;
+
+                editCopyNewStudy(url);
+            }
+
+            //run an example of the study.
+            function demoStudy(element) {
+                //open a new window to show the demo
+                var id = element.id;
+                var studyname = id.split("_")[1];
+                var userid = document.getElementById("userid").value;
+
+
+
+                var demoPage = "StudyManager?studyname=" + studyname
+                        + "&userid=" + userid;
+
+                window.open(demoPage, "_blank");
+            }
+            //link to a page where users can put in their MT details, and 
+            //then we publish the study on MTurk.
+            function publishStudy(element) {
+                //this should require the user to 
+
+                var id = element.id;
+                //alert(id);
+                var studyname = id.split("_")[1];
+
+                var userid = document.getElementById("userid").value;
+                var command = "publishStudy";
+
+                var url = "StudySetup?command=" + command + "&userid=" + userid
+                        + "&studyname=" + studyname;
+
+                editCopyNewStudy(url);
+
+            }
+
+
+            function checkStudyResults(element) {
+                var id = element.id;
+                //alert(id);
+                var studyname = id.split("_")[1];
+
+                var id = element.id;
+                var studyname = id.split("_")[1];
+
+                var userid = document.getElementById("userid").value;
+
+
+
+                var demoPage = "StudyResults?studyname=" + studyname
+                        + "&userid=" + userid;
+
+                window.open(demoPage, "_blank");
+
+            }
+
+            function editStudy(element) {
+
+                var id = element.id;
+                //alert(id);
+                var studyname = id.split("_")[1];
+
+                var userid = document.getElementById("userid").value;
+                var command = "editStudy";
+
+                var url = "StudySetup?command=" + command + "&userid=" + userid
+                        + "&studyname=" + studyname;
+
+                editCopyNewStudy(url);
+            }
+
+
+            function newStudy() {
+
+                //alert(id);
+                var userid = document.getElementById("userid").value;
+                var command = "newStudy";
+
+                var url = "StudySetup?command=" + command + "&userid=" + userid;
+
+                window.open(url, "_blank");
+            }
+
+
+            function editCopyNewStudy(url) {
+                var xmlHttpRequest = getXMLHttpRequest();
+                xmlHttpRequest.onreadystatechange = function()
+                {
+                    if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
+                    {
+                        window.open(url);
+                    }
+                };
+                xmlHttpRequest.open("post", url, true);
+                xmlHttpRequest.send();
+            }
+        </script>
+
+    </head>
+    <body>
+        <br/>
+        <input class="buttonCenter" type="button" value="create New Study" onclick="newStudy();"/>
+        <br/><br/>     
+
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th class="header">Study Name</th>
+                        <th class="header">Actions</th>
+
+                    </tr>
+                </thead>
+                <tbody id="studyTable">
+
+                </tbody>
+
+            </table>
+        </div>
+
+        <input type="hidden" id="userid" value="user2" />
+    
+    <!--<input type="hidden" id="userid" value="user2" />
+    <input type="hidden" id="userid" value="user4" />
+    <input type="hidden" id="userid" value="user5" />
+    <input type="hidden" id="userid" value="user1" />  -->
+
+        <div id="nostudies">
+            <p> <em>There are no studies to show</em></p>
+        </div>
+
+
+
+
+
+    </body>
+</html>

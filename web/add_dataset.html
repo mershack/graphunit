@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Add new dataset</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <script type="text/javascript" src="utils.js" /></script>
+
+    <style type="text/css">
+        body{
+            margin: 50px;
+            width:750px;
+        }
+        .innerBox{                
+            padding-left: 50px;
+        }
+        .grayBackground{
+
+            background-color: #F0F0F0  ;
+            margin: 1px;
+            padding: 1px;
+        }
+        td{
+            padding-left: 10px;
+            padding-right: 10px;
+            margin: 15px;
+        }
+        .leftSpacing1{
+            margin-left: 50px;
+            margin-bottom: 0px !important
+        }
+
+        .divCenter{
+            margin-left: 40%;
+        }  
+        .center{
+
+            margin-left: auto;
+            margin-right: auto;
+
+        }
+        .errorNotices{
+            color: red !important;
+            
+            /*background-color: yellow;*/
+            display: none;
+        }
+
+    </style>
+
+    <script type="text/javascript">
+        function uploadDatasets() {
+            var thefiles = document.getElementById("thefiles").files;
+            var userid = document.getElementById("userid").value;
+
+            var url = "DatasetManager?command=add" + "&userid=" + userid;
+            var formData = new FormData();
+
+
+            //check if no file has been added
+            if (thefiles.length === 0) {
+                //show the errorNotices
+                
+                document.getElementById("filesError").style.display = "block";
+                
+                
+            }
+            else {
+                //let's upload the datasets
+
+                for (var i = 0; i < thefiles.length; i++)
+                    formData.append("File", thefiles[i]);
+
+                var xmlHttpRequest = getXMLHttpRequest();
+                xmlHttpRequest.onreadystatechange = function()
+                {
+                    if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
+                    {
+                        window.location = "add-dataset-success.html";
+                    }
+                };
+
+                xmlHttpRequest.open("POST", url, false);
+                xmlHttpRequest.send(formData);
+
+            }
+
+
+        }
+
+    </script>
+</head>
+<body>
+    <div>
+        <h2>Adding New Dataset  </h2>
+        <hr />
+        Note: Each dataset can have different file formats.
+
+        <br/> <br/>
+
+        <div class="innerBox">
+            <div class="errorNotices" id="filesError">
+                <p>
+                    ** No File has been added.
+                </p>
+            </div>
+            <table class="center">
+                <tr  class="grayBackground">
+                    <td>
+                        <p>
+                            Load Datasets
+                            <span class="leftSpacing1">
+                                <input type="file" name="thefiles[]" id="thefiles" multiple/>
+                            </span>  
+                        </p>
+                    </td>
+                </tr>
+            </table>
+
+            <br/> <br/>
+            <div class="divCenter">
+                <input type="button" value="Submit Datasets" onclick="uploadDatasets();" class="center" />
+            </div>
+        </div>
+        <hr/>
+
+    </div>
+    <input type="hidden" id="userid" value="user2" />
+    
+    <!--<input type="hidden" id="userid" value="user2" />
+    <input type="hidden" id="userid" value="user4" />
+    <input type="hidden" id="userid" value="user5" />
+    <input type="hidden" id="userid" value="user1" />  -->
+    
+</body>
+</html>

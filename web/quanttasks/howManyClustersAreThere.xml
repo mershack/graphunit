@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<task_details>
+	<taskname>howManyClustersAreThere</taskname>
+	<outputtype></outputtype>
+	<outputTypeDescription>Description 1</>
+	<answertype>widget:::integer</answertype>
+	<taskquestion>
+			How many groups are there in the visualization?
+		</taskquestion>
+	<taskDescription>This is the task description of this task</taskDescription>
+	<inputsize>0</inputsize>	
+</task_details>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<task_details>
+	<taskname>neighborOneStep</taskname>
+	<outputtype></outputtype>
+	<outputTypeDescription>Description 1</>
+	<answertype>widget:::options:::yes::no</answertype>
+	<taskquestion>Are the two highlighted nodes directly connected?</taskquestion>
+	<taskDescription>This is the task description of this task</taskDescription>
+	<inputsize>2</inputsize>
+	<input>
+		<inputtype>node</inputtype>
+		<inputdescription>a single node</inputdescription>
+	</input>
+	<input>
+		<inputtype>node</inputtype>
+		<inputdescription>a single node</inputdescription>
+	</input>
+</task_details> 

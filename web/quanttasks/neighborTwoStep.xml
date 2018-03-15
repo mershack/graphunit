@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<task_details>
+	<taskname>neighborTwoStep</taskname>
+	<outputtype></outputtype>
+	<outputTypeDescription>Description 1</>
+	<answertype>widget:::options:::yes::no</answertype>
+	<taskquestion>
+	  Can you get from one of the highlighted nodes to the other with exactly 2 steps?
+	</taskquestion>	
+	<taskDescription>This is the task description of neighborTwoStep task</taskDescription>
+	<inputsize>2</inputsize>
+	<input>
+		<inputtype>node</inputtype>
+		<inputdescription>a single node</inputdescription>
+	</input>
+	<input>
+		<inputtype>node</inputtype>
+		<inputdescription>a single node</inputdescription>
+	</input>
+</task_details>
+
+		
+		
+	
+			
+		
