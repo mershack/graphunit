@@ -329,7 +329,7 @@ function submitFormDetails() {
                     + "&standardTestUserRespInterface=" + respInterface
                     + "&standardTestUserPerfInterface=" + perfInterface;
         }
-        else {
+        else if (i > 1) {
             standardTests += "&standardTestURLs=" + st_url
                     + "&standardTestUserRespInterface=" + respInterface
                     + "&standardTestUserPerfInterface=" + perfInterface;
@@ -557,7 +557,8 @@ function checkStudyForm() {
         document.getElementById("trainingSizeError").style.display = "none";
     }
 
-//check the introduction
+//check the introduction. NB. don't check the intro yet
+/*
     var introFileCounter = document.getElementById("introFileCounter").value;
     for (var i = 1; i <= introFileCounter; i++) {
         var url = document.getElementById("introductionFileURL" + i).value;
@@ -570,6 +571,8 @@ function checkStudyForm() {
             document.getElementById("introductionError").style.display = "none";
         }
     }
+    
+    */
 
 
 
@@ -678,8 +681,13 @@ function createUpdateViewerDir() {
 }
 
 function createUpdateTask() {
-    window.open("task_creation.html", "_blank")
+    window.open("task_creation.html", "_blank");
 }
+
+function createUpdateTaskInstance() {
+    window.open("taskInstances_creation.html", "_blank");
+}
+
 
 function uploadUpdateDataset() {
     window.open("add_dataset.html", "_blank");

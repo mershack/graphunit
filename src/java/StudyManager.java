@@ -207,7 +207,7 @@ public class StudyManager extends HttpServlet {
                             
                             System.out.println("@@The condition Counter is "+ upmts.tutorialViewerConditionCounter);
                             
-                            System.out.println("-- " + upmts.tutorialViewerConditionCounter);
+                            System.out.println("-- " +upmts.tutorialViewerUrls.size());
                             String url = upmts.tutorialViewerUrls.get(upmts.tutorialViewerConditionCounter);
                             System.out.println("&& url is " + url);
                             msg = "ChangeViewers:: " + url;
@@ -867,8 +867,8 @@ public class StudyManager extends HttpServlet {
             }
             
             //get the information about the intro files as well.
-            for (int temp = 0; temp < postStudyTaskNode.getLength(); temp++) {
-                Node nNode = postStudyTaskNode.item(temp);
+            for (int temp = 0; temp < introductionsNode.getLength(); temp++) {
+                Node nNode = introductionsNode.item(temp);
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element eElement = (Element) nNode;
                     String url = eElement.getElementsByTagName("introURL").item(0).getTextContent();
@@ -1020,8 +1020,23 @@ public class StudyManager extends HttpServlet {
         if (upmts.getDatasetConditionNames().size() > 1) {
             adjustConditionsForMoreThanOneDatasets(upmts);
         }
+                
         //create the util object.
         upmts.utils = new MyUtils(upmts.viewerConditionShortnames);
+    }
+    
+    
+    public void adjustTutorialConditions(StudyParameters upmts) {
+         //for the tutorial session
+        upmts.tutorialViewerShortnames = new ArrayList<String>();
+        upmts.tutorialViewerUrls = new ArrayList<String>();
+        for (int i = 0; i < upmts.viewerConditionShortnames.size(); i++) {
+            upmts.tutorialViewerShortnames.add(upmts.viewerConditionShortnames.get(i));
+            upmts.tutorialViewerUrls.add(upmts.viewerConditionUrls.get(i));
+            
+            System.out.println("*(___) " + upmts.tutorialViewerUrls.get(i));
+        }
+       
     }
 
     /**
@@ -1140,6 +1155,9 @@ public class StudyManager extends HttpServlet {
                     break;
                 }
             }
+            
+            br.close();
+            
             //check for the user tasks, if the user also has such a task{
             File usrFile_QuanttaskList = new File(getServletContext().getRealPath(
                     "users" + File.separator + userid + File.separator + "quanttasks" + File.separator + "quanttasklist.txt"));
@@ -1154,6 +1172,8 @@ public class StudyManager extends HttpServlet {
                     break;
                 }
             }
+            
+            br2.close();
 
             String taskFileName = "";
             if (!usr_taskShortname.isEmpty()) {
@@ -1351,6 +1371,8 @@ public class StudyManager extends HttpServlet {
                 }
 
                 upmts.sizeOfATrainingCondition = upmts.tutorialQuestions.size();
+                
+                
                 /**
                  * adjust the tasks if it is a within user study
                  */
@@ -1588,6 +1610,7 @@ public class StudyManager extends HttpServlet {
         for (int i = 0; i < upmts.orderOfConditionUrls.size(); i++) {
             upmts.viewerConditionUrls.add(upmts.orderOfConditionUrls.get(i));
         }
+        
         //System.out.println("the condition URLs are ::: "+ orderOfConditionUrls);
     }
 
@@ -1691,6 +1714,20 @@ public class StudyManager extends HttpServlet {
         upmts.sizeOfACondition = length;
 
         upmts.sizeOfATrainingCondition = trainingSize;
+        
+        upmts.viewerSizeBeforeAdjustment = upmts.viewerConditionShortnames.size();
+        
+        upmts.viewerSizeBeforeAdjustment = upmts.viewerConditionShortnames.size();
+
+        //for the tutorial session
+        upmts.tutorialViewerShortnames = new ArrayList<String>();
+        upmts.tutorialViewerUrls = new ArrayList<String>();
+        for (int i = 0; i < upmts.viewerSizeBeforeAdjustment; i++) {
+            upmts.tutorialViewerShortnames.add(upmts.viewerConditionShortnames.get(i));
+            upmts.tutorialViewerUrls.add(upmts.viewerConditionUrls.get(i));
+        }
+
+
 
       //  System.out.println("Length is ++ " + length);
         //  System.out.println("Training size is ++" + trainingSize);
@@ -1824,7 +1861,7 @@ public class StudyManager extends HttpServlet {
 
             onGoingStudyCounts.put(upmts.studyname, ongoing_studyCounts);
 
-            writeQualitativeAnswersToFile(upmts, userid);
+//            writeQualitativeAnswersToFile(upmts, userid);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -2000,14 +2037,25 @@ public class StudyManager extends HttpServlet {
             if (newFile) {
                 //write the headers
                 //now write the headers of the miscellaneous info
-                pw.print("\t\tOrderOfConditions");
-                pw.print("\t\tWindowWidth");
-                pw.print("\t\tWindowHeight");
-                pw.print("\t\tOffFocusTime");
-                pw.print("\t\tUserAccuracyInfo");
-                pw.print("\t\tUserTimeInfo");
-                pw.print("\t\tColorBlindessTestAnswers");
-                pw.print("\t\tDateAndTime");
+                pw.print("\tOrderOfConditions");
+                pw.print("\tWindowWidth");
+                pw.print("\tWindowHeight");
+                pw.print("\tOffFocusTime");
+                pw.print("\tUserAccuracyInfo");
+                pw.print("\tUserTimeInfo");
+//                pw.print("\t\tColorBlindessTestAnswers");
+                
+               
+                
+                
+                pw.print("\tDateAndTime");
+                 for (int i = 0; i < upmts.preStudyEvalQuestions.size(); i++) {
+                    pw.print("\t" + upmts.preStudyEvalQuestions.get(i).getQuestion());
+                }
+                
+                for (int i = 0; i < upmts.postStudyEvalQuestions.size(); i++) {
+                    pw.print("\t" + upmts.postStudyEvalQuestions.get(i).getQuestion());
+                }
                 pw.println();
             }
             //save the miscellaneous info now.
@@ -2018,8 +2066,16 @@ public class StudyManager extends HttpServlet {
             pw.print("\t\t" + upmts.offFocusTime);
             pw.print("\t\t" + upmts.accuracyInfo);
             pw.print("\t\t" + upmts.timeInfo);
-            pw.print("\t\t" + upmts.colorBlindnessTestAnswers);
+//            pw.print("\t\t" + upmts.colorBlindnessTestAnswers);
             pw.print("\t\t" + upmts.dateAndTime);
+             
+            for (int i = 0; i < upmts.preStudyEvalQuestions.size(); i++) {
+                    pw.print("\t" + upmts.preStudyEvalQuestions.get(i).getGivenAnswer());
+            }
+                
+            for (int i = 0; i < upmts.postStudyEvalQuestions.size(); i++) {
+                pw.print("\t" + upmts.postStudyEvalQuestions.get(i).getGivenAnswer());
+            }
 
             pw.println();
             pw.close();

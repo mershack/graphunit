@@ -186,7 +186,7 @@ public class EvaluationQuestion {
             return averageCorrect;
         } else {
             
-            System.out.println("givenAnswer: " + givenAnswer + "  correctAnswer: " + correctAns);
+            System.out.println("_____givenAnswer: " + givenAnswer + "  correctAnswer: " + correctAns);
             //compute the answer now.
             if (givenAnswer.equalsIgnoreCase(correctAns)) {
                 averageCorrect = 1;

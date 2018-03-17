@@ -355,6 +355,7 @@ public class TaskInstancesCreator extends HttpServlet {
                         break;
                     }
                 }
+                br.close();
 
                 //check for the user tasks, if the user also has such a task{
                 File usrFile_QuanttaskList = new File(getServletContext().getRealPath(
@@ -369,6 +370,8 @@ public class TaskInstancesCreator extends HttpServlet {
                         break;
                     }
                 }
+                
+                br2.close();
 
                 String taskFileName = "";
                 if (!usr_taskShortname.isEmpty()) {
@@ -463,7 +466,6 @@ public class TaskInstancesCreator extends HttpServlet {
                 session.setAttribute("outputTypeDescription", outputTypeDescription);
                 session.setAttribute("taskname", taskname);
                 session.setAttribute("hasCorrectAnswer", hasCorrectAnswer);
-
                 out.write(taskQn);
             } else if (command.equalsIgnoreCase("getInputTypesAndDescriptions")) {
                 String inputsStr = session.getAttribute("inputTypesAndDescriptions").toString();

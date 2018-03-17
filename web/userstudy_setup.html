@@ -26,7 +26,7 @@ and open the template in the editor.
                 padding: 10px 50px;
                 margin-left: 20px;
                 //padding-left: 20px;
-                width:750px;
+                width:800px;
             }
             .right{                
                 float:right;
@@ -135,6 +135,9 @@ and open the template in the editor.
             .divCenter4{
                 margin-left: 50%;
             }
+            .button {
+                margin: 5px;
+            }
 
         </style>
         <script type="text/javascript">
@@ -192,8 +195,9 @@ and open the template in the editor.
                 <div class="innerBox divCenter2" >
                     <input class="" type="button" value="Create or Update Viewer Directories" onclick="createUpdateViewerDir();" /> 
 
-                    <input type="button" value="Create or Update Tasks" onclick="createUpdateTask();">
-                    <input type="button" value="Upload or Update Datasets" onclick="uploadUpdateDataset();">
+                    <input type="button" class="button" value="Create or Update Tasks" onclick="createUpdateTask();">
+                    <input type="button" class="button" value="Upload TaskInstance" onclick="createUpdateTaskInstance();">
+                    <input type="button" class="button" value="Upload or Update Datasets" onclick="uploadUpdateDataset();">
 
                     <br/> <br/>
                 </div>             
@@ -346,7 +350,7 @@ and open the template in the editor.
                                             <option value="">Select One</option>
                                             <option value="Between">Between-Subjects</option>
                                             <option value="Within">Within-Subjects</option>
-                                            <option value="Within-Fixed">Within-Subjects-FixedOrder</option>
+                                            <!--<option value="Within-Fixed">Within-Subjects-FixedOrder</option>-->
                                         </select>
                                     </span>
                                 </p>
@@ -453,21 +457,10 @@ and open the template in the editor.
                         <!--<input type="button" value="Refresh Datasets" onclick="loadDatasets()"/>  -->
                     </div>
 
-
-
-
-
-
-
-
-
-
-
-
                 </div>
 
 
-                <hr>
+                <!--<hr>-->
 <!--                <h4>Experiment Design Type for the datasets</h4>
                 <div class="innerBox">
                     <div class="errorNotices" id="experimentTypeError_ds">
@@ -493,191 +486,141 @@ and open the template in the editor.
                     </table>                    
                 </div>-->
 
-                <hr>
-                <h4> Pre-Study Activities</h4>
-                <div class="innerBox">
-                    
-                    <div class="errorNotices" id="introductionError">
-                        <p>
-                            Some fields are empty.
-                        </p>
-                    </div>
-                    
-                    
-                    <div id="introductionFilesDiv">
+                <div style="display:none">
+                    <hr>
+                    <h4> Pre-Study Activities</h4>
+                    <div class="innerBox">
 
-                        <table class="center" id="introductionFilesTable">
-                            <tr>
-                                <th></th>
-                                <th>Introduction URL
-
-                                </th>
-                                <th>For which condition?
-                                    <img src="images/refresh-icon.png" title="Refresh Condition Names" 
-                                         alt="Refresh Condition Names" onclick="" class="refreshIconSmall"/>
-                                </th>                        
-                            </tr>
-                            <tr class="questionNumberEven" id="introductionFileRow1">
-                                <td id="introductionFilePosition1">1. </td>
-                                <td id="introductionFileURL1TD">
-                                    <p>                                   
-                                        <input type="text" value="" style="min-width:100%;" id="introductionFileURL1">
-                                    </p>
-                                </td>
-                                <td id="introductionFileCondition1TD">
-                                    <p>
-                                        <select name="introductionFileCondition1" id="introductionFileCondition1" style="min-width:100%;">
-                                            <option value ="">Select One</option> 
-                                            <option value ="all">All conditions</option> 
-                                            <option value="cond1">Cond1</option>
-                                            <option value="cond2">Cond2</option>
-                                        </select>
-                                    </p>
-                                </td>
-                                <td class="deleteIconTD">
-                                    <!--
-                                    <img src="images/delete-icon.jpg" class="deleteIcon"
-                                         alt="delete dataset" title="Delete Dataset"
-                                         id="deleteDatasetIcon1" onclick ="deleteDatasetIconClicked('1')" 
-                                         />
-                                    -->
-                                </td>
-                            </tr>
-                        </table>    
-
-                        <p class="center">
-                            <img src="images/plus-icon.jpg" onclick="addAnotherIntroductionFile();" 
-                                 class="plusIcon center" alt="add new introduction File"  title="Add New Introduction File"/> 
-
-                        </p>
-                        
-                        <input type="hidden" id="introFileCounter" value="1"/>
-                    </div>
+                        <div class="errorNotices" id="introductionError">
+                            <p>
+                                Some fields are empty.
+                            </p>
+                        </div>
 
 
-                    <br /><br/>
+                        <div id="introductionFilesDiv">
 
-                    <input type="button" value="Include a Standard Test" onclick="showStandardTestDiv();" class="buttonCenter2" id="inclStandardTestBtn"/>
-                    <br/><br/>
-                    <div id="standardTestsDiv" style="display:none;"> 
-
-                        <table class="center" id="standardTestsTable">
-                            <tr>
-                                <th></th>
-                                <th>Standard Test URL
-
-                                </th>
-                                <th>
-                                    Interface Name For User Response
-                                </th>                        
-                                <th>
-                                    Interface Name for User Performance
-                                </th>
-                                <th></th>
-                            </tr>
-                            <tr class="questionNumberEven" id="standardTestRow1">
-                                <td id="standardTestPosition1">1. </td>
-                                <td id="standardTestURL1TD">
-                                    <p>                                   
-                                        <input type="text" value="" style="min-width:100%;" id="standardTestURL1">
-                                    </p>
-                                </td>
-                                <td id="standardTestUserResponseInterface1TD">
-                                    <p>
-                                        <input type="text" value="" style="min-width:100%" id="standardTestUserResponseInterface1"/>
-                                    </p>
-                                </td>
-                                <td id="standardTestUserPerformanceInterface1TD">
-                                    <p>
-                                        <input type="text" value="" style="min-width:100%" id="standardTestUserPerformanceInterface1"/>
-                                    </p>
-                                </td>
-
-                                <td class="deleteIconTD">
-                                    <img src="images/delete-icon.jpg" class="deleteIcon"
-                                         alt="delete standard test" title="Delete Dataset"
-                                         id="deleteStandardTestIcon1" onclick ="deleteStandardTestIconClicked('1')" 
-                                         />
-
-                                </td>
-                            </tr>
-                        </table> 
-
-
-
-                        <p class="center">
-                            <img src="images/plus-icon.jpg" onclick="AddAnotherStandardTest();" 
-                                 class="plusIcon center" alt="add new introduction File"  title="Add New Introduction File"/> 
-
-                        </p>
-                        
-                        <input type="hidden" id="standardTestCounter" value="1">
-                        
-                        
-                    </div>
-                </div>
-
-                <hr>
-                <h4> Pre-Study Tasks</h4>
-                <div class="innerBox">
-                    <div id="preStudyTasksDiv">
-
-                        <table >
-                            <tbody id="preStudyTasksTable">
+                            <table class="center" id="introductionFilesTable">
                                 <tr>
                                     <th></th>
-                                    <th></th>
-                                    <th>Task Type</th>
-                                    <th></th>
-                                </tr> 
+                                    <th>Introduction URL
 
-                                <tr class ="questionNumberOdd" id="preStudyTask1">
-                                    <td class="sortingArrowsTD">
-
-                                        <img src="images/up-arrow-icon.png" class="sortingArrows" onclick="moveTaskUp('1');"
-                                             alt="move task up" title="Move Task Up"/>
-                                        <br />
-                                        <img src="images/down-arrow-icon.png" class="sortingArrows" onclick="moveTaskDown('1');"
-                                             alt="move task down" title="Move Task Down"/>
+                                    </th>
+                                    <th>For which condition?
+                                        <img src="images/refresh-icon.png" title="Refresh Condition Names" 
+                                             alt="Refresh Condition Names" onclick="" class="refreshIconSmall"/>
+                                    </th>                        
+                                </tr>
+                                <tr class="questionNumberEven" id="introductionFileRow1">
+                                    <td id="introductionFilePosition1">1. </td>
+                                    <td id="introductionFileURL1TD">
+                                        <p>                                   
+                                            <input type="text" value="" style="min-width:100%;" id="introductionFileURL1">
+                                        </p>
                                     </td>
-                                    <td id="preStudyTaskPosition1"> 1.</td>
-                                    <td id="preStudyQnDiv1TD">                                        
-                                        <div id="preStudyQnDiv1">
-                                        </div>
+                                    <td id="introductionFileCondition1TD">
+                                        <p>
+                                            <select name="introductionFileCondition1" id="introductionFileCondition1" style="min-width:100%;">
+                                                <option value ="">Select One</option> 
+                                                <option value ="all">All conditions</option> 
+                                                <option value="cond1">Cond1</option>
+                                                <option value="cond2">Cond2</option>
+                                            </select>
+                                        </p>
                                     </td>
                                     <td class="deleteIconTD">
-
+                                        <!--
                                         <img src="images/delete-icon.jpg" class="deleteIcon"
-                                             alt="delete pre-study task" title="Delete Pre-Study Task"
-                                             id="deletePreStudyTaskIcon1" onclick ="deletePreStudyTaskIconClicked('1')" 
+                                             alt="delete dataset" title="Delete Dataset"
+                                             id="deleteDatasetIcon1" onclick ="deleteDatasetIconClicked('1')" 
                                              />
+                                        -->
                                     </td>
                                 </tr>
+                            </table>    
 
-                            </tbody>
-                        </table>
-                        <!--
-                        <input class="divCenter2" type="button" value="Create a new Task" 
-                               onclick="createUpdateTask();"/>   -->
+                            <p class="center">
+                                <img src="images/plus-icon.jpg" onclick="addAnotherIntroductionFile();" 
+                                     class="plusIcon center" alt="add new introduction File"  title="Add New Introduction File"/> 
+
+                            </p>
+
+                            <input type="hidden" id="introFileCounter" value="1"/>
+                        </div>
 
 
-                        <input type="hidden" value="1" id="numberOfPreStudyTasks" />
-                        <br>
+                        <br /><br/>
+
+                        <!--<input type="button" value="Include a Standard Test" onclick="showStandardTestDiv();" class="buttonCenter2" id="inclStandardTestBtn"/>-->
+                        <!--<br/><br/>-->
+                        <div id="standardTestsDiv" style="display:none;"> 
+
+                            <table class="center" id="standardTestsTable">
+                                <tr>
+                                    <th></th>
+                                    <th>Standard Test URL
+
+                                    </th>
+                                    <th>
+                                        Interface Name For User Response
+                                    </th>                        
+                                    <th>
+                                        Interface Name for User Performance
+                                    </th>
+                                    <th></th>
+                                </tr>
+                                <tr class="questionNumberEven" id="standardTestRow1">
+                                    <td id="standardTestPosition1">1. </td>
+                                    <td id="standardTestURL1TD">
+                                        <p>                                   
+                                            <input type="text" value="" style="min-width:100%;" id="standardTestURL1">
+                                        </p>
+                                    </td>
+                                    <td id="standardTestUserResponseInterface1TD">
+                                        <p>
+                                            <input type="text" value="" style="min-width:100%" id="standardTestUserResponseInterface1"/>
+                                        </p>
+                                    </td>
+                                    <td id="standardTestUserPerformanceInterface1TD">
+                                        <p>
+                                            <input type="text" value="" style="min-width:100%" id="standardTestUserPerformanceInterface1"/>
+                                        </p>
+                                    </td>
+
+                                    <td class="deleteIconTD">
+                                        <img src="images/delete-icon.jpg" class="deleteIcon"
+                                             alt="delete standard test" title="Delete Dataset"
+                                             id="deleteStandardTestIcon1" onclick ="deleteStandardTestIconClicked('1')" 
+                                             />
+
+                                    </td>
+                                </tr>
+                            </table> 
+
+
+
+                            <p class="center">
+                                <img src="images/plus-icon.jpg" onclick="AddAnotherStandardTest();" 
+                                     class="plusIcon center" alt="add new introduction File"  title="Add New Introduction File"/> 
+
+                            </p>
+
+                            <input type="hidden" id="standardTestCounter" value="1">
+
+
+                        </div>
                     </div>
-                     <p class="center">
-                        <img src="images/plus-icon.jpg" onclick="addAnotherPreStudyTask();" 
-                             class="plusIcon center" alt="add new Pre-Study task"  title="Add New Pre-Study Task"/> 
-                    </p>
-
                 </div>
+               
 
-                <hr>
+                <hr>                
                 <h4> Actual Study Tasks </h4>
                 <div class="errorNotices" id="tasksError">
                     <p>
                         ** Some fields are empty. They should be filled
                     </p>
                 </div>
+                
                 <div class="innerBox">
                     <div id="quantitativeTasksDiv">
                         <div>
@@ -773,11 +716,62 @@ and open the template in the editor.
                 </div>
                     
                 
-                
-                
-                
-                
+                 <hr>
+                <h4> Pre-Study Tasks</h4>
+                <div class="innerBox">
+                    <div id="preStudyTasksDiv">
+
+                        <table >
+                            <tbody id="preStudyTasksTable">
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th>Task Type</th>
+                                    <th></th>
+                                </tr> 
+
+                                <tr class ="questionNumberOdd" id="preStudyTask1">
+                                    <td class="sortingArrowsTD">
+
+                                        <img src="images/up-arrow-icon.png" class="sortingArrows" onclick="moveTaskUp('1');"
+                                             alt="move task up" title="Move Task Up"/>
+                                        <br />
+                                        <img src="images/down-arrow-icon.png" class="sortingArrows" onclick="moveTaskDown('1');"
+                                             alt="move task down" title="Move Task Down"/>
+                                    </td>
+                                    <td id="preStudyTaskPosition1"> 1.</td>
+                                    <td id="preStudyQnDiv1TD">                                        
+                                        <div id="preStudyQnDiv1">
+                                        </div>
+                                    </td>
+                                    <td class="deleteIconTD">
+
+                                        <img src="images/delete-icon.jpg" class="deleteIcon"
+                                             alt="delete pre-study task" title="Delete Pre-Study Task"
+                                             id="deletePreStudyTaskIcon1" onclick ="deletePreStudyTaskIconClicked('1')" 
+                                             />
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                        <!--
+                        <input class="divCenter2" type="button" value="Create a new Task" 
+                               onclick="createUpdateTask();"/>   -->
+
+
+                        <input type="hidden" value="1" id="numberOfPreStudyTasks" />
+                        <br>
+                    </div>
+                     <p class="center">
+                        <img src="images/plus-icon.jpg" onclick="addAnotherPreStudyTask();" 
+                             class="plusIcon center" alt="add new Pre-Study task"  title="Add New Pre-Study Task"/> 
+                    </p>
+
+                </div>
+
                 <hr>
+                
                 <h4> Post-Study Tasks</h4>
                 <div class="innerBox">
                     <div id="postStudyTasksDiv">
@@ -885,10 +879,11 @@ and open the template in the editor.
                 
                 
                 <hr>
+                
+                <div style="display:none">
+                     <h4 style="display:none"> Mechanical Turk Details </h4>
 
-                <h4> Mechanical Turk Details </h4>
-
-                <div class="innerBox" style="display: none;">
+                    <div class="innerBox" style="display: none;">
                     <input id="showMTDetailsBtn" type="button" value="Show Details" 
                            onclick="showMTDetails();"/> 
                     <input id="hideMTDetailsBtn" style="display:none;" type="button" value="Hide Details" 
@@ -903,6 +898,7 @@ and open the template in the editor.
 
                 </div>
                 <hr>
+                </div>
 
                 <div class="divCenter">
                     <input type="button" value="See Demo" onclick="getDemo()"/>

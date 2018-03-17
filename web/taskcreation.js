@@ -56,11 +56,6 @@ function doesTaskHasCorrectAnswer(element) {
 
 }
 
-
-
-
-
-
 function checkShortNameAvailability() {
     //check with the server if the name already exists or not
     var taskshortname = document.getElementById("taskShortname").value;
@@ -132,7 +127,7 @@ function saveNewTask() {
     var hasCorrectAns = document.getElementById("hasCorrectAnswer").value;
 
     //check if any of these is empty
-    if (taskQuestion.trim() === "" || taskDescription.trim() === "" || taskShortName.trim() === ""
+    if (taskQuestion.trim() === "" || taskShortName.trim() === ""
             || answerType === "") {
         // alert("Some form fields are not filled");   
 
@@ -169,8 +164,7 @@ function saveNewTask() {
     if ((inputMediums.trim() === "" && inputTypeShortNames.trim() === "" && inputTypeDescriptions.trim() === "")) {
         numberOfInputs = 0;
     }
-
-
+    
     //get the input type shortnames.
     for (var i = 1; i <= numberOfInputs; i++) {
         var sn = document.getElementById("inputShortName" + i).value;

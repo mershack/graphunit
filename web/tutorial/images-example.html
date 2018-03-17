@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>GraphUnit Tutorial</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+
+        <script type="text/javascript" src="utils.js" /></script>
+        <script type="text/javascript" src="addviewers.js" /></script>
+    <style type="text/css">
+        body{
+            margin: 50px;
+            font-size: 1.2em;
+        }
+        
+        li {
+            margin-top: 10px;
+        }
+        .container {
+            display: flex;
+            margin: 0 auto;
+            width:800px;
+
+            /*width: 100%;*/
+        }
+        
+    </style>
+    <script type="text/javascript">
+
+      
+    </script>
+</head>
+<body>
+
+    <div class="container">
+        <div>
+            <h2>GraphUnit Tutorial </h2>
+        
+        <h3>An Example Using only Images without a dataset</h3>
+        <hr />
+        <ol>
+            <li>Download and extract this viewer files to your computer. <a href="imageExample.zip">
+                    Click here to download</a>
+            </li>
+            
+            <li>
+                Go to the <a href="../userstudy_setup.html" target="_blank">Userstudy Setup Page</a> 
+            </li>
+            
+            <li> To add Viewers: From the Study Setup Page, 
+                Click on the "Create or Update Viewer Directories" button. 
+            
+                <div>
+                    To add a new viewer directory, specify a short name for the viewer. e.g. <strong>myGraphViewer</strong> 
+                </div>
+                <div>
+                    Upload files:  Click on the choose files button
+                     and go into the directory where you extracted the downloaded files. 
+                     Select all the files in that directory and submit the uploaded files
+                </div>
+            </li>
+              <li>If you have an introduction file, let your html viewer files return the name of the introduction file
+                using the function "setIntroduction". (See an example of how that function is implemented in the bw_viewer.html and colored_viewer.html files) 
+            </li>
+            <li> 
+                Create Tasks: From the Study Setup Page, Click on the "Create or Update Tasks" button.
+                <div>Provide a short name (one-word) for the task. e.g. <strong>findMyWaldo</strong></div>
+                <div>Provide the task question. e.g. <strong>Can you see Waldo in the Picture?</strong></div>
+                <div>Under the Answer type section, Select "yes" for will this task have correct answers.
+                And for answer type, select Options(fixed). And specify the following options: Yes, No, Maybe
+                </div>              
+            </li>
+            <li> Upload TaskInstance: From the
+                Study Setup Page, click on the "Upload TaskInstance" button.
+                <div>
+                    In the quantitative tasks section, select the task you created, from the drop down list.
+                    It should be the last option in that list.
+                </div>
+                <div>Upload the task instance. Download and use this example.
+                    <a href="findWaldo">Find Waldo Task Instance Example</a></div>
+                
+                <div>The task instance is specifies, the input, and answers for each
+                task instance. 
+                </div>
+            </li>
+            <li>Now you can create a study. On the Study Setup Page, In the Viewers
+                section, select the viewer directory
+                you created from among the list. (Refresh the page, if you can't find it).
+                <div>For condition URL, select bw_viewer.html from the list</div>
+                <div>For the second viewer, select colored_viewer.html from the list</div>   
+            </li>
+            <li>
+                
+                
+                <div>In the Experiment Design Type for the visualizations section, 
+                    select Between-subjects from the options
+                    
+                </div>
+            </li>
+         
+            <li>
+                <div>In the Actual Study section, select the task you created from the list.
+                    And then specify the number of questions and time for each question (NB. Enter 0 for time,
+                    if you do not want the study to be timed).
+                    
+                    Make sure the number of questions you specify (plus the number of training instances) is not more than 
+                    the number of task instances you have.                    
+                
+                </div>
+            </li>
+          
+            <li>
+                
+                <div>Click on the Demo button to create a demo of the study.</div>
+                <div>When you are satisfied with the demo, you can click on the save study to save the study.
+                
+                </div>
+            </li>       
+            
+
+        </ol> 
+        
+        <hr />
+
+        </div>
+        
+    </div>
+        
+       
+
+
+
+</body>
+</html>

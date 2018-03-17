@@ -69,6 +69,7 @@ and open the template in the editor.
 
             var tableSelections = [];
             var selectedRowCount = 0;
+            var studyid;
 
             window.onload = function() {
                 getStudyId();
@@ -142,6 +143,8 @@ and open the template in the editor.
                     if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
                     {
                         numOfTasks = +xmlHttpRequest.responseText;
+                        
+                        console.log('-->> numof tasks', numOfTasks);
                     }
                 };
                 xmlHttpRequest.open("GET", url, false);
@@ -160,7 +163,8 @@ and open the template in the editor.
                 getCompletionStats(studyid);
 
                 getCombinedRawDataFilename(studyid, 'summarized');
-                // getRawDataFilename(studyid, 'basic');
+                
+//                getRawDataFilename(studyid, 'basic');
                 loadDataTable("summarized");
 
             }
@@ -565,6 +569,8 @@ and open the template in the editor.
 
                 var url = "StudyResults?command=" + command + "&type=" + type
                         + "&studyid=" + studyid;
+                
+                console.log('url ', url);
 
                 //make a request to the servlet, get the name of the file and create a link for it
                 var xmlHttpRequest = getXMLHttpRequest();
@@ -587,7 +593,8 @@ and open the template in the editor.
                         //alert(outputFilename);
 
                         anchor.setAttribute("href", url);
-                        anchor.innerHTML = type + " raw data";
+                        anchor.setAttribute("target", "_blank");
+                        anchor.innerHTML = type + " data";
 
 
                         rawDataDiv.appendChild(document.createElement("br"));
@@ -635,8 +642,15 @@ and open the template in the editor.
                     div.removeChild(last);
             }
 
-            function dataTypeChanged() {
-                alert("data has been changed");
+            function dataTypeChanged(element) {
+                var studyid = document.getElementById("studyid").value;
+
+                var type = element.value;
+                
+//                alert("data has been changed");
+                getCombinedRawDataFilename(studyid, type);
+                
+                loadDataTable(element.value);
             }
 
             //this function will load a specific data type and create a table for that data
@@ -718,7 +732,8 @@ and open the template in the editor.
                                 var rows = allAccuracyfilesRows[i];
                                 //first lets get the row                             
 
-                                var keys = d3.keys(rows[i]);
+                                var keys = d3.keys(rows[0]);
+                                
 
                                 //  for (var k = 0; k < keys.length; k++) {
                                 var split = keys[0].split("_");
@@ -996,12 +1011,10 @@ and open the template in the editor.
         <br/><br/>
         <div id="dataSelection" class="grayBackground">
             Select a data to show 
-            <select onchange="dataTypeChanged();">
-                <option selected>Summarized Study Tasks Results</option>
-                <option>Raw Study Tasks Results</option>
-                <option>Results of Study Tasks without correct Answers</option>
-                <option>Pre-Study Results</option>
-                <option>Post-Study results</option>
+            <select onchange="dataTypeChanged(this);">
+                <option value="summarized" selected>Summarized Study Tasks Results</option>
+                <option value="basic">Raw Basic Tasks Results</option>
+                <option value="miscellaneous">Miscellaneous</option>
 
             </select> 
             <br/><br/>
@@ -1013,16 +1026,16 @@ and open the template in the editor.
             <div id="chart"></div>
             <h4>Statistical Analysis of Results (R)</h4> <hr />
             <div id="analysis"></div>
-            <h4>Raw Results Files </h4> <hr />
+            <h4>Results Files </h4> <hr />
             <div id="rawDataFilenames"></div>
 
             <br/>
-            <div id="tableButtons_0" class="tableButtons">
+<!--            <div id="tableButtons_0" class="tableButtons">
                 <input type="button" value="Filter Selected Rows"  id="filterRows_button" disabled
                        onclick="filterSelectedRows(this);"/>
                 <input type="button" value="Delete Selected rows" id="deleteRows_button" disabled
                        onclick="deleteSelectedRows(this);"/>
-            </div>
+            </div>-->
             <br/><br/>
             <div id="dataTableDiv">
 

@@ -152,28 +152,37 @@ public class ViewerManager extends HttpServlet {
 
                     String htmlFilenames = "no html files in directory";
                     File[] viewerFiles = viewerF.listFiles();
+                    
+                    System.out.println(getServletContext().getRealPath("users"
+                            + File.separator + userid + File.separator + "viewers"
+                            + File.separator + dirname.trim()) + "..............");
 
                     cnt = 0;
-                    for (int j = 0; j < viewerFiles.length; j++) {
-                        String filename = viewerFiles[j].getName();
-                        String ext = "";
+                    
+                    if (viewerFiles != null) {
+                         for (int j = 0; j < viewerFiles.length; j++) {
+                            String filename = viewerFiles[j].getName();
+                            String ext = "";
 
-                        if (filename.lastIndexOf(".") > 0) {
-                            ext = filename.substring(filename.lastIndexOf("."));
-                        }
-
-                        if (ext.trim().equalsIgnoreCase(".html")
-                                || ext.trim().equalsIgnoreCase(".htm")
-                                || ext.trim().equalsIgnoreCase(".xhtml")) {
-
-                            if (cnt == 0) {
-                                htmlFilenames = filename;
-                            } else {
-                                htmlFilenames += "," + filename;
+                            if (filename.lastIndexOf(".") > 0) {
+                                ext = filename.substring(filename.lastIndexOf("."));
                             }
-                            cnt++;
+
+                            if (ext.trim().equalsIgnoreCase(".html")
+                                    || ext.trim().equalsIgnoreCase(".htm")
+                                    || ext.trim().equalsIgnoreCase(".xhtml")) {
+
+                                if (cnt == 0) {
+                                    htmlFilenames = filename;
+                                } else {
+                                    htmlFilenames += "," + filename;
+                                }
+                                cnt++;
+                            }
                         }
                     }
+                    
+                   
                     viewerHTMLFilenames.add(htmlFilenames);
                 }
 

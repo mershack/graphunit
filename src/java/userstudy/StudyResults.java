@@ -161,10 +161,12 @@ public class StudyResults extends HttpServlet {
                             getTimeResults(rpmts);
                             msg = getSummarizedRawData(rpmts);
 
-                        } else {
+                        } else if (type.equalsIgnoreCase("basic")){
                             getAccuracyResultsBasic(rpmts);
                             getTimeResultsBasic(rpmts);
                             msg = getBasicRawData(rpmts);
+                        } else if (type.equalsIgnoreCase("miscellaneous")) {
+                            msg =  rpmts.studydataurl + File.separator + "MiscellaneousInfo.txt";
                         }
                     } else if (command.equalsIgnoreCase("getAllRawDataFilenames")) {
                         /**
@@ -240,7 +242,7 @@ public class StudyResults extends HttpServlet {
             //System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
             NodeList taskNode = doc.getElementsByTagName("task");
             NodeList datasetNode = doc.getElementsByTagName("dataset");
-            NodeList experimentTypeNode = doc.getElementsByTagName("experimenttype");
+            NodeList experimentTypeNode = doc.getElementsByTagName("experimenttype_vis");
             NodeList conditionNode = doc.getElementsByTagName("condition");
             NodeList studynameNode = doc.getElementsByTagName("studyname");
 
@@ -249,6 +251,8 @@ public class StudyResults extends HttpServlet {
             rpmts.studyType = ((Element) experimentTypeNode.item(0)).getTextContent();
             rpmts.numOfConditions = conditionNode.getLength();
             rpmts.numOfTasks = taskNode.getLength();
+            
+            System.out.println("numOfTasks:  " + rpmts.numOfTasks);
 
             //get the condition shortnames
             for (int i = 0; i < conditionNode.getLength(); i++) {
@@ -1830,8 +1834,10 @@ public class StudyResults extends HttpServlet {
                 for (int j = 0; j < rpmts.numOfTasks; j++) {
                     label = arr[0][j]; //get the label of the 
                     sum = 0;
-                    for (int k = 1; k < arr.length; k++) {
-                        sum += Double.parseDouble(arr[k][j]);
+                    for (int k = 1; k < arr.length; k++) {                        
+                        if (!arr[k][j].trim().isEmpty()) {
+                            sum += Double.parseDouble(arr[k][j]);
+                        }                        
                     }
 
                     //average
@@ -1840,8 +1846,12 @@ public class StudyResults extends HttpServlet {
                     //find the standard deviation
                     double deviation = 0, delta = 0;
                     for (int m = 1; m < arr.length; m++) {
-                        delta = Double.parseDouble(arr[m][j]) - average;
-                        deviation += delta * delta;
+                        
+                        if (!arr[m][j].trim().isEmpty()) {
+                            delta = Double.parseDouble(arr[m][j]) - average;
+                            deviation += delta * delta;
+                        }
+                       
                     }
                     deviation = Math.sqrt(deviation / total);
                     standardError = deviation / Math.sqrt(total);
@@ -2027,15 +2037,22 @@ public class StudyResults extends HttpServlet {
                     label = arr[0][j]; //get the label of the 
                     sum = 0;
                     for (int k = 1; k < arr.length; k++) {
-                        sum += Double.parseDouble(arr[k][j]);
+                        
+                        if (!arr[k][j].trim().isEmpty()) {
+                            sum += Double.parseDouble(arr[k][j]);
+                        }
+                        
                     }
                     //average
                     average = sum / total;
                     //find the standard deviation
                     double deviation = 0, delta = 0;
                     for (int m = 1; m < arr.length; m++) {
-                        delta = Double.parseDouble(arr[m][j]) - average;
-                        deviation += delta * delta;
+                        if (!arr[m][j].trim().isEmpty()) {
+                            delta = Double.parseDouble(arr[m][j]) - average;
+                            deviation += delta * delta;
+                        }
+                        
                     }
                     deviation = Math.sqrt(deviation / total);
                     standardError = deviation / Math.sqrt(total);

@@ -68,6 +68,13 @@ and open the template in the editor.
             .inputMedium{
                 min-width: 200px;
             }
+            .hide {
+                display: none;
+            }
+            
+            .info {
+                font-size: 0.9em;
+            }
         </style>
         <script type="text/javascript">
 
@@ -125,10 +132,14 @@ and open the template in the editor.
                         represents the position of the value among inputs provided for the task).                        
                     </em>
                     <br /> <br />
-                    <p> Type a short description of the task &nbsp; &nbsp;
-                        <textarea rows="2" cols="40" id="taskDescription" class="right"></textarea>
-                    </p>
-                    <br /><br/>
+                    
+                    <div class="hide">
+                        <p> Type a short description of the task &nbsp; &nbsp;
+                            <textarea rows="2" cols="40" id="taskDescription" class="right"></textarea>
+                        </p>
+                        <br /><br/>
+                    </div>
+                    
                 </div>  
             </form>
 
@@ -139,7 +150,11 @@ and open the template in the editor.
                     <div class="conditionNumberOdd">
 
                         <p>
-                            Will this task have correct Answers?
+                            Will this task have correct Answers? 
+                            <span class="info">
+                                <em>(Answer yes for quantitative questions,
+                                and no for qualitative questions such as age, and ratings)</em>
+                            </span>
                             <select id="hasCorrectAnswer" class="right"
                                     style="min-width:20%"
                                     onchange="doesTaskHasCorrectAnswer(this);">
@@ -157,7 +172,7 @@ and open the template in the editor.
                                 <option value="options-dynamic">Options(Dynamic)</option>
                                 <option value="Color-options-fixed">Color Options</option>                                
                                 <option value="Text">Text</option>                                    
-                                <option value="Interface">Interface</option>
+                                <!--<option value="Interface">Interface</option>-->
                             </select>
                         </p>                   
                         <div id="ansOptionsDiv" style="display:none;">
@@ -226,8 +241,10 @@ and open the template in the editor.
                 -->
 
                 <hr/>
-                <h4>Info about the inputs</h4>
-                <div class="innerBox">
+                
+                <div style="display:none">
+                     <h4>Info about the inputs</h4>
+                        <div class="innerBox">
                     <table>
                         <tbody id="inputsTable" class="center2">
                             <tr>
@@ -293,7 +310,11 @@ and open the template in the editor.
 
 
                 </div> 
-                <hr />
+                    
+                    <hr />
+
+                </div>               
+               
                 <div id="emptyFieldsNotice2" style="display:none;">
                     <p style="color: red">
                         Some fields are empty. Please fill all fields before Saving task.
