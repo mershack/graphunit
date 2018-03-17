@@ -530,6 +530,7 @@ function checkStudyForm() {
     var expt_vis = document.getElementById("expType_vis").value;
     if (expt_vis.trim() === "") {
         document.getElementById("experimentTypeError_vis").style.display = "block";
+        errorExists = true;
     }
     else {
         document.getElementById("experimentTypeError_vis").style.display = "none";
