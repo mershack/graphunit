@@ -247,7 +247,7 @@ public class StudyResults extends HttpServlet {
             NodeList studynameNode = doc.getElementsByTagName("studyname");
 
             //get the dataset
-            datasetname = ((Element) datasetNode.item(0)).getTextContent();
+//            datasetname = ((Element) datasetNode.item(0)).getTextContent();
             rpmts.studyType = ((Element) experimentTypeNode.item(0)).getTextContent();
             rpmts.numOfConditions = conditionNode.getLength();
             rpmts.numOfTasks = taskNode.getLength();
@@ -300,8 +300,12 @@ public class StudyResults extends HttpServlet {
         //For kruskal-Wallis find the effect for pairs:  r/sqrt(N) : where N is the  total number of the pairs.
         //Friedman is similar to kruskal wallis.
         //t-test to get the t use results$statistic, then get 
+        
+        System.out.println("****Normal Tasks: " + normalTasks.size());
+        System.out.println("----Abnormal Tasks: " + nonNormalTasks);
+        
         if (normalTasks.size() > 0) {
-            // System.out.println("***-normal***" + normalTasks.get(0));
+             System.out.println("***-normal***" + normalTasks.get(0));
             //there are some normal data so we will use a normalized            
             if (rpmts.numOfConditions == 2) { //we can use a ttest(it requires comparison between the two) or anova
                 analysis += generateTTest(rpmts.studyType, rpmts, normalTasks);
@@ -486,7 +490,8 @@ public class StudyResults extends HttpServlet {
                     pw.println("size2 = length(c(" + dataName2 + "[," + (i + 1) + "]))");
                     //now calculating the z first: formula: z = (W - (n1*n2)/2 )/sqrt(n1*n2(n1+n2+n1)/12) 
                     pw.println("num = result$statistic - (size1*size2)/2");
-                    pw.println("denom = sqrt(((size1*size2) * (size1+size2+1))/12)");
+                    pw.println("num = num/sqrt(((size1*size2) * (size1+size2+1))/12)");
+                    pw.println("denom = sqrt(size1 + size2)");                    
                     pw.println("es = num/denom");
 
                     pw.println("cat(paste(\"\\n" + taskname + "\", " + "\" , \"" + " , result$p.value, "
@@ -540,7 +545,9 @@ public class StudyResults extends HttpServlet {
                     pw.println("size2 = length(c(" + dataName2 + "[," + (i + 1) + "]))");
                     //now calculating the z first: formula: z = (W - (n1*n2)/2 )/sqrt(n1*n2(n1+n2+n1)/12) 
                     pw.println("num = result$statistic - (size1*size2)/2");
-                    pw.println("denom = sqrt(((size1*size2) * (size1+size2+1))/12)");
+                    pw.println("num = num/sqrt(((size1*size2) * (size1+size2+1))/12)");
+                    pw.println("denom = sqrt(size1 + size2)");
+                    //pw.println("denom = sqrt(((size1*size2) * (size1+size2+1))/12)");
                     pw.println("es = num/denom");
 
                     pw.println("cat(paste(\"\\n" + taskname + "\", " + "\" , \"" + " , result$p.value, "
@@ -707,13 +714,13 @@ public class StudyResults extends HttpServlet {
                     //     r = z/sqrt(N) : where N is the total number of participants n1+n2
                     pw.println("size1 = length(c(" + dataName1 + "[," + (i + 1) + "]))");
                     pw.println("size2 = length(c(" + dataName2 + "[," + (i + 1) + "]))");
-                    //now calculating the z first: formula: z = (W - (n1*n2)/2 )/sqrt(n1*n2(n1+n2+n1)/12) 
+                    //now calculating the z first: formula: z = (W - (n1*n2)/2 )/sqrt(n1*n2(n1+n2+1)/12) 
                     pw.println("num = result$statistic - (size1*size2)/2");
-                    pw.println("num = num / sqrt(((size1*size2) * (size1+size2+1))/12)");
+                    pw.println("num = num/sqrt(((size1*size2) * (size1+size2+1))/12)");
                     pw.println("denom = sqrt(size1 + size2)");
                     pw.println("es = num/denom");
                     
-                    System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+                    System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^");
 
                     pw.println("cat(paste(\"\\n" + taskname + "\", " + "\" , \"" + " , result$p.value, "
                             + "\" , " + "\"" + ", abs(es) , " + "\"\\n\" ))");
@@ -832,7 +839,8 @@ public class StudyResults extends HttpServlet {
                     pw.println("size2 = length(c(" + dataName2 + "[," + (i + 1) + "]))");
                     //now calculating the z first: formula: z = (W - (n1*n2)/2 )/sqrt(n1*n2(n1+n2+n1)/12) 
                     pw.println("num = result$statistic - (size1*size2)/2");
-                    pw.println("denom = sqrt(((size1*size2) * (size1+size2+1))/12)");
+                    pw.println("num = num/sqrt(((size1*size2) * (size1+size2+1))/12)");
+                    pw.println("denom = sqrt(size1 + size2)");           
                     pw.println("es = num/denom");
 
                     pw.println("cat(paste(\"\\n" + taskname + "\", " + "\" , \"" + " , result$p.value, "
@@ -1153,7 +1161,8 @@ public class StudyResults extends HttpServlet {
                         pw.println("size2 = length(c(" + dataName2 + "[," + (i + 1) + "]))");
                         //now calculating the z first: formula: z = (W - (n1*n2)/2 )/sqrt(n1*n2(n1+n2+n1)/12) 
                         pw.println("num = results$statistic - (size1*size2)/2");
-                        pw.println("denom = sqrt(((size1*size2) * (size1+size2+1))/12)");
+                        pw.println("num = num/sqrt(((size1*size2) * (size1+size2+1))/12)");
+                        pw.println("denom = sqrt(size1 + size2)");                      
                         pw.println("ess[" + (j + 1) + "] = abs(num/denom)");
 
                         // pw.println("tasknames[" + numberOfTasksDone + "] = \"" + taskname + "\"");
@@ -1171,7 +1180,7 @@ public class StudyResults extends HttpServlet {
                         pw.println("cat(paste(tasknames[" + (j + 1) + "] , " + "\",\" , pvalues_adj[" + (j + 1) + "], "
                                 + "\",\" , ess[" + (j + 1) + "]))");//get the pvalue for each column name
 
-                        //pw.println("paste(tasknames[" + (j + 1) + "] , " + "\",\" , pvalues_adj[" + (j + 1) + "])");//get the pvalue for each column name
+                                //pw.println("paste(tasknames[" + (j + 1) + "] , " + "\",\" , pvalues_adj[" + (j + 1) + "])");//get the pvalue for each column name
                     }
 
                 }
@@ -1205,7 +1214,8 @@ public class StudyResults extends HttpServlet {
                         pw.println("size2 = length(c(" + dataName2 + "[," + (i + 1) + "]))");
                         //now calculating the z first: formula: z = (W - (n1*n2)/2 )/sqrt(n1*n2(n1+n2+n1)/12) 
                         pw.println("num = results$statistic - (size1*size2)/2");
-                        pw.println("denom = sqrt(((size1*size2) * (size1+size2+1))/12)");
+                        pw.println("num = num/sqrt(((size1*size2) * (size1+size2+1))/12)");
+                        pw.println("denom = sqrt(size1 + size2)");
                         pw.println("ess[" + (j + 1) + "] = abs(num/denom)");
 
                         pw.println("tasknames[" + (j + 1) + "] = \"" + taskname + "\"");
@@ -1215,11 +1225,11 @@ public class StudyResults extends HttpServlet {
                     pw.println("pvalues_adj = p.adjust(pvalues, \"bonferroni\")");
                     //now print the name and the adjusted pvalues to file
                     for (int j = 0; j < timeColumnNames[i].length; j++) {
-                        pw.println("cat(\"\\n\")");
+                          pw.println("cat(\"\\n\")");
                         //pw.println("cat(paste(tasknames[" + j + "] , " + "\",\" , pvalues_adj[" + j + "]))");//get the pvalue for each column name
                         pw.println("cat(paste(tasknames[" + (j + 1) + "] , " + "\",\" , pvalues_adj[" + (j + 1) + "], "
                                 + "\",\" , ess[" + (j + 1) + "]))");//get the pvalue for each column name                      
-
+                        
                         //pw.println("paste(tasknames[" + (j + 1) + "] , " + "\",\" , pvalues_adj[" + (j + 1) + "])");//get the pvalue for each column name
                     }
 
@@ -1414,7 +1424,8 @@ public class StudyResults extends HttpServlet {
                             pw.println("size2 = length(c(" + dataName2 + "[," + (i + 1) + "]))");
                             //now calculating the z first: formula: z = (W - (n1*n2)/2 )/sqrt(n1*n2(n1+n2+n1)/12) 
                             pw.println("num = results$statistic - (size1*size2)/2");
-                            pw.println("denom = sqrt(((size1*size2) * (size1+size2+1))/12)");
+                            pw.println("num = num/sqrt(((size1*size2) * (size1+size2+1))/12)");
+                            pw.println("denom = sqrt(size1 + size2)");
                             pw.println("ess[" + numberOfTasksDone + "] = abs(num/denom)");
 
                             pw.println("tasknames[" + numberOfTasksDone + "] = \"" + taskname + "\"");
@@ -1488,7 +1499,9 @@ public class StudyResults extends HttpServlet {
                             pw.println("size2 = length(c(" + dataName2 + "[," + (i + 1) + "]))");
                             //now calculating the z first: formula: z = (W - (n1*n2)/2 )/sqrt(n1*n2(n1+n2+n1)/12) 
                             pw.println("num = results$statistic - (size1*size2)/2");
-                            pw.println("denom = sqrt(((size1*size2) * (size1+size2+1))/12)");
+                            pw.println("num = num/sqrt(((size1*size2) * (size1+size2+1))/12)");
+                            pw.println("denom = sqrt(size1 + size2)");
+                            //pw.println("denom = sqrt(((size1*size2) * (size1+size2+1))/12)");
                             pw.println("ess[" + numberOfTasksDone + "] = abs(num/denom)");
 
                             pw.println("tasknames[" + numberOfTasksDone + "] = \"" + taskname + "\"");
@@ -1834,8 +1847,9 @@ public class StudyResults extends HttpServlet {
                 for (int j = 0; j < rpmts.numOfTasks; j++) {
                     label = arr[0][j]; //get the label of the 
                     sum = 0;
-                    for (int k = 1; k < arr.length; k++) {                        
-                        if (!arr[k][j].trim().isEmpty()) {
+                    for (int k = 1; k < arr.length; k++) {    
+                        
+                        if (arr[k][j] != null && !arr[k][j].trim().isEmpty()) {
                             sum += Double.parseDouble(arr[k][j]);
                         }                        
                     }
@@ -1847,7 +1861,7 @@ public class StudyResults extends HttpServlet {
                     double deviation = 0, delta = 0;
                     for (int m = 1; m < arr.length; m++) {
                         
-                        if (!arr[m][j].trim().isEmpty()) {
+                        if (arr[m][j] != null && !arr[m][j].trim().isEmpty()) {
                             delta = Double.parseDouble(arr[m][j]) - average;
                             deviation += delta * delta;
                         }
@@ -2006,7 +2020,7 @@ public class StudyResults extends HttpServlet {
 
                         String split[] = taskTime.get(j).split(",");
                         for (int k = 0; k < split.length; k++) {
-                            // System.out.println("***** " +taskAccuracy.get(i));
+//                            System.out.println("*j*k -- " +j + "__" +k);
                             taskTime2[j][k] = split[k];
                         }
 
@@ -2038,7 +2052,7 @@ public class StudyResults extends HttpServlet {
                     sum = 0;
                     for (int k = 1; k < arr.length; k++) {
                         
-                        if (!arr[k][j].trim().isEmpty()) {
+                        if (arr[k][j] != null && !arr[k][j].trim().isEmpty()) {
                             sum += Double.parseDouble(arr[k][j]);
                         }
                         
@@ -2048,7 +2062,7 @@ public class StudyResults extends HttpServlet {
                     //find the standard deviation
                     double deviation = 0, delta = 0;
                     for (int m = 1; m < arr.length; m++) {
-                        if (!arr[m][j].trim().isEmpty()) {
+                        if ((arr[m][j] != null) && !arr[m][j].trim().isEmpty()) {
                             delta = Double.parseDouble(arr[m][j]) - average;
                             deviation += delta * delta;
                         }
@@ -2213,21 +2227,21 @@ public class StudyResults extends HttpServlet {
                 String filename = "AccuracyResults" + (i + 1) + ".txt";
 
                 File file = new File(getServletContext().getRealPath(rpmts.studydataurl + File.separator + filename));
+                int counter = 0;
 
                 if (file.exists()) {
                     BufferedReader br = new BufferedReader(new FileReader(file));
                     String line = "";
 
-                    int counter = 0;
                     while ((line = br.readLine()) != null) {
                         counter++;
                     }
                     //record the maximum rows
-                    counter = counter - 1; //subtract the header.
-                    rpmts.numOfCompletedStudiesPerCondition.add(counter);
+                    counter = counter - 1; //subtract the header.                   
 
                     br.close();
-                }
+                }                
+                rpmts.numOfCompletedStudiesPerCondition.add(counter);
 
             }
 
@@ -2263,7 +2277,7 @@ public class StudyResults extends HttpServlet {
 
     }
 
-    public String generateShapiroWilk(ArrayList<String> normalTasks, ArrayList<String> nonNormalTasks, ResultParameters rpmts) {
+     public String generateShapiroWilk(ArrayList<String> normalTasks, ArrayList<String> nonNormalTasks, ResultParameters rpmts) {
         String scriptFilename = "rscript-shapiro.R";
         String scriptOutputFilename = "rscript-shapiro.Rout";
         String scriptOutputFilename2 = "shapiro-wilk-Analysis.txt";
@@ -2276,36 +2290,30 @@ public class StudyResults extends HttpServlet {
             String[][] timeColumnNames = new String[rpmts.numOfConditions][rpmts.numOfTasks];
             for (int i = 0; i < rpmts.numOfConditions; i++) {
                 File AccuracyFile = new File(getServletContext().getRealPath(rpmts.studydataurl + File.separator + rpmts.accuracyFilenames.get(i)));
-                if (AccuracyFile.exists()) {
-                    br = new BufferedReader(new FileReader(AccuracyFile));
-                    while ((line = br.readLine()) != null) {
-                        String split[] = line.split(",");
+                br = new BufferedReader(new FileReader(AccuracyFile));
+                while ((line = br.readLine()) != null) {
+                    String split[] = line.split(",");
 
-                        for (int j = 0; j < split.length; j++) {
-                            accColumnNames[i][j] = split[j];
-                        }
-                        break;
+                    for (int j = 0; j < split.length; j++) {
+                        accColumnNames[i][j] = split[j];
                     }
-                    br.close();
+                    break;
                 }
-
+                br.close();
             }
 
             for (int i = 0; i < rpmts.numOfConditions; i++) {
                 File timeFile = new File(getServletContext().getRealPath(rpmts.studydataurl + File.separator + rpmts.timeFilenames.get(i)));
+                br = new BufferedReader(new FileReader(timeFile));
+                while ((line = br.readLine()) != null) {
+                    String split[] = line.split(",");
 
-                if (timeFile.exists()) {
-                    br = new BufferedReader(new FileReader(timeFile));
-                    while ((line = br.readLine()) != null) {
-                        String split[] = line.split(",");
-
-                        for (int j = 0; j < split.length; j++) {
-                            timeColumnNames[i][j] = split[j];
-                        }
-                        break;
+                    for (int j = 0; j < split.length; j++) {
+                        timeColumnNames[i][j] = split[j];
                     }
-                    br.close();
+                    break;
                 }
+                br.close();
             }
 
             //Write the R-Script           
@@ -2455,6 +2463,7 @@ public class StudyResults extends HttpServlet {
                 // System.out.println("Line::: " + line);
 
                 if (line.indexOf("******") >= 0) {
+                    System.out.println("......... "+curtask + "........................ normal: "+normal);
                     //write the previous task
                     if (normal) {
                         //System.out.println("*** this task:: "+ curtask + "  is normal");
@@ -2496,6 +2505,9 @@ public class StudyResults extends HttpServlet {
                     if (pvalue < 0.05) {
                         normal = false;
                     }
+                    else {
+                        System.out.println("### " + pvalue);
+                    }
                     //System.out.println("***pvalue :: " + pvalue);
                 }
 
@@ -2535,37 +2547,30 @@ public class StudyResults extends HttpServlet {
             String[][] timeColumnNames = new String[rpmts.numOfConditions][rpmts.numOfTasks];
             for (int i = 0; i < rpmts.numOfConditions; i++) {
                 File AccuracyFile = new File(getServletContext().getRealPath(rpmts.studydataurl + File.separator + rpmts.accuracyFilenames.get(i)));
+                br = new BufferedReader(new FileReader(AccuracyFile));
+                while ((line = br.readLine()) != null) {
+                    String split[] = line.split(",");
 
-                if (AccuracyFile.exists()) {
-                    br = new BufferedReader(new FileReader(AccuracyFile));
-                    while ((line = br.readLine()) != null) {
-                        String split[] = line.split(",");
-
-                        for (int j = 0; j < split.length; j++) {
-                            accColumnNames[i][j] = split[j];
-                        }
-                        break;
+                    for (int j = 0; j < split.length; j++) {
+                        accColumnNames[i][j] = split[j];
                     }
-                    br.close();
+                    break;
                 }
-
+                br.close();
             }
 
             for (int i = 0; i < rpmts.numOfConditions; i++) {
                 File timeFile = new File(getServletContext().getRealPath(rpmts.studydataurl + File.separator + rpmts.timeFilenames.get(i)));
-                if (timeFile.exists()) {
-                    br = new BufferedReader(new FileReader(timeFile));
-                    while ((line = br.readLine()) != null) {
-                        String split[] = line.split(",");
+                br = new BufferedReader(new FileReader(timeFile));
+                while ((line = br.readLine()) != null) {
+                    String split[] = line.split(",");
 
-                        for (int j = 0; j < split.length; j++) {
-                            timeColumnNames[i][j] = split[j];
-                        }
-                        break;
+                    for (int j = 0; j < split.length; j++) {
+                        timeColumnNames[i][j] = split[j];
                     }
-                    br.close();
+                    break;
                 }
-
+                br.close();
             }
 
             //Write the R-Script           
@@ -2684,6 +2689,7 @@ public class StudyResults extends HttpServlet {
         return analysisOutput;
 
     }
+
 
     public void runOSCommandForR(String scriptFilename, String scriptOutputFilename, ResultParameters rpmts) {
         String os = System.getProperty("os.name").toLowerCase();
@@ -3486,7 +3492,7 @@ public class StudyResults extends HttpServlet {
                         pw.println("anovaresult = aov(lm(values ~ ind, combineddata))");
                     } else {//do this if it is a within study. //i.e. a repeated measure anova
                         //TODO: Effect-size  for anova 
-
+                        
                         pw.println("numcases = " + numOfRows);  //the number of cases goes here
                         pw.println("numvariables =" + rpmts.numOfConditions);
                         pw.println("recall.df = data.frame(recall = combineddata,");

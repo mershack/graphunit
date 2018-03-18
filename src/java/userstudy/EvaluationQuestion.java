@@ -272,4 +272,11 @@ public class EvaluationQuestion {
      public boolean hasCorrectAnswer(){
          return (hasCorrectAnswer.equalsIgnoreCase("yes"));
      }
+     
+     public String toString() {
+       String str = "%%%%";
+       
+       str += this.ansType + "__" + this.inputTypeStr + "__"  + this.taskOptions;
+       return str;
+     }
 }

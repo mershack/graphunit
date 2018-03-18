@@ -189,7 +189,6 @@ public class StudyManager extends HttpServlet {
                 } else if (command.equalsIgnoreCase("getViewerDimensions")) {
                     String width = upmts.viewerWidth;
                     String height = upmts.viewerHeight;
-
                     msg = width + "x" + height;  //i.e. w x h  e.g. 800x600   
                 } else if (command.equalsIgnoreCase("getQuestion")) {
 
@@ -436,10 +435,12 @@ public class StudyManager extends HttpServlet {
                     }
                 } else if (command.equalsIgnoreCase("getAnswerControllers")) {
                     if (upmts.isTutorial) {
-                        //System.out.println("**** "+ (tutorialCounter - 1));
                         msg = upmts.tutorialQuestions.get(upmts.tutorialCounter - 1).getAnswerTypeAndOutputType();
+                        System.out.println("**** ");
+
                     } else {
                         msg = upmts.evalQuestions.get(upmts.testCounter - 1).getAnswerTypeAndOutputType();
+                        System.out.println("face");
                     }
                 } else if (command.equalsIgnoreCase("getHasCorrectAnswer")) {
                     if (upmts.isTutorial && upmts.tutorialQuestions.get(upmts.tutorialCounter - 1) != null) {
@@ -1026,18 +1027,18 @@ public class StudyManager extends HttpServlet {
     }
     
     
-    public void adjustTutorialConditions(StudyParameters upmts) {
-         //for the tutorial session
-        upmts.tutorialViewerShortnames = new ArrayList<String>();
-        upmts.tutorialViewerUrls = new ArrayList<String>();
-        for (int i = 0; i < upmts.viewerConditionShortnames.size(); i++) {
-            upmts.tutorialViewerShortnames.add(upmts.viewerConditionShortnames.get(i));
-            upmts.tutorialViewerUrls.add(upmts.viewerConditionUrls.get(i));
-            
-            System.out.println("*(___) " + upmts.tutorialViewerUrls.get(i));
-        }
-       
-    }
+//    public void adjustTutorialConditions(StudyParameters upmts) {
+//         //for the tutorial session
+//        upmts.tutorialViewerShortnames = new ArrayList<String>();
+//        upmts.tutorialViewerUrls = new ArrayList<String>();
+//        for (int i = 0; i < upmts.viewerConditionShortnames.size(); i++) {
+//            upmts.tutorialViewerShortnames.add(upmts.viewerConditionShortnames.get(i));
+//            upmts.tutorialViewerUrls.add(upmts.viewerConditionUrls.get(i));
+//            
+//            System.out.println("*(___) " + upmts.tutorialViewerUrls.get(i));
+//        }
+//       
+//    }
 
     /**
      * This method will be used to adjust the conditions when there are more
@@ -1271,8 +1272,10 @@ public class StudyManager extends HttpServlet {
     public void prepareActualStudyQuestions(HttpServletRequest request, StudyParameters upmts, String userid) {
         try {
             if (upmts.getDatasetConditionNames().size() > 0) {
+                System.out.println("AAAAAAAAA");
                 prepareTasksWithDatasets(request, upmts, userid);
             } else {
+                System.out.println("BBBBBBBBBBBBBB");
                 String taskFilenameUrl = "";
 
                 //for(int j=0; j<upmts.getDatasetConditionNames())
@@ -1354,6 +1357,10 @@ public class StudyManager extends HttpServlet {
                                     upmts.evalQuestions.add(evalQn);
                                     questionCount++;
                                 }
+                                
+                                System.out.println(evalQn);
+                                
+                                
                                 if (questionCount == questionsize) {
                                     break;
                                 }
@@ -2242,6 +2249,8 @@ public class StudyManager extends HttpServlet {
             //System.out.println("Writing Between Study Results");
             upmts.sizeOfACondition = upmts.evalQuestions.size();
             
+            System.out.println("***___ size of a condition :: " + upmts.sizeOfACondition );
+            
             File files[] = new File[upmts.currentConditions.size()];
             BufferedWriter bws[] = new BufferedWriter[upmts.currentConditions.size()];
             PrintWriter pws[] = new PrintWriter[upmts.currentConditions.size()];
@@ -2291,7 +2300,6 @@ public class StudyManager extends HttpServlet {
                     }
                     pws[k].println();
                 }
-
             }
 
             //write the data to a file.
@@ -2301,6 +2309,8 @@ public class StudyManager extends HttpServlet {
             for (int k = 0; k < upmts.currentConditions.size(); k++) {
                 start = k * upmts.sizeOfACondition;
                 limit = start + upmts.sizeOfACondition;//write the data to a file.
+                
+                
 
                 int j = 0;
                 int taskSize = upmts.questionSizes.get(j);
@@ -2323,7 +2333,8 @@ public class StudyManager extends HttpServlet {
                         cnt = 1;
                     }
 
-                    // System.out.println("****m "+m + " *** limit: "+limit );
+                     System.out.println("****m "+m + " *** limit: "+limit );
+             
                     //do this only if it is a quantitative task or part of a quantitative task.
                     if (upmts.evalQuestions.get(m).hasCorrectAnswer()) {
                         quanttaskBegin = true;
@@ -2338,6 +2349,8 @@ public class StudyManager extends HttpServlet {
                         quanttaskBegin = false;
                         quanttaskExist = false;
                     }
+                    
+                    System.out.println("_____Cnt "+ cnt + ":: _taskSize: " + taskSize + " : quantTaskBegin: "+quanttaskBegin);
 
                     if (cnt == taskSize) {
 
@@ -2643,6 +2656,7 @@ public class StudyManager extends HttpServlet {
 
                 int j = 0;
                 taskSize = upmts.questionSizes.get(j);
+                
                 cnt = 0;
 
                 //   System.out.println("The Start is:: " + start +"  The LIMIT IS :: " +limit);
@@ -2679,8 +2693,10 @@ public class StudyManager extends HttpServlet {
 
                         TaskDetails td = upmts.taskDetails.get(j);
                         if (td.hasCorrectAnswer()) {
-                            taskSize = (Integer) upmts.questionSizes.get(j);
                             j++;
+                            if (j <  upmts.questionSizes.size())
+                            taskSize = (Integer) upmts.questionSizes.get(j);
+                            
                             cnt = 0;
                         }
                     }
@@ -2807,10 +2823,11 @@ public class StudyManager extends HttpServlet {
                             pws[i].print("," + time);
                         }
 
-                        if (cnt == taskSize) {
-                            taskSize = (Integer) upmts.questionSizes.get(j);
-                            j++;
+                        if (cnt == taskSize && (j+1) < upmts.questionSizes.size()) {
+                            j++;                            
+                            taskSize = (Integer) upmts.questionSizes.get(j);                            
                             cnt = 0;
+                            
                         }
                     }
                 }
@@ -2945,9 +2962,10 @@ public class StudyManager extends HttpServlet {
                         }
                     }
 
-                    if (cnt == taskSize) {
-                        taskSize = (Integer) upmts.questionSizes.get(j);
+                    if (cnt == taskSize && (j+1) < upmts.questionSizes.size()) {
                         j++;
+                        taskSize = (Integer) upmts.questionSizes.get(j);
+                        
                         cnt = 0;
                     }
 
@@ -3083,9 +3101,10 @@ public class StudyManager extends HttpServlet {
                         }
                     }
 
-                    if (cnt == taskSize) {
-                        taskSize = (Integer) upmts.questionSizes.get(j);
+                    if (cnt == taskSize && (j+1) < upmts.questionSizes.size()) {
                         j++;
+                        taskSize = (Integer) upmts.questionSizes.get(j);
+                        
                         cnt = 0;
                     }
 
@@ -3157,6 +3176,7 @@ public class StudyManager extends HttpServlet {
 
             System.out.println("^^^ The number of conditions is " + numOfConditions);
             System.out.println("^^^ The size of questionSizes is " + upmts.questionSizes.size());
+            System.out.println("^^^ The number of Eval questiosn is:  "+ upmts.evalQuestions.size());
 
             for (int i = 0; i < numOfConditions; i++) {
                 start = i * upmts.sizeOfACondition;
@@ -3557,8 +3577,9 @@ public class StudyManager extends HttpServlet {
 
                         TaskDetails td = upmts.taskDetails.get(j);
                         if (td.hasCorrectAnswer()) {
-                            taskSize = (Integer) upmts.questionSizes.get(j);
                             j++;
+                            taskSize = (Integer) upmts.questionSizes.get(j);
+                            
                             cnt = 0;
                         }
                     }
@@ -3685,9 +3706,10 @@ public class StudyManager extends HttpServlet {
                             pws[i].print("," + time);
                         }
 
-                        if (cnt == taskSize) {
-                            taskSize = (Integer) upmts.questionSizes.get(j);
+                        if (cnt == taskSize && (j+1) < upmts.questionSizes.size()) {
                             j++;
+                            taskSize = (Integer) upmts.questionSizes.get(j);
+                            
                             cnt = 0;
                         }
                     }
@@ -3823,9 +3845,10 @@ public class StudyManager extends HttpServlet {
                         }
                     }
 
-                    if (cnt == taskSize) {
-                        taskSize = (Integer) upmts.questionSizes.get(j);
+                    if (cnt == taskSize && (j+1) < upmts.questionSizes.size()) {
                         j++;
+                        taskSize = (Integer) upmts.questionSizes.get(j);
+                        
                         cnt = 0;
                     }
 
@@ -3961,9 +3984,10 @@ public class StudyManager extends HttpServlet {
                         }
                     }
 
-                    if (cnt == taskSize) {
-                        taskSize = (Integer) upmts.questionSizes.get(j);
+                    if (cnt == taskSize && (j+1) < upmts.questionSizes.size()) {
                         j++;
+                        taskSize = (Integer) upmts.questionSizes.get(j);
+                        
                         cnt = 0;
                     }
 

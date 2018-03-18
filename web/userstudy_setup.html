@@ -27,6 +27,7 @@ and open the template in the editor.
                 margin-left: 20px;
                 //padding-left: 20px;
                 width:800px;
+                padding-bottom: 80px;
             }
             .right{                
                 float:right;
@@ -137,6 +138,15 @@ and open the template in the editor.
             }
             .button {
                 margin: 5px;
+            }
+            
+            #pageError {
+                padding-top: 10px;
+                padding-bottom: 5px;
+            }
+            
+            .action-buttons {
+                padding-top: 20px;
             }
 
         </style>
@@ -900,11 +910,15 @@ and open the template in the editor.
                 <hr>
                 </div>
 
-                <div class="divCenter">
+                <div class="errorNotices" id="pageError"> You are missing some mandatory fields. Please fix them before you continue.</div>
+
+                <div class="divCenter action-buttons">
                     <input type="button" value="See Demo" onclick="getDemo()"/>
                     &nbsp; 
                     <input type="button" value="Save Study" onclick="setSubmitCommand();"/>
                 </div>
+                
+
                 <div id="hiddenElements">
                     <input type="hidden" value="" id="command" name="command" />                    
                     

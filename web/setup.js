@@ -581,7 +581,11 @@ function checkStudyForm() {
 
 
     if (errorExists === true) {
+        document.getElementById("pageError").style.display = "block";
+        
         return false;
+    }else {
+        document.getElementById("pageError").style.display = "none";
     }
 
 

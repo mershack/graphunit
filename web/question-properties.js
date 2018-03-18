@@ -83,6 +83,7 @@ function getAnswerControllers() {
             //create the controls received from the servlet
             retrieveHasCorrectAnswer();
             setUpAnswerControllers(xmlHttpRequest.responseText);
+//            alert(xmlHttpRequest.responseText);
 
             retrieveCorrectAnswer();
 
