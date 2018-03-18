@@ -5,6 +5,11 @@
 var sizeOfAnsOptions = 2; //starting default value
 var numberOfInputs = 0; //default number of inputs
 
+function startTaskCreationWithUserID() {
+    document.getElementById("login-container").style.display = "none";
+    document.getElementById("task-container").style.display = "block";
+}
+
 function answerOptionChanged(element) {
     //check if options where selected in which case you should allow options to be entered.
     if (element.value === "options-fixed" || element.value === "Color-options-fixed") {

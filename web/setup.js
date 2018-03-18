@@ -18,6 +18,12 @@ var directoryFiles = [];
 var theURL = "graphunit";
 var existingStudyNames = [];
 var originalStudyName = "";
+
+function loginWithUserID() {
+    document.getElementById("login-container").style.display = "none";
+    document.getElementById("setup-container").style.display = "block";
+    prepareNewSetupForm();
+}
 function prepareNewSetupForm() {
     var actualStudyDiv = document.getElementById("qnDiv1");
     var preStudyDiv = document.getElementById("preStudyQnDiv1");
@@ -110,7 +116,7 @@ function prepareEditingCopySetupForm(mgmtCommand) {
                     var additionalConds = conditions.length - 2;
                     // alert(additionalConds);
                     for (var i = 0; i < additionalConds; i++) {
-                        addAnotherCondition()
+                        addAnotherCondition();
                     }
                 }
 
@@ -149,7 +155,7 @@ function prepareEditingCopySetupForm(mgmtCommand) {
                         document.getElementById("taskType" + cnt).value = task.question;
                         document.getElementById("taskSize" + cnt).value = task.size;
                         document.getElementById("taskTime" + cnt).value = task.time;
-                    })
+                    });
                 }, 200);
                 if (mgmtCommand.trim() === "copy") {
                     //copy to the name of the study name.                    
@@ -349,7 +355,7 @@ function submitFormDetails() {
         
         if (pst) {
             
-            if (pstCount === 1) {
+            if (pstCount === 0) {
                  preStudyTasks = "preStudyTasks=" + pst;
             }
             else {
@@ -362,6 +368,8 @@ function submitFormDetails() {
 
         
     }
+    
+//    alert(preStudyTasks);
 
     //get the poststudytasks
     var postStudyTasks = "";
@@ -429,7 +437,32 @@ function submitFormDetails() {
 
             if (command === "Submit") {
                 //finished
-                window.location = "setup-completed.html";
+//                window.location = "setup-completed.html";
+                var studyurl = "StudyManager?studyname="+studyname
+                                            + "&userid="+userid;
+                var resulturl = "StudyResults?studyname="+studyname
+                                    +"&userid="+userid;                     
+                                                
+                document.getElementById("userstudy").href = studyurl;
+                document.getElementById("studyresults").href = resulturl;
+
+                //create a string of the full path
+                var curfileurl=document.URL;
+
+                var ind = curfileurl.lastIndexOf("/");
+
+                var baseurl = curfileurl.substring(0, ind+1);
+
+
+
+                document.getElementById("userstudy").innerHTML = baseurl + studyurl;
+                document.getElementById("studyresults").innerHTML = baseurl +  resulturl;
+
+
+
+                document.getElementById("controlBox").style.display = "none";
+                document.getElementById("completion-success").style.display = "block";
+
             }
             else {
                 //open a new window to show the demo

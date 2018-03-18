@@ -1272,10 +1272,10 @@ public class StudyManager extends HttpServlet {
     public void prepareActualStudyQuestions(HttpServletRequest request, StudyParameters upmts, String userid) {
         try {
             if (upmts.getDatasetConditionNames().size() > 0) {
-                System.out.println("AAAAAAAAA");
+//                System.out.println("AAAAAAAAA");
                 prepareTasksWithDatasets(request, upmts, userid);
             } else {
-                System.out.println("BBBBBBBBBBBBBB");
+//                System.out.println("BBBBBBBBBBBBBB");
                 String taskFilenameUrl = "";
 
                 //for(int j=0; j<upmts.getDatasetConditionNames())

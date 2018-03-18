@@ -86,6 +86,7 @@ public class TaskCreator extends HttpServlet {
                                 break;
                             }
                         }
+                        br.close();
                     }
 
                     //now check the main existing files in VisUnit.
@@ -106,6 +107,8 @@ public class TaskCreator extends HttpServlet {
                             break;
                         }
                     }
+                    
+                    br2.close();
 
                 }
 

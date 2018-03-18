@@ -148,6 +148,26 @@ and open the template in the editor.
             .action-buttons {
                 padding-top: 20px;
             }
+            
+            #setup-container {
+                display: none;
+            }
+            .login-container2 {
+                margin: 20px 0;
+                padding: 20px;
+            }
+            
+            .login-btn {
+                margin-left: 10px;
+            }
+            
+            .login-row {
+                margin-top: 10px;
+            }
+            
+            .completion-success {
+                display: none;
+            }
 
         </style>
         <script type="text/javascript">
@@ -175,7 +195,7 @@ and open the template in the editor.
                             prepareEditingCopySetupForm(managementCommand);
                         }
                         else {
-                            prepareNewSetupForm();
+//                            prepareNewSetupForm();
                         }
                     }
                 };
@@ -184,10 +204,9 @@ and open the template in the editor.
 
 
 
-
-
-
             };
+            
+            
 
 
 
@@ -198,8 +217,25 @@ and open the template in the editor.
 
         <div id="controlBox">
             <h2>Design a user study involving Data Visualizations     </h2>
-            <form>
-                <hr>
+            <hr>
+            <div class="login-container" id="login-container">
+                <div class="login-container2">
+                    <div>Please specify your user ID (If you don't have an ID, leave the default).</div>
+
+                     <div class="login-row">
+                         User ID:  <input type="text" id="userid" value="user2" />
+
+                         <button class="login-btn" onclick="loginWithUserID()">Go To Setup Form</button>
+                     </div> 
+                </div>
+                 
+              <hr>      
+            </div>
+            
+            
+            <div id="setup-container">
+               <form>
+               
                 <h4>Create or Update files</h4>
 
                 <div class="innerBox divCenter2" >
@@ -938,8 +974,23 @@ and open the template in the editor.
             <div id="frameForViewerTesting" style="display:none;">
 
             </div>
+ 
+            </div>
+            
 
-
+        </div>
+        
+        
+        <div class="completion-success" id="completion-success">
+            <p>
+            Setup completed successfully. </p>
+            
+        <h4> <u>Links to Use</u> </h4>
+        <p>Link to the User Study : <a id="userstudy" href="">User study</a></p>
+        <p>Link to the Study Results : <a id="studyresults" href="">Study Results</a></p>
+                      
+            <input type="hidden" id="studyname" value=""  />
+            
         </div>
 
     </body>

@@ -75,6 +75,21 @@ and open the template in the editor.
             .info {
                 font-size: 0.9em;
             }
+            #task-container {
+                display: none;
+            }
+            .login-container2 {
+                margin: 20px 0;
+                padding: 20px;
+            }
+            
+            .login-btn {
+                margin-left: 10px;
+            }
+            
+            .login-row {
+                margin-top: 10px;
+            }
         </style>
         <script type="text/javascript">
 
@@ -84,12 +99,28 @@ and open the template in the editor.
     <body>
         <div id="controlBox">            
             <h2> Create a New Task </h2>
-            <div id="emptyFieldsNotice" style="display:none;">
+            <hr />
+            <div class="login-container" id="login-container">
+                <div class="login-container2">
+                    <div>Please specify your user ID (If you don't have an ID, leave the default).</div>
+
+                     <div class="login-row">
+                         User ID:  <input type="text" id="userid" value="user2" />
+
+                         <button class="login-btn" onclick="startTaskCreationWithUserID()">Go To Tasks Form</button>
+                     </div> 
+                </div>
+                 
+              <hr>      
+            </div>
+            
+            <div class="task-container" id="task-container">
+                 <div id="emptyFieldsNotice" style="display:none;">
                 <p style="color: red">
                     Some fields are empty. Please fill all fields before Saving task.
                 </p>
             </div>
-            <hr />
+            
 
             <div class="innerBox">
 
@@ -329,9 +360,10 @@ and open the template in the editor.
                 </div>
 
             </form>
+            </div>
         </div>
 
-       <input type="hidden" id="userid" value="user2" />
+       <!--<input type="hidden" id="userid" value="user2" />-->
     
     <!--<input type="hidden" id="userid" value="user2" />
     <input type="hidden" id="userid" value="user4" />

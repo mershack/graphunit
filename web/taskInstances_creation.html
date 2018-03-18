@@ -87,26 +87,67 @@ and open the template in the editor.
                 margin-top: 50px;
                 margin-left: 100px;
             }
+             #task-instance-container {
+                display: none;
+            }
+            .login-container2 {
+                margin: 20px 0;
+                padding: 20px;
+            }
+            
+            .login-btn {
+                margin-left: 10px;
+            }
+            
+            .login-row {
+                margin-top: 10px;
+            }
                 
         </style>
         <script type="text/javascript">
 
             window.onload = function() {
                 //we will try and get the respective name for this current study
+                
+                //getExistingDirectoryNamesAndHTMLFilenames();
+
+            };
+            
+            function startTaskInstancesWithUserID() {
+                document.getElementById("login-container").style.display = "none";
+                document.getElementById("task-instance-container").style.display = "block";                
+                
                 var div = document.getElementById("qnDiv");
                
                 loadTasks(div, "label", "1", "taskType");
                 loadDatasets("1");
-                //getExistingDirectoryNamesAndHTMLFilenames();
-
-            };
+            }
+            
         </script>
     </head>
     <body>
         <div id="controlBox">
             <h2> Create Task Instances </h2>
+            <hr>
+
+            
+            <div class="login-container" id="login-container">
+                <div class="login-container2">
+                    <div>Please specify your user ID (If you don't have an ID, leave the default).</div>
+
+                     <div class="login-row">
+                         User ID:  <input type="text" id="userid" value="user2" />
+
+                         <button class="login-btn" onclick="startTaskInstancesWithUserID()">Go To Task Instances Form</button>
+                     </div> 
+                </div>
+                 
+              <hr>      
+            </div>          
+            
+            <div class="task-instance-container" id="task-instance-container">
+                
             <form>
-                <hr>
                                
                 <h4>Create or Update files</h4>
 
@@ -208,8 +249,9 @@ and open the template in the editor.
                     <input type="hidden" value=""  id="tempname" name="studyname" />
                 </div>-->
             </form>
-
-            <input type="hidden" id="userid" value="user2" />
+            </div>
+            
+            <!--<input type="hidden" id="userid" value="user2" />-->
     
         </div>
         
