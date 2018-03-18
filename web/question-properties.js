@@ -189,7 +189,7 @@ function setUpAnswerControllers(controllersString) {
     answerDataType = dataType;
 
 
-
+    console.log('the datatype is:  ', dataType);
     if (dataType === "options-fixed" || dataType === "options-dynamic") {
 
         //get the options
@@ -788,6 +788,9 @@ function showPostStudyQualitativeQuestions(qnString) {
 
 
         var dataType = split2[1];
+        
+        console.log('data type is:  ', dataType);
+        
         if (dataType === "options-fixed" || dataType === "options-dynamic") {
             createQualMultipleChoiceInput(li, i, split2[2]);
         }
@@ -800,6 +803,10 @@ function showPostStudyQualitativeQuestions(qnString) {
         }
         else if (dataType === "string") {
             createQualStringInput(li, i);
+        }
+        
+        else if (dataType === "Text") {
+            createQualMediumSizeStringInput(li, i);
         }
 
         ol.appendChild(li);
@@ -959,16 +966,15 @@ function showPreQualitativeQuestions(qnString) {
 
         if (dataType === "options-fixed" || dataType === "options-dynamic") {
             createQualMultipleChoiceInput(li, i, split2[2]);
-        }
-        else if (dataType === "integer" || dataType === "Number") {
+        } else if (dataType === "integer" || dataType === "Number") {
             //create a numeric input 
             createQualIntegerInput(li, i);
-        }
-        else if (dataType === "float") {
+        } else if (dataType === "float") {
             createQualFloatInput();
-        }
-        else if (dataType === "string") {
+        } else if (dataType === "string") {
             createQualStringInput(li, i);
+        } else if (dataType === "Text") {
+            createQualMediumSizeStringInput(li, i);
         }
 
 

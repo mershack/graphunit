@@ -721,15 +721,18 @@ public class StudyManager extends HttpServlet {
                     String datasetFormat = eElement.getElementsByTagName("datasetFormat").item(0).getTextContent();
                     String datasetType = eElement.getElementsByTagName("datasetType").item(0).getTextContent();
 
-                    dcn.add(datasetName);
-                    dt.add(datasetType);
+                    if (!datasetName.trim().isEmpty() && !datasetType.trim().isEmpty()) {
+                       dcn.add(datasetName);
+                        dt.add(datasetType);
 
-                    //the url will depend on the type of dataset
-                    if (datasetType.trim().equalsIgnoreCase("System_Datasets")) {
-                        durl.add(getServerUrl(request) + ("/datasets/" + datasetName + "/" + datasetName + datasetFormat));
-                    } else {
-                        durl.add(getServerUrl(request) + ("/users/" + userid + "/datasets/" + datasetName + "/" + datasetName + datasetFormat));
+                        //the url will depend on the type of dataset
+                        if (datasetType.trim().equalsIgnoreCase("System_Datasets")) {
+                            durl.add(getServerUrl(request) + ("/datasets/" + datasetName + "/" + datasetName + datasetFormat));
+                        } else {
+                            durl.add(getServerUrl(request) + ("/users/" + userid + "/datasets/" + datasetName + "/" + datasetName + datasetFormat));
+                        } 
                     }
+                    
                 }
             }
             upmts.setDatasetConditionNames(dcn);
