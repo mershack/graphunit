@@ -313,6 +313,8 @@ and open the template in the editor.
 
             //method to get the specified width and height of the specified by the evaluator
             function getViewerDimensions() {
+                console.log('getting viewer dimensions:: ');
+                
                 var command = "getViewerDimensions";
                 var studyid = document.getElementById("studyid").value;
 
@@ -333,6 +335,8 @@ and open the template in the editor.
 
                         var width = Number(split[0]);
                         var height = Number(split[1]);
+                        
+                        console.log('width and height', width, height);
 
                         //set the dimensions of the viewers
                         var vframe = document.getElementById("viewerFrame");
@@ -1534,26 +1538,11 @@ and open the template in the editor.
         </div>
 
         <div id="study" style="display:none;">
-            <div id="viewers">  
-                <!-- <iframe id="viewerFrame1" src="http://vizlab.cs.fiu.edu/d3graphevaluation/d3_force.html">  -->
-                <!--<iframe id="viewerFrame1" src="http://localhost:8080/d3graphevaluation/d3_force.html">   
-                </iframe>  -->
-
-                <!--  <iframe id="viewerFrame2" src="" >
-                  </iframe>  -->
+            <div id="viewers">                  
             </div> 
 
-            <div id="blankViewer">
-                <!-- <br><br><br><br><br>  -->
-                <!--  <p><span id="countdown">2</span></p>  -->
+            <div id="blankViewer">              
             </div>
-
-
-
-
-
-
-
 
             <div id="propControl">                
 
@@ -1568,8 +1557,6 @@ and open the template in the editor.
                     </div>
                     <input type="hidden" id="selectedAnswer" value=""/>
                     <input type="hidden" id="questionDuration" value="" />
-
-
 
                     <input id="beginTutorial" type="button" value="Begin Training" onclick="startTraining();" />
 

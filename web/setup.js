@@ -42,8 +42,7 @@ function prepareNewSetupForm() {
     xmlHttpRequest.onreadystatechange = function()
     {
         if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200)
-        {                        //set the studyname variable
-            // alert(xmlHttpRequest.responseText);
+        {                        
             document.getElementById("studyname").value = xmlHttpRequest.responseText;
         }
     };
@@ -1332,7 +1331,7 @@ function addAnotherPreStudyTask() {
     var td2 = document.createElement("td");
     //td4.setAttribute("id", "taskPosition" + quantTaskCounter);
     var parag2 = document.createElement("p");
-    parag2.setAttribute("id", "taskPosition" + numberOfTasks);
+    parag2.setAttribute("id", "preStudyTaskPosition" + numberOfTasks);
     parag2.innerHTML = numberOfTasks + ".";
     td2.appendChild(parag2);
     //td3
@@ -1364,7 +1363,7 @@ function addAnotherPreStudyTask() {
 
 
 function deletePreStudyTaskIconClicked(value) {
-    var id = "preStudyTask" + value;
+    var id = "preStudyTask" + value;    
     var taskrow = document.getElementById(id);
     taskrow.parentNode.removeChild(taskrow);
     var numberOfTasks = document.getElementById("numberOfPreStudyTasks").value;
@@ -1372,6 +1371,10 @@ function deletePreStudyTaskIconClicked(value) {
     for (var i = value + 1; i <= numberOfTasks; i++) {
         var tr = document.getElementById("preStudyTask" + i);
         tr.setAttribute("id", "preStudyTask" + (i - 1));
+        
+        var td = document.getElementById("preStudyTaskType" + i);
+        td.setAttribute("id", "preStudyTaskType" + (i - 1));
+        
         var td_tp = document.getElementById("preStudyTaskPosition" + (i));
         td_tp.innerHTML = (i - 1) + ".";
         td_tp.setAttribute("id", "preStudyTaskPosition" + (i - 1));
@@ -1429,7 +1432,7 @@ function addAnotherPostStudyTask() {
     var td2 = document.createElement("td");
     //td4.setAttribute("id", "taskPosition" + quantTaskCounter);
     var parag2 = document.createElement("p");
-    parag2.setAttribute("id", "taskPosition" + numberOfTasks);
+    parag2.setAttribute("id", "postStudyTaskPosition" + numberOfTasks);
     parag2.innerHTML = numberOfTasks + ".";
     td2.appendChild(parag2);
     //td3
@@ -1472,6 +1475,10 @@ function deletePostStudyTaskIconClicked(value) {
         var td_tp = document.getElementById("postStudyTaskPosition" + (i));
         td_tp.innerHTML = (i - 1) + ".";
         td_tp.setAttribute("id", "postStudyTaskPosition" + (i - 1));
+        
+        var td_tt = document.getElementById("postStudyTaskType" + i);
+        td_tt.setAttribute("id", "postStudyTaskType" + (i - 1));
+        
         var td_qnDiv = document.getElementById("postStudyQnDiv" + i + "TD");
         td_qnDiv.setAttribute("id", "postStudyQnDiv" + (i - 1) + "TD");
         var qnDiv = document.getElementById("postStudyQnDiv" + i);

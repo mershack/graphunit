@@ -3290,6 +3290,7 @@ public class StudyManager extends HttpServlet {
             //close the printWriters
             for (int i = 0; i < pws.length; i++) {
                 pws[i].close();
+                bws[i].close();
             }
 
             /**
@@ -3552,40 +3553,40 @@ public class StudyManager extends HttpServlet {
                     //TaskDetails td = upmts.taskDetails.get(j);
                     if (upmts.evalQuestions.get(k).hasCorrectAnswer()) {
                         cnt++;
-                        if (upmts.evalQuestions.get(k).getAnsType().equalsIgnoreCase("interface")) {
-                            String givenAns = upmts.evalQuestions.get(k).getGivenAnswer();
-                            if (j == 0 && cnt == 1) {
-                                pws[i].print(givenAns);
-                            } else if (cnt == 1) {
-                                pws[i].print(" :: " + givenAns);
-                            } else {
-                                pws[i].print("," + givenAns);
-                            }
-                        } else {
-                            //it is a widget
-                            String ans = upmts.evalQuestions.get(k).getGivenAnswer();
+                        
+                        String ans = upmts.evalQuestions.get(k).getGivenAnswer();
 
-                            if (j == 0 && cnt == 1) {
-                                pws[i].print(ans);
-                            } else if (cnt == 1) {
-                                pws[i].print(" :: " + ans);
-                            } else {
-                                pws[i].print("," + ans);
-                            }
+                        if (j == 0 && cnt == 1) {
+                            pws[i].print(ans);
+                            System.out.println("___**" + ans);
+                        } else if (cnt == 1) {
+                            pws[i].print(" :: " + ans);
+                            System.out.println("___**" + ans);
+                        } else {
+                            pws[i].print("," + ans);
+                            System.out.println("___**" + ans);
                         }
 
                     }
 
-                    if (cnt == taskSize) {
-
-                        TaskDetails td = upmts.taskDetails.get(j);
-                        if (td.hasCorrectAnswer()) {
+                    
+                     if (cnt == taskSize && (j+1) < upmts.questionSizes.size()) {
                             j++;
                             taskSize = (Integer) upmts.questionSizes.get(j);
                             
                             cnt = 0;
-                        }
                     }
+//                    if (cnt == taskSize) {
+//                        
+//                       
+//
+//                        TaskDetails td = upmts.taskDetails.get(j);
+//                        if (td.hasCorrectAnswer()) {                          
+//                            taskSize = (Integer) upmts.questionSizes.get(j);
+//                            j++;
+//                            cnt = 0;
+//                        }
+//                    }
 
                 }
                 pws[i].println();
