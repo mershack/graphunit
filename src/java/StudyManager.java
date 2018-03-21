@@ -126,6 +126,7 @@ public class StudyManager extends HttpServlet {
                     upmts.miscellaneousInfoSaved = false;
                     upmts.quantitativeAnswersSaved = false;
                     upmts.qualitativeQnsSent = false;
+                    upmts.setQuestionGroupCounter(0);
 
                     msg = getInstruction(upmts); //get the instruction
                     //now append the study name to the study so that it can be returned later.
@@ -762,9 +763,12 @@ public class StudyManager extends HttpServlet {
             }
 
             //NB: We do not want training size to be less than 2.
-            if (upmts.trainingSize < 2) {
-                upmts.trainingSize = 2;
-            }
+            //note for now I'm disabling the following line to allow traininigs of size 1.
+//            if (upmts.trainingSize < 2) {
+//                upmts.trainingSize = 2;
+//            }
+            
+            
 
             //get the condition urls and shortnames
             for (int i = 0; i < conditionNode.getLength(); i++) {
@@ -810,6 +814,8 @@ public class StudyManager extends HttpServlet {
                     //read the task details
                     TaskDetails td = readTaskDetails(request, userid, question,
                             questionCode);
+                    
+                    System.out.println("___qustion code:  " +questionCode);
 
                     if (td.hasCorrectAnswer()) {
                         //TODO: We will be providing training for those tasks that 
@@ -1228,7 +1234,11 @@ public class StudyManager extends HttpServlet {
                 outputType = eElement.getElementsByTagName("outputtype").item(0).getTextContent();
                 outputTypeDescription = eElement.getElementsByTagName("outputTypeDescription").item(0).getTextContent();
                 inputSize = eElement.getElementsByTagName("inputsize").item(0).getTextContent();
-                accCheckingInterface = eElement.getElementsByTagName("accuracyCheckingInterface").item(0).getTextContent();
+                
+                //accCheckingInterface = eElement.getElementsByTagName("accuracyCheckingInterface").item(0).getTextContent();
+                
+                accCheckingInterface = "";
+                
                 taskDescription = eElement.getElementsByTagName("taskDescription").item(0).getTextContent();
                 hasCorrectAnswer = eElement.getElementsByTagName("hasCorrectAnswer").item(0).getTextContent();
 
@@ -1407,7 +1417,6 @@ public class StudyManager extends HttpServlet {
                             td.getAnswerType(), 0, td.getInputTypes(), td.getOutputType(),
                             "", "", td.getHasCorrectAnswer());
 
-                    System.out.println("Hello World");
                     upmts.preStudyEvalQuestions.add(evalQn);
                 }
                 
@@ -3558,17 +3567,13 @@ public class StudyManager extends HttpServlet {
 
                         if (j == 0 && cnt == 1) {
                             pws[i].print(ans);
-                            System.out.println("___**" + ans);
                         } else if (cnt == 1) {
                             pws[i].print(" :: " + ans);
-                            System.out.println("___**" + ans);
                         } else {
                             pws[i].print("," + ans);
-                            System.out.println("___**" + ans);
                         }
 
                     }
-
                     
                      if (cnt == taskSize && (j+1) < upmts.questionSizes.size()) {
                             j++;
@@ -3576,17 +3581,7 @@ public class StudyManager extends HttpServlet {
                             
                             cnt = 0;
                     }
-//                    if (cnt == taskSize) {
-//                        
-//                       
-//
-//                        TaskDetails td = upmts.taskDetails.get(j);
-//                        if (td.hasCorrectAnswer()) {                          
-//                            taskSize = (Integer) upmts.questionSizes.get(j);
-//                            j++;
-//                            cnt = 0;
-//                        }
-//                    }
+
 
                 }
                 pws[i].println();

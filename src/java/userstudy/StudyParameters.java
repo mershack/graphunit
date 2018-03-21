@@ -113,6 +113,8 @@ public class StudyParameters {
     
     public int sizeOfADatasetCondition = 0;
     
+    private int questionGroupCounter = 0;
+    
     
 
     private ArrayList<String> datasetConditionNames = new ArrayList<String>();
@@ -189,4 +191,16 @@ public class StudyParameters {
         return intro;
     }
 
+    public int getQuestionGroupCounter() {
+        return questionGroupCounter;
+    }
+    
+    public void setQuestionGroupCounter(int qgc) {
+        this.questionGroupCounter = qgc;
+    }
+
+
+    public void incrementQuestionGroupCounter() {
+        this.questionGroupCounter++;
+    }
 }
