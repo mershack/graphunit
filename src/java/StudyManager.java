@@ -131,6 +131,7 @@ public class StudyManager extends HttpServlet {
                     msg = getInstruction(upmts); //get the instruction
                     //now append the study name to the study so that it can be returned later.
                     msg += "::" + nameofstudy;
+                    msg += "::" + upmts.tutorialQuestions.size();
                     // System.out.println("INSTRUCTION IS " + msg);
                 } else if (command.equalsIgnoreCase("getPreQualitativeQuestions")) {
                     //send the qualitative questions if there is some, otherwise send an empty string
@@ -379,7 +380,7 @@ public class StudyManager extends HttpServlet {
                     }
 
                 } else if (command.equalsIgnoreCase("saveMiscellaneousInfo")) {
-                    //System.out.println("We are about to store the Miscellaneous information");
+                    System.out.println("We are about to store the Miscellaneous information");
                     //first get the miscellaneous info and then do the following
                     String windowWidth = request.getParameter("windowWidth");
                     String windowHeight = request.getParameter("windowHeight");
@@ -422,55 +423,84 @@ public class StudyManager extends HttpServlet {
 
                 } else if (command.equalsIgnoreCase("getNodes")) {
                     //get the nodes for that question as string.      
-                    if (upmts.isTutorial) {
+                    msg = "";
+                    
+                    if (upmts.isTutorial && upmts.tutorialCounter > 0) {
                         //System.out.println("**** "+ (tutorialCounter - 1));
                         //msg = upmts.tutorialQuestions.get(upmts.tutorialCounter - 1).getNodesAsString();
                         msg = upmts.tutorialQuestions.get(upmts.tutorialCounter - 1).getInputsAsString();
                     } else {
                         //msg = upmts.evalQuestions.get(upmts.testCounter - 1).getNodesAsString();
-                        msg = "";
+                        
                         if (upmts.testCounter > 0) {
                             msg = upmts.evalQuestions.get(upmts.testCounter - 1).getInputsAsString();
 
                         }
                     }
                 } else if (command.equalsIgnoreCase("getAnswerControllers")) {
-                    if (upmts.isTutorial) {
+                    msg = "";
+                    
+                    if (upmts.isTutorial && upmts.tutorialCounter > 0) {
                         msg = upmts.tutorialQuestions.get(upmts.tutorialCounter - 1).getAnswerTypeAndOutputType();
                         System.out.println("**** ");
 
                     } else {
-                        msg = upmts.evalQuestions.get(upmts.testCounter - 1).getAnswerTypeAndOutputType();
-                        System.out.println("face");
+                        if (upmts.testCounter > 0) {
+                            msg = upmts.evalQuestions.get(upmts.testCounter - 1).getAnswerTypeAndOutputType();
+                        }                        
                     }
                 } else if (command.equalsIgnoreCase("getHasCorrectAnswer")) {
-                    if (upmts.isTutorial && upmts.tutorialQuestions.get(upmts.tutorialCounter - 1) != null) {
+                    if (upmts.isTutorial && 
+                            (upmts.tutorialCounter > 0) &&                            
+                            (upmts.tutorialQuestions.get(upmts.tutorialCounter - 1) != null)) {
 
                         msg = upmts.tutorialQuestions.get(upmts.tutorialCounter - 1).getHasCorrectAnswer();
                     } else {
-                        msg = upmts.evalQuestions.get(upmts.testCounter - 1).getHasCorrectAnswer();
+                         msg = "";
+                        if (upmts.testCounter > 0) {
+                            msg = upmts.evalQuestions.get(upmts.testCounter - 1).getHasCorrectAnswer();
+                        }
                     }
                 } else if (command.equalsIgnoreCase("getInterfaceForValidatingAnswers")) {
                     //we will be getting the interface for validating answers. 
                     //This is normally the case for interface type of questions
-                    if (upmts.isTutorial) {
+                    if (upmts.isTutorial && upmts.tutorialCounter > 0) {
                         msg = upmts.tutorialQuestions.get(upmts.tutorialCounter - 1).getInterfaceForValidatingAnswers();
                     } else {
-                        msg = upmts.evalQuestions.get(upmts.testCounter - 1).getInterfaceForValidatingAnswers();
+                        msg = "";
+
+                        if (upmts.testCounter > 0) {
+                            msg = upmts.evalQuestions.get(upmts.testCounter - 1).getInterfaceForValidatingAnswers();
+
+                        }
+
                     }
                 } else if (command.equalsIgnoreCase("getCorrectAnswerForInterfaceAnswerTypes")) {
                     //we will be getting the correct answer for this task
-                    if (upmts.isTutorial) {
+                    msg = "";
+                    
+                    if (upmts.isTutorial && upmts.tutorialCounter > 0) {
                         msg = upmts.tutorialQuestions.get(upmts.tutorialCounter - 1).getCorrectAns();
                     } else {
-                        msg = upmts.evalQuestions.get(upmts.testCounter - 1).getCorrectAns();
+                        
+                        if (upmts.testCounter > 0) {
+                            msg = upmts.evalQuestions.get(upmts.testCounter - 1).getCorrectAns();
+
+                        }
+                        
                     }
                 } else if (command.equalsIgnoreCase("getInputTypes")) {
                     //we will be getting the input types and sending it from here
-                    if (upmts.isTutorial) {
+                    msg = "";
+                    
+                    if (upmts.isTutorial && upmts.tutorialCounter > 0) {
                         msg = upmts.tutorialQuestions.get(upmts.tutorialCounter - 1).getInputTypes();
                     } else {
-                        msg = upmts.evalQuestions.get(upmts.testCounter - 1).getInputTypes();
+                        
+                        if (upmts.testCounter > 0) {
+                            msg = upmts.evalQuestions.get(upmts.testCounter - 1).getInputTypes();
+
+                        }
                     }
 
                     System.out.println("The inputtypes are :: " + msg);
@@ -1880,7 +1910,11 @@ public class StudyManager extends HttpServlet {
 
             onGoingStudyCounts.put(upmts.studyname, ongoing_studyCounts);
 
-//            writeQualitativeAnswersToFile(upmts, userid);
+            // write it if there is no post study tasks. For post study tasks, we will write it afterwords.
+            if (upmts.postStudyEvalQuestions.isEmpty()) {
+                writeQualitativeAnswersToFile(upmts, userid);
+            }
+//            
         } catch (Exception ex) {
             ex.printStackTrace();
         }

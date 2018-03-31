@@ -43,11 +43,28 @@ and open the template in the editor.
             /*background-color: yellow;*/
             display: none;
         }
+        
+            #add-viewer-container {
+                display: none;
+            }
+            .login-container2 {
+                margin: 20px 0;
+                padding: 20px;
+            }
+            
+            .login-btn {
+                margin-left: 10px;
+            }
+            
+            .login-row {
+                margin-top: 10px;
+            }
+        
     </style>
     <script type="text/javascript">
 
         window.onload = function() {
-            loadExistingDirectoryNames();
+            
         };
     </script>
 </head>
@@ -56,9 +73,24 @@ and open the template in the editor.
     <div>
         <h2>Add a New Viewer Directory or Update an Existing Viewer Directory </h2>
         <hr />
-        <br/> <br/>
+        
+        <div class="login-container" id="login-container">
+                <div class="login-container2">
+                    <div>Please specify your user ID (If you don't have an ID, leave the default).</div>
 
-        <strong> Step 1: </strong>
+                     <div class="login-row">
+                         User ID:  <input type="text" id="userid" value="user2" />
+
+                         <button class="login-btn" onclick="showViewerUploadForm()">Go To Setup Form</button>
+                     </div> 
+                </div>
+                 
+              <hr>      
+            </div>
+        
+        <div class="add-viewer-container" id="add-viewer-container">
+            <br/> <br/>
+              <strong> Step 1: </strong>
         <div class="innerBox grayBackground">
             <div class="errorNotices" id="dirNameError">
                 <p>
@@ -104,11 +136,17 @@ and open the template in the editor.
             <input type="button" value="submit Uploaded Files" onclick="uploadViewerFiles();" />
         </div>
         <hr/>
+        </div>
+        
+        
+        
+
+      
 
 
     </div>
 
-    <input type="hidden" value="user2" id="userid"/>
+    <!--<input type="hidden" value="user2" id="userid"/>-->
 
 
 

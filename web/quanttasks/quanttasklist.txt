@@ -3,7 +3,7 @@ neighborOneStep	:::	Are the two highlighted nodes directly connected? 	::: Topol
 neighborTwoStep	:::	Can you get from one of the highlighted nodes to the other with exactly 2 steps?	::: Topology-Based
 mostConnectedNode	:::	Select the most connected node	::: Topology-Based
 shn4	:::	Given the two highlighted nodes, select the one with the highest degree	::: Topology-Based
-selectAllNeigbhorsOf1Node	:::	Select all the neighbors of the highlighted node	::: Topology-Based
+selectAllNeighborsOf1Node	:::	Select all the neighbors of the highlighted node	::: Topology-Based
 selectAllCommonNeighborsOf2Nodes	:::	Select all of the common neighbors of the two highlighted nodes	::: Topology-Based
 shn7	:::	Given the two highlighted pairs nodes (red and blue), select the pair that has a shorter path among them	::: Topology-Based
 shn8	::: Are the three highlighted nodes directly connected?	:::	Topology-Based

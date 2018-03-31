@@ -2,7 +2,7 @@
 <task_details>
 	<taskname>selectNodeWithHighestDegree2</taskname>
 	<outputtype></outputtype>
-	<outputTypeDescription>Description 1</>
+	<outputTypeDescription>Description 1</outputTypeDescription>
 	 <answertype>interface:::interface-type:::none</answertype>
 	<taskquestion>
 			Select the most connected node
@@ -13,6 +13,7 @@
 		<inputtype>node</inputtype>
 		<inputdescription>a single node</inputdescription>
 	</input>
+	<hasCorrectAnswer>yes</hasCorrectAnswer>
 	<input>
 		<inputtype>node</inputtype>
 		<inputdescription>a single node</inputdescription>

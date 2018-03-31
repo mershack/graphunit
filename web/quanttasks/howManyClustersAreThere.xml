@@ -2,11 +2,13 @@
 <task_details>
 	<taskname>howManyClustersAreThere</taskname>
 	<outputtype></outputtype>
-	<outputTypeDescription>Description 1</>
+	<outputTypeDescription>Description 1</outputTypeDescription>
 	<answertype>widget:::integer</answertype>
 	<taskquestion>
 			How many groups are there in the visualization?
 		</taskquestion>
 	<taskDescription>This is the task description of this task</taskDescription>
-	<inputsize>0</inputsize>	
+	<inputsize>0</inputsize>
+<hasCorrectAnswer>yes</hasCorrectAnswer>
+	
 </task_details>

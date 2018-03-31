@@ -114,6 +114,13 @@ and open the template in the editor.
             #study{
                 //  width: 1250px;
             }
+            
+            #startStudyButton {
+                height: 38px;
+                width: 117px;
+                border-radius: 6px;
+                font-size: 0.9em;
+            }
 
 
         </style>
@@ -150,6 +157,7 @@ and open the template in the editor.
             var some_answers = [];
             var some_answersArrCnt = 0;
             var two_hours_default_time_limit = 7200;   //default time for questions which are unlimited time
+            var numOfTraining = 2;
 
 
 
@@ -272,6 +280,18 @@ and open the template in the editor.
                         document.getElementById("note").innerHTML = note;
 
                         document.getElementById("studyid").value = split[2];
+                        numOfTraining = parseInt(split[3]);
+                        
+                        // if there is no training hide the tutorial button and show next
+                        if (numOfTraining === 0) {
+                            document.getElementById("beginTutorial").style.display = "none";
+                            document.getElementById("nextButton").style.display = "block";
+//                            document.getElementById("startStudyButton").style.display = "block";
+                            document.getElementById("end-of-training").style.display = "none";
+                            stage++;
+                        }
+                        
+//                        console.log(numOfTraining, ' num of training');
                         getFirstConditionViewer(); //call the first condition vie                                
                     }
                 };
@@ -313,8 +333,7 @@ and open the template in the editor.
 
             //method to get the specified width and height of the specified by the evaluator
             function getViewerDimensions() {
-                console.log('getting viewer dimensions:: ');
-                
+               
                 var command = "getViewerDimensions";
                 var studyid = document.getElementById("studyid").value;
 
@@ -336,8 +355,6 @@ and open the template in the editor.
                         var width = Number(split[0]);
                         var height = Number(split[1]);
                         
-                        console.log('width and height', width, height);
-
                         //set the dimensions of the viewers
                         var vframe = document.getElementById("viewerFrame");
                         vframe.style.width = width + "px";
@@ -377,12 +394,6 @@ and open the template in the editor.
                          else{ //redirect to a page  that shows that there is an error.
                          window.location.replace("screen-dimension-error.jsp?width="+totalWidth + "&height="+height);
                          } */
-
-
-
-
-
-
 
                     }
                 };
@@ -1589,12 +1600,15 @@ and open the template in the editor.
 
 
                     <!--<input type="text" id="turkId" value="" /> <br><br> -->
-
-                    <p>End of Training. You can now begin the study. </p>
+                    <div id="end-of-training">
+                       <p>End of Training. You can now begin the study. </p> 
+                    </div>
+                    
 
                     <input type="button" id="startStudyButton" value="Start Study" onclick="startStudy()" />
 
                 </div>
+                
 
                 <div id="qualitativeQuestions" style="display:none;">
                     <h4>Final questions</h4>

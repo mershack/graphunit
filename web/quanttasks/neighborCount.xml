@@ -9,6 +9,8 @@
 	</taskquestion>
 	<taskDescription>This is the task description of this task</taskDescription>
 	<inputsize>1</inputsize>
+	<hasCorrectAnswer>yes</hasCorrectAnswer>
+
 	<input>
 		<inputtype>node</inputtype>
 		<inputdescription>a single node</inputdescription>

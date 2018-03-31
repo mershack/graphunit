@@ -2,11 +2,13 @@
 <task_details>
 	<taskname>mostConnectedNode</taskname>
 	<outputtype></outputtype>
-	<outputTypeDescription>Description 1</>
+	<outputTypeDescription>Description 1</outputTypeDescription>
 	<answertype>interface:::interface-type:::none</answertype>
 	<taskquestion>
 		Select the most connected node
 	</taskquestion>
 	<taskDescription>This is the task description of this task</taskDescription>
-	<inputsize>0</inputsize>		
+	<inputsize>1</inputsize>
+	<hasCorrectAnswer>yes</hasCorrectAnswer>
+	
 </task_details>

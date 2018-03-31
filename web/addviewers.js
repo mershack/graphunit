@@ -1,4 +1,13 @@
 var existingViewerDirectories = "";
+
+
+
+function showViewerUploadForm() {
+    document.getElementById("login-container").style.display = "none";
+    document.getElementById("add-viewer-container").style.display = "block";
+    loadExistingDirectoryNames();
+}
+
 function uploadViewerFiles() {
     var thefiles = document.getElementById("thefiles").files;
     var userid = document.getElementById("userid").value;
