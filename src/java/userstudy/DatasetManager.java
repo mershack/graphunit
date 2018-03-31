@@ -189,7 +189,9 @@ public class DatasetManager extends HttpServlet {
         int count = 0;
         File[] files = f.listFiles();
 
-        count = files.length;
+        if (files != null) {
+            count = files.length;
+        }       
 
         String datasetNamesAndExtensions = "";
 
