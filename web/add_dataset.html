@@ -50,14 +50,34 @@ and open the template in the editor.
             /*background-color: yellow;*/
             display: none;
         }
+        
+        
+        #add-dataset-container {
+            display: none;
+        }
+        .login-container2 {
+            margin: 20px 0;
+            padding: 20px;
+        }
+
+        .login-btn {
+            margin-left: 10px;
+        }
+
+        .login-row {
+            margin-top: 10px;
+        }
+        
+        
+        
 
     </style>
 
     <script type="text/javascript">
         function uploadDatasets() {
             var thefiles = document.getElementById("thefiles").files;
-            var userid = document.getElementById("userid").value;
-
+            var userid = document.getElementById("userid").value;            
+          
             var url = "DatasetManager?command=add" + "&userid=" + userid;
             var formData = new FormData();
 
@@ -89,8 +109,11 @@ and open the template in the editor.
                 xmlHttpRequest.send(formData);
 
             }
-
-
+        }
+        
+        function showUploadDatasetForm() {
+            document.getElementById("login-container").style.display = "none";
+            document.getElementById("add-dataset-container").style.display = "block";
         }
 
     </script>
@@ -99,38 +122,55 @@ and open the template in the editor.
     <div>
         <h2>Adding New Dataset  </h2>
         <hr />
-        Note: Each dataset can have different file formats.
+       
+        <div class="login-container" id="login-container">
+                <div class="login-container2">
+                    <div>Please specify your user ID (If you don't have an ID, leave the default).</div>
 
-        <br/> <br/>
+                     <div class="login-row">
+                         User ID:  <input type="text" id="userid" value="user2" />
 
-        <div class="innerBox">
-            <div class="errorNotices" id="filesError">
-                <p>
-                    ** No File has been added.
-                </p>
+                         <button class="login-btn" onclick="showUploadDatasetForm()">Go to Dataset Upload Form</button>
+                     </div> 
+                </div>
+                 
+              <hr>      
             </div>
-            <table class="center">
-                <tr  class="grayBackground">
-                    <td>
-                        <p>
-                            Load Datasets
-                            <span class="leftSpacing1">
-                                <input type="file" name="thefiles[]" id="thefiles" multiple/>
-                            </span>  
-                        </p>
-                    </td>
-                </tr>
-            </table>
+        
+        <div class="add-dataset-container" id="add-dataset-container">
+             Note: Each dataset can have different file formats.
 
             <br/> <br/>
-            <div class="divCenter">
-                <input type="button" value="Submit Datasets" onclick="uploadDatasets();" class="center" />
-            </div>
-        </div>
-        <hr/>
 
+            <div class="innerBox">
+                <div class="errorNotices" id="filesError">
+                    <p>
+                        ** No File has been added.
+                    </p>
+                </div>
+                <table class="center">
+                    <tr  class="grayBackground">
+                        <td>
+                            <p>
+                                Load Datasets
+                                <span class="leftSpacing1">
+                                    <input type="file" name="thefiles[]" id="thefiles" multiple/>
+                                </span>  
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+
+                <br/> <br/>
+                <div class="divCenter">
+                    <input type="button" value="Submit Datasets" onclick="uploadDatasets();" class="center" />
+                </div>
+            </div>
+            <hr/>
+        </div>   
+        
     </div>
-    <input type="hidden" id="userid" value="user2" />
+    <!--<input type="hidden" id="userid" value="user2" />-->
     
     <!--<input type="hidden" id="userid" value="user2" />
     <input type="hidden" id="userid" value="user4" />

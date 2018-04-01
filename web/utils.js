@@ -60,7 +60,12 @@ function createTasksSelectWidget(tasklist,div, label, num, id) {
     var taskGroups = tasklist.split(":::::");
     for (var i = 0; i < taskGroups.length; i++) {
         var group = taskGroups[i].split("::::")[0];
-        var tasks = taskGroups[i].split("::::")[1].split(":::");
+        var tasksStr = taskGroups[i].split("::::")[1];
+        var tasks = [];
+        
+        if (group && tasksStr !== "undefined") {
+            tasks = tasksStr.split(":::");
+        }        
 
         var optgroup = document.createElement("optgroup");
         optgroup.setAttribute("label", group);

@@ -1232,6 +1232,9 @@ public class StudyManager extends HttpServlet {
             //read the quanttasks file and return the answer type for the current task.
             //read the quant-task-files.
             //String filename = getServletContext().getRealPath("quanttasks" + File.separator + "quanttasks.xml");
+            
+            System.out.println("Filename:  *** " + taskFileName);
+            
             File fXmlFile = new File(taskFileName);
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();

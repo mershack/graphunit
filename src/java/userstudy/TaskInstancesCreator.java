@@ -135,21 +135,24 @@ public class TaskInstancesCreator extends HttpServlet {
                 //read the header again for this file too.
                 br2.readLine();
                 while ((line = br2.readLine()) != null) {
+                    
+                    if (line.split(":::").length > 2) {
+                        String group = userid + "_" + line.split(":::")[2].trim();
 
-                    String group = userid + "_" + line.split(":::")[2].trim();
+                        boolean groupExists = false;
+                        //check if the group already exists in the array
+                        for (int i = 0; i < taskGroups.size(); i++) {
+                            if (group.trim().equalsIgnoreCase(taskGroups.get(i))) {
+                                groupExists = true;
+                                break;
+                            }
+                        }
 
-                    boolean groupExists = false;
-                    //check if the group already exists in the array
-                    for (int i = 0; i < taskGroups.size(); i++) {
-                        if (group.trim().equalsIgnoreCase(taskGroups.get(i))) {
-                            groupExists = true;
-                            break;
+                        if (!groupExists) {
+                            taskGroups.add(group.trim());
                         }
                     }
-
-                    if (!groupExists) {
-                        taskGroups.add(group.trim());
-                    }
+                    
                     AllTaskLines.add(line);
                 }
 
